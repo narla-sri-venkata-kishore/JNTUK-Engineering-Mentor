@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Graphics — JNTUK B.Tech R23</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --navy: #0b1220;
+    --navy2: #0d1829;
+    --cyan: #00f5ff;
+    --cyan2: #00c8d4;
+    --blue: #1a6fff;
+    --blue2: #0f4bcc;
+    --white: #e8f4f8;
+    --gray: #1e2d45;
+    --gray2: #253552;
+    --grid: rgba(0,245,255,0.04);
+    --glow: 0 0 20px rgba(0,245,255,0.4);
+    --glow2: 0 0 40px rgba(0,245,255,0.2);
+    --glass: rgba(13,24,41,0.7);
+    --glass2: rgba(26,111,255,0.08);
+    --text: #c8ddf0;
+    --accent: #ff6b35;
+  }
+
+  [data-theme="light"] {
+    --navy: #f0f6ff;
+    --navy2: #e4eeff;
+    --cyan: #0077cc;
+    --cyan2: #005fa3;
+    --blue: #1a6fff;
+    --blue2: #0f4bcc;
+    --white: #0a1628;
+    --gray: #dbe8f8;
+    --gray2: #c5d9f0;
+    --grid: rgba(0,119,204,0.04);
+    --glow: 0 0 20px rgba(0,119,204,0.3);
+    --glow2: 0 0 40px rgba(0,119,204,0.15);
+    --glass: rgba(240,246,255,0.85);
+    --glass2: rgba(26,111,255,0.05);
+    --text: #1a3358;
+    --accent: #e05520;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  #cursor {
+    position: fixed;
+    width: 20px; height: 20px;
+    border: 2px solid var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s, opacity 0.3s;
+    mix-blend-mode: screen;
+  }
+  #cursor-dot {
+    position: fixed;
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.05s;
+  }
+  #cursor-cross {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.3;
+  }
+
+  /* LOADING SCREEN */
+  #loader {
+    position: fixed; inset: 0;
+    background: #060c18;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+    transition: opacity 0.8s, visibility 0.8s;
+  }
+  #loader.hide { opacity: 0; visibility: hidden; }
+  .loader-ring {
+    width: 80px; height: 80px;
+    border: 3px solid var(--gray);
+    border-top-color: var(--cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  .loader-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* BACKGROUND GRID */
+  .bg-grid {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+    animation: gridShift 20s linear infinite;
+  }
+  @keyframes gridShift {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 40px 40px, 40px 40px; }
+  }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(11,18,32,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,245,255,0.1);
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  [data-theme="light"] nav { background: rgba(240,246,255,0.9); }
+  .nav-brand {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-shadow: var(--glow);
+  }
+  .nav-links {
+    display: flex; gap: 24px; align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* SEARCH BAR */
+  .search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  #search-input {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.2);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 6px 32px 6px 12px;
+    width: 180px;
+    outline: none;
+    transition: border-color 0.3s, width 0.3s;
+  }
+  #search-input:focus { border-color: var(--cyan); width: 220px; }
+  .search-icon { position: absolute; right: 10px; color: var(--cyan); font-size: 12px; pointer-events: none; }
+
+  /* THEME + CONTROLS */
+  .nav-controls { display: flex; gap: 12px; align-items: center; }
+  .theme-btn {
+    background: none; border: 1px solid rgba(0,245,255,0.3);
+    border-radius: 4px; color: var(--cyan);
+    padding: 6px 12px; font-size: 12px;
+    cursor: none; transition: all 0.3s;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .theme-btn:hover { background: var(--cyan); color: var(--navy); }
+
+  /* BACK TO TOP */
+  #back-top {
+    position: fixed; bottom: 32px; right: 32px;
+    width: 44px; height: 44px;
+    background: var(--cyan);
+    color: var(--navy);
+    border: none; border-radius: 50%;
+    font-size: 18px; cursor: none;
+    z-index: 900;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    box-shadow: var(--glow);
+  }
+  #back-top.visible { opacity: 1; transform: translateY(0); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+    overflow: hidden;
+  }
+  .hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 40px 24px;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    border: 1px solid rgba(0,245,255,0.3);
+    border-radius: 2px;
+    padding: 4px 16px;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(28px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--white) 0%, var(--cyan) 50%, var(--blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s ease 0.2s both;
+    text-shadow: none;
+    position: relative;
+  }
+  .hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 50%;
+    transform: translateX(-50%);
+    width: 80%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    animation: lineGrow 1s ease 1s both;
+  }
+  @keyframes lineGrow { from{width:0} to{width:80%} }
+  .hero-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--cyan2);
+    letter-spacing: 3px;
+    margin-top: 20px;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+  .hero-typing {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 18px;
+    color: var(--white);
+    margin: 28px 0;
+    min-height: 28px;
+    animation: fadeInUp 0.8s ease 0.6s both;
+  }
+  .typing-cursor {
+    display: inline-block;
+    width: 2px; height: 18px;
+    background: var(--cyan);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.7s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* FLOATING SYMBOLS */
+  .float-symbols {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .sym {
+    position: absolute;
+    font-size: 24px;
+    color: rgba(0,245,255,0.2);
+    animation: floatSym linear infinite;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  @keyframes floatSym {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  /* WIREFRAME CANVAS */
+  #wireframe-canvas {
+    position: absolute;
+    top: 50%; right: 8%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+  }
+
+  /* PROGRESS RING (HERO) */
+  .hero-ring {
+    position: absolute;
+    left: 8%; top: 50%;
+    transform: translateY(-50%);
+  }
+  .ring-svg circle { transition: stroke-dashoffset 2s ease; }
+
+  /* CTA BUTTON */
+  .cta-btn {
+    display: inline-block;
+    margin-top: 32px;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 14px 48px;
+    background: transparent;
+    border: 2px solid var(--cyan);
+    color: var(--cyan);
+    text-decoration: none;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    animation: fadeInUp 0.8s ease 0.8s both;
+    transition: color 0.3s;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--cyan);
+    transform: translateX(-101%);
+    transition: transform 0.4s ease;
+  }
+  .cta-btn:hover { color: var(--navy); }
+  .cta-btn:hover::before { transform: translateX(0); }
+  .cta-btn span { position: relative; z-index: 1; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* GENERAL SECTION STYLES */
+  .section-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .section-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(20px, 4vw, 36px);
+    font-weight: 800;
+    color: var(--white);
+  }
+  .section-line {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+    margin: 16px auto 0;
+    border-radius: 2px;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    padding: 32px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .glass-card:hover {
+    border-color: rgba(0,245,255,0.3);
+    box-shadow: var(--glow2);
+  }
+
+  /* COURSE OVERVIEW */
+  .objective-card {
+    text-align: center;
+    padding: 40px;
+    margin-bottom: 48px;
+  }
+  .objective-card p {
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .icon-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  .icon-card {
+    background: var(--glass2);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: none;
+  }
+  .icon-card:hover {
+    background: rgba(0,245,255,0.08);
+    border-color: var(--cyan);
+    transform: translateY(-4px);
+    box-shadow: var(--glow2);
+  }
+  .icon-card .ic-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+  .icon-card .ic-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+
+  /* COURSE OUTCOMES */
+  .co-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .co-card {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .co-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px;
+    cursor: none;
+    transition: background 0.3s;
+  }
+  .co-header:hover { background: rgba(0,245,255,0.05); }
+  .co-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--cyan);
+  }
+  .co-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 16px;
+  }
+  .co-arrow { color: var(--cyan); transition: transform 0.3s; font-size: 12px; }
+  .co-card.open .co-arrow { transform: rotate(180deg); }
+  .co-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s;
+    padding: 0 24px;
+  }
+  .co-card.open .co-body { max-height: 400px; padding: 0 24px 24px; }
+  .co-body p { color: var(--text); font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+  .co-tag {
+    display: inline-block;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.2);
+    color: var(--cyan);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin: 4px 4px 4px 0;
+  }
+
+  /* SYLLABUS ACCORDION */
+  .unit {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .unit:hover { border-color: rgba(0,245,255,0.2); }
+  .unit-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 28px;
+    cursor: none;
+    transition: background 0.3s;
+  }
+  .unit-header:hover { background: rgba(0,245,255,0.04); }
+  .unit-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    min-width: 80px;
+  }
+  .unit-title {
+    flex: 1;
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .unit-arrow { color: var(--cyan); transition: transform 0.3s; }
+  .unit.open .unit-arrow { transform: rotate(180deg); }
+  .unit-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.6s ease;
+    padding: 0 28px;
+  }
+  .unit.open .unit-body { max-height: 800px; padding: 0 28px 28px; }
+  .topic-list {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  .topic-list li {
+    color: var(--text);
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0,245,255,0.04);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .topic-list li::before { content: '▸'; color: var(--cyan); font-size: 10px; }
+  .exam-tips {
+    background: rgba(255,107,53,0.08);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .exam-tips h4 {
+    color: var(--accent);
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .exam-tips li {
+    color: var(--text);
+    font-size: 13px;
+    list-style: none;
+    padding: 4px 0;
+  }
+  .exam-tips li::before { content: '✦ '; color: var(--accent); }
+  .difficulty-bar {
+    margin-top: 16px;
+  }
+  .diff-label {
+    display: flex; justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .diff-track {
+    height: 6px;
+    background: var(--gray);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .diff-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    width: 0;
+    transition: width 1s ease 0.3s;
+  }
+  .unit.open .diff-fill { width: var(--w); }
+
+  /* ANIMATION CANVASES */
+  .anim-canvas {
+    width: 100%; height: 160px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 6px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  /* PROGRESS TRACKER */
+  .progress-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .unit-check {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 6px;
+    padding: 16px 20px;
+    cursor: none;
+    transition: all 0.3s;
+  }
+  .unit-check:hover { border-color: var(--cyan); }
+  .unit-check input[type="checkbox"] { display: none; }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(0,245,255,0.4);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .unit-check.checked .check-box {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: var(--glow);
+  }
+  .check-mark { color: var(--navy); font-size: 12px; display: none; }
+  .unit-check.checked .check-mark { display: block; }
+  .check-label { font-size: 14px; font-weight: 600; color: var(--text); }
+  .progress-ring-wrap {
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .ring-container { position: relative; width: 160px; height: 160px; }
+  .ring-container svg { transform: rotate(-90deg); }
+  .ring-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .ring-pct {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--cyan);
+  }
+  .ring-lbl {
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 2px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* IMPORTANT QUESTIONS */
+  .q-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .q-tab {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    padding: 8px 20px;
+    border: 1px solid rgba(0,245,255,0.2);
+    border-radius: 3px;
+    color: var(--text);
+    background: transparent;
+    cursor: none;
+    transition: all 0.3s;
+  }
+  .q-tab.active, .q-tab:hover { background: var(--cyan); color: var(--navy); border-color: var(--cyan); }
+  .q-panel { display: none; }
+  .q-panel.active { display: block; }
+  .q-list { list-style: none; }
+  .q-list li {
+    color: var(--text);
+    font-size: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,245,255,0.06);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .q-list li::before { content: 'Q.'; color: var(--cyan); font-family: 'Share Tech Mono', monospace; font-size: 12px; padding-top: 2px; flex-shrink: 0; }
+
+  /* STUDY PLAN */
+  .study-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .day-card {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 6px;
+    padding: 20px 16px;
+    text-align: center;
+    cursor: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .day-card:hover {
+    border-color: var(--cyan);
+    box-shadow: var(--glow2);
+  }
+  .day-card.done {
+    border-color: rgba(0,245,255,0.4);
+    background: rgba(0,245,255,0.05);
+  }
+  .day-card.done::after {
+    content: '✓';
+    position: absolute; top: 8px; right: 10px;
+    color: var(--cyan); font-size: 14px;
+  }
+  .day-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .day-topic { font-size: 13px; font-weight: 600; color: var(--text); }
+
+  /* QUICK REVISION */
+  .revision-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .rev-card {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    padding: 24px;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .rev-card:hover {
+    border-color: var(--cyan);
+    box-shadow: var(--glow2);
+    transform: translateY(-4px);
+  }
+  .rev-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .rev-card:hover::before { transform: scaleX(1); }
+  .rev-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .rev-content { font-size: 13px; color: var(--text); line-height: 1.7; }
+  .rev-tooltip {
+    position: absolute; inset: 0;
+    background: rgba(0,245,255,0.95);
+    color: var(--navy);
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+  }
+  .rev-card:hover .rev-tooltip { opacity: 1; }
+
+  /* TEXTBOOKS */
+  .books-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .book-card {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex; gap: 16px;
+    align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .book-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+  .book-icon {
+    font-size: 32px;
+    min-width: 48px;
+    height: 48px;
+    background: rgba(0,245,255,0.1);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .book-info h4 { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .book-info p { font-size: 13px; color: var(--text); }
+  .book-tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+  .book-tag.recommended { background: rgba(0,245,255,0.1); color: var(--cyan); border: 1px solid rgba(0,245,255,0.2); }
+  .book-tag.reference { background: rgba(26,111,255,0.1); color: var(--blue); border: 1px solid rgba(26,111,255,0.2); }
+
+  /* EXAM STRATEGY */
+  .strategy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .strategy-card {
+    background: var(--glass);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 8px;
+    padding: 28px;
+  }
+  .strategy-card h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    color: var(--cyan);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+  .strategy-card li {
+    color: var(--text);
+    font-size: 14px;
+    padding: 8px 0;
+    list-style: none;
+    border-bottom: 1px solid rgba(0,245,255,0.05);
+  }
+  .strategy-card li::before { content: '▸ '; color: var(--cyan); }
+  .formula-card {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(26,111,255,0.08));
+    border: 1px solid rgba(0,245,255,0.2);
+  }
+  .formula-card .formula {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--cyan);
+    margin-top: 12px;
+    line-height: 2;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy2);
+    border-top: 1px solid rgba(0,245,255,0.1);
+    padding: 48px 24px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-quote {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    text-shadow: var(--glow);
+  }
+  .footer-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    letter-spacing: 2px;
+  }
+  .footer-line {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    margin: 24px 0;
+    animation: lineGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes lineGlow { from{opacity:0.3} to{opacity:1} }
+
+  /* SEARCH HIGHLIGHT */
+  .search-highlight {
+    background: rgba(0,245,255,0.2);
+    border: 1px solid var(--cyan);
+    border-radius: 2px;
+    padding: 1px 3px;
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:768px) {
+    .nav-links { display: none; }
+    #wireframe-canvas, .hero-ring { display: none; }
+    .unit-header { padding: 16px 20px; }
+    .unit-body { padding: 0 20px; }
+    .unit.open .unit-body { padding: 0 20px 20px; }
+    #search-input { width: 130px; }
+    #search-input:focus { width: 150px; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">INITIALIZING ENGINEERING GRAPHICS</div>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<!-- BACKGROUND GRID -->
+<div class="bg-grid"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-brand">EG · JNTUK</div>
+  <ul class="nav-links">
+    <li><a href="#overview">OVERVIEW</a></li>
+    <li><a href="#outcomes">OUTCOMES</a></li>
+    <li><a href="#syllabus">SYLLABUS</a></li>
+    <li><a href="#progress">PROGRESS</a></li>
+    <li><a href="#questions">Q&A</a></li>
+    <li><a href="#study">STUDY PLAN</a></li>
+  </ul>
+  <div class="nav-controls">
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="Search topic..." oninput="doSearch(this.value)">
+      <span class="search-icon">⌕</span>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">◑ MODE</button>
+  </div>
+</nav>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- HERO SECTION -->
+<section id="hero">
+  <div class="float-symbols" id="float-syms"></div>
+  <canvas id="wireframe-canvas" width="220" height="220"></canvas>
+  <div class="hero-ring">
+    <svg width="120" height="120" viewBox="0 0 120 120" class="ring-svg">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,245,255,0.1)" stroke-width="4"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="url(#heroGrad)" stroke-width="4"
+        stroke-dasharray="314" stroke-dashoffset="80" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1a6fff"/>
+          <stop offset="100%" stop-color="#00f5ff"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--cyan);">74%</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text);letter-spacing:1px;">EXAM SCORE</div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">JNTUK R23 · COMMON TO ALL BRANCHES</div>
+    <h1 class="hero-title">ENGINEERING<br>GRAPHICS</h1>
+    <div class="hero-subtitle">B.TECH · SEMESTER I · 3 CREDITS</div>
+    <div class="hero-typing"><span id="typing-text"></span><span class="typing-cursor"></span></div>
+    <a href="#overview" class="cta-btn"><span>▶ START DRAWING</span></a>
+  </div>
+</section>
+
+<!-- COURSE OVERVIEW -->
+<section id="overview" style="padding-top:80px;">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// COURSE OVERVIEW</span>
+      <h2 class="section-title">What You Will Learn</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="glass-card objective-card reveal">
+      <p>To develop visualization, drafting skills, and the ability to represent 2D &amp; 3D engineering objects accurately — the universal language of engineering communication.</p>
+    </div>
+    <div class="icon-cards reveal">
+      <div class="icon-card"><span class="ic-icon">✏️</span><div class="ic-name">Geometrical Constructions</div></div>
+      <div class="icon-card"><span class="ic-icon">📐</span><div class="ic-name">Orthographic Projections</div></div>
+      <div class="icon-card"><span class="ic-icon">🧊</span><div class="ic-name">Solids & Sections</div></div>
+      <div class="icon-card"><span class="ic-icon">📦</span><div class="ic-name">Development of Surfaces</div></div>
+      <div class="icon-card"><span class="ic-icon">🔄</span><div class="ic-name">Conversion of Views</div></div>
+      <div class="icon-card"><span class="ic-icon">💻</span><div class="ic-name">Computer Graphics</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE OUTCOMES -->
+<section id="outcomes">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// COURSE OUTCOMES</span>
+      <h2 class="section-title">What You'll Achieve</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="co-grid reveal">
+      <div class="co-card" onclick="toggleCO(this)">
+        <div class="co-header">
+          <div class="co-num">CO1</div>
+          <div class="co-title">Basics, Curves & Standards</div>
+          <div class="co-arrow">▼</div>
+        </div>
+        <div class="co-body">
+          <p>Understand basic drawing standards, construction of curves (ellipse, parabola, hyperbola, cycloids, involutes) and measurement scales.</p>
+          <p><strong style="color:var(--cyan)">Real-world applications:</strong></p>
+          <span class="co-tag">Gear Tooth Design</span><span class="co-tag">Cam Profiles</span><span class="co-tag">Architectural Curves</span>
+        </div>
+      </div>
+      <div class="co-card" onclick="toggleCO(this)">
+        <div class="co-header">
+          <div class="co-num">CO2</div>
+          <div class="co-title">Orthographic Projection</div>
+          <div class="co-arrow">▼</div>
+        </div>
+        <div class="co-body">
+          <p>Apply orthographic projection principles to represent points, lines, and planes in multiple views accurately.</p>
+          <p><strong style="color:var(--cyan)">Real-world applications:</strong></p>
+          <span class="co-tag">Machine Components</span><span class="co-tag">Blueprint Reading</span><span class="co-tag">Structural Plans</span>
+        </div>
+      </div>
+      <div class="co-card" onclick="toggleCO(this)">
+        <div class="co-header">
+          <div class="co-num">CO3</div>
+          <div class="co-title">Projections of Solids</div>
+          <div class="co-arrow">▼</div>
+        </div>
+        <div class="co-body">
+          <p>Visualize and project 3D solids (prisms, pyramids, cylinders, cones) onto reference planes in various orientations.</p>
+          <p><strong style="color:var(--cyan)">Real-world applications:</strong></p>
+          <span class="co-tag">3D Modeling</span><span class="co-tag">CNC Machining</span><span class="co-tag">Product Design</span>
+        </div>
+      </div>
+      <div class="co-card" onclick="toggleCO(this)">
+        <div class="co-header">
+          <div class="co-num">CO4</div>
+          <div class="co-title">Sections & Development</div>
+          <div class="co-arrow">▼</div>
+        </div>
+        <div class="co-body">
+          <p>Understand sections of solids with cutting planes and develop surface layouts for manufacturing and fabrication.</p>
+          <p><strong style="color:var(--cyan)">Real-world applications:</strong></p>
+          <span class="co-tag">Sheet Metal Fabrication</span><span class="co-tag">Packaging Design</span><span class="co-tag">Pipe Joints</span>
+        </div>
+      </div>
+      <div class="co-card" onclick="toggleCO(this)">
+        <div class="co-header">
+          <div class="co-num">CO5</div>
+          <div class="co-title">CAD & Conversion</div>
+          <div class="co-arrow">▼</div>
+        </div>
+        <div class="co-body">
+          <p>Convert between 2D and 3D views, and use Computer Aided Design (AutoCAD) for engineering drawing.</p>
+          <p><strong style="color:var(--cyan)">Real-world applications:</strong></p>
+          <span class="co-tag">AutoCAD</span><span class="co-tag">SolidWorks</span><span class="co-tag">PCB Layout</span><span class="co-tag">Architecture</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYLLABUS -->
+<section id="syllabus">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// SYLLABUS</span>
+      <h2 class="section-title">Unit-wise Content</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- UNIT I -->
+    <div class="unit reveal" onclick="toggleUnit(this)">
+      <div class="unit-header">
+        <div class="unit-num">UNIT I</div>
+        <div class="unit-title">Basics, Curves & Scales</div>
+        <div class="unit-arrow">▼</div>
+      </div>
+      <div class="unit-body">
+        <canvas class="anim-canvas" id="canvas-u1"></canvas>
+        <ul class="topic-list">
+          <li>Drawing standards, lines, lettering & dimensioning</li>
+          <li>Geometrical constructions & regular polygons</li>
+          <li>Conic sections: Ellipse, Parabola, Hyperbola</li>
+          <li>Special curves: Cycloid, Epicycloid, Hypocycloid</li>
+          <li>Involute of circle and polygon</li>
+          <li>Tangents & Normals to curves</li>
+          <li>Scales: Plain, Diagonal, Vernier</li>
+        </ul>
+        <div class="exam-tips">
+          <h4>🎯 EXAM TIPS</h4>
+          <ul>
+            <li>Curves are VERY frequently asked — practice all methods</li>
+            <li>Scale problems are scoring — learn formulae</li>
+            <li>Show all construction steps clearly with arcs and marks</li>
+          </ul>
+        </div>
+        <div class="difficulty-bar">
+          <div class="diff-label"><span>Difficulty</span><span>Medium</span></div>
+          <div class="diff-track"><div class="diff-fill" style="--w:60%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT II -->
+    <div class="unit reveal" onclick="toggleUnit(this)">
+      <div class="unit-header">
+        <div class="unit-num">UNIT II</div>
+        <div class="unit-title">Orthographic Projections</div>
+        <div class="unit-arrow">▼</div>
+      </div>
+      <div class="unit-body">
+        <canvas class="anim-canvas" id="canvas-u2"></canvas>
+        <ul class="topic-list">
+          <li>Reference planes: HP (Horizontal Plane) & VP (Vertical Plane)</li>
+          <li>Four quadrants — 1st, 2nd, 3rd, 4th angle projections</li>
+          <li>Projection of points in all quadrants</li>
+          <li>Projection of straight lines — parallel to both planes</li>
+          <li>Lines perpendicular to one plane</li>
+          <li>Lines inclined to one plane (HP or VP)</li>
+          <li>Lines inclined to both planes (True length & inclinations)</li>
+          <li>Projection of planes (triangular, rectangular, circular)</li>
+        </ul>
+        <div class="exam-tips">
+          <h4>🎯 EXAM TIPS</h4>
+          <ul>
+            <li>Line inclinations to both planes — VERY important</li>
+            <li>Quadrant problems are repeated every year</li>
+            <li>Always draw the XY reference line first</li>
+          </ul>
+        </div>
+        <div class="difficulty-bar">
+          <div class="diff-label"><span>Difficulty</span><span>High</span></div>
+          <div class="diff-track"><div class="diff-fill" style="--w:80%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT III -->
+    <div class="unit reveal" onclick="toggleUnit(this)">
+      <div class="unit-header">
+        <div class="unit-num">UNIT III</div>
+        <div class="unit-title">Projections of Solids</div>
+        <div class="unit-arrow">▼</div>
+      </div>
+      <div class="unit-body">
+        <canvas class="anim-canvas" id="canvas-u3"></canvas>
+        <ul class="topic-list">
+          <li>Types: Polyhedra (Prism, Pyramid, Tetrahedron) & Solids of revolution</li>
+          <li>Axis perpendicular to HP — base on HP</li>
+          <li>Axis perpendicular to VP — base on VP</li>
+          <li>Axis parallel to both HP & VP</li>
+          <li>Axis inclined to HP (change of position method)</li>
+          <li>Axis inclined to VP</li>
+          <li>Axis inclined to both reference planes</li>
+        </ul>
+        <div class="exam-tips">
+          <h4>🎯 EXAM TIPS</h4>
+          <ul>
+            <li>Inclined axis solids — HIGH weightage, practice daily</li>
+            <li>Always draw all visible & hidden edges</li>
+            <li>Use pencil H/2H for construction, HB for outlines</li>
+          </ul>
+        </div>
+        <div class="difficulty-bar">
+          <div class="diff-label"><span>Difficulty</span><span>Very High</span></div>
+          <div class="diff-track"><div class="diff-fill" style="--w:90%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT IV -->
+    <div class="unit reveal" onclick="toggleUnit(this)">
+      <div class="unit-header">
+        <div class="unit-num">UNIT IV</div>
+        <div class="unit-title">Sections & Development of Surfaces</div>
+        <div class="unit-arrow">▼</div>
+      </div>
+      <div class="unit-body">
+        <canvas class="anim-canvas" id="canvas-u4"></canvas>
+        <ul class="topic-list">
+          <li>Section planes: perpendicular & inclined</li>
+          <li>Sectional front view, top view & side view</li>
+          <li>True shape of section (auxiliary view)</li>
+          <li>Development of cube & rectangular prism</li>
+          <li>Development of cylinder (lateral surface)</li>
+          <li>Development of pyramid & cone</li>
+          <li>Transition pieces and truncated solids</li>
+        </ul>
+        <div class="exam-tips">
+          <h4>🎯 EXAM TIPS</h4>
+          <ul>
+            <li>Development is a SCORING topic — practice flat patterns</li>
+            <li>Draw accurate shapes, label all points A, B, C...</li>
+            <li>Always find true shape of section using auxiliary view</li>
+          </ul>
+        </div>
+        <div class="difficulty-bar">
+          <div class="diff-label"><span>Difficulty</span><span>Medium-High</span></div>
+          <div class="diff-track"><div class="diff-fill" style="--w:72%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT V -->
+    <div class="unit reveal" onclick="toggleUnit(this)">
+      <div class="unit-header">
+        <div class="unit-num">UNIT V</div>
+        <div class="unit-title">Conversion of Views & Computer Graphics</div>
+        <div class="unit-arrow">▼</div>
+      </div>
+      <div class="unit-body">
+        <canvas class="anim-canvas" id="canvas-u5"></canvas>
+        <ul class="topic-list">
+          <li>Isometric projections & isometric views</li>
+          <li>Isometric scale (0.816 × true length)</li>
+          <li>Conversion: Isometric → Orthographic views</li>
+          <li>Conversion: Orthographic → Isometric views</li>
+          <li>Introduction to Computer Graphics</li>
+          <li>AutoCAD: 2D drafting — LINE, CIRCLE, ARC, TRIM, OFFSET</li>
+          <li>AutoCAD: 3D modeling — EXTRUDE, REVOLVE, UNION</li>
+        </ul>
+        <div class="exam-tips">
+          <h4>🎯 EXAM TIPS</h4>
+          <ul>
+            <li>Conversion questions are EASY marks — don't skip!</li>
+            <li>Remember isometric axes are at 30° to horizontal</li>
+            <li>Practice AutoCAD commands for theory questions</li>
+          </ul>
+        </div>
+        <div class="difficulty-bar">
+          <div class="diff-label"><span>Difficulty</span><span>Medium</span></div>
+          <div class="diff-track"><div class="diff-fill" style="--w:55%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER -->
+<section id="progress">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// PROGRESS TRACKER</span>
+      <h2 class="section-title">Track Your Completion</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="progress-grid reveal">
+      <div class="unit-check" onclick="toggleCheck(this)" data-unit="1">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-label">Unit I — Basics & Curves</div>
+      </div>
+      <div class="unit-check" onclick="toggleCheck(this)" data-unit="2">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-label">Unit II — Orthographic Projections</div>
+      </div>
+      <div class="unit-check" onclick="toggleCheck(this)" data-unit="3">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-label">Unit III — Projections of Solids</div>
+      </div>
+      <div class="unit-check" onclick="toggleCheck(this)" data-unit="4">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-label">Unit IV — Sections & Development</div>
+      </div>
+      <div class="unit-check" onclick="toggleCheck(this)" data-unit="5">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-label">Unit V — Conversion & CAD</div>
+      </div>
+    </div>
+    <div class="progress-ring-wrap reveal" style="margin-top:40px;">
+      <div class="ring-container">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="65" fill="none" stroke="var(--gray)" stroke-width="8"/>
+          <circle id="progress-ring" cx="80" cy="80" r="65" fill="none"
+            stroke="url(#progGrad)" stroke-width="8"
+            stroke-dasharray="408" stroke-dashoffset="408"
+            stroke-linecap="round" style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 0.8s ease"/>
+          <defs>
+            <linearGradient id="progGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1a6fff"/>
+              <stop offset="100%" stop-color="#00f5ff"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="ring-text">
+          <div class="ring-pct" id="progress-pct">0%</div>
+          <div class="ring-lbl">COMPLETE</div>
+        </div>
+      </div>
+      <div style="max-width:300px;">
+        <p style="color:var(--text);font-size:14px;line-height:1.8;">Check off each unit as you complete your preparation. The ring updates in real time to show your readiness level.</p>
+        <div style="margin-top:16px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--cyan);" id="progress-status">Status: Not Started</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTANT QUESTIONS -->
+<section id="questions">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// IMPORTANT QUESTIONS</span>
+      <h2 class="section-title">Exam Question Bank</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="glass-card reveal">
+      <div class="q-tabs">
+        <button class="q-tab active" onclick="switchTab(this,'q2')">2 MARKS</button>
+        <button class="q-tab" onclick="switchTab(this,'q5')">5 MARKS</button>
+        <button class="q-tab" onclick="switchTab(this,'q10')">10 MARKS</button>
+      </div>
+      <div class="q-panel active" id="q2">
+        <ul class="q-list">
+          <li>Define orthographic projection. State its types.</li>
+          <li>What is a Representative Fraction (RF)? How is it calculated?</li>
+          <li>Define isometric view and isometric projection. What is the isometric scale?</li>
+          <li>What is a cycloid? Name different types of cycloidal curves.</li>
+          <li>Define HP and VP. What are the four quadrants?</li>
+          <li>What is an involute? State its engineering applications.</li>
+          <li>Define true length of a line in descriptive geometry.</li>
+          <li>What is development of surfaces? Why is it used?</li>
+          <li>Define section plane. What are its types?</li>
+          <li>What is AutoCAD? Name any five 2D drawing commands.</li>
+        </ul>
+      </div>
+      <div class="q-panel" id="q5">
+        <ul class="q-list">
+          <li>Construct an ellipse with major axis 120mm and minor axis 80mm using the arcs-of-circles method.</li>
+          <li>Explain the projection of a straight line inclined to both HP and VP with a neat figure.</li>
+          <li>Construct a plain scale to measure up to 5 metres with RF = 1/50. Show 3.4 metres on it.</li>
+          <li>Explain development of surfaces of a right circular cylinder with diameter 50mm and height 70mm.</li>
+          <li>Draw the projection of a pentagonal prism with its axis inclined to HP and parallel to VP.</li>
+          <li>Construct a cycloid of a circle with 40mm diameter for one complete revolution.</li>
+        </ul>
+      </div>
+      <div class="q-panel" id="q10">
+        <ul class="q-list">
+          <li>A cone of base diameter 60mm and height 80mm rests on its base on HP. It is cut by a section plane inclined at 45° to HP. Draw the sectional views and the true shape of the section.</li>
+          <li>A hexagonal prism with base side 30mm and axis 70mm has its axis inclined at 45° to HP and parallel to VP. Draw the front view and top view.</li>
+          <li>Convert the given three-view orthographic drawing into an isometric view. (Standard JNTUK question pattern with given views)</li>
+          <li>A square pyramid with base 50mm and height 65mm rests on its base. A section plane cuts the pyramid at 30° to HP. Develop the lateral surface of the truncated pyramid.</li>
+          <li>Draw the projection of a line AB 90mm long, with end A 20mm above HP and 30mm in front of VP, inclined at 30° to HP and 45° to VP.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY PLAN -->
+<section id="study">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// SMART STUDY PLAN</span>
+      <h2 class="section-title">7-Day Exam Preparation</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="study-grid reveal">
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 01</div>
+        <div class="day-topic">Basics, Lines, Lettering & Polygons</div>
+      </div>
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 02</div>
+        <div class="day-topic">Curves & Scales (Ellipse, Cycloid)</div>
+      </div>
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 03</div>
+        <div class="day-topic">Orthographic — Points & Lines</div>
+      </div>
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 04</div>
+        <div class="day-topic">Projections of Planes & Solids</div>
+      </div>
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 05</div>
+        <div class="day-topic">Sections of Solids</div>
+      </div>
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 06</div>
+        <div class="day-topic">Development of Surfaces</div>
+      </div>
+      <div class="day-card" onclick="this.classList.toggle('done')">
+        <div class="day-num">DAY 07</div>
+        <div class="day-topic">Isometric Conversion & Revision</div>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--text);font-size:13px;margin-top:16px;font-family:'Share Tech Mono',monospace;">👆 Click each day to mark it complete</p>
+  </div>
+</section>
+
+<!-- QUICK REVISION -->
+<section id="revision">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// QUICK REVISION</span>
+      <h2 class="section-title">Key Formulae & Rules</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="revision-grid reveal">
+      <div class="rev-card">
+        <div class="rev-title">Orthographic Rules</div>
+        <div class="rev-content">1st angle: object between observer and plane. 3rd angle: plane between observer and object.</div>
+        <div class="rev-tooltip">In 1st angle projection, Front view is placed BELOW the top view and to the LEFT of the side view.</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Isometric Angles</div>
+        <div class="rev-content">Three axes at 120° to each other. Horizontal axes at 30° to the horizontal line.</div>
+        <div class="rev-tooltip">Isometric length = True length × 0.816 (cos 30°). For isometric VIEW use true lengths directly.</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Scale Formulae</div>
+        <div class="rev-content">RF = Drawing Length ÷ Actual Length. Diagonal scale reads 3 units of measurement.</div>
+        <div class="rev-tooltip">RF &lt; 1 = Reducing scale | RF = 1 = Full size | RF &gt; 1 = Enlarging scale</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Section Rules</div>
+        <div class="rev-content">Section lines are drawn at 45° to the outline, equally spaced. True shape found by auxiliary view.</div>
+        <div class="rev-tooltip">When section plane is perpendicular to HP and inclined to VP → True shape appears in SIDE VIEW.</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Development Methods</div>
+        <div class="rev-content">Parallel line method: prisms & cylinders. Radial line method: pyramids & cones.</div>
+        <div class="rev-tooltip">Slant height of cone = √(r² + h²). Arc length of development = 2πr × (slant height/slant height).</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Curve Construction</div>
+        <div class="rev-content">Ellipse: Sum of distances from two foci is constant. Cycloid: circle rolls on straight line.</div>
+        <div class="rev-tooltip">Parabola: locus of a point equidistant from focus and directrix. Used in parabolic reflectors & bridges.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEXTBOOKS -->
+<section id="books">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// REFERENCES</span>
+      <h2 class="section-title">Textbooks & Resources</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="books-grid reveal">
+      <div class="book-card">
+        <div class="book-icon">📗</div>
+        <div class="book-info">
+          <h4>Engineering Drawing</h4>
+          <p>JNTUK Recommended Textbook for R23 Regulations</p>
+          <span class="book-tag recommended">★ PRIMARY TEXT</span>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-icon">📘</div>
+        <div class="book-info">
+          <h4>Engineering Drawing — N.D. Bhatt</h4>
+          <p>Charotar Publishing House. The most comprehensive reference for all topics.</p>
+          <span class="book-tag reference">REFERENCE</span>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-icon">📙</div>
+        <div class="book-info">
+          <h4>Engineering Drawing — K.L. Narayana</h4>
+          <p>New Age International Publishers. Excellent for JNTU students.</p>
+          <span class="book-tag reference">REFERENCE</span>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-icon">📕</div>
+        <div class="book-info">
+          <h4>Engineering Drawing — Basant Agrawal</h4>
+          <p>McGraw-Hill Education. Modern approach with CAD integration.</p>
+          <span class="book-tag reference">REFERENCE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM STRATEGY -->
+<section id="strategy">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-tag">// EXAM STRATEGY</span>
+      <h2 class="section-title">Score Maximum Marks</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="strategy-grid reveal">
+      <div class="strategy-card glass-card">
+        <h3>🗓 BEFORE EXAM</h3>
+        <ul>
+          <li>Practice 2 drawings daily without reference</li>
+          <li>Focus on neatness — examiners notice it first</li>
+          <li>Memorize step-by-step construction sequences</li>
+          <li>Revise all units at least twice</li>
+          <li>Prepare a formula card for quick revision</li>
+        </ul>
+      </div>
+      <div class="strategy-card glass-card">
+        <h3>📝 DURING EXAM</h3>
+        <ul>
+          <li>Read all questions before starting</li>
+          <li>Use H pencil for construction, HB for outlines</li>
+          <li>Use proper dimensioning and title block</li>
+          <li>Maintain consistent line quality throughout</li>
+          <li>Label all points (A, B, C...) and views clearly</li>
+        </ul>
+      </div>
+      <div class="strategy-card glass-card formula-card">
+        <h3>💡 SCORING FORMULA</h3>
+        <div class="formula">
+          Neat Diagram<br>
+          + Correct Steps<br>
+          + Accurate Dimensions<br>
+          + Clear Labels<br>
+          ─────────────────<br>
+          = <span style="color:var(--cyan);font-size:16px;">FULL MARKS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-line"></div>
+  <div class="footer-quote">✨ "Engineering graphics is the language of engineers."</div>
+  <div class="footer-line"></div>
+  <div class="footer-sub">Designed for JNTUK B.Tech R23 Students · Common to All Engineering Branches</div>
+  <div style="margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(0,245,255,0.3);">EG · UNIT I-V · 3 CREDITS · SEMESTER I</div>
+</footer>
+
+<script>
+// ===== LOADER =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+    initAll();
+  }, 1800);
+});
+
+function initAll() {
+  initCursor();
+  initTyping();
+  initFloatSymbols();
+  initWireframe();
+  initScrollReveal();
+  initUnitCanvases();
+}
+
+// ===== CURSOR =====
+function initCursor() {
+  const cur = document.getElementById('cursor');
+  const dot = document.getElementById('cursor-dot');
+  let mx = 0, my = 0, cx = 0, cy = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function ani() {
+    cx += (mx - cx) * 0.15;
+    cy += (my - cy) * 0.15;
+    cur.style.left = (cx - 10) + 'px';
+    cur.style.top = (cy - 10) + 'px';
+    dot.style.left = (mx - 3) + 'px';
+    dot.style.top = (my - 3) + 'px';
+    requestAnimationFrame(ani);
+  })();
+  document.addEventListener('mousedown', () => cur.style.transform = 'scale(0.7)');
+  document.addEventListener('mouseup', () => cur.style.transform = 'scale(1)');
+}
+
+// ===== TYPING =====
+function initTyping() {
+  const words = ['Orthographic Projection','Isometric View','Sectional Views','AutoCAD Drafting','Development of Surfaces','Engineering Scales'];
+  let wi = 0, ci = 0, del = false;
+  const el = document.getElementById('typing-text');
+  function type() {
+    const w = words[wi];
+    if (!del) {
+      el.textContent = w.substring(0, ++ci);
+      if (ci === w.length) { del = true; setTimeout(type, 1800); return; }
+    } else {
+      el.textContent = w.substring(0, --ci);
+      if (ci === 0) { del = false; wi = (wi+1) % words.length; }
+    }
+    setTimeout(type, del ? 50 : 80);
+  }
+  type();
+}
+
+// ===== FLOATING SYMBOLS =====
+function initFloatSymbols() {
+  const syms = ['⌀','∠','⊥','∥','Δ','∇','○','□','⌐','⌒','≡','⊿'];
+  const wrap = document.getElementById('float-syms');
+  syms.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'sym';
+    el.textContent = s;
+    el.style.left = (Math.random() * 100) + '%';
+    el.style.animationDuration = (8 + Math.random() * 12) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    el.style.fontSize = (16 + Math.random() * 20) + 'px';
+    wrap.appendChild(el);
+  });
+}
+
+// ===== WIREFRAME CUBE =====
+function initWireframe() {
+  const canvas = document.getElementById('wireframe-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let ang = 0;
+  const verts = [
+    [-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],
+    [-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]
+  ];
+  const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  function project(v, a) {
+    const cos = Math.cos(a), sin = Math.sin(a);
+    const x = v[0]*cos - v[2]*sin;
+    const z = v[0]*sin + v[2]*cos;
+    const cos2 = Math.cos(a*0.7), sin2 = Math.sin(a*0.7);
+    const y2 = v[1]*cos2 - z*sin2;
+    const scale = 70;
+    return [110 + x*scale, 110 + y2*scale];
+  }
+  function draw() {
+    ctx.clearRect(0,0,220,220);
+    ctx.strokeStyle = 'rgba(0,245,255,0.5)';
+    ctx.lineWidth = 1.5;
+    edges.forEach(([a,b]) => {
+      const pa = project(verts[a], ang), pb = project(verts[b], ang);
+      ctx.beginPath();
+      ctx.moveTo(pa[0], pa[1]);
+      ctx.lineTo(pb[0], pb[1]);
+      ctx.stroke();
+    });
+    // Draw vertices
+    ctx.fillStyle = 'var(--cyan)';
+    verts.forEach(v => {
+      const p = project(v, ang);
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 2, 0, Math.PI*2);
+      ctx.fill();
+    });
+    ang += 0.008;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ===== SCROLL REVEAL =====
+function initScrollReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+}
+
+// ===== BACK TO TOP =====
+window.addEventListener('scroll', () => {
+  document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===== THEME =====
+function toggleTheme() {
+  document.documentElement.toggleAttribute('data-theme');
+  if (document.documentElement.hasAttribute('data-theme')) {
+    document.documentElement.setAttribute('data-theme','light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+}
+
+// ===== UNIT ACCORDION =====
+function toggleUnit(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open')) {
+    const canvas = el.querySelector('.anim-canvas');
+    if (canvas && !canvas.dataset.drawn) {
+      canvas.dataset.drawn = '1';
+      drawUnitAnim(canvas);
+    }
+  }
+}
+
+// ===== CO CARDS =====
+function toggleCO(el) {
+  el.classList.toggle('open');
+}
+
+// ===== Q TABS =====
+function switchTab(btn, panel) {
+  document.querySelectorAll('.q-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.q-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panel).classList.add('active');
+}
+
+// ===== PROGRESS TRACKER =====
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateProgress();
+}
+function updateProgress() {
+  const total = document.querySelectorAll('.unit-check').length;
+  const done = document.querySelectorAll('.unit-check.checked').length;
+  const pct = Math.round((done/total)*100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  const circumference = 408;
+  const offset = circumference - (pct/100)*circumference;
+  document.getElementById('progress-ring').style.strokeDashoffset = offset;
+  const statusEl = document.getElementById('progress-status');
+  if (pct === 0) statusEl.textContent = 'Status: Not Started';
+  else if (pct < 40) statusEl.textContent = 'Status: Getting Started 🔵';
+  else if (pct < 80) statusEl.textContent = 'Status: Making Progress 🟡';
+  else if (pct < 100) statusEl.textContent = 'Status: Almost There! 🟠';
+  else statusEl.textContent = 'Status: Exam Ready! 🟢✓';
+}
+
+// ===== SEARCH =====
+function doSearch(q) {
+  // Remove previous highlights
+  document.querySelectorAll('.search-highlight').forEach(el => {
+    const parent = el.parentNode;
+    parent.replaceChild(document.createTextNode(el.textContent), el);
+    parent.normalize();
+  });
+  if (!q || q.length < 2) return;
+  const regex = new RegExp(q, 'gi');
+  const elements = document.querySelectorAll('.topic-list li, .co-title, .unit-title, .q-list li, .rev-title, .rev-content');
+  let firstMatch = null;
+  elements.forEach(el => {
+    if (regex.test(el.textContent)) {
+      if (!firstMatch) firstMatch = el;
+      el.innerHTML = el.textContent.replace(new RegExp(q, 'gi'), m => `<span class="search-highlight">${m}</span>`);
+      // Open parent unit/co
+      const unit = el.closest('.unit');
+      if (unit) unit.classList.add('open');
+      const co = el.closest('.co-card');
+      if (co) co.classList.add('open');
+    }
+  });
+  if (firstMatch) {
+    setTimeout(() => firstMatch.scrollIntoView({behavior:'smooth', block:'center'}), 100);
+  }
+}
+
+// ===== UNIT CANVAS ANIMATIONS =====
+function drawUnitAnim(canvas) {
+  const id = canvas.id;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  if (id === 'canvas-u1') animEllipse(ctx, W, H);
+  else if (id === 'canvas-u2') animProjection(ctx, W, H);
+  else if (id === 'canvas-u3') animSolid(ctx, W, H);
+  else if (id === 'canvas-u4') animSection(ctx, W, H);
+  else if (id === 'canvas-u5') animIsometric(ctx, W, H);
+}
+
+function getCanvasStyle(ctx) {
+  ctx.strokeStyle = 'rgba(0,245,255,0.7)';
+  ctx.lineWidth = 1.5;
+}
+
+function animEllipse(ctx, W, H) {
+  let t = 0;
+  const cx = W/2, cy = H/2, a = W*0.38, b = H*0.35;
+  function frame() {
+    ctx.clearRect(0,0,W,H);
+    // Grid
+    ctx.strokeStyle = 'rgba(0,245,255,0.06)';
+    ctx.lineWidth = 1;
+    for (let x=0;x<W;x+=20) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+    for (let y=0;y<H;y+=20) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+    // Axes
+    ctx.strokeStyle = 'rgba(0,245,255,0.2)';
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(20,cy);ctx.lineTo(W-20,cy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx,10);ctx.lineTo(cx,H-10);ctx.stroke();
+    ctx.setLineDash([]);
+    // Draw ellipse progressively
+    ctx.strokeStyle = 'rgba(0,245,255,0.9)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i=0; i<=t; i++) {
+      const angle = (i/120)*2*Math.PI;
+      const x = cx + a*Math.cos(angle);
+      const y = cy + b*Math.sin(angle);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    // Foci
+    const f = Math.sqrt(a*a - b*b);
+    ctx.fillStyle = '#ff6b35';
+    ctx.beginPath();ctx.arc(cx-f, cy, 4, 0, Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(cx+f, cy, 4, 0, Math.PI*2);ctx.fill();
+    // Label
+    ctx.fillStyle = 'rgba(0,245,255,0.6)';
+    ctx.font = '11px Share Tech Mono, monospace';
+    ctx.fillText('F₁', cx-f-18, cy+4);
+    ctx.fillText('F₂', cx+f+6, cy+4);
+    ctx.fillText('ELLIPSE CONSTRUCTION', 10, 20);
+    t = Math.min(t+2, 120);
+    if (t < 120) requestAnimationFrame(frame);
+    else {
+      // Restart
+      setTimeout(() => { t=0; frame(); }, 2000);
+    }
+  }
+  frame();
+}
+
+function animProjection(ctx, W, H) {
+  let ang = 0;
+  function frame() {
+    ctx.clearRect(0,0,W,H);
+    // Grid
+    ctx.strokeStyle = 'rgba(0,245,255,0.06)';
+    ctx.lineWidth = 1;
+    for (let x=0;x<W;x+=20) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+    for (let y=0;y<H;y+=20) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+    // XY Line
+    ctx.strokeStyle = 'rgba(0,245,255,0.4)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();ctx.moveTo(20,H/2);ctx.lineTo(W-20,H/2);ctx.stroke();
+    ctx.fillStyle = 'rgba(0,245,255,0.6)';
+    ctx.font = '12px Share Tech Mono, monospace';
+    ctx.fillText('X', 20, H/2-8);
+    ctx.fillText('Y', W-20, H/2-8);
+    ctx.fillText('HP', W-50, H/2+20);
+    ctx.fillText('VP', W-50, H/2-20);
+    // Rotating line projection
+    const cx = W/2, cy = H/2;
+    const len = 60;
+    const px = cx + len*Math.cos(ang);
+    const py = cy - 30 + len*Math.sin(ang)*0.5;
+    // 3D line (above XY)
+    ctx.strokeStyle = 'rgba(255,107,53,0.9)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();ctx.moveTo(cx, cy-30);ctx.lineTo(px,py);ctx.stroke();
+    // Front view (projection on VP - above XY)
+    ctx.strokeStyle = 'rgba(0,245,255,0.8)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([]);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px, cy-Math.abs((py-cy+30)));ctx.stroke();
+    // Top view (projection on HP - below XY)
+    ctx.strokeStyle = 'rgba(26,111,255,0.8)';
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px, cy+20);ctx.stroke();
+    // Points
+    ctx.fillStyle = '#ff6b35';
+    ctx.beginPath();ctx.arc(px,py,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle = 'rgba(0,245,255,0.9)';
+    ctx.font = '11px Share Tech Mono, monospace';
+    ctx.fillText('ORTHOGRAPHIC PROJECTION', 10, 20);
+    ang += 0.01;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function animSolid(ctx, W, H) {
+  let ang = 0;
+  const verts = [
+    [-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],
+    [-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]
+  ];
+  const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  function project(v, a) {
+    const cos = Math.cos(a), sin = Math.sin(a);
+    const x = v[0]*cos - v[2]*sin;
+    const z = v[0]*sin + v[2]*cos;
+    const cos2 = Math.cos(0.5), sin2 = Math.sin(0.5);
+    const y2 = v[1]*cos2 - z*sin2;
+    const scale = 40;
+    return [W/2 + x*scale, H/2 + y2*scale];
+  }
+  function frame() {
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = 'rgba(0,245,255,0.06)';
+    ctx.lineWidth = 1;
+    for (let x=0;x<W;x+=20) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+    for (let y=0;y<H;y+=20) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+    ctx.strokeStyle = 'rgba(0,245,255,0.7)';
+    ctx.lineWidth = 1.5;
+    edges.forEach(([a,b]) => {
+      const pa = project(verts[a], ang), pb = project(verts[b], ang);
+      ctx.beginPath();ctx.moveTo(pa[0],pa[1]);ctx.lineTo(pb[0],pb[1]);ctx.stroke();
+    });
+    ctx.fillStyle = 'rgba(0,245,255,0.8)';
+    ctx.font = '11px Share Tech Mono, monospace';
+    ctx.fillText('ROTATING SOLID — PROJECTION', 10, 20);
+    ang += 0.015;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function animSection(ctx, W, H) {
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = 'rgba(0,245,255,0.06)';
+    ctx.lineWidth = 1;
+    for (let x=0;x<W;x+=20) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+    for (let y=0;y<H;y+=20) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+    // Draw cone
+    const cx = W*0.3, bx = cx, by = H-30, top = H*0.15, r = 55;
+    ctx.strokeStyle = 'rgba(0,245,255,0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();ctx.moveTo(cx-r,by);ctx.lineTo(cx,top);ctx.lineTo(cx+r,by);ctx.stroke();
+    ctx.beginPath();ctx.ellipse(cx, by, r, 12, 0, 0, Math.PI*2);ctx.stroke();
+    // Section plane animation
+    const progress = Math.min(t/80, 1);
+    const planeY = by - (by-top*1.5)*progress;
+    const hw = r * (1 - (by - planeY)/(by - top));
+    ctx.strokeStyle = 'rgba(255,107,53,0.9)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6,3]);
+    ctx.beginPath();ctx.moveTo(cx-hw-20, planeY);ctx.lineTo(cx+hw+20, planeY);ctx.stroke();
+    ctx.setLineDash([]);
+    // Section fill
+    if (hw > 0) {
+      ctx.fillStyle = 'rgba(0,245,255,0.1)';
+      ctx.beginPath();ctx.ellipse(cx, planeY, hw, hw*0.2, 0, 0, Math.PI*2);ctx.fill();
+      ctx.strokeStyle = 'rgba(0,245,255,0.5)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.ellipse(cx, planeY, hw, hw*0.2, 0, 0, Math.PI*2);ctx.stroke();
+    }
+    // Labels
+    ctx.fillStyle = 'rgba(0,245,255,0.7)';
+    ctx.font = '11px Share Tech Mono, monospace';
+    ctx.fillText('SECTION PLANE ANIMATION', 10, 20);
+    ctx.fillStyle = 'rgba(255,107,53,0.8)';
+    ctx.fillText('SECTION PLANE', cx+hw+24, planeY+4);
+    t++;
+    if (t > 160) t = 0;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function animIsometric(ctx, W, H) {
+  let t = 0;
+  function drawIso(cx, cy, s, alpha) {
+    const ang30 = Math.PI/6;
+    // Isometric cube vertices
+    const top = [
+      [cx, cy-s],
+      [cx + s*Math.cos(ang30), cy - s + s*Math.sin(ang30)],
+      [cx, cy - s + 2*s*Math.sin(ang30)],
+      [cx - s*Math.cos(ang30), cy - s + s*Math.sin(ang30)]
+    ];
+    const bot = top.map(p => [p[0], p[1]+s]);
+    ctx.globalAlpha = alpha;
+    // Top face
+    ctx.fillStyle = 'rgba(0,245,255,0.08)';
+    ctx.beginPath();
+    top.forEach((p,i) => i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));
+    ctx.closePath();ctx.fill();
+    ctx.strokeStyle = 'rgba(0,245,255,0.8)';ctx.lineWidth=1.5;
+    ctx.beginPath();
+    top.forEach((p,i) => i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));
+    ctx.closePath();ctx.stroke();
+    // Sides
+    [[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]].forEach((face, fi) => {
+      const pts = face.map(i => i<4?top[i]:bot[i-4]);
+      ctx.fillStyle = `rgba(26,111,255,${0.05+fi*0.03})`;
+      ctx.beginPath();
+      pts.forEach((p,i) => i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));
+      ctx.closePath();ctx.fill();
+      ctx.strokeStyle = 'rgba(0,245,255,0.5)';ctx.lineWidth=1;
+      ctx.beginPath();
+      pts.forEach((p,i) => i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));
+      ctx.closePath();ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+  }
+  function frame() {
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = 'rgba(0,245,255,0.06)';
+    ctx.lineWidth = 1;
+    for (let x=0;x<W;x+=20) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+    for (let y=0;y<H;y+=20) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+    // Isometric cube
+    const bob = Math.sin(t*0.02)*8;
+    drawIso(W/2, H/2+bob, 45, 1);
+    // Axes
+    const ax30 = Math.PI/6;
+    ctx.strokeStyle = 'rgba(255,107,53,0.6)';ctx.lineWidth=1.5;
+    ctx.setLineDash([4,4]);
+    [[0,1],[ax30,-1],[Math.PI-ax30,1]].forEach(([a,dir]) => {
+      ctx.beginPath();
+      ctx.moveTo(W/2, H/2);
+      ctx.lineTo(W/2+Math.cos(a)*60*dir, H/2-Math.sin(a)*60);
+      ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(0,245,255,0.7)';
+    ctx.font = '11px Share Tech Mono, monospace';
+    ctx.fillText('ISOMETRIC VIEW (30° AXES)', 10, 20);
+    ctx.fillStyle = 'rgba(255,107,53,0.7)';
+    ctx.font = '10px Share Tech Mono, monospace';
+    ctx.fillText('30°', W/2+30, H/2+14);
+    t++;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+</script>
+</body>
+</html>
