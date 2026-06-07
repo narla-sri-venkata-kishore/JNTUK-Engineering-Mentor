@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Physics – JNTUK Question Bank | B.Tech 1st Year</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161d;
+    --card: #1a1e28;
+    --card-hover: #1f2433;
+    --border: #252a38;
+    --accent-gold: #e8b84b;
+    --accent-blue: #4b8fe8;
+    --accent-teal: #4be8c8;
+    --text-primary: #e8eaf0;
+    --text-secondary: #8892a4;
+    --text-muted: #4a5568;
+
+    --easy: #22c55e;
+    --easy-bg: rgba(34,197,94,0.12);
+    --medium: #f59e0b;
+    --medium-bg: rgba(245,158,11,0.12);
+    --hard: #ef4444;
+    --hard-bg: rgba(239,68,68,0.12);
+
+    --rep-vf: #a855f7;
+    --rep-vf-bg: rgba(168,85,247,0.15);
+    --rep-f: #3b82f6;
+    --rep-f-bg: rgba(59,130,246,0.15);
+    --rep-oc: #06b6d4;
+    --rep-oc-bg: rgba(6,182,212,0.15);
+    --rep-r: #6b7280;
+    --rep-r-bg: rgba(107,114,128,0.15);
+
+    --u1: #e8b84b;
+    --u2: #4b8fe8;
+    --u3: #4be8c8;
+    --u4: #e84b8f;
+    --u5: #8fe84b;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 24px 60px;
+    text-align: center;
+    background: linear-gradient(160deg, #0d1220 0%, #0d0f14 60%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 800px 400px at 50% -100px, rgba(232,184,75,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 600px 300px at 20% 120%, rgba(75,143,232,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #e8eaf0 0%, var(--accent-gold) 60%, #e8b84b88 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeDown 0.7s ease 0.1s both;
+  }
+  .hero-sub {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    animation: fadeDown 0.7s ease 0.2s both;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    animation: fadeDown 0.7s ease 0.3s both;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ── NAV ── */
+  .unit-nav {
+    display: flex;
+    gap: 10px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+    animation: fadeDown 0.5s ease 0.4s both;
+  }
+  .unit-nav::-webkit-scrollbar { display: none; }
+  .nav-pill {
+    flex-shrink: 0;
+    padding: 7px 18px;
+    border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .nav-pill.u1 { color: var(--u1); border-color: var(--u1); }
+  .nav-pill.u1:hover { background: rgba(232,184,75,0.15); }
+  .nav-pill.u2 { color: var(--u2); border-color: var(--u2); }
+  .nav-pill.u2:hover { background: rgba(75,143,232,0.15); }
+  .nav-pill.u3 { color: var(--u3); border-color: var(--u3); }
+  .nav-pill.u3:hover { background: rgba(75,232,200,0.15); }
+  .nav-pill.u4 { color: var(--u4); border-color: var(--u4); }
+  .nav-pill.u4:hover { background: rgba(232,75,143,0.15); }
+  .nav-pill.u5 { color: var(--u5); border-color: var(--u5); }
+  .nav-pill.u5:hover { background: rgba(143,232,75,0.15); }
+
+  /* ── MAIN ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* ── UNIT SECTION ── */
+  section.unit {
+    margin-bottom: 70px;
+  }
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .unit-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .unit-num.u1 { color: var(--u1); border-color: var(--u1); background: rgba(232,184,75,0.08); }
+  .unit-num.u2 { color: var(--u2); border-color: var(--u2); background: rgba(75,143,232,0.08); }
+  .unit-num.u3 { color: var(--u3); border-color: var(--u3); background: rgba(75,232,200,0.08); }
+  .unit-num.u4 { color: var(--u4); border-color: var(--u4); background: rgba(232,75,143,0.08); }
+  .unit-num.u5 { color: var(--u5); border-color: var(--u5); background: rgba(143,232,75,0.08); }
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* ── QUESTION TYPE HEADER ── */
+  .qtype-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 30px 0 18px;
+  }
+  .qtype-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .qtype-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .qtype-mark {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  /* ── QUESTION CARD ── */
+  .questions-grid {
+    display: grid;
+    gap: 14px;
+  }
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    overflow: hidden;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 4px 0 0 4px;
+    background: var(--accent);
+  }
+  .question-card:hover {
+    background: var(--card-hover);
+    border-color: #303650;
+    transform: translateX(3px);
+  }
+  .q-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 14.5px;
+    color: var(--text-primary);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .q-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .diff-easy   { background: var(--easy-bg);   color: var(--easy);   border: 1px solid rgba(34,197,94,0.3); }
+  .diff-medium { background: var(--medium-bg); color: var(--medium); border: 1px solid rgba(245,158,11,0.3); }
+  .diff-hard   { background: var(--hard-bg);   color: var(--hard);   border: 1px solid rgba(239,68,68,0.3); }
+  .rep-vf { background: var(--rep-vf-bg); color: var(--rep-vf); border: 1px solid rgba(168,85,247,0.3); }
+  .rep-f  { background: var(--rep-f-bg);  color: var(--rep-f);  border: 1px solid rgba(59,130,246,0.3); }
+  .rep-oc { background: var(--rep-oc-bg); color: var(--rep-oc); border: 1px solid rgba(6,182,212,0.3); }
+  .rep-r  { background: var(--rep-r-bg);  color: var(--rep-r);  border: 1px solid rgba(107,114,128,0.3); }
+
+  /* unit accent colors */
+  .u1-card { --accent: var(--u1); }
+  .u2-card { --accent: var(--u2); }
+  .u3-card { --accent: var(--u3); }
+  .u4-card { --accent: var(--u4); }
+  .u5-card { --accent: var(--u5); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  @keyframes fadeDown {
+    from { opacity:0; transform: translateY(-12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .unit-nav, .hero { display: none; }
+    body { background: #fff; color: #000; font-size: 12px; }
+    .question-card { border: 1px solid #ccc; break-inside: avoid; }
+    .badge { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">JNTUK · B.Tech 1st Year · 1st Semester</div>
+  <h1>Engineering Physics<br>Question Bank</h1>
+  <p class="hero-sub">Units I–V · 2-Mark & 5-Mark Questions · Difficulty & Repetition Coded</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">130</span><span class="stat-label">Total Questions</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Units</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Difficulty Levels</span></div>
+    <div class="stat"><span class="stat-num">4</span><span class="stat-label">Repetition Tiers</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <a class="nav-pill u1" href="#unit1">Unit I – Wave Optics</a>
+  <a class="nav-pill u2" href="#unit2">Unit II – Crystallography</a>
+  <a class="nav-pill u3" href="#unit3">Unit III – Dielectric & Magnetic</a>
+  <a class="nav-pill u4" href="#unit4">Unit IV – Quantum & Free Electron</a>
+  <a class="nav-pill u5" href="#unit5">Unit V – Semiconductors</a>
+</nav>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Easy</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Medium</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Hard</div>
+  <div class="legend-item" style="margin-left:16px"><div class="legend-dot" style="background:#a855f7"></div>Very Frequently Asked (5+)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Frequently Asked (3–5)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>Occasionally Asked (1–2)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div>Rare</div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════
+     UNIT I – WAVE OPTICS
+═══════════════════════════════════════════════ -->
+<section class="unit" id="unit1">
+  <div class="unit-header">
+    <span class="unit-num u1">Unit I</span>
+    <h2 class="unit-title">Wave Optics</h2>
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">2-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Short Answer</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q01</div>
+      <div class="q-text">Define the principle of superposition of waves.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q02</div>
+      <div class="q-text">What is coherence? Distinguish between temporal and spatial coherence.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q03</div>
+      <div class="q-text">State the conditions necessary for sustained interference of light.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q04</div>
+      <div class="q-text">What are Newton's rings? Why is the central spot dark in reflected light?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q05</div>
+      <div class="q-text">Define diffraction of light. What is the difference between Fresnel and Fraunhofer diffraction?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q06</div>
+      <div class="q-text">What is a diffraction grating? Give the grating equation.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q07</div>
+      <div class="q-text">Define resolving power of an optical instrument.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q08</div>
+      <div class="q-text">What is polarization? How does it distinguish transverse from longitudinal waves?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q09</div>
+      <div class="q-text">State Brewster's law. What is the significance of the polarizing angle?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q10</div>
+      <div class="q-text">Define optical path difference. Write the condition for constructive and destructive interference.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q11</div>
+      <div class="q-text">What is a half-wave plate? Give its principal action on plane-polarized light.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 2M · Q12</div>
+      <div class="q-text">Write the expression for the fringe width in Young's double slit experiment.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">5-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Descriptive / Derivation</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q01</div>
+      <div class="q-text">Describe Young's double slit experiment. Derive an expression for fringe width and explain why the fringes are equally spaced. (Diagram required)</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q02</div>
+      <div class="q-text">Derive an expression for the diameter of the n-th bright ring in Newton's rings experiment. How is this used to determine the wavelength of light?</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q03</div>
+      <div class="q-text">Explain Fraunhofer diffraction at a single slit. Derive the condition for minima and hence obtain the expression for central maximum width.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q04</div>
+      <div class="q-text">What is a diffraction grating? Derive the grating equation and explain how it is used to determine the wavelength of spectral lines.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q05</div>
+      <div class="q-text">Explain double refraction (birefringence). Describe the construction and working of a Nicol prism. How does it produce plane-polarized light?</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q06</div>
+      <div class="q-text">Define resolving power of a diffraction grating. Derive an expression for it and explain the factors that affect resolving power.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q07</div>
+      <div class="q-text">Explain interference in thin films due to reflected light. Derive conditions for constructive and destructive interference, and discuss the colors in thin soap films.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q08</div>
+      <div class="q-text">Describe how Newton's rings experiment is used to determine the refractive index of a liquid placed between the lens and the flat glass plate. Include necessary derivation.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q09</div>
+      <div class="q-text">Write a note on optical activity. Explain the working of a polarimeter and how it measures the specific rotation of an optically active substance.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q10</div>
+      <div class="q-text">Derive an expression for the intensity distribution in Fraunhofer diffraction by a double slit. Discuss the missing orders phenomenon.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1-card">
+      <div class="q-num">U1 · 5M · Q11</div>
+      <div class="q-text">Explain the concept of coherence length and coherence time. How do these concepts limit the visibility of interference fringes?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     UNIT II – CRYSTALLOGRAPHY & X-RAY DIFFRACTION
+═══════════════════════════════════════════════ -->
+<section class="unit" id="unit2">
+  <div class="unit-header">
+    <span class="unit-num u2">Unit II</span>
+    <h2 class="unit-title">Crystallography &amp; X-ray Diffraction</h2>
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">2-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Short Answer</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q01</div>
+      <div class="q-text">Define a crystal lattice and a unit cell.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q02</div>
+      <div class="q-text">What are Bravais lattices? State how many exist in three dimensions.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q03</div>
+      <div class="q-text">Define the terms: (a) lattice parameter, (b) coordination number, (c) atomic radius.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q04</div>
+      <div class="q-text">What is the packing fraction of a Simple Cubic (SC) structure?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q05</div>
+      <div class="q-text">State Bragg's law of X-ray diffraction.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q06</div>
+      <div class="q-text">What are Miller indices? How are they determined for a crystal plane?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q07</div>
+      <div class="q-text">Write the expression for the interplanar spacing d<sub>hkl</sub> for a cubic crystal system.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q08</div>
+      <div class="q-text">Distinguish between crystalline and amorphous solids with two examples each.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q09</div>
+      <div class="q-text">What is the coordination number and number of atoms per unit cell in FCC structure?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q10</div>
+      <div class="q-text">What is a crystal system? Name all seven crystal systems.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q11</div>
+      <div class="q-text">What are point defects in crystals? Name two types.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 2M · Q12</div>
+      <div class="q-text">Define the term "atomic packing factor" (APF).</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">5-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Descriptive / Derivation</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q01</div>
+      <div class="q-text">Describe the crystal structure of FCC, BCC, and SC. Calculate the atomic packing fraction for each. (Diagrams required)</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q02</div>
+      <div class="q-text">Derive Bragg's law of X-ray diffraction from first principles. Explain how it is used to determine crystal structure.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q03</div>
+      <div class="q-text">Explain with a neat diagram the Laue method of X-ray diffraction. What information does it provide about crystal symmetry?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q04</div>
+      <div class="q-text">Describe the powder diffraction (Debye-Scherrer) method. Derive the expression for interplanar spacing and explain how it helps in crystal structure determination.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q05</div>
+      <div class="q-text">What are Miller indices? Explain the procedure for finding Miller indices of a crystal plane with examples. Draw the (100), (110), and (111) planes for a cubic crystal.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q06</div>
+      <div class="q-text">Describe the diamond cubic structure. Calculate its packing fraction and coordination number. Why is it mechanically hard?</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q07</div>
+      <div class="q-text">Explain the types of crystal imperfections (point, line, and surface defects). Discuss how defects influence the mechanical and electrical properties of materials.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q08</div>
+      <div class="q-text">Derive the relation for interplanar spacing d<sub>hkl</sub> in a cubic crystal system. Calculate d for (110) plane if lattice constant a = 3.61 Å.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q09</div>
+      <div class="q-text">Write a note on the NaCl crystal structure. Identify the type of cubic packing involved, coordination number, and calculate the packing efficiency. (Diagram required)</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u2-card">
+      <div class="q-num">U2 · 5M · Q10</div>
+      <div class="q-text">Explain the rotating crystal method of X-ray diffraction. What are its advantages over the Laue method?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     UNIT III – DIELECTRIC & MAGNETIC MATERIALS
+═══════════════════════════════════════════════ -->
+<section class="unit" id="unit3">
+  <div class="unit-header">
+    <span class="unit-num u3">Unit III</span>
+    <h2 class="unit-title">Dielectric &amp; Magnetic Materials</h2>
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">2-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Short Answer</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q01</div>
+      <div class="q-text">Define electric polarization and dielectric susceptibility.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q02</div>
+      <div class="q-text">What is dielectric constant (relative permittivity)? How is it related to polarization?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q03</div>
+      <div class="q-text">Name the four types of polarization mechanisms in dielectrics.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q04</div>
+      <div class="q-text">Define magnetic susceptibility and relative permeability. Write the relation between them.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q05</div>
+      <div class="q-text">Distinguish between diamagnetic, paramagnetic, and ferromagnetic materials.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q06</div>
+      <div class="q-text">What is Curie's law for paramagnetic materials? State the Curie temperature.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q07</div>
+      <div class="q-text">What are magnetic domains? Explain with a diagram.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q08</div>
+      <div class="q-text">Define hysteresis. Name the quantities represented by retentivity and coercivity.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q09</div>
+      <div class="q-text">What are ferrites? Give two examples and mention one application.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q10</div>
+      <div class="q-text">State the Clausius-Mossotti relation for dielectrics.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q11</div>
+      <div class="q-text">What is piezoelectricity? Give one practical application.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 2M · Q12</div>
+      <div class="q-text">Define dielectric loss and dielectric breakdown.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">5-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Descriptive / Derivation</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q01</div>
+      <div class="q-text">Derive the Clausius-Mossotti relation for a dielectric material. Discuss its significance and limitations.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q02</div>
+      <div class="q-text">Explain the four mechanisms of polarization in dielectric materials: electronic, ionic, orientational, and space-charge polarization. Discuss their frequency dependence.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q03</div>
+      <div class="q-text">Explain the domain theory of ferromagnetism. Describe the process of magnetization in terms of domain wall movement and domain rotation. (Diagram required)</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q04</div>
+      <div class="q-text">Draw and explain the B-H hysteresis loop for a ferromagnetic material. Define retentivity, coercivity, and hysteresis loss. Compare hard and soft magnetic materials.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q05</div>
+      <div class="q-text">What are ferrites? Explain their crystal structure and magnetic properties. Discuss their advantages over ferromagnetic materials and list important applications.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q06</div>
+      <div class="q-text">Explain internal field (local field) in dielectrics. Derive an expression for the local field in a dielectric using the Lorentz method.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q07</div>
+      <div class="q-text">Explain antiferromagnetism and ferrimagnetism. How do they differ from ferromagnetism at the atomic level? Give examples of each.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q08</div>
+      <div class="q-text">Discuss dielectric loss in AC fields. Derive an expression for the power dissipated per unit volume and explain the concept of the loss tangent (tan δ).</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q09</div>
+      <div class="q-text">Explain the Weiss molecular field theory of ferromagnetism. Derive the Curie-Weiss law and discuss its validity above and below the Curie temperature.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u3-card">
+      <div class="q-num">U3 · 5M · Q10</div>
+      <div class="q-text">Write a detailed note on piezoelectricity and pyroelectricity. Explain their mechanisms, materials involved, and modern applications in transducers and sensors.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     UNIT IV – QUANTUM MECHANICS & FREE ELECTRON THEORY
+═══════════════════════════════════════════════ -->
+<section class="unit" id="unit4">
+  <div class="unit-header">
+    <span class="unit-num u4">Unit IV</span>
+    <h2 class="unit-title">Quantum Mechanics &amp; Free Electron Theory</h2>
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">2-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Short Answer</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q01</div>
+      <div class="q-text">State de Broglie's hypothesis. Write the expression for the de Broglie wavelength.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q02</div>
+      <div class="q-text">State Heisenberg's uncertainty principle. Give its mathematical form for position-momentum and energy-time pairs.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q03</div>
+      <div class="q-text">What is a wave function ψ? State the physical significance of |ψ|².</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q04</div>
+      <div class="q-text">Write the time-independent Schrödinger wave equation.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q05</div>
+      <div class="q-text">What is the zero-point energy of a particle in an infinite potential well?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q06</div>
+      <div class="q-text">Define Fermi energy and Fermi level.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q07</div>
+      <div class="q-text">State the assumptions of the classical free electron theory of metals.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q08</div>
+      <div class="q-text">What is the Fermi-Dirac distribution function? What does it reduce to at T = 0 K?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q09</div>
+      <div class="q-text">What is quantum tunneling? Give one practical application.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q10</div>
+      <div class="q-text">State the Wiedemann-Franz law. Write its mathematical expression.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q11</div>
+      <div class="q-text">What is the Davisson-Germer experiment? What was its significance?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 2M · Q12</div>
+      <div class="q-text">Define the density of states. Why is it important in solid-state physics?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">5-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Descriptive / Derivation</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q01</div>
+      <div class="q-text">Derive the time-independent Schrödinger wave equation from first principles using de Broglie's hypothesis. Explain each term in the equation.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q02</div>
+      <div class="q-text">Solve the Schrödinger equation for a particle in a one-dimensional infinite potential well (particle in a box). Derive expressions for the energy eigenvalues and normalized wave functions.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q03</div>
+      <div class="q-text">State and explain the Heisenberg uncertainty principle. Verify it using (a) the diffraction of a single electron, and (b) the gamma-ray microscope thought experiment.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q04</div>
+      <div class="q-text">Describe the Davisson-Germer experiment. How did it confirm the wave nature of electrons? Calculate the de Broglie wavelength if electrons are accelerated through 54 V.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q05</div>
+      <div class="q-text">Explain the Fermi-Dirac distribution function. Plot it as a function of energy for T = 0 K and T > 0 K, and discuss the significance of the Fermi energy.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q06</div>
+      <div class="q-text">Discuss the quantum free electron theory of metals (Sommerfeld's model). State its assumptions and explain how it overcomes the failures of the classical free electron theory.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q07</div>
+      <div class="q-text">Derive an expression for the density of states g(E) for a free electron gas in three dimensions. Sketch g(E) vs E and indicate the Fermi energy at T = 0 K.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q08</div>
+      <div class="q-text">Explain the concept of quantum tunneling through a potential barrier using the Schrödinger equation. Discuss its role in the working of the scanning tunneling microscope (STM) and tunnel diodes.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q09</div>
+      <div class="q-text">State the assumptions of the classical free electron theory. Derive an expression for electrical conductivity. Mention its successes and failures.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q10</div>
+      <div class="q-text">Explain the concept of matter waves. Derive an expression for the de Broglie wavelength in terms of (a) momentum, (b) kinetic energy, and (c) accelerating potential. Solve a numerical problem.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u4-card">
+      <div class="q-num">U4 · 5M · Q11</div>
+      <div class="q-text">Explain the band theory of solids. Describe the Kronig-Penney model qualitatively and discuss how it leads to the formation of energy bands and band gaps in crystalline solids.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     UNIT V – SEMICONDUCTORS
+═══════════════════════════════════════════════ -->
+<section class="unit" id="unit5">
+  <div class="unit-header">
+    <span class="unit-num u5">Unit V</span>
+    <h2 class="unit-title">Semiconductors</h2>
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">2-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Short Answer</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q01</div>
+      <div class="q-text">Define a semiconductor. How does it differ from a conductor and an insulator in terms of band structure?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q02</div>
+      <div class="q-text">What is an intrinsic semiconductor? Give two examples.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q03</div>
+      <div class="q-text">Distinguish between n-type and p-type semiconductors.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q04</div>
+      <div class="q-text">Define the terms: majority carriers and minority carriers in a semiconductor.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q05</div>
+      <div class="q-text">What is the Hall effect? Write the expression for the Hall coefficient R<sub>H</sub>.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q06</div>
+      <div class="q-text">Define drift velocity and mobility of charge carriers in a semiconductor.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q07</div>
+      <div class="q-text">What is the law of mass action in semiconductors?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q08</div>
+      <div class="q-text">What is the Fermi level position in an intrinsic semiconductor?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q09</div>
+      <div class="q-text">What is a direct band gap semiconductor? Give two examples. How does it differ from an indirect band gap semiconductor?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q10</div>
+      <div class="q-text">Define diffusion current in a semiconductor. Write Fick's law of diffusion.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q11</div>
+      <div class="q-text">What is the Einstein relation connecting diffusion coefficient and mobility?</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q12</div>
+      <div class="q-text">What is doping? Why is it done in semiconductors? Name one n-type and one p-type dopant for silicon.</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 2M · Q13</div>
+      <div class="q-text">What are the applications of the Hall effect?</div>
+      <div class="q-meta">
+        <span class="badge diff-easy">Easy</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <span class="qtype-label">5-Mark Questions</span>
+    <div class="qtype-line"></div>
+    <span class="qtype-mark">Descriptive / Derivation</span>
+  </div>
+
+  <div class="questions-grid">
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q01</div>
+      <div class="q-text">Derive expressions for the electron and hole concentration in an intrinsic semiconductor. Show that the Fermi level lies at the middle of the band gap when the effective masses of electron and hole are equal.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q02</div>
+      <div class="q-text">Explain the Hall effect in semiconductors. Derive an expression for the Hall coefficient R<sub>H</sub>. How is it used to determine the type and concentration of charge carriers?</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q03</div>
+      <div class="q-text">What is an extrinsic semiconductor? Describe the formation of n-type and p-type semiconductors by doping. Explain the shift of the Fermi level with temperature and doping concentration.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q04</div>
+      <div class="q-text">Derive an expression for the electrical conductivity of an intrinsic semiconductor. How does conductivity vary with temperature? Plot σ vs 1/T and explain how the band gap can be determined from this graph.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q05</div>
+      <div class="q-text">Explain the drift and diffusion current components in a semiconductor. Derive the total current density equation and explain the Einstein relation D/μ = kT/e.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q06</div>
+      <div class="q-text">Explain the concept of energy band theory as applied to conductors, semiconductors, and insulators. Discuss how the width of the forbidden energy gap determines the electrical behavior of a material.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q07</div>
+      <div class="q-text">Describe the p-n junction. Explain the formation of the depletion region and built-in potential. Derive the diode equation I = I₀(e^(eV/kT) − 1) qualitatively and discuss forward and reverse bias characteristics.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q08</div>
+      <div class="q-text">Write a detailed note on the applications of semiconductors in (a) solar cells, (b) photodetectors, and (c) LEDs. Explain the working principle of each with energy band diagrams.</div>
+      <div class="q-meta">
+        <span class="badge diff-medium">Medium</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q09</div>
+      <div class="q-text">Derive the expression for the carrier concentration in n-type and p-type semiconductors and show where the Fermi level lies in each case relative to the intrinsic Fermi level.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q10</div>
+      <div class="q-text">Explain the law of mass action for semiconductors (n₀p₀ = n_i²). Derive it starting from the Fermi-Dirac distribution and density of states. Discuss its importance in semiconductor device physics.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u5-card">
+      <div class="q-num">U5 · 5M · Q11</div>
+      <div class="q-text">Discuss the variation of the Fermi level with temperature and impurity concentration in n-type and p-type semiconductors. Draw the relevant diagrams and explain the approach toward the intrinsic Fermi level at very high temperatures.</div>
+      <div class="q-meta">
+        <span class="badge diff-hard">Hard</span>
+        <span class="badge rep-oc">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  JNTUK Engineering Physics · B.Tech 1st Year · Question Bank · 130 Questions · 5 Units
+</footer>
+
+</body>
+</html>

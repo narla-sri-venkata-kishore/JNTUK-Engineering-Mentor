@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Physics — JNTUK B.Tech R23</title>
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f172a;
+  --bg3: #1e293b;
+  --neon-blue: #00d4ff;
+  --neon-purple: #a855f7;
+  --neon-cyan: #06ffd4;
+  --neon-pink: #f0abfc;
+  --gold: #fbbf24;
+  --white: #f0f9ff;
+  --text: #cbd5e1;
+  --text-dim: #64748b;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+  --shadow-blue: 0 0 30px rgba(0,212,255,0.3);
+  --shadow-purple: 0 0 30px rgba(168,85,247,0.3);
+  --glow-blue: 0 0 20px rgba(0,212,255,0.6);
+  --glow-cyan: 0 0 20px rgba(6,255,212,0.6);
+  --card-bg: rgba(15,23,42,0.8);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="light"] {
+  --bg: #f0f9ff;
+  --bg2: #e0f2fe;
+  --bg3: #bae6fd;
+  --white: #0f172a;
+  --text: #1e293b;
+  --text-dim: #475569;
+  --glass: rgba(0,0,0,0.05);
+  --glass-border: rgba(0,0,0,0.1);
+  --card-bg: rgba(240,249,255,0.9);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Courier New', monospace;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 3px; }
+
+/* ===== LOADING SCREEN ===== */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0a0e1a;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-ring {
+  width: 80px; height: 80px;
+  border: 3px solid rgba(0,212,255,0.2);
+  border-top-color: var(--neon-blue);
+  border-right-color: var(--neon-purple);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.loader-text {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  letter-spacing: 4px;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+/* ===== FLOATING PHYSICS SYMBOLS ===== */
+.physics-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.sym {
+  position: absolute;
+  font-size: clamp(16px, 3vw, 28px);
+  color: rgba(0,212,255,0.08);
+  font-weight: bold;
+  animation: floatSym linear infinite;
+  user-select: none;
+}
+@keyframes floatSym {
+  0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* ===== GRID BACKGROUND ===== */
+.grid-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ===== NAVBAR ===== */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(10,14,26,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: var(--transition);
+}
+.nav-brand {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--neon-blue);
+  letter-spacing: 2px;
+  text-shadow: var(--glow-blue);
+}
+.nav-links {
+  display: flex; gap: 1.5rem; align-items: center;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: var(--transition);
+}
+.nav-links a:hover { color: var(--neon-cyan); text-shadow: var(--glow-cyan); }
+.nav-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+/* Theme toggle */
+.theme-btn, .back-top {
+  width: 36px; height: 36px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--neon-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+.theme-btn:hover, .back-top:hover {
+  background: rgba(0,212,255,0.1);
+  border-color: var(--neon-blue);
+  box-shadow: var(--shadow-blue);
+}
+.back-top {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  opacity: 0; visibility: hidden; transition: var(--transition);
+}
+.back-top.visible { opacity: 1; visibility: visible; }
+
+/* ===== SEARCH BAR ===== */
+.search-wrap {
+  position: relative;
+}
+.search-input {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--white);
+  padding: 0.4rem 1rem 0.4rem 2.2rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  width: 200px;
+  outline: none;
+  transition: var(--transition);
+}
+.search-input:focus {
+  border-color: var(--neon-blue);
+  box-shadow: var(--shadow-blue);
+  width: 240px;
+}
+.search-icon {
+  position: absolute; left: 0.6rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim); font-size: 0.8rem;
+}
+#search-results {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: var(--bg2);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  max-height: 300px; overflow-y: auto;
+  display: none; z-index: 100;
+}
+#search-results.show { display: block; }
+.search-item {
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--glass-border);
+  transition: var(--transition);
+}
+.search-item:hover { background: rgba(0,212,255,0.1); color: var(--neon-blue); }
+
+/* ===== MAIN CONTENT ===== */
+main { padding-top: 64px; position: relative; z-index: 1; }
+section { padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem); }
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  position: relative; overflow: hidden;
+  padding-top: 120px;
+}
+.hero-wave {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px; overflow: hidden;
+}
+.hero-wave svg { width: 100%; height: 100%; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.3);
+  color: var(--neon-blue);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeInDown 0.8s ease;
+}
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+.hero-title .line1 {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(0,212,255,0.5));
+}
+.hero-title .line2 {
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+.typing-box {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  margin: 1.5rem auto;
+  max-width: 400px;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 2px;
+  min-height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeInUp 0.8s ease 0.4s both;
+}
+.cursor { display: inline-block; animation: blink 0.7s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Progress Ring */
+.progress-ring-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  margin: 2rem 0;
+  animation: fadeInUp 0.8s ease 0.5s both;
+}
+.progress-ring { transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 6; }
+.ring-fill {
+  fill: none; stroke-width: 6;
+  stroke: url(#ringGrad);
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  transition: stroke-dashoffset 2s cubic-bezier(0.4,0,0.2,1);
+}
+.ring-text {
+  font-size: 0.7rem; color: var(--neon-cyan);
+  letter-spacing: 2px; margin-top: 0.5rem;
+  text-transform: uppercase;
+}
+
+.hero-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  color: #fff;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none; cursor: pointer;
+  box-shadow: 0 0 40px rgba(0,212,255,0.4);
+  transition: var(--transition);
+  animation: fadeInUp 0.8s ease 0.6s both;
+  font-family: inherit;
+}
+.hero-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 60px rgba(0,212,255,0.6);
+}
+
+@keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ===== SECTION HEADERS ===== */
+.sec-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.sec-tag {
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--neon-blue);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.sec-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--white), var(--neon-blue));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+.sec-line {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+  margin: 1rem auto 0;
+  border-radius: 1px;
+}
+
+/* ===== GLASS CARDS ===== */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: var(--transition);
+}
+.glass-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  box-shadow: var(--shadow-blue);
+  transform: translateY(-4px);
+}
+
+/* ===== COURSE OVERVIEW ===== */
+.overview-obj {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.8;
+  padding: 1.5rem 2rem;
+}
+.overview-obj strong { color: var(--neon-cyan); }
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+}
+.icon-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.icon-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(168,85,247,0.1));
+  opacity: 0; transition: var(--transition);
+}
+.icon-card:hover::before { opacity: 1; }
+.icon-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--neon-blue);
+  box-shadow: var(--shadow-blue);
+}
+.icon-card .icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+.icon-card .label {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--white);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.icon-card .unit-tag {
+  font-size: 0.6rem;
+  color: var(--neon-blue);
+  letter-spacing: 2px;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* ===== CO CARDS ===== */
+.co-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+.co-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.co-header {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(90deg, rgba(0,212,255,0.05), transparent);
+}
+.co-num {
+  font-size: 0.7rem;
+  color: var(--neon-blue);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.co-title { font-size: 0.85rem; color: var(--white); margin-top: 0.2rem; }
+.co-toggle { color: var(--neon-blue); transition: var(--transition); }
+.co-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  padding: 0 1.5rem;
+}
+.co-body.open { max-height: 400px; padding: 0 1.5rem 1.5rem; }
+.co-body p { font-size: 0.82rem; color: var(--text); margin-bottom: 0.75rem; line-height: 1.6; }
+.co-body .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.co-tag {
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.2);
+  color: var(--neon-blue);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+}
+
+/* ===== SYLLABUS ACCORDION ===== */
+.unit-accordion { display: flex; flex-direction: column; gap: 1rem; }
+.unit-item {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.unit-item:hover { border-color: rgba(168,85,247,0.4); }
+.unit-header {
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  user-select: none;
+}
+.unit-header-left { display: flex; align-items: center; gap: 1rem; }
+.unit-num {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 0.9rem;
+  color: #fff; flex-shrink: 0;
+  box-shadow: var(--shadow-blue);
+}
+.unit-name { font-size: 0.9rem; font-weight: bold; color: var(--white); }
+.unit-sub { font-size: 0.7rem; color: var(--neon-purple); letter-spacing: 1px; }
+.unit-arrow {
+  color: var(--neon-blue); font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+.unit-item.open .unit-arrow { transform: rotate(180deg); }
+.unit-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.unit-body.open { max-height: 2000px; }
+.unit-content { padding: 0 1.5rem 1.5rem; }
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.topic-pill {
+  background: rgba(168,85,247,0.1);
+  border: 1px solid rgba(168,85,247,0.2);
+  color: var(--text);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  transition: var(--transition);
+}
+.topic-pill:hover { background: rgba(168,85,247,0.2); color: var(--neon-pink); }
+
+/* Exam tips */
+.exam-tips {
+  background: rgba(251,191,36,0.08);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+.exam-tips h4 {
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.exam-tips ul { list-style: none; }
+.exam-tips li {
+  font-size: 0.75rem;
+  color: var(--text);
+  padding: 0.2rem 0;
+}
+.exam-tips li::before { content: '⚡ '; }
+
+/* Difficulty meter */
+.diff-bar {
+  margin: 1rem 0;
+}
+.diff-label {
+  display: flex; justify-content: space-between;
+  font-size: 0.65rem; color: var(--text-dim);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.diff-track {
+  height: 6px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.diff-fill {
+  height: 100%;
+  border-radius: 3px;
+  width: 0;
+  transition: width 1.5s cubic-bezier(0.4,0,0.2,1) 0.2s;
+}
+
+/* Unit canvas animations */
+.unit-canvas {
+  width: 100%;
+  height: 120px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+  margin: 1rem 0;
+  display: block;
+}
+
+/* ===== PROGRESS TRACKER ===== */
+.progress-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+@media(max-width:600px){ .progress-wrap { grid-template-columns: 1fr; } }
+.unit-checks { display: flex; flex-direction: column; gap: 0.8rem; }
+.check-item {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.8rem 1rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+.check-item:hover { border-color: var(--neon-blue); background: rgba(0,212,255,0.05); }
+.check-item.done { border-color: var(--neon-cyan); background: rgba(6,255,212,0.05); }
+.check-box {
+  width: 20px; height: 20px;
+  border: 2px solid var(--text-dim);
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  font-size: 0.7rem;
+}
+.check-item.done .check-box {
+  background: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  color: #000;
+}
+.check-label { font-size: 0.8rem; color: var(--text); }
+.progress-ring-big {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1rem;
+  padding: 2rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  text-align: center;
+}
+.progress-ring-big .ring-svg { transform: rotate(-90deg); }
+.ring-percent {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+.ring-sub { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+
+/* ===== QUESTIONS ===== */
+.q-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.q-tab {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.q-tab.active {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow-blue);
+}
+.q-panel { display: none; }
+.q-panel.active { display: block; }
+.q-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.q-item {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  transition: var(--transition);
+}
+.q-item:hover { border-color: var(--neon-blue); color: var(--white); }
+.q-dot {
+  width: 6px; height: 6px;
+  background: var(--neon-blue);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+  box-shadow: var(--glow-blue);
+}
+
+/* ===== FORMULA CARDS ===== */
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
+.formula-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.formula-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(0,212,255,0.1), transparent 70%);
+  opacity: 0; transition: var(--transition);
+}
+.formula-card:hover::before { opacity: 1; }
+.formula-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon-blue);
+  box-shadow: var(--shadow-blue);
+}
+.f-name {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--neon-blue);
+  margin-bottom: 0.8rem;
+}
+.f-eq {
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+.f-tip {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s ease;
+  line-height: 1.5;
+}
+.formula-card:hover .f-tip { max-height: 100px; color: var(--text); }
+
+/* ===== STUDY PLAN ===== */
+.plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+.plan-day {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.plan-day.done {
+  background: rgba(6,255,212,0.08);
+  border-color: rgba(6,255,212,0.3);
+}
+.plan-day:hover { border-color: var(--neon-purple); transform: translateY(-3px); }
+.day-num {
+  font-size: 0.6rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--neon-purple);
+  margin-bottom: 0.4rem;
+}
+.day-topic { font-size: 0.8rem; font-weight: bold; color: var(--white); margin-bottom: 0.4rem; }
+.day-check {
+  width: 22px; height: 22px;
+  border: 2px solid var(--text-dim);
+  border-radius: 50%;
+  margin: 0.5rem auto 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; transition: var(--transition);
+}
+.plan-day.done .day-check {
+  background: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  color: #000;
+}
+
+/* ===== TEXTBOOKS ===== */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+.book-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  transition: var(--transition);
+}
+.book-card:hover { border-color: var(--neon-purple); transform: translateX(4px); }
+.book-icon { font-size: 2rem; flex-shrink: 0; }
+.book-title { font-size: 0.82rem; font-weight: bold; color: var(--white); }
+.book-author { font-size: 0.7rem; color: var(--neon-blue); margin-top: 0.3rem; }
+.book-type {
+  display: inline-block;
+  font-size: 0.6rem; letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  margin-top: 0.4rem;
+}
+.book-type.tb { background: rgba(0,212,255,0.1); color: var(--neon-blue); }
+.book-type.ref { background: rgba(168,85,247,0.1); color: var(--neon-purple); }
+
+/* ===== EXAM STRATEGY ===== */
+.strat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.strat-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+.strat-card h3 {
+  font-size: 0.75rem; letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.strat-card h3 span { font-size: 1.2rem; }
+.strat-list { list-style: none; }
+.strat-list li {
+  font-size: 0.8rem; color: var(--text);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.strat-list li:last-child { border-bottom: none; }
+.scoring-tip {
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(168,85,247,0.1));
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 14px;
+  padding: 1.5rem;
+  text-align: center;
+}
+.scoring-tip .big-tip {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  font-weight: bold;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--glass-border);
+  padding: 3rem clamp(1rem, 5vw, 4rem);
+  text-align: center;
+}
+.footer-quote {
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--neon-blue);
+  text-shadow: var(--glow-blue);
+  font-style: italic;
+  margin-bottom: 1rem;
+  animation: shimmer 3s ease infinite;
+}
+@keyframes shimmer {
+  0%,100% { text-shadow: 0 0 20px rgba(0,212,255,0.6); }
+  50% { text-shadow: 0 0 40px rgba(168,85,247,0.8); }
+}
+.footer-sub { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+
+/* ===== HIGHLIGHT ===== */
+.highlighted {
+  background: rgba(251,191,36,0.2) !important;
+  border-color: var(--gold) !important;
+}
+
+/* ===== RESPONSIVE NAV ===== */
+@media(max-width: 768px) {
+  .nav-links { display: none; }
+  .search-input { width: 140px; }
+  .search-input:focus { width: 160px; }
+}
+@media(max-width: 480px) {
+  .search-wrap { display: none; }
+}
+
+/* ===== COUNTER ANIMATION ===== */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 2rem; }
+.stat-box {
+  text-align: center;
+  padding: 1.2rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+}
+.stat-num { font-size: 2rem; font-weight: 900; color: var(--neon-blue); text-shadow: var(--glow-blue); }
+.stat-label { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem; }
+
+/* Smooth appear */
+.appear { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.appear.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-ring"></div>
+  <p class="loader-text">Loading Physics Lab...</p>
+</div>
+
+<!-- BG LAYERS -->
+<div class="grid-bg"></div>
+<div class="physics-bg" id="physicsBg"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-brand">⚛ EP·LAB</div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#syllabus">Syllabus</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#questions">Questions</a></li>
+    <li><a href="#formulas">Formulas</a></li>
+    <li><a href="#plan">Study Plan</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search topics..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <span class="hero-badge">JNTUK B.Tech R23 · All Branches</span>
+  <div class="hero-title">
+    <div class="line1">ENGINEERING</div>
+    <div class="line2">PHYSICS</div>
+  </div>
+  <p class="hero-sub">JNTUK B.Tech R23 | Common to All Branches</p>
+
+  <div class="typing-box">
+    <span id="typingText"></span><span class="cursor">|</span>
+  </div>
+
+  <div class="progress-ring-wrap">
+    <svg width="100" height="100" class="progress-ring">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00d4ff"/>
+          <stop offset="100%" stop-color="#a855f7"/>
+        </linearGradient>
+      </defs>
+      <circle class="ring-bg" cx="50" cy="50" r="45"/>
+      <circle class="ring-fill" id="heroRing" cx="50" cy="50" r="45"/>
+    </svg>
+    <span class="ring-text">5 Units · 60 Hours</span>
+  </div>
+
+  <div class="stat-grid" style="max-width:500px;margin:0 auto 2rem;">
+    <div class="stat-box"><div class="stat-num" data-target="5">0</div><div class="stat-label">Units</div></div>
+    <div class="stat-box"><div class="stat-num" data-target="60">0</div><div class="stat-label">Hours</div></div>
+    <div class="stat-box"><div class="stat-num" data-target="100">0</div><div class="stat-label">Topics</div></div>
+    <div class="stat-box"><div class="stat-num" data-target="5">0</div><div class="stat-label">COs</div></div>
+  </div>
+
+  <button class="hero-btn" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">
+    ⚡ Start Learning
+  </button>
+
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#a855f7" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#06ffd4" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#waveGrad)" d="M0,100 C240,180 480,20 720,100 C960,180 1200,20 1440,100 L1440,200 L0,200 Z">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-720,0;0,0" dur="8s" repeatCount="indefinite"/>
+      </path>
+      <path fill="url(#waveGrad)" opacity="0.5" d="M0,120 C360,40 720,160 1080,80 C1260,40 1380,100 1440,120 L1440,200 L0,200 Z">
+        <animateTransform attributeName="transform" type="translate" values="0,0;720,0;0,0" dur="12s" repeatCount="indefinite"/>
+      </path>
+    </svg>
+  </div>
+</section>
+
+<!-- ===== COURSE OVERVIEW ===== -->
+<section id="overview">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Course Overview</span>
+    <h2 class="sec-title">What You'll Master</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="glass-card overview-obj appear">
+    <strong>Objective:</strong> To develop a strong conceptual understanding of physical principles and their applications in engineering and technology.
+  </div>
+  <div class="icon-grid appear">
+    <div class="icon-card"><span class="icon">🌊</span><span class="label">Wave Optics</span><span class="unit-tag">UNIT I</span></div>
+    <div class="icon-card"><span class="icon">🔷</span><span class="label">Crystallography</span><span class="unit-tag">UNIT II</span></div>
+    <div class="icon-card"><span class="icon">⚡</span><span class="label">Dielectric Materials</span><span class="unit-tag">UNIT III</span></div>
+    <div class="icon-card"><span class="icon">🧲</span><span class="label">Magnetic Materials</span><span class="unit-tag">UNIT III</span></div>
+    <div class="icon-card"><span class="icon">⚛</span><span class="label">Quantum Mechanics</span><span class="unit-tag">UNIT IV</span></div>
+    <div class="icon-card"><span class="icon">💻</span><span class="label">Semiconductor Physics</span><span class="unit-tag">UNIT V</span></div>
+  </div>
+</section>
+
+<!-- ===== COURSE OUTCOMES ===== -->
+<section id="outcomes">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Course Outcomes</span>
+    <h2 class="sec-title">What You'll Achieve</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="co-grid appear">
+    <div class="co-card">
+      <div class="co-header" onclick="toggleCO(this)">
+        <div><div class="co-num">CO1</div><div class="co-title">Wave Optics Phenomena</div></div>
+        <span class="co-toggle">▼</span>
+      </div>
+      <div class="co-body">
+        <p>Understand wave optics phenomena like interference and diffraction including Thin Films, Newton's Rings, and Polarization.</p>
+        <p><strong style="color:var(--neon-blue)">Applications:</strong></p>
+        <div class="tag-list"><span class="co-tag">Anti-reflection coatings</span><span class="co-tag">Optical instruments</span><span class="co-tag">Solar cells</span><span class="co-tag">Spectroscopy</span></div>
+      </div>
+    </div>
+    <div class="co-card">
+      <div class="co-header" onclick="toggleCO(this)">
+        <div><div class="co-num">CO2</div><div class="co-title">Crystal Structures & XRD</div></div>
+        <span class="co-toggle">▼</span>
+      </div>
+      <div class="co-body">
+        <p>Analyze crystal structures and X-ray diffraction using Miller indices, Bragg's law, and crystallographic methods.</p>
+        <p><strong style="color:var(--neon-blue)">Applications:</strong></p>
+        <div class="tag-list"><span class="co-tag">Material science</span><span class="co-tag">Drug discovery</span><span class="co-tag">Semiconductor fab</span><span class="co-tag">Nanotechnology</span></div>
+      </div>
+    </div>
+    <div class="co-card">
+      <div class="co-header" onclick="toggleCO(this)">
+        <div><div class="co-num">CO3</div><div class="co-title">Dielectric & Magnetic Behaviour</div></div>
+        <span class="co-toggle">▼</span>
+      </div>
+      <div class="co-body">
+        <p>Explain dielectric and magnetic material behavior including polarization types, Clausius-Mossotti, domain theory, and hysteresis.</p>
+        <p><strong style="color:var(--neon-blue)">Applications:</strong></p>
+        <div class="tag-list"><span class="co-tag">Capacitors</span><span class="co-tag">Transformers</span><span class="co-tag">Data storage</span><span class="co-tag">MRI machines</span></div>
+      </div>
+    </div>
+    <div class="co-card">
+      <div class="co-header" onclick="toggleCO(this)">
+        <div><div class="co-num">CO4</div><div class="co-title">Quantum Mechanics</div></div>
+        <span class="co-toggle">▼</span>
+      </div>
+      <div class="co-body">
+        <p>Apply quantum mechanics concepts: wave-particle duality, Schrödinger equation, Heisenberg uncertainty, and free electron theory.</p>
+        <p><strong style="color:var(--neon-blue)">Applications:</strong></p>
+        <div class="tag-list"><span class="co-tag">Quantum computing</span><span class="co-tag">Electron microscopy</span><span class="co-tag">Lasers</span><span class="co-tag">Nuclear reactors</span></div>
+      </div>
+    </div>
+    <div class="co-card">
+      <div class="co-header" onclick="toggleCO(this)">
+        <div><div class="co-num">CO5</div><div class="co-title">Semiconductor Physics</div></div>
+        <span class="co-toggle">▼</span>
+      </div>
+      <div class="co-body">
+        <p>Understand semiconductor physics and electronic properties including band theory, carrier concentration, Hall effect, and PN junctions.</p>
+        <p><strong style="color:var(--neon-blue)">Applications:</strong></p>
+        <div class="tag-list"><span class="co-tag">Transistors</span><span class="co-tag">Diodes</span><span class="co-tag">Solar panels</span><span class="co-tag">LEDs</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SYLLABUS ===== -->
+<section id="syllabus">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Detailed Syllabus</span>
+    <h2 class="sec-title">Unit-wise Breakdown</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="unit-accordion appear">
+
+    <!-- UNIT I -->
+    <div class="unit-item" id="unit1">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <div class="unit-header-left">
+          <div class="unit-num">I</div>
+          <div><div class="unit-name">Wave Optics</div><div class="unit-sub">Interference · Diffraction · Polarization</div></div>
+        </div>
+        <span class="unit-arrow">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <canvas class="unit-canvas" id="canvas1"></canvas>
+          <div class="topics-grid">
+            <div class="topic-pill">Superposition Principle</div>
+            <div class="topic-pill">Interference in Thin Films</div>
+            <div class="topic-pill">Newton's Rings</div>
+            <div class="topic-pill">Fresnel Diffraction</div>
+            <div class="topic-pill">Fraunhofer Diffraction</div>
+            <div class="topic-pill">Single Slit Diffraction</div>
+            <div class="topic-pill">Double Slit Diffraction</div>
+            <div class="topic-pill">N-Slit Grating</div>
+            <div class="topic-pill">Polarization of Light</div>
+            <div class="topic-pill">Nicol Prism</div>
+            <div class="topic-pill">Wave Plates (λ/4, λ/2)</div>
+            <div class="topic-pill">Double Refraction</div>
+          </div>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Newton's Rings — Very important, always asked</li>
+              <li>Grating numericals are highly scoring</li>
+              <li>Polarization concepts frequently appear in theory</li>
+              <li>Interference condition: 2nt cosθ = nλ (reflected)</li>
+            </ul>
+          </div>
+          <div class="diff-bar">
+            <div class="diff-label"><span>Difficulty</span><span>Medium–Hard</span></div>
+            <div class="diff-track"><div class="diff-fill" style="background: linear-gradient(90deg,#00d4ff,#a855f7);width:0" data-width="70%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT II -->
+    <div class="unit-item" id="unit2">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <div class="unit-header-left">
+          <div class="unit-num">II</div>
+          <div><div class="unit-name">Crystallography & X-ray Diffraction</div><div class="unit-sub">Lattices · Miller Indices · Bragg's Law</div></div>
+        </div>
+        <span class="unit-arrow">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <canvas class="unit-canvas" id="canvas2"></canvas>
+          <div class="topics-grid">
+            <div class="topic-pill">Space Lattice & Unit Cell</div>
+            <div class="topic-pill">Bravais Lattices (14 types)</div>
+            <div class="topic-pill">7 Crystal Systems</div>
+            <div class="topic-pill">SC Packing Fraction (52%)</div>
+            <div class="topic-pill">BCC Packing Fraction (68%)</div>
+            <div class="topic-pill">FCC Packing Fraction (74%)</div>
+            <div class="topic-pill">Miller Indices (h k l)</div>
+            <div class="topic-pill">Interplanar Spacing d_hkl</div>
+            <div class="topic-pill">Bragg's Law: 2d sinθ = nλ</div>
+            <div class="topic-pill">Laue Method</div>
+            <div class="topic-pill">Powder Diffraction Method</div>
+            <div class="topic-pill">Rotating Crystal Method</div>
+          </div>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Miller indices — repeated questions every year</li>
+              <li>Packing fraction derivations for SC, BCC, FCC</li>
+              <li>Bragg's law numerical problems are scoring</li>
+              <li>Draw unit cell diagrams with correct coordinates</li>
+            </ul>
+          </div>
+          <div class="diff-bar">
+            <div class="diff-label"><span>Difficulty</span><span>Medium</span></div>
+            <div class="diff-track"><div class="diff-fill" style="background: linear-gradient(90deg,#a855f7,#06ffd4);width:0" data-width="55%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT III -->
+    <div class="unit-item" id="unit3">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <div class="unit-header-left">
+          <div class="unit-num">III</div>
+          <div><div class="unit-name">Dielectric & Magnetic Materials</div><div class="unit-sub">Polarization · Susceptibility · Hysteresis</div></div>
+        </div>
+        <span class="unit-arrow">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <canvas class="unit-canvas" id="canvas3"></canvas>
+          <div class="topics-grid">
+            <div class="topic-pill">Types of Polarization</div>
+            <div class="topic-pill">Dielectric Constant (ε_r)</div>
+            <div class="topic-pill">Electric Susceptibility (χ)</div>
+            <div class="topic-pill">Clausius-Mossotti Equation</div>
+            <div class="topic-pill">Frequency Dependence of ε</div>
+            <div class="topic-pill">Internal Field (Lorentz)</div>
+            <div class="topic-pill">Diamagnetic Materials</div>
+            <div class="topic-pill">Paramagnetic Materials</div>
+            <div class="topic-pill">Ferromagnetic Materials</div>
+            <div class="topic-pill">Domain Theory</div>
+            <div class="topic-pill">Hysteresis Curve (B-H)</div>
+            <div class="topic-pill">Soft & Hard Magnets</div>
+          </div>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Clausius-Mossotti derivation — frequently asked</li>
+              <li>Hysteresis loop diagram — must draw and explain</li>
+              <li>Distinguish soft vs hard magnetic materials</li>
+              <li>Lorentz internal field = P/(3ε₀)</li>
+            </ul>
+          </div>
+          <div class="diff-bar">
+            <div class="diff-label"><span>Difficulty</span><span>Hard</span></div>
+            <div class="diff-track"><div class="diff-fill" style="background: linear-gradient(90deg,#f0abfc,#a855f7);width:0" data-width="80%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT IV -->
+    <div class="unit-item" id="unit4">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <div class="unit-header-left">
+          <div class="unit-num">IV</div>
+          <div><div class="unit-name">Quantum Mechanics & Free Electron Theory</div><div class="unit-sub">Duality · Schrödinger · Fermi Energy</div></div>
+        </div>
+        <span class="unit-arrow">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <canvas class="unit-canvas" id="canvas4"></canvas>
+          <div class="topics-grid">
+            <div class="topic-pill">Wave-Particle Duality</div>
+            <div class="topic-pill">de Broglie Hypothesis</div>
+            <div class="topic-pill">Heisenberg Uncertainty Principle</div>
+            <div class="topic-pill">Wave Function ψ & |ψ|²</div>
+            <div class="topic-pill">Time-dependent Schrödinger Eq.</div>
+            <div class="topic-pill">Time-independent Schrödinger Eq.</div>
+            <div class="topic-pill">Particle in a Box (1D)</div>
+            <div class="topic-pill">Energy Eigenvalues</div>
+            <div class="topic-pill">Classical Free Electron Theory</div>
+            <div class="topic-pill">Quantum Free Electron Theory</div>
+            <div class="topic-pill">Fermi Energy (E_F)</div>
+            <div class="topic-pill">Density of States g(E)</div>
+          </div>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Particle in a box — full derivation is mandatory</li>
+              <li>Fermi energy numerical problems are common</li>
+              <li>Uncertainty principle applications in problems</li>
+              <li>Normalization of wave function important</li>
+            </ul>
+          </div>
+          <div class="diff-bar">
+            <div class="diff-label"><span>Difficulty</span><span>Very Hard</span></div>
+            <div class="diff-track"><div class="diff-fill" style="background: linear-gradient(90deg,#fbbf24,#f0abfc);width:0" data-width="90%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT V -->
+    <div class="unit-item" id="unit5">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <div class="unit-header-left">
+          <div class="unit-num">V</div>
+          <div><div class="unit-name">Semiconductor Physics</div><div class="unit-sub">Band Theory · Carriers · Hall Effect</div></div>
+        </div>
+        <span class="unit-arrow">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <canvas class="unit-canvas" id="canvas5"></canvas>
+          <div class="topics-grid">
+            <div class="topic-pill">Energy Band Theory</div>
+            <div class="topic-pill">Conductor, Insulator, SC Bands</div>
+            <div class="topic-pill">Intrinsic Semiconductors</div>
+            <div class="topic-pill">Extrinsic Semiconductors</div>
+            <div class="topic-pill">n-type & p-type Doping</div>
+            <div class="topic-pill">Carrier Concentration (n, p)</div>
+            <div class="topic-pill">Fermi Level Position</div>
+            <div class="topic-pill">Drift Current</div>
+            <div class="topic-pill">Diffusion Current</div>
+            <div class="topic-pill">Einstein Relation (D/μ = kT/e)</div>
+            <div class="topic-pill">Hall Effect</div>
+            <div class="topic-pill">Hall Coefficient R_H</div>
+          </div>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Hall effect derivation — always in 10 marks</li>
+              <li>Band diagrams for all three types — must draw</li>
+              <li>Einstein relation derivation important</li>
+              <li>Distinguish intrinsic vs extrinsic with examples</li>
+            </ul>
+          </div>
+          <div class="diff-bar">
+            <div class="diff-label"><span>Difficulty</span><span>Medium</span></div>
+            <div class="diff-track"><div class="diff-fill" style="background: linear-gradient(90deg,#06ffd4,#00d4ff);width:0" data-width="60%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end accordion -->
+</section>
+
+<!-- ===== PROGRESS TRACKER ===== -->
+<section id="progress">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Progress Tracker</span>
+    <h2 class="sec-title">Track Your Studies</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="progress-wrap appear">
+    <div class="unit-checks">
+      <div class="check-item" onclick="toggleCheck(this)" data-unit="1">
+        <div class="check-box">✓</div>
+        <span class="check-label">Unit I — Wave Optics</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-unit="2">
+        <div class="check-box">✓</div>
+        <span class="check-label">Unit II — Crystallography & XRD</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-unit="3">
+        <div class="check-box">✓</div>
+        <span class="check-label">Unit III — Dielectric & Magnetic Materials</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-unit="4">
+        <div class="check-box">✓</div>
+        <span class="check-label">Unit IV — Quantum Mechanics & Free Electron Theory</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-unit="5">
+        <div class="check-box">✓</div>
+        <span class="check-label">Unit V — Semiconductor Physics</span>
+      </div>
+    </div>
+    <div class="progress-ring-big glass-card">
+      <svg width="160" height="160" class="ring-svg">
+        <defs>
+          <linearGradient id="bigRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#06ffd4"/>
+            <stop offset="100%" stop-color="#a855f7"/>
+          </linearGradient>
+        </defs>
+        <circle fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10" cx="80" cy="80" r="70"/>
+        <circle id="bigRingFill" fill="none" stroke="url(#bigRingGrad)" stroke-width="10" cx="80" cy="80" r="70"
+          stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="440" transform="rotate(-90,80,80)"/>
+      </svg>
+      <div class="ring-percent" id="progressPct">0%</div>
+      <div class="ring-sub">Completion Rate</div>
+      <div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.5rem" id="progressText">0 of 5 units completed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IMPORTANT QUESTIONS ===== -->
+<section id="questions">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Important Questions</span>
+    <h2 class="sec-title">Exam-Focused Questions</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="appear">
+    <div class="q-tabs">
+      <button class="q-tab active" onclick="switchTab('q2')">2 Marks</button>
+      <button class="q-tab" onclick="switchTab('q5')">5 Marks</button>
+      <button class="q-tab" onclick="switchTab('q10')">10 Marks</button>
+    </div>
+    <div id="q2" class="q-panel active">
+      <div class="q-list">
+        <div class="q-item"><div class="q-dot"></div>Define interference of light and state the conditions for constructive and destructive interference.</div>
+        <div class="q-item"><div class="q-dot"></div>State Bragg's law and write its mathematical expression.</div>
+        <div class="q-item"><div class="q-dot"></div>Define polarization. What is plane of polarization?</div>
+        <div class="q-item"><div class="q-dot"></div>What are Miller indices? How are they determined?</div>
+        <div class="q-item"><div class="q-dot"></div>State Heisenberg's uncertainty principle with examples.</div>
+        <div class="q-item"><div class="q-dot"></div>Define Fermi energy and Fermi level.</div>
+        <div class="q-item"><div class="q-dot"></div>What is Hall effect? Define Hall coefficient.</div>
+        <div class="q-item"><div class="q-dot"></div>Distinguish between soft and hard magnetic materials.</div>
+        <div class="q-item"><div class="q-dot"></div>Define packing fraction and calculate for SC crystal.</div>
+        <div class="q-item"><div class="q-dot"></div>What is the de Broglie hypothesis? Write the formula for de Broglie wavelength.</div>
+      </div>
+    </div>
+    <div id="q5" class="q-panel">
+      <div class="q-list">
+        <div class="q-item"><div class="q-dot"></div>Explain Newton's rings experiment. Derive the formula for radius of nth dark ring.</div>
+        <div class="q-item"><div class="q-dot"></div>Derive the expression for interplanar spacing in terms of Miller indices.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain hysteresis in ferromagnetic materials with a neat B-H loop diagram.</div>
+        <div class="q-item"><div class="q-dot"></div>Derive packing fraction for BCC crystal structure with diagram.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain Clausius-Mossotti relation and its significance in dielectrics.</div>
+        <div class="q-item"><div class="q-dot"></div>Describe the Nicol prism and its use in polarization of light.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain Einstein relation for semiconductors. Derive D/μ = kT/e.</div>
+        <div class="q-item"><div class="q-dot"></div>What is diffraction grating? Derive grating equation. What are its applications?</div>
+      </div>
+    </div>
+    <div id="q10" class="q-panel">
+      <div class="q-list">
+        <div class="q-item"><div class="q-dot"></div>Derive the energy eigenvalues and wave functions for a particle in a one-dimensional box. Discuss the energy levels with diagrams.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain diffraction grating completely. Derive the condition for principal maxima, minima, and secondary maxima.</div>
+        <div class="q-item"><div class="q-dot"></div>Discuss the Hall effect in detail. Derive the expression for Hall coefficient and explain its applications in determining carrier type and concentration.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain the classical and quantum free electron theories of metals. What are the drawbacks of classical theory overcome by quantum theory?</div>
+        <div class="q-item"><div class="q-dot"></div>Derive the Clausius-Mossotti equation. Explain all types of polarization with frequency dependence graph.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain the formation of Newton's rings and derive expressions for diameters of bright and dark rings. How is it used to find wavelength?</div>
+        <div class="q-item"><div class="q-dot"></div>Describe the energy band theory of solids. Using it, explain the difference between conductors, insulators, and semiconductors.</div>
+        <div class="q-item"><div class="q-dot"></div>Explain X-ray diffraction methods (Laue, Powder, and Rotating crystal methods). Compare their advantages and applications.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FORMULA CARDS ===== -->
+<section id="formulas">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Formula Sheet</span>
+    <h2 class="sec-title">Quick Formula Revision</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="formula-grid appear">
+    <div class="formula-card">
+      <div class="f-name">Bragg's Law</div>
+      <div class="f-eq">2d sinθ = nλ</div>
+      <div class="f-tip">d = interplanar spacing, θ = glancing angle, n = order of diffraction, λ = X-ray wavelength. Used to find crystal structure.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Schrödinger Equation</div>
+      <div class="f-eq">-ℏ²/2m · ∂²ψ/∂x² + Vψ = Eψ</div>
+      <div class="f-tip">Time-independent form. ψ = wave function, E = total energy, V = potential energy, ℏ = reduced Planck's constant.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">de Broglie Wavelength</div>
+      <div class="f-eq">λ = h/p = h/mv</div>
+      <div class="f-tip">Every particle has an associated wavelength. h = Planck's constant, p = momentum. Verified by Davisson-Germer experiment.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Einstein Relation</div>
+      <div class="f-eq">D/μ = kT/e</div>
+      <div class="f-tip">Relates diffusion coefficient D to mobility μ. k = Boltzmann constant, T = temperature, e = electron charge. Holds for both electrons and holes.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Clausius-Mossotti</div>
+      <div class="f-eq">(εr-1)/(εr+2) = Nα/3ε₀</div>
+      <div class="f-tip">Relates macroscopic dielectric constant εr to microscopic polarizability α. N = number density of molecules.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Newton's Rings</div>
+      <div class="f-eq">D²_n = 4nλR</div>
+      <div class="f-tip">Dn = diameter of nth dark ring, λ = wavelength, R = radius of curvature of the lens. Used in optical testing.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Particle in Box Energy</div>
+      <div class="f-eq">Eₙ = n²π²ℏ²/2mL²</div>
+      <div class="f-tip">n = quantum number (1,2,3...), L = box length, m = particle mass. Energy is quantized — no zero-point zero energy.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Hall Coefficient</div>
+      <div class="f-eq">RH = -1/ne (n-type)</div>
+      <div class="f-tip">n = carrier concentration, e = electron charge. Negative for electrons, positive for holes. Used to find carrier type and density.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Uncertainty Principle</div>
+      <div class="f-eq">Δx·Δp ≥ ℏ/2</div>
+      <div class="f-tip">Cannot simultaneously know exact position and momentum. ℏ = h/2π. Also: ΔE·Δt ≥ ℏ/2.</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Interplanar Spacing</div>
+      <div class="f-eq">d = a/√(h²+k²+l²)</div>
+      <div class="f-tip">For cubic crystal. a = lattice constant, (h k l) = Miller indices. Use with Bragg's law for XRD analysis.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STUDY PLAN ===== -->
+<section id="plan">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Smart Study Plan</span>
+    <h2 class="sec-title">7-Day Exam Prep</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="plan-grid appear">
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 1</div>
+      <div class="day-topic">🌊 Wave Optics</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">Interference, Thin Films, Newton's Rings</div>
+      <div class="day-check">✓</div>
+    </div>
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 2</div>
+      <div class="day-topic">🔷 Crystallography</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">Lattices, Packing Fraction, Miller Indices</div>
+      <div class="day-check">✓</div>
+    </div>
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 3</div>
+      <div class="day-topic">⚡ Dielectrics</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">Polarization, Clausius-Mossotti, ε_r</div>
+      <div class="day-check">✓</div>
+    </div>
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 4</div>
+      <div class="day-topic">🧲 Magnetism</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">Domain Theory, Hysteresis Loop</div>
+      <div class="day-check">✓</div>
+    </div>
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 5</div>
+      <div class="day-topic">⚛ Quantum Mech</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">Schrödinger Eq., Particle in Box</div>
+      <div class="day-check">✓</div>
+    </div>
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 6</div>
+      <div class="day-topic">💻 Semiconductors</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">Band Theory, Hall Effect, Einstein Rel.</div>
+      <div class="day-check">✓</div>
+    </div>
+    <div class="plan-day" onclick="toggleDay(this)">
+      <div class="day-num">Day 7</div>
+      <div class="day-topic">🔄 Full Revision</div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">All units + Numericals + Diagrams</div>
+      <div class="day-check">✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEXTBOOKS ===== -->
+<section id="books">
+  <div class="sec-header appear">
+    <span class="sec-tag">// References</span>
+    <h2 class="sec-title">Textbooks & References</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="book-grid appear">
+    <div class="book-card glass-card">
+      <div class="book-icon">📗</div>
+      <div>
+        <div class="book-title">Engineering Physics (JNTUK)</div>
+        <div class="book-author">Recommended by JNTUK</div>
+        <span class="book-type tb">Textbook</span>
+      </div>
+    </div>
+    <div class="book-card glass-card">
+      <div class="book-icon">📘</div>
+      <div>
+        <div class="book-title">Engineering Physics</div>
+        <div class="book-author">B.K. Pandey & S. Chaturvedi</div>
+        <span class="book-type tb">Textbook</span>
+      </div>
+    </div>
+    <div class="book-card glass-card">
+      <div class="book-icon">📙</div>
+      <div>
+        <div class="book-title">Fundamentals of Physics</div>
+        <div class="book-author">Resnick, Halliday & Walker</div>
+        <span class="book-type ref">Reference</span>
+      </div>
+    </div>
+    <div class="book-card glass-card">
+      <div class="book-icon">📔</div>
+      <div>
+        <div class="book-title">Introduction to Solid State Physics</div>
+        <div class="book-author">Charles Kittel</div>
+        <span class="book-type ref">Reference</span>
+      </div>
+    </div>
+    <div class="book-card glass-card">
+      <div class="book-icon">📒</div>
+      <div>
+        <div class="book-title">Engineering Physics</div>
+        <div class="book-author">M.N. Avadhanulu & P.G. Kshirsagar</div>
+        <span class="book-type ref">Reference</span>
+      </div>
+    </div>
+    <div class="book-card glass-card">
+      <div class="book-icon">📕</div>
+      <div>
+        <div class="book-title">A Textbook of Optics</div>
+        <div class="book-author">N. Subramanyam & Brijlal</div>
+        <span class="book-type ref">Reference</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXAM STRATEGY ===== -->
+<section id="strategy">
+  <div class="sec-header appear">
+    <span class="sec-tag">// Exam Strategy</span>
+    <h2 class="sec-title">Score Maximizer</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="strat-grid appear">
+    <div class="strat-card glass-card">
+      <h3 style="color:var(--neon-blue)"><span>📋</span> Before Exam</h3>
+      <ul class="strat-list">
+        <li>📐 Revise all key formulas</li>
+        <li>✍️ Practice derivations twice</li>
+        <li>🖊️ Focus on neat diagrams</li>
+        <li>🔢 Solve past numericals</li>
+        <li>📝 Review exam tips per unit</li>
+      </ul>
+    </div>
+    <div class="strat-card glass-card">
+      <h3 style="color:var(--neon-purple)"><span>✏️</span> During Exam</h3>
+      <ul class="strat-list">
+        <li>📖 Attempt theory questions first</li>
+        <li>📊 Draw all diagrams neatly</li>
+        <li>🔑 Write key formulas early</li>
+        <li>⏱️ Manage 3 hours carefully</li>
+        <li>✅ Check units in numericals</li>
+      </ul>
+    </div>
+    <div class="strat-card glass-card">
+      <h3 style="color:var(--neon-cyan)"><span>🏆</span> High-Scoring Topics</h3>
+      <ul class="strat-list">
+        <li>⭐ Newton's Rings — 10 marks</li>
+        <li>⭐ Hall Effect derivation</li>
+        <li>⭐ Particle in a Box</li>
+        <li>⭐ Diffraction Grating</li>
+        <li>⭐ Clausius-Mossotti</li>
+      </ul>
+    </div>
+  </div>
+  <div class="scoring-tip appear" style="margin-top:2rem">
+    <div class="big-tip">💡 "Diagram + Concept + Formula = Full Marks"</div>
+    <p style="margin-top:0.8rem;font-size:0.8rem;color:var(--text-dim)">Always draw labeled diagrams, state the concept clearly, then derive/apply the formula. This three-part approach consistently scores maximum marks in JNTUK exams.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-quote">✨ "Physics is the poetry of nature written in equations."</div>
+  <div class="footer-sub">Designed for JNTUK B.Tech Students · R23 Regulations · All Engineering Branches</div>
+  <div style="margin-top:1rem;font-size:0.65rem;color:var(--text-dim);letter-spacing:1px">⚛ Engineering Physics · 5 Units · 100% Curriculum Coverage</div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ===== LOADER =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+    // Start hero ring animation after load
+    setTimeout(() => {
+      const ring = document.getElementById('heroRing');
+      ring.style.strokeDashoffset = '70'; // ~75% progress
+    }, 500);
+    // Counters
+    animateCounters();
+  }, 1200);
+});
+
+// ===== FLOATING SYMBOLS =====
+const symbols = ['λ','μ','ħ','ψ','∇','⚛','∫','∂','Σ','Δ','π','φ','E=mc²','ℏ','θ','α','β','ω','σ'];
+const bg = document.getElementById('physicsBg');
+function createSymbol() {
+  const el = document.createElement('div');
+  el.className = 'sym';
+  el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  const dur = 10 + Math.random() * 20;
+  el.style.animationDuration = dur + 's';
+  el.style.animationDelay = Math.random() * 10 + 's';
+  el.style.fontSize = (14 + Math.random() * 20) + 'px';
+  bg.appendChild(el);
+  setTimeout(() => el.remove(), (dur + 10) * 1000);
+}
+for (let i = 0; i < 20; i++) setTimeout(createSymbol, i * 500);
+setInterval(createSymbol, 2000);
+
+// ===== THEME TOGGLE =====
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.onclick = () => {
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  themeBtn.textContent = isDark ? '🌙' : '☀️';
+};
+
+// ===== BACK TO TOP =====
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===== TYPING ANIMATION =====
+const phrases = ['E = mc²','λ = h / p','2d sinθ = nλ','ΔxΔp ≥ ℏ/2','∇²ψ + (2m/ℏ²)(E-V)ψ = 0'];
+let pi = 0, ci = 0, typing = true, wait = 0;
+const typEl = document.getElementById('typingText');
+function typeAnim() {
+  if (wait > 0) { wait--; setTimeout(typeAnim, 50); return; }
+  if (typing) {
+    typEl.textContent = phrases[pi].slice(0, ci + 1);
+    ci++;
+    if (ci >= phrases[pi].length) { typing = false; wait = 40; }
+  } else {
+    typEl.textContent = phrases[pi].slice(0, ci - 1);
+    ci--;
+    if (ci === 0) { typing = true; pi = (pi + 1) % phrases.length; wait = 10; }
+  }
+  setTimeout(typeAnim, typing ? 80 : 40);
+}
+typeAnim();
+
+// ===== COUNTER ANIMATION =====
+function animateCounters() {
+  document.querySelectorAll('[data-target]').forEach(el => {
+    const target = +el.dataset.target;
+    let current = 0;
+    const step = Math.max(1, Math.ceil(target / 50));
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current;
+      if (current >= target) clearInterval(timer);
+    }, 30);
+  });
+}
+
+// ===== ACCORDION TOGGLE =====
+function toggleUnit(header) {
+  const item = header.parentElement;
+  const body = item.querySelector('.unit-body');
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open', !wasOpen);
+  body.classList.toggle('open', !wasOpen);
+  if (!wasOpen) {
+    // Animate difficulty bars
+    setTimeout(() => {
+      item.querySelectorAll('.diff-fill').forEach(fill => {
+        fill.style.width = fill.dataset.width || '60%';
+      });
+    }, 100);
+    // Start canvas animation
+    const id = item.id;
+    if (id) startCanvas(id.replace('unit',''));
+  }
+}
+
+// ===== CO CARDS =====
+function toggleCO(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.co-toggle');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  toggle.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+// ===== Q TABS =====
+function switchTab(id) {
+  document.querySelectorAll('.q-tab').forEach((t,i) => {
+    const panels = ['q2','q5','q10'];
+    t.classList.toggle('active', panels[i] === id);
+  });
+  document.querySelectorAll('.q-panel').forEach(p => {
+    p.classList.toggle('active', p.id === id);
+  });
+}
+
+// ===== PROGRESS TRACKER =====
+function toggleCheck(item) {
+  item.classList.toggle('done');
+  updateProgress();
+}
+function updateProgress() {
+  const total = document.querySelectorAll('.check-item').length;
+  const done = document.querySelectorAll('.check-item.done').length;
+  const pct = Math.round((done / total) * 100);
+  const circ = 440;
+  const offset = circ - (circ * pct / 100);
+  document.getElementById('bigRingFill').style.strokeDashoffset = offset;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressText').textContent = done + ' of ' + total + ' units completed';
+}
+
+// ===== STUDY PLAN =====
+function toggleDay(el) { el.classList.toggle('done'); }
+
+// ===== SEARCH =====
+const searchData = [
+  {text: 'Interference — Superposition Principle', section: 'unit1'},
+  {text: 'Thin Films — Reflected & Transmitted', section: 'unit1'},
+  {text: "Newton's Rings — Dark & Bright Rings", section: 'unit1'},
+  {text: 'Fresnel Diffraction', section: 'unit1'},
+  {text: 'Fraunhofer Diffraction', section: 'unit1'},
+  {text: 'Single Slit Diffraction Pattern', section: 'unit1'},
+  {text: 'Double Slit Diffraction', section: 'unit1'},
+  {text: 'Diffraction Grating — N-Slits', section: 'unit1'},
+  {text: 'Polarization of Light', section: 'unit1'},
+  {text: 'Nicol Prism', section: 'unit1'},
+  {text: 'Wave Plates — Quarter & Half', section: 'unit1'},
+  {text: 'Space Lattice & Unit Cell', section: 'unit2'},
+  {text: 'Bravais Lattices — 14 types', section: 'unit2'},
+  {text: 'Crystal Systems — 7 types', section: 'unit2'},
+  {text: 'Packing Fraction SC BCC FCC', section: 'unit2'},
+  {text: 'Miller Indices (h k l)', section: 'unit2'},
+  {text: "Bragg's Law — 2d sinθ = nλ", section: 'unit2'},
+  {text: 'X-ray Diffraction Methods', section: 'unit2'},
+  {text: 'Types of Polarization — Dielectrics', section: 'unit3'},
+  {text: 'Dielectric Constant & Susceptibility', section: 'unit3'},
+  {text: 'Clausius-Mossotti Equation', section: 'unit3'},
+  {text: 'Domain Theory of Magnetism', section: 'unit3'},
+  {text: 'Hysteresis Curve B-H Loop', section: 'unit3'},
+  {text: 'Soft & Hard Magnetic Materials', section: 'unit3'},
+  {text: 'Wave-Particle Duality', section: 'unit4'},
+  {text: 'de Broglie Hypothesis', section: 'unit4'},
+  {text: "Heisenberg's Uncertainty Principle", section: 'unit4'},
+  {text: 'Schrödinger Wave Equation', section: 'unit4'},
+  {text: 'Particle in a Box — Energy Levels', section: 'unit4'},
+  {text: 'Free Electron Theory — Classical', section: 'unit4'},
+  {text: 'Fermi Energy & Fermi Level', section: 'unit4'},
+  {text: 'Density of States g(E)', section: 'unit4'},
+  {text: 'Energy Band Theory of Solids', section: 'unit5'},
+  {text: 'Intrinsic Semiconductors', section: 'unit5'},
+  {text: 'Extrinsic Semiconductors n-type p-type', section: 'unit5'},
+  {text: 'Carrier Concentration', section: 'unit5'},
+  {text: 'Drift & Diffusion Currents', section: 'unit5'},
+  {text: 'Einstein Relation D/μ = kT/e', section: 'unit5'},
+  {text: 'Hall Effect — Derivation', section: 'unit5'},
+];
+const searchInput = document.getElementById('searchInput');
+const resultsEl = document.getElementById('search-results');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  if (!q) { resultsEl.classList.remove('show'); return; }
+  const matches = searchData.filter(d => d.text.toLowerCase().includes(q)).slice(0, 8);
+  if (!matches.length) { resultsEl.classList.remove('show'); return; }
+  resultsEl.innerHTML = matches.map(m => `<div class="search-item" onclick="goToSection('${m.section}','${m.text}')">${m.text}</div>`).join('');
+  resultsEl.classList.add('show');
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) resultsEl.classList.remove('show');
+});
+function goToSection(secId, text) {
+  resultsEl.classList.remove('show');
+  searchInput.value = '';
+  const el = document.getElementById(secId);
+  if (!el) return;
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+  // Open the accordion
+  const header = el.querySelector('.unit-header');
+  if (header && !el.classList.contains('open')) toggleUnit(header);
+  // Highlight
+  el.classList.add('highlighted');
+  setTimeout(() => el.classList.remove('highlighted'), 3000);
+}
+
+// ===== SCROLL APPEAR =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.appear').forEach(el => observer.observe(el));
+
+// ===== CANVAS ANIMATIONS =====
+function startCanvas(unitNum) {
+  const canvas = document.getElementById('canvas' + unitNum);
+  if (!canvas || canvas.dataset.started) return;
+  canvas.dataset.started = '1';
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth;
+  canvas.height = 120;
+  switch(unitNum) {
+    case '1': drawInterference(ctx, canvas); break;
+    case '2': drawCrystal(ctx, canvas); break;
+    case '3': drawHysteresis(ctx, canvas); break;
+    case '4': drawWaveFunction(ctx, canvas); break;
+    case '5': drawBandDiagram(ctx, canvas); break;
+  }
+}
+
+function drawInterference(ctx, canvas) {
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    const w = canvas.width, h = canvas.height;
+    for (let x = 0; x < w; x++) {
+      const y1 = Math.sin(x * 0.04 + t) * 25;
+      const y2 = Math.sin(x * 0.04 + t + 1.5) * 25;
+      const sum = (y1 + y2) * 0.5;
+      const brightness = Math.abs(sum / 25);
+      ctx.fillStyle = `rgba(0,212,255,${brightness * 0.8})`;
+      ctx.fillRect(x, h/2 + sum - 3, 1, 6);
+    }
+    // Wave 1
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(0,212,255,0.4)'; ctx.lineWidth = 1.5;
+    for (let x = 0; x < w; x++) {
+      const y = Math.sin(x * 0.04 + t) * 25;
+      x === 0 ? ctx.moveTo(x, h/3 + y) : ctx.lineTo(x, h/3 + y);
+    }
+    ctx.stroke();
+    // Wave 2
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(168,85,247,0.4)'; ctx.lineWidth = 1.5;
+    for (let x = 0; x < w; x++) {
+      const y = Math.sin(x * 0.04 + t + 1.5) * 25;
+      x === 0 ? ctx.moveTo(x, 2*h/3 + y) : ctx.lineTo(x, 2*h/3 + y);
+    }
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(0,212,255,0.5)';
+    ctx.font = '11px monospace';
+    ctx.fillText('Interference Pattern', 10, 15);
+    t += 0.04;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawCrystal(ctx, canvas) {
+  const w = canvas.width, h = canvas.height;
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(0,0,w,h);
+    const spacing = 30;
+    const offX = (t * 0.5) % spacing;
+    for (let row = -1; row < h/spacing + 2; row++) {
+      for (let col = -1; col < w/spacing + 2; col++) {
+        const x = col * spacing - offX + (row % 2 === 0 ? 0 : spacing/2);
+        const y = row * spacing;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI*2);
+        const pulse = 0.5 + 0.3 * Math.sin(t * 0.05 + col * 0.3 + row * 0.5);
+        ctx.fillStyle = `rgba(168,85,247,${pulse})`;
+        ctx.fill();
+        // bonds
+        if (col < w/spacing + 1) {
+          const nx = x + spacing - (row % 2 === 0 ? 0 : 0);
+          ctx.beginPath();
+          ctx.moveTo(x, y); ctx.lineTo(nx, y);
+          ctx.strokeStyle = 'rgba(168,85,247,0.15)'; ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.fillStyle = 'rgba(168,85,247,0.6)';
+    ctx.font = '11px monospace';
+    ctx.fillText('Crystal Lattice Animation', 10, 15);
+    t++;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawHysteresis(ctx, canvas) {
+  const w = canvas.width, h = canvas.height;
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(0,0,w,h);
+    const cx = w/2, cy = h/2;
+    // Axes
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(20,cy); ctx.lineTo(w-20,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,h-10); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '10px monospace';
+    ctx.fillText('H →', w-40, cy-5);
+    ctx.fillText('↑ B', cx+5, 20);
+    // Hysteresis loop
+    const rx = 80, ry = 40;
+    const progress = Math.min(1, t / 120);
+    ctx.beginPath();
+    ctx.strokeStyle = `rgba(240,171,252,0.8)`; ctx.lineWidth = 2;
+    for (let i = 0; i <= 200 * progress; i++) {
+      const angle = (i / 200) * Math.PI * 2;
+      const px = cx + rx * Math.cos(angle);
+      const py = cy - ry * Math.sin(angle) - 15 * Math.sin(2 * angle);
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    // Moving point
+    if (progress < 1) {
+      const angle = progress * Math.PI * 2;
+      const px = cx + rx * Math.cos(angle);
+      const py = cy - ry * Math.sin(angle) - 15 * Math.sin(2 * angle);
+      ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(240,171,252,1)'; ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(240,171,252,0.6)';
+    ctx.font = '11px monospace';
+    ctx.fillText('Hysteresis Loop (B-H Curve)', 10, 15);
+    t++;
+    if (t > 140) t = 0;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawWaveFunction(ctx, canvas) {
+  const w = canvas.width, h = canvas.height;
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(0,0,w,h);
+    // Box walls
+    ctx.fillStyle = 'rgba(251,191,36,0.4)';
+    ctx.fillRect(0, 0, 8, h);
+    ctx.fillRect(w-8, 0, 8, h);
+    // n=1, n=2, n=3
+    const colors = ['rgba(0,212,255,0.7)','rgba(168,85,247,0.6)','rgba(6,255,212,0.5)'];
+    [1,2,3].forEach((n, idx) => {
+      ctx.beginPath();
+      ctx.strokeStyle = colors[idx]; ctx.lineWidth = 1.5;
+      const offset = h/2 - (idx - 1) * 25;
+      for (let x = 8; x < w-8; x++) {
+        const L = w - 16;
+        const y = Math.sin(n * Math.PI * (x-8) / L) * 18 * Math.cos(t * 0.03 + idx);
+        x === 8 ? ctx.moveTo(x, offset + y) : ctx.lineTo(x, offset + y);
+      }
+      ctx.stroke();
+      ctx.fillStyle = colors[idx];
+      ctx.font = '10px monospace';
+      ctx.fillText(`n=${n}`, w-25, offset);
+    });
+    ctx.fillStyle = 'rgba(251,191,36,0.7)';
+    ctx.font = '11px monospace';
+    ctx.fillText('Particle in a Box — Wave Functions', 10, 15);
+    t++;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawBandDiagram(ctx, canvas) {
+  const w = canvas.width, h = canvas.height;
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(0,0,w,h);
+    const cols = 3, cw = w / cols;
+    const labels = ['Conductor','Semiconductor','Insulator'];
+    const gaps = [0, 30, 65];
+    const colors = ['rgba(0,212,255','rgba(6,255,212','rgba(168,85,247'];
+    for (let i = 0; i < 3; i++) {
+      const x = i * cw + 10, bw = cw - 20;
+      const vcTop = 25, vcH = 25;
+      const gap = gaps[i];
+      const vbTop = vcTop + vcH + gap;
+      // Valence band
+      ctx.fillStyle = colors[i] + ',0.3)';
+      ctx.fillRect(x, vbTop, bw, 28);
+      ctx.strokeStyle = colors[i] + ',0.7)'; ctx.lineWidth = 1;
+      ctx.strokeRect(x, vbTop, bw, 28);
+      // Conduction band
+      ctx.fillStyle = colors[i] + ',0.15)';
+      ctx.fillRect(x, vcTop, bw, vcH);
+      ctx.strokeStyle = colors[i] + ',0.5)';
+      ctx.strokeRect(x, vcTop, bw, vcH);
+      // Labels
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.font = '8px monospace';
+      ctx.fillText('CB', x+4, vcTop+15);
+      ctx.fillText('VB', x+4, vbTop+18);
+      // Gap label
+      if (gap > 5) {
+        ctx.fillStyle = 'rgba(251,191,36,0.6)';
+        ctx.fillText(gap > 40 ? 'E_g ≈ 5eV' : 'E_g ≈ 1.1eV', x+4, vcTop + vcH + gap/2 + 4);
+      }
+      // Moving electrons for conductor
+      if (i === 0) {
+        const ePx = x + ((t * 2) % bw);
+        ctx.beginPath(); ctx.arc(ePx, vcTop + 13, 3, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(0,212,255,0.9)'; ctx.fill();
+      }
+      ctx.fillStyle = colors[i] + ',0.8)';
+      ctx.font = '9px monospace';
+      ctx.fillText(labels[i], x, h - 5);
+    }
+    ctx.fillStyle = 'rgba(6,255,212,0.6)';
+    ctx.font = '11px monospace';
+    ctx.fillText('Energy Band Diagram', 10, 15);
+    t++;
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ===== RESIZE CANVASES =====
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.unit-canvas').forEach(c => {
+    c.width = c.offsetWidth;
+  });
+});
+</script>
+</body>
+</html>
