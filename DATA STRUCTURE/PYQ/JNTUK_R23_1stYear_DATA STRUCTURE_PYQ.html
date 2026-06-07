@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structures Question Bank – JNTUK B.Tech 1st Year</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e29;
+    --border: #252a38;
+    --accent: #e8c547;
+    --accent2: #4fc3f7;
+    --text: #e8eaf0;
+    --text-muted: #7b8199;
+    --easy: #27c77a;
+    --medium: #f59e0b;
+    --hard: #ef4444;
+    --easy-bg: rgba(39,199,122,0.12);
+    --medium-bg: rgba(245,158,11,0.12);
+    --hard-bg: rgba(239,68,68,0.12);
+    --unit1: #a78bfa;
+    --unit2: #4fc3f7;
+    --unit3: #f97316;
+    --unit4: #10b981;
+    --unit5: #f43f5e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lora', serif;
+    min-height: 100vh;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--accent);
+    white-space: nowrap;
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid var(--border);
+    margin-right: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 0.25rem; }
+  .nav-links a {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface2); }
+  .nav-links a[data-u="1"]:hover { color: var(--unit1); }
+  .nav-links a[data-u="2"]:hover { color: var(--unit2); }
+  .nav-links a[data-u="3"]:hover { color: var(--unit3); }
+  .nav-links a[data-u="4"]:hover { color: var(--unit4); }
+  .nav-links a[data-u="5"]:hover { color: var(--unit5); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: inline-block;
+    border: 1px solid rgba(232,197,71,0.3);
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto 2rem;
+  }
+  .stats-row {
+    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    padding: 1rem 2rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+
+  /* UNIT SECTION */
+  .unit-section { margin-bottom: 4rem; }
+  .unit-header {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 1.8rem 2rem;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .unit-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--unit-color, var(--accent));
+    opacity: 0.06;
+  }
+  .unit-header-left { display: flex; align-items: center; gap: 1rem; }
+  .unit-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--unit-color, var(--accent));
+    background: rgba(255,255,255,0.06);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+    white-space: nowrap;
+  }
+  .unit-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .unit-subtitle {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .unit-toggle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .unit-toggle.open { transform: rotate(180deg); }
+
+  .unit-body { display: block; }
+  .unit-body.collapsed { display: none; }
+
+  /* QUESTION TYPE HEADER */
+  .qtype-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin: 2rem 0 1.2rem;
+  }
+  .qtype-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .qtype-badge.two { color: var(--accent2); border-color: rgba(79,195,247,0.35); background: rgba(79,195,247,0.08); }
+  .qtype-badge.five { color: var(--accent); border-color: rgba(232,197,71,0.35); background: rgba(232,197,71,0.08); }
+  .qtype-line { flex: 1; height: 1px; background: var(--border); }
+  .qtype-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* QUESTION GRID */
+  .questions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+  .questions-grid.five-mark { grid-template-columns: 1fr; }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--diff-color, #555);
+    border-radius: 3px 0 0 3px;
+  }
+  .question-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .card-top {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    margin-bottom: 0.8rem;
+  }
+  .q-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    background: var(--surface2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .q-text {
+    font-size: 0.93rem;
+    color: var(--text);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .card-meta {
+    display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+    margin-top: 0.9rem;
+  }
+  .diff-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.22rem 0.65rem;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+  }
+  .diff-easy { background: var(--easy-bg); color: var(--easy); }
+  .diff-medium { background: var(--medium-bg); color: var(--medium); }
+  .diff-hard { background: var(--hard-bg); color: var(--hard); }
+  .rep-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    background: var(--surface2);
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+  .rep-vf { color: #f43f5e; border-color: rgba(244,63,94,0.25); background: rgba(244,63,94,0.08); }
+  .rep-f  { color: #f97316; border-color: rgba(249,115,22,0.25); background: rgba(249,115,22,0.08); }
+  .rep-o  { color: #a78bfa; border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.08); }
+  .rep-r  { color: var(--text-muted); }
+
+  /* CODE BLOCK */
+  pre {
+    background: #0a0c10;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: #a8d8a8;
+    overflow-x: auto;
+    margin: 0.8rem 0;
+    line-height: 1.6;
+  }
+  code { font-family: 'IBM Plex Mono', monospace; font-size: 0.82em; color: var(--accent2); }
+
+  /* SHOW ANSWER */
+  .answer-toggle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: rgba(232,197,71,0.08);
+    border: 1px solid rgba(232,197,71,0.25);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.8rem;
+    display: inline-block;
+  }
+  .answer-toggle:hover { background: rgba(232,197,71,0.15); }
+  .answer-content {
+    display: none;
+    margin-top: 0.9rem;
+    padding: 1rem;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .answer-content.show { display: block; }
+  .answer-content ul { padding-left: 1.2rem; }
+  .answer-content li { margin-bottom: 0.3rem; }
+
+  /* COMPLEXITY TABLE */
+  table {
+    width: 100%; border-collapse: collapse;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem; margin: 1rem 0;
+  }
+  th { background: var(--surface2); color: var(--accent); padding: 0.5rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 0.4rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-muted); }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  /* SCROLL TOP */
+  .scroll-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--accent); color: var(--bg);
+    width: 42px; height: 42px;
+    border-radius: 50%; border: none; cursor: pointer;
+    font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(232,197,71,0.35);
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0; pointer-events: none;
+    z-index: 200;
+  }
+  .scroll-top.visible { opacity: 1; pointer-events: all; }
+  .scroll-top:hover { transform: translateY(-3px); }
+
+  @media (max-width: 640px) {
+    .questions-grid { grid-template-columns: 1fr; }
+    .stats-row { gap: 1.5rem; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .unit-section { animation: fadeUp 0.5s ease both; }
+  .unit-section:nth-child(1) { animation-delay: 0.05s; }
+  .unit-section:nth-child(2) { animation-delay: 0.1s; }
+  .unit-section:nth-child(3) { animation-delay: 0.15s; }
+  .unit-section:nth-child(4) { animation-delay: 0.2s; }
+  .unit-section:nth-child(5) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">DS // JNTUK</div>
+  <div class="nav-links">
+    <a href="#unit1" data-u="1">Unit I</a>
+    <a href="#unit2" data-u="2">Unit II</a>
+    <a href="#unit3" data-u="3">Unit III</a>
+    <a href="#unit4" data-u="4">Unit IV</a>
+    <a href="#unit5" data-u="5">Unit V</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-label">B.Tech 1st Year · JNTUK Syllabus</div>
+  <h1>Data Structures<br><span>Question Bank</span></h1>
+  <p>Comprehensive exam-oriented question bank covering all 5 units with difficulty ratings and repetition frequency.</p>
+  <div class="stats-row">
+    <div class="stat"><span class="stat-num">130+</span><span class="stat-label">Questions</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Units</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Difficulty Levels</span></div>
+    <div class="stat"><span class="stat-num">2 & 5</span><span class="stat-label">Mark Types</span></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--easy)"></div> Easy</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--medium)"></div> Medium</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--hard)"></div> Hard</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f43f5e"></div> Very Frequently Asked</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Frequently Asked</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div> Occasionally Asked</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#555"></div> Rare</div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT I
+═══════════════════════════════════════════════════ -->
+<section class="unit-section" id="unit1">
+  <div class="unit-header" style="--unit-color:var(--unit1)" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <div>
+        <div class="unit-num">UNIT I</div>
+      </div>
+      <div>
+        <div class="unit-title">Introduction to Linear Data Structures</div>
+        <div class="unit-subtitle">ADTs · Complexity · Searching · Sorting</div>
+      </div>
+    </div>
+    <div class="unit-toggle open">▾</div>
+  </div>
+  <div class="unit-body">
+
+    <!-- 2-MARK -->
+    <div class="qtype-header">
+      <div class="qtype-badge two">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">14 questions</div>
+    </div>
+    <div class="questions-grid">
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q1</div><div class="q-text">Define Abstract Data Type (ADT). Give one example.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q2</div><div class="q-text">What is the time complexity of Binary Search in the worst case?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q3</div><div class="q-text">State the time complexity of Linear Search in the best, average, and worst cases.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q4</div><div class="q-text">Define Big-O notation. What does O(1) represent?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q5</div><div class="q-text">What is the prerequisite for Binary Search to work correctly?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q6</div><div class="q-text">True or False: Bubble Sort has a best-case time complexity of O(n).</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q7</div><div class="q-text">What is a data structure? Differentiate between linear and non-linear data structures.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q8</div><div class="q-text">Fill in the blank: The space complexity of Insertion Sort is ______.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q9</div><div class="q-text">What is the difference between Big-O (O) and Big-Omega (Ω) notations?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q10</div><div class="q-text">After one pass of Bubble Sort on <code>[5, 1, 4, 2, 8]</code>, what is the resulting array?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q11</div><div class="q-text">What is the number of comparisons required by Selection Sort to sort n elements?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q12</div><div class="q-text">Which sorting algorithm is most efficient for nearly-sorted data and why?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q13</div><div class="q-text">Define Space Complexity. What does auxiliary space mean?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q14</div><div class="q-text">Is Binary Search applicable on a linked list? Why or why not?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+    </div><!-- end grid -->
+
+    <!-- 5-MARK -->
+    <div class="qtype-header">
+      <div class="qtype-badge five">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">13 questions</div>
+    </div>
+    <div class="questions-grid five-mark">
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q15</div><div class="q-text">Explain Binary Search algorithm with step-by-step execution for the array <code>[2, 5, 8, 12, 16, 23, 38, 56, 72, 91]</code>. Search for element 23. Also analyze its time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Step 1:</strong> low=0, high=9, mid=4 → a[4]=16 &lt; 23, so low=5</li>
+            <li><strong>Step 2:</strong> low=5, high=9, mid=7 → a[7]=56 &gt; 23, so high=6</li>
+            <li><strong>Step 3:</strong> low=5, high=6, mid=5 → a[5]=23 = target ✓ Found at index 5</li>
+            <li><strong>Best Case:</strong> O(1) – element at mid</li>
+            <li><strong>Worst/Average Case:</strong> O(log n)</li>
+            <li><strong>Space Complexity:</strong> O(1) iterative</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q16</div><div class="q-text">Trace Bubble Sort for the list <code>[64, 25, 12, 22, 11]</code>. Show each pass and the final sorted array. State the time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Pass 1:</strong> [25,12,22,11,64]</li>
+            <li><strong>Pass 2:</strong> [12,22,11,25,64]</li>
+            <li><strong>Pass 3:</strong> [12,11,22,25,64]</li>
+            <li><strong>Pass 4:</strong> [11,12,22,25,64] ✓</li>
+            <li>Worst/Average: O(n²) | Best (optimized): O(n)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q17</div><div class="q-text">Trace Insertion Sort for <code>[9, 5, 1, 4, 3]</code>. Show the state of the array after each insertion and analyze time & space complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Pass 1: [5,9,1,4,3]</li>
+            <li>Pass 2: [1,5,9,4,3]</li>
+            <li>Pass 3: [1,4,5,9,3]</li>
+            <li>Pass 4: [1,3,4,5,9] ✓</li>
+            <li>Worst: O(n²) | Best: O(n) | Space: O(1)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q18</div><div class="q-text">Write a C function for Selection Sort. Trace it on <code>[29, 10, 14, 37, 13]</code> and analyze its complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void selectionSort(int a[], int n) {
+    for(int i=0; i&lt;n-1; i++) {
+        int min=i;
+        for(int j=i+1; j&lt;n; j++)
+            if(a[j] &lt; a[min]) min=j;
+        int temp=a[i]; a[i]=a[min]; a[min]=temp;
+    }
+}</pre>
+          <ul>
+            <li>Always O(n²) comparisons regardless of input</li>
+            <li>Space: O(1), In-place, NOT stable</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U1·Q19</div><div class="q-text">Compare Linear Search and Binary Search in terms of algorithm, time complexity, space complexity, preconditions, and suitable use cases. Present a tabular comparison.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <table>
+            <tr><th>Feature</th><th>Linear Search</th><th>Binary Search</th></tr>
+            <tr><td>Best Case</td><td>O(1)</td><td>O(1)</td></tr>
+            <tr><td>Worst Case</td><td>O(n)</td><td>O(log n)</td></tr>
+            <tr><td>Prerequisite</td><td>None</td><td>Sorted array</td></tr>
+            <tr><td>Data structure</td><td>Array/Linked list</td><td>Array only</td></tr>
+            <tr><td>Space</td><td>O(1)</td><td>O(1) iterative</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q20</div><div class="q-text">Explain the concept of Big-O, Big-Omega (Ω), and Big-Theta (Θ) notations with mathematical definitions and examples.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Big-O:</strong> Upper bound – f(n) = O(g(n)) if ∃ c, n₀: f(n) ≤ c·g(n) ∀ n≥n₀</li>
+            <li><strong>Big-Ω:</strong> Lower bound – f(n) = Ω(g(n)) if ∃ c, n₀: f(n) ≥ c·g(n)</li>
+            <li><strong>Big-Θ:</strong> Tight bound – both O and Ω</li>
+            <li>Example: Bubble Sort is O(n²), Ω(n), Θ(n²) worst case</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U1·Q21</div><div class="q-text">Compare all three sorting algorithms (Bubble, Selection, Insertion) in a complexity table. Discuss stability, adaptability, and when to use each.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <table>
+            <tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Stable</th><th>Space</th></tr>
+            <tr><td>Bubble</td><td>O(n)*</td><td>O(n²)</td><td>O(n²)</td><td>Yes</td><td>O(1)</td></tr>
+            <tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>No</td><td>O(1)</td></tr>
+            <tr><td>Insertion</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Yes</td><td>O(1)</td></tr>
+          </table>
+          <p style="font-size:0.8em;margin-top:0.5rem">*optimized Bubble Sort with early exit flag</p>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q22</div><div class="q-text">Write a C program implementing Linear Search. Demonstrate with an example and discuss its time and space complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int linearSearch(int a[], int n, int key) {
+    for(int i=0; i&lt;n; i++)
+        if(a[i] == key) return i;
+    return -1; // not found
+}</pre>
+          <ul><li>Time: O(n) worst | O(1) best</li><li>Space: O(1)</li></ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U1·Q23</div><div class="q-text">What are Abstract Data Types? Explain the ADT concept for a Stack with its operations. How does ADT differ from a data structure?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>ADT defines WHAT operations are performed, not HOW (implementation-independent)</li>
+            <li>Stack ADT: push(x), pop(), peek(), isEmpty(), isFull()</li>
+            <li>Data structure = concrete implementation (array/linked list)</li>
+            <li>ADT = logical model; DS = physical model</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q24</div><div class="q-text">Write a recursive C function for Binary Search and trace it on array <code>[3,7,11,15,19,23,27]</code> searching for 15.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int binarySearch(int a[], int l, int r, int key) {
+    if(l > r) return -1;
+    int mid = (l+r)/2;
+    if(a[mid] == key) return mid;
+    if(key < a[mid]) return binarySearch(a,l,mid-1,key);
+    return binarySearch(a,mid+1,r,key);
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U1·Q25</div><div class="q-text">Discuss the importance of data structures in programming. Give real-world examples for at least three data structures.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Array:</strong> Storing marks of students</li>
+            <li><strong>Stack:</strong> Undo/redo in text editors</li>
+            <li><strong>Queue:</strong> Print spooler, ticket booking</li>
+            <li><strong>Tree:</strong> File system hierarchy</li>
+            <li><strong>Graph:</strong> Google Maps routing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U1·Q26</div><div class="q-text">Derive the recurrence relation for Binary Search and solve it using the Master Theorem to prove O(log n) complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>T(n) = T(n/2) + O(1)</li>
+            <li>Master Theorem: a=1, b=2, f(n)=O(1), log_b(a)=0</li>
+            <li>f(n) = Θ(n⁰) → Case 2: T(n) = Θ(log n)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U1·Q27</div><div class="q-text">Write the optimized version of Bubble Sort with early termination flag. Trace it on <code>[1, 2, 3, 4, 5]</code> and show how it achieves O(n) best case.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void bubbleSort(int a[], int n) {
+    for(int i=0; i&lt;n-1; i++) {
+        int swapped = 0;
+        for(int j=0; j&lt;n-i-1; j++)
+            if(a[j] > a[j+1]) {
+                int t=a[j]; a[j]=a[j+1]; a[j+1]=t;
+                swapped=1;
+            }
+        if(!swapped) break; // already sorted
+    }
+}</pre>
+          <p>For [1,2,3,4,5]: Pass 1 has 0 swaps → exits. Only O(n) comparisons.</p>
+        </div>
+      </div>
+
+    </div><!-- end 5-mark grid -->
+  </div><!-- end unit-body -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT II
+═══════════════════════════════════════════════════ -->
+<section class="unit-section" id="unit2">
+  <div class="unit-header" style="--unit-color:var(--unit2)" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <div>
+        <div class="unit-num">UNIT II</div>
+      </div>
+      <div>
+        <div class="unit-title">Linked Lists</div>
+        <div class="unit-subtitle">SLL · DLL · CLL · Arrays vs Linked Lists · Applications</div>
+      </div>
+    </div>
+    <div class="unit-toggle open">▾</div>
+  </div>
+  <div class="unit-body">
+
+    <div class="qtype-header">
+      <div class="qtype-badge two">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">14 questions</div>
+    </div>
+    <div class="questions-grid">
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q1</div><div class="q-text">Define a Singly Linked List. What does each node contain?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q2</div><div class="q-text">What is the time complexity of inserting a node at the beginning of a singly linked list?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q3</div><div class="q-text">How does a Doubly Linked List differ from a Singly Linked List?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q4</div><div class="q-text">What is a Circular Linked List? How does it differ from a singly linked list?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q5</div><div class="q-text">True or False: Random access is possible in a linked list.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q6</div><div class="q-text">Write the C structure definition for a node of a doubly linked list.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q7</div><div class="q-text">List two advantages and two disadvantages of linked lists over arrays.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q8</div><div class="q-text">What happens to the memory of a deleted node in C linked list programs if <code>free()</code> is not called?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q9</div><div class="q-text">In a doubly linked list with n nodes, what is the time complexity of deleting the last node?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U2·Q10</div><div class="q-text">Name two applications of Linked Lists in real-world scenarios.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q11</div><div class="q-text">Fill in the blank: To insert a node after a given node <code>p</code> in SLL, the new node's next pointer should be set to ______.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U2·Q12</div><div class="q-text">How can you detect a loop/cycle in a linked list in O(n) time without extra space? State the algorithm name.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q13</div><div class="q-text">What is a header node in a linked list? What purpose does it serve?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q14</div><div class="q-text">Which operations are more efficient in doubly linked list vs singly linked list? Give one example each.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-badge five">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">12 questions</div>
+    </div>
+    <div class="questions-grid five-mark">
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q15</div><div class="q-text">Explain insertion operations in a Singly Linked List: at the beginning, at the end, and after a given node. Write C code for each with diagrams.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>// Insert at beginning
+void insertFront(Node **head, int data) {
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = *head;
+    *head = newNode;
+}
+
+// Insert at end
+void insertEnd(Node **head, int data) {
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data; newNode->next = NULL;
+    if(*head == NULL) { *head = newNode; return; }
+    Node *temp = *head;
+    while(temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q16</div><div class="q-text">Write a C program to delete a node from a singly linked list: from the beginning, end, and by value. Show dry run with example.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void deleteByValue(Node **head, int key) {
+    Node *temp = *head, *prev = NULL;
+    if(temp != NULL && temp->data == key) {
+        *head = temp->next; free(temp); return;
+    }
+    while(temp != NULL && temp->data != key) {
+        prev = temp; temp = temp->next;
+    }
+    if(temp == NULL) return; // not found
+    prev->next = temp->next; free(temp);
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U2·Q17</div><div class="q-text">Explain all operations of a Doubly Linked List (insertion and deletion at both ends). Write C code and illustrate with diagrams showing prev and next pointers.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>struct Node { int data; Node *prev, *next; };
+
+void insertFrontDLL(Node **head, int data) {
+    Node *n = (Node*)malloc(sizeof(Node));
+    n->data=data; n->prev=NULL; n->next=*head;
+    if(*head) (*head)->prev = n;
+    *head = n;
+}</pre>
+          <ul>
+            <li>Diagram: NULL ← [prev|data|next] ↔ [prev|data|next] → NULL</li>
+            <li>Deletion at end: O(1) if tail pointer maintained</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q18</div><div class="q-text">Compare Arrays and Linked Lists on the basis of: memory allocation, access time, insertion/deletion, size flexibility, cache performance. Present a detailed comparison table.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <table>
+            <tr><th>Feature</th><th>Array</th><th>Linked List</th></tr>
+            <tr><td>Memory</td><td>Contiguous, static</td><td>Dynamic, scattered</td></tr>
+            <tr><td>Access</td><td>O(1) random</td><td>O(n) sequential</td></tr>
+            <tr><td>Insertion/Delete</td><td>O(n) shifting</td><td>O(1) with pointer</td></tr>
+            <tr><td>Size</td><td>Fixed at compile</td><td>Grows dynamically</td></tr>
+            <tr><td>Cache</td><td>Cache-friendly</td><td>Poor cache locality</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q19</div><div class="q-text">Write a C function to reverse a singly linked list. Trace the reversal of <code>1→2→3→4→5→NULL</code>.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>Node* reverse(Node *head) {
+    Node *prev=NULL, *curr=head, *next=NULL;
+    while(curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev; // new head
+}</pre>
+          <p>Trace: NULL←1←2←3←4←5 (head now points to 5)</p>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U2·Q20</div><div class="q-text">Explain Circular Linked List with operations: insert at beginning, insert at end, traverse, and detect the end condition. Write C code.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void traverseCLL(Node *last) {
+    if(last == NULL) return;
+    Node *temp = last->next; // start from head
+    do {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    } while(temp != last->next);
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q21</div><div class="q-text">Describe applications of linked lists: implementation of stacks, queues, polynomial representation, and sparse matrix. Explain any two in detail.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Stack:</strong> Push = insert at head (O(1)), Pop = delete from head (O(1))</li>
+            <li><strong>Polynomial:</strong> Each node = (coeff, exp, next). 3x³+2x+1 → [3,3]→[2,1]→[1,0]</li>
+            <li><strong>Music player:</strong> Circular linked list for looping playlist</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U2·Q22</div><div class="q-text">Write a C program to merge two sorted singly linked lists into a single sorted list without using extra space.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>Node* mergeSorted(Node *a, Node *b) {
+    if(!a) return b; if(!b) return a;
+    if(a->data &lt;= b->data) {
+        a->next = mergeSorted(a->next, b);
+        return a;
+    } else {
+        b->next = mergeSorted(a, b->next);
+        return b;
+    }
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U2·Q23</div><div class="q-text">Explain Floyd's Cycle Detection Algorithm (Tortoise and Hare) to detect a loop in a linked list. Trace an example and analyze complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int detectCycle(Node *head) {
+    Node *slow=head, *fast=head;
+    while(fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast) return 1; // loop detected
+    }
+    return 0;
+}</pre>
+          <ul><li>Time: O(n) | Space: O(1)</li><li>Slow moves 1 step, fast moves 2 steps</li></ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q24</div><div class="q-text">Write a C function to find the middle element of a linked list in single traversal. Explain the approach.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>Node* findMiddle(Node *head) {
+    Node *slow=head, *fast=head;
+    while(fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow; // slow is at middle
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U2·Q25</div><div class="q-text">Represent the polynomial P(x) = 4x³ + 3x² + 2x + 1 using a singly linked list. Show the structure and write the addition of two such polynomials.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>struct PolyNode {
+    int coeff, exp;
+    PolyNode *next;
+};
+// 4x³+3x²+2x+1:
+// [4,3]→[3,2]→[2,1]→[1,0]→NULL</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U2·Q26</div><div class="q-text">Write a C program to search for an element in a doubly linked list. Also explain how traversal in both directions works.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Forward traversal: follow <code>next</code> pointers from head</li>
+            <li>Backward traversal: follow <code>prev</code> pointers from tail</li>
+            <li>Search: O(n) in both directions</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT III
+═══════════════════════════════════════════════════ -->
+<section class="unit-section" id="unit3">
+  <div class="unit-header" style="--unit-color:var(--unit3)" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <div>
+        <div class="unit-num">UNIT III</div>
+      </div>
+      <div>
+        <div class="unit-title">Stacks</div>
+        <div class="unit-subtitle">LIFO · Push/Pop · Expressions · Backtracking</div>
+      </div>
+    </div>
+    <div class="unit-toggle open">▾</div>
+  </div>
+  <div class="unit-body">
+
+    <div class="qtype-header">
+      <div class="qtype-badge two">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">14 questions</div>
+    </div>
+    <div class="questions-grid">
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U3·Q1</div><div class="q-text">Define a Stack. What does LIFO stand for?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U3·Q2</div><div class="q-text">What are the four basic stack operations? State the time complexity of each.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U3·Q3</div><div class="q-text">What is a stack overflow condition? When does it occur in array implementation?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q4</div><div class="q-text">Convert infix expression <code>A+B*C</code> to postfix. Show operator precedence used.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q5</div><div class="q-text">Evaluate postfix expression <code>5 3 2 * + 1 -</code> using a stack. Show each step.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U3·Q6</div><div class="q-text">True or False: A stack can be implemented using a queue.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q7</div><div class="q-text">What is the advantage of linked-list implementation of stack over array implementation?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U3·Q8</div><div class="q-text">Name three real-world applications of stacks.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q9</div><div class="q-text">Fill in the blank: In an array-based stack, the initial value of <code>top</code> is ______.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q10</div><div class="q-text">Is the expression <code>{ [ ( ) ] }</code> balanced? Use stack-based approach to verify.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q11</div><div class="q-text">What is the difference between infix, prefix, and postfix notation? Give examples.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q12</div><div class="q-text">What is the role of a stack in function call management (call stack)?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U3·Q13</div><div class="q-text">Convert prefix expression <code>*+AB-CD</code> to infix form.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q14</div><div class="q-text">What is the time and space complexity of checking balanced parentheses using a stack?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-badge five">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">13 questions</div>
+    </div>
+    <div class="questions-grid five-mark">
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q15</div><div class="q-text">Implement a stack using an array in C. Write all operations: push, pop, peek, isEmpty, isFull. Show overflow/underflow handling.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>#define MAX 100
+int stack[MAX], top=-1;
+
+void push(int x) {
+    if(top == MAX-1) { printf("Overflow\n"); return; }
+    stack[++top] = x;
+}
+int pop() {
+    if(top == -1) { printf("Underflow\n"); return -1; }
+    return stack[top--];
+}
+int peek() { return (top==-1) ? -1 : stack[top]; }
+int isEmpty() { return top == -1; }
+int isFull()  { return top == MAX-1; }</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q16</div><div class="q-text">Write an algorithm and C code to convert an infix expression to postfix using a stack. Trace it on <code>(A+B)*(C-D)</code>.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Scan left to right. If operand → output. If '(' → push. If ')' → pop until '('. If operator → pop higher/equal precedence, then push.</li>
+            <li>Trace (A+B)*(C-D):</li>
+            <li>A → output: A | + → push | B → output: AB | ) → pop +: AB+ | * → push | C → output: AB+C | - → push | D → output: AB+CD | ) → pop -: AB+CD- | * → pop: AB+CD-* </li>
+            <li>Result: <code>AB+CD-*</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q17</div><div class="q-text">Evaluate the postfix expression <code>6 2 3 + - 3 8 2 / + * 2 ↑ 3 +</code> using a stack. Show each step clearly.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>6,2,3 → push. +: pop 3,2 → 5, push. -: pop 5,6 → 1, push.</li>
+            <li>3,8,2 → push. /: pop 2,8 → 4, push. +: pop 4,3 → 7, push.</li>
+            <li>*: pop 7,1 → 7, push. 2 → push. ↑: pop 2,7 → 49, push.</li>
+            <li>3 → push. +: pop 3,49 → 52. Result: <strong>52</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q18</div><div class="q-text">Write a C program to check whether a given expression has balanced parentheses using a stack. Test with <code>{[()()]}</code> and <code>{[(])}</code>.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int isBalanced(char *expr) {
+    char stack[100]; int top=-1;
+    for(int i=0; expr[i]; i++) {
+        char c = expr[i];
+        if(c=='(' || c=='[' || c=='{') stack[++top]=c;
+        else if(c==')' || c==']' || c=='}') {
+            if(top==-1) return 0;
+            char t = stack[top--];
+            if((c==')' && t!='(') ||
+               (c==']' && t!='[') ||
+               (c=='}' && t!='{')) return 0;
+        }
+    }
+    return top == -1;
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U3·Q19</div><div class="q-text">Implement a stack using a linked list in C. Compare it with array-based implementation in terms of overflow condition, memory usage, and time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>struct StackNode { int data; StackNode *next; };
+struct StackNode *top = NULL;
+
+void push(int x) {
+    StackNode *n=(StackNode*)malloc(sizeof(StackNode));
+    n->data=x; n->next=top; top=n;
+}
+int pop() {
+    if(!top) { printf("Underflow"); return -1; }
+    int val=top->data; StackNode *t=top;
+    top=top->next; free(t); return val;
+}</pre>
+          <table>
+            <tr><th></th><th>Array Stack</th><th>LL Stack</th></tr>
+            <tr><td>Overflow</td><td>Yes (fixed size)</td><td>No (dynamic)</td></tr>
+            <tr><td>Memory</td><td>Pre-allocated</td><td>Per-element</td></tr>
+            <tr><td>Push/Pop</td><td>O(1)</td><td>O(1)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q20</div><div class="q-text">Explain how stacks are used in backtracking. Illustrate with an example of maze solving or N-Queens problem (conceptual).</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Push each valid move onto stack as you explore</li>
+            <li>When stuck (dead end), pop to go back to previous state</li>
+            <li>Stack stores current path; popping = backtracking</li>
+            <li>Used in: maze solving, DFS, recursion, Sudoku solvers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q21</div><div class="q-text">Write a C function to reverse a string using a stack. Trace the reversal of "HELLO".</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void reverseString(char *s) {
+    char stack[100]; int top=-1, n=strlen(s);
+    for(int i=0; i&lt;n; i++) stack[++top]=s[i];
+    for(int i=0; i&lt;n; i++) s[i]=stack[top--];
+}
+// "HELLO" → push H,E,L,L,O → pop O,L,L,E,H → "OLLEH"</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U3·Q22</div><div class="q-text">Convert the infix expression <code>A*(B+C)/D-E+F*G</code> to both postfix and prefix. Show all steps using stack trace.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Postfix: <code>ABC+*D/E-FG*+</code></li>
+            <li>Prefix: Reverse infix → convert → reverse result</li>
+            <li>Reversed infix: G*F+E-D/C+B(*A</li>
+            <li>Prefix: <code>+-/*A+BCD E*FG</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U3·Q23</div><div class="q-text">Explain how function calls and recursion use a stack (call stack). Trace the factorial of 4 showing how activation records are pushed and popped.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Each function call → new frame pushed: local vars, return addr, params</li>
+            <li>fact(4) → fact(3) → fact(2) → fact(1) → base case → unwind</li>
+            <li>Stack: [fact(4)][fact(3)][fact(2)][fact(1)] → pops returning 1,2,6,24</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q24</div><div class="q-text">Explain how stacks are used in decimal to binary conversion. Convert 25 to binary using stack method.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>25÷2=12 R1 → push 1</li>
+            <li>12÷2=6 R0 → push 0</li>
+            <li>6÷2=3 R0 → push 0</li>
+            <li>3÷2=1 R1 → push 1</li>
+            <li>1÷2=0 R1 → push 1</li>
+            <li>Pop all: 11001 → 25 in binary = <strong>11001</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q25</div><div class="q-text">Evaluate the prefix expression <code>*-A/BC-/AKL</code> assuming A=4, B=2, C=1, K=8, L=2. Show stack trace.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Scan right to left. Operand → push. Operator → pop two and apply.</li>
+            <li>B/C=2/1=2. A-2=4-2=2. K/L=8/2=4. A/4=4/4=1. A-1=4-1=3... work step by step.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U3·Q26</div><div class="q-text">Design a stack that supports push, pop, and getMin() in O(1) time. Write C code using an auxiliary stack approach.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-r">◇ Rare</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int mainStack[100], minStack[100];
+int top1=-1, top2=-1;
+
+void push(int x) {
+    mainStack[++top1]=x;
+    if(top2==-1 || x &lt;= minStack[top2])
+        minStack[++top2]=x;
+}
+int pop() {
+    int val=mainStack[top1--];
+    if(val==minStack[top2]) top2--;
+    return val;
+}
+int getMin() { return minStack[top2]; }</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U3·Q27</div><div class="q-text">Explain the tower of Hanoi problem. Write a recursive C solution and trace it for n=3 disks. Analyze the time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void hanoi(int n, char from, char to, char aux) {
+    if(n==1) { printf("Move disk 1: %c→%c\n",from,to); return; }
+    hanoi(n-1, from, aux, to);
+    printf("Move disk %d: %c→%c\n",n,from,to);
+    hanoi(n-1, aux, to, from);
+}
+// T(n)=2T(n-1)+1 → O(2^n)</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT IV
+═══════════════════════════════════════════════════ -->
+<section class="unit-section" id="unit4">
+  <div class="unit-header" style="--unit-color:var(--unit4)" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <div>
+        <div class="unit-num">UNIT IV</div>
+      </div>
+      <div>
+        <div class="unit-title">Queues & Deques</div>
+        <div class="unit-subtitle">FIFO · Circular Queue · Priority Queue · Deque · BFS</div>
+      </div>
+    </div>
+    <div class="unit-toggle open">▾</div>
+  </div>
+  <div class="unit-body">
+
+    <div class="qtype-header">
+      <div class="qtype-badge two">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">14 questions</div>
+    </div>
+    <div class="questions-grid">
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U4·Q1</div><div class="q-text">Define a Queue. What does FIFO stand for?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U4·Q2</div><div class="q-text">What are enqueue and dequeue operations? What is the time complexity of each?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U4·Q3</div><div class="q-text">What is the problem with a simple array-based queue that a circular queue solves?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U4·Q4</div><div class="q-text">Define a Deque (Double-Ended Queue). List its four operations.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q5</div><div class="q-text">In a circular queue of size 5, if rear=4 and a new element is enqueued, what is the new rear index?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U4·Q6</div><div class="q-text">Name two real-world applications of queues.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q7</div><div class="q-text">What is a Priority Queue? How does it differ from a normal queue?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q8</div><div class="q-text">Differentiate between input-restricted deque and output-restricted deque.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q9</div><div class="q-text">True or False: In BFS, a queue is used to track the next vertex to visit.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q10</div><div class="q-text">What is queue underflow? Write the condition to check it in array implementation.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q11</div><div class="q-text">Write the formula to compute the next index in a circular queue of size n.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U4·Q12</div><div class="q-text">How can a queue be implemented using two stacks? State the amortized time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q13</div><div class="q-text">What is the difference between a simple queue and a circular queue in memory utilization?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q14</div><div class="q-text">Name the data structure used in OS CPU scheduling and explain why.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-badge five">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">13 questions</div>
+    </div>
+    <div class="questions-grid five-mark">
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q15</div><div class="q-text">Implement a simple Queue using an array in C. Write enqueue, dequeue, isEmpty, isFull, and display functions.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>#define MAX 100
+int q[MAX], front=-1, rear=-1;
+
+void enqueue(int x) {
+    if(rear==MAX-1) { printf("Queue Full\n"); return; }
+    if(front==-1) front=0;
+    q[++rear]=x;
+}
+int dequeue() {
+    if(front==-1 || front>rear) { printf("Empty\n"); return -1; }
+    return q[front++];
+}
+int isEmpty() { return front==-1 || front>rear; }
+int isFull()  { return rear==MAX-1; }</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q16</div><div class="q-text">Implement a Circular Queue using an array. Show enqueue, dequeue, full, and empty conditions. Trace: enqueue 1,2,3,4,5 then dequeue twice, then enqueue 6.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>#define MAX 5
+int q[MAX], front=-1, rear=-1;
+
+void enqueue(int x) {
+    if((rear+1)%MAX == front) { printf("Full\n"); return; }
+    if(front==-1) front=0;
+    rear=(rear+1)%MAX; q[rear]=x;
+}
+int dequeue() {
+    if(front==-1) { printf("Empty\n"); return -1; }
+    int val=q[front];
+    if(front==rear) front=rear=-1;
+    else front=(front+1)%MAX;
+    return val;
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U4·Q17</div><div class="q-text">Implement a queue using a linked list in C. Write all operations and compare it with array implementation.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>struct Node { int data; Node *next; };
+Node *front=NULL, *rear=NULL;
+
+void enqueue(int x) {
+    Node *n=(Node*)malloc(sizeof(Node));
+    n->data=x; n->next=NULL;
+    if(rear) rear->next=n;
+    else front=n;
+    rear=n;
+}
+int dequeue() {
+    if(!front) return -1;
+    int val=front->data; Node *t=front;
+    front=front->next;
+    if(!front) rear=NULL;
+    free(t); return val;
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q18</div><div class="q-text">Explain Breadth-First Search (BFS) algorithm using a queue. Apply BFS on a sample graph with 6 nodes and trace the queue state at each step.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Start: enqueue source, mark visited</li>
+            <li>While queue not empty: dequeue u, process u, enqueue all unvisited neighbors</li>
+            <li>Graph: 1-2, 1-3, 2-4, 2-5, 3-6</li>
+            <li>BFS from 1: Q=[1] → deq 1, enq 2,3 → Q=[2,3] → deq 2, enq 4,5 → Q=[3,4,5] → ...</li>
+            <li>Order: 1,2,3,4,5,6</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U4·Q19</div><div class="q-text">Explain Deque (Double-Ended Queue) operations in detail. Implement it using an array in C with insertFront, insertRear, deleteFront, deleteRear operations.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>#define MAX 10
+int deq[MAX], front=MAX/2, rear=MAX/2-1;
+
+void insertRear(int x) { deq[++rear]=x; }
+void insertFront(int x) { deq[--front]=x; }
+int deleteRear()  { return deq[rear--]; }
+int deleteFront() { return deq[front++]; }</pre>
+          <p>Circular deque uses modular arithmetic for front/rear.</p>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q20</div><div class="q-text">Explain how queues are used in CPU scheduling (Round Robin). Simulate Round Robin scheduling with processes P1(5ms), P2(3ms), P3(8ms) and time quantum=3ms.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Q=[P1,P2,P3]. Run P1 for 3ms → remaining 2ms, enqueue P1 back.</li>
+            <li>Q=[P2,P3,P1]. Run P2 for 3ms → done. Q=[P3,P1].</li>
+            <li>Run P3 for 3ms → remaining 5ms. Q=[P1,P3].</li>
+            <li>Run P1 for 2ms → done. Q=[P3].</li>
+            <li>Run P3 for 3ms → remaining 2ms. Q=[P3]. Run P3 for 2ms → done.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U4·Q21</div><div class="q-text">Implement a queue using two stacks. Write enqueue and dequeue operations and analyze the amortized time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>// Stack1 for enqueue, Stack2 for dequeue
+void enqueue(int x) { push(stack1, x); }
+
+int dequeue() {
+    if(isEmpty(stack2)) {
+        while(!isEmpty(stack1))
+            push(stack2, pop(stack1));
+    }
+    return pop(stack2);
+}
+// Amortized: O(1) per operation</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q22</div><div class="q-text">Explain Priority Queue. List its types (min-heap, max-heap). Discuss applications in Dijkstra's algorithm and task scheduling.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Min-PQ:</strong> Smallest priority served first (Dijkstra, Huffman)</li>
+            <li><strong>Max-PQ:</strong> Largest priority served first (task scheduling)</li>
+            <li>Can be implemented using sorted array O(n) insert, O(1) extract OR heap O(log n) both</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q23</div><div class="q-text">Compare simple queue, circular queue, priority queue, and deque. Provide a table comparing all four on structure, operations, time complexity, and use cases.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <table>
+            <tr><th>Type</th><th>Insert</th><th>Delete</th><th>Use Case</th></tr>
+            <tr><td>Simple Queue</td><td>O(1) rear</td><td>O(1) front</td><td>Print spooler</td></tr>
+            <tr><td>Circular Queue</td><td>O(1)</td><td>O(1)</td><td>Buffer, OS</td></tr>
+            <tr><td>Priority Queue</td><td>O(log n)</td><td>O(log n)</td><td>Dijkstra</td></tr>
+            <tr><td>Deque</td><td>O(1) both</td><td>O(1) both</td><td>Sliding window</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q24</div><div class="q-text">Simulate a bank queuing system using a queue. Show how customers are added and served using enqueue/dequeue. Write pseudocode.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Customer arrives → enqueue(customer)</li>
+            <li>Teller free → dequeue() → serve customer</li>
+            <li>Each customer has a service time, total wait = sum of all previous service times</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U4·Q25</div><div class="q-text">Trace BFS traversal of the following adjacency list graph starting from vertex 0: 0→[1,2], 1→[3,4], 2→[5], 3→[], 4→[], 5→[]. Show queue state at each step.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Step 1: Enqueue 0, visited[0]=1. Q=[0]</li>
+            <li>Step 2: Dequeue 0, enqueue 1,2. Q=[1,2]</li>
+            <li>Step 3: Dequeue 1, enqueue 3,4. Q=[2,3,4]</li>
+            <li>Step 4: Dequeue 2, enqueue 5. Q=[3,4,5]</li>
+            <li>Steps 5-7: Dequeue 3,4,5 (no new neighbors). Q=[]</li>
+            <li>BFS order: 0,1,2,3,4,5</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U4·Q26</div><div class="q-text">Write a C program to implement a queue using a linked list and perform 5 enqueue and 3 dequeue operations. Show output.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Enqueue 10,20,30,40,50 → list: 10→20→30→40→50</li>
+            <li>Dequeue 3 times → removes 10, then 20, then 30</li>
+            <li>Remaining queue: 40→50</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U4·Q27</div><div class="q-text">Explain input-restricted and output-restricted deques with examples. How are they used to implement both stacks and queues?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Input-restricted:</strong> Insert only at rear, delete from both ends</li>
+            <li><strong>Output-restricted:</strong> Insert from both ends, delete only from front</li>
+            <li>Stack using deque: insertFront + deleteFront</li>
+            <li>Queue using deque: insertRear + deleteFront</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT V
+═══════════════════════════════════════════════════ -->
+<section class="unit-section" id="unit5">
+  <div class="unit-header" style="--unit-color:var(--unit5)" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <div>
+        <div class="unit-num">UNIT V</div>
+      </div>
+      <div>
+        <div class="unit-title">Trees</div>
+        <div class="unit-subtitle">Binary Trees · BST · Traversals · Terminology</div>
+      </div>
+    </div>
+    <div class="unit-toggle open">▾</div>
+  </div>
+  <div class="unit-body">
+
+    <div class="qtype-header">
+      <div class="qtype-badge two">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">14 questions</div>
+    </div>
+    <div class="questions-grid">
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U5·Q1</div><div class="q-text">Define a binary tree. What is the maximum number of nodes at level k?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U5·Q2</div><div class="q-text">Define the following tree terms: root, leaf, height, depth, degree, and parent.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U5·Q3</div><div class="q-text">What is the difference between Inorder, Preorder, and Postorder traversals?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U5·Q4</div><div class="q-text">What property must a Binary Search Tree (BST) satisfy?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q5</div><div class="q-text">Given preorder traversal = [5,3,1,4,8,7,9], identify the root. Is this unique?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U5·Q6</div><div class="q-text">What is the time complexity of searching in a BST? When does it degenerate to O(n)?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q7</div><div class="q-text">What is a full binary tree? What is a complete binary tree? Give examples.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q8</div><div class="q-text">Write the C structure for a BST node.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q9</div><div class="q-text">In BST deletion, when does a node have two children? What replaces it?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--easy)">
+        <div class="card-top"><div class="q-num">U5·Q10</div><div class="q-text">True or False: Inorder traversal of a BST always gives elements in sorted order.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-easy">Easy</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q11</div><div class="q-text">What is the maximum height of a binary tree with n nodes?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q12</div><div class="q-text">Define a skewed binary tree. Identify its time complexity for search.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q13</div><div class="q-text">Differentiate between Binary Tree and Binary Search Tree with examples.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q14</div><div class="q-text">What is the minimum and maximum number of nodes in a binary tree of height h?</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-badge five">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-count">13 questions</div>
+    </div>
+    <div class="questions-grid five-mark">
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q15</div><div class="q-text">Construct a BST by inserting the following elements in order: 50, 30, 70, 20, 40, 60, 80. Show the tree after each insertion. Perform all three traversals.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>         50
+        /   \
+      30     70
+     / \    / \
+   20  40  60  80</pre>
+          <ul>
+            <li>Inorder (LNR): 20, 30, 40, 50, 60, 70, 80 (sorted ✓)</li>
+            <li>Preorder (NLR): 50, 30, 20, 40, 70, 60, 80</li>
+            <li>Postorder (LRN): 20, 40, 30, 60, 80, 70, 50</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q16</div><div class="q-text">Write recursive C functions for Inorder, Preorder, and Postorder traversals of a binary tree. Apply them on a sample tree.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void inorder(Node *root) {
+    if(!root) return;
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+void preorder(Node *root) {
+    if(!root) return;
+    printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+void postorder(Node *root) {
+    if(!root) return;
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d ", root->data);
+}</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q17</div><div class="q-text">Explain BST deletion with all three cases: deleting a leaf, a node with one child, and a node with two children. Write C code and trace deletion of 30 from the BST in Q15.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>Node* deleteNode(Node *root, int key) {
+    if(!root) return NULL;
+    if(key < root->data) root->left=deleteNode(root->left,key);
+    else if(key > root->data) root->right=deleteNode(root->right,key);
+    else {
+        if(!root->left) { Node*t=root->right; free(root); return t; }
+        if(!root->right){ Node*t=root->left;  free(root); return t; }
+        // two children: find inorder successor
+        Node *succ = root->right;
+        while(succ->left) succ=succ->left;
+        root->data = succ->data;
+        root->right = deleteNode(root->right, succ->data);
+    }
+    return root;
+}</pre>
+          <ul>
+            <li>Delete 30 (two children): inorder successor is 40</li>
+            <li>Replace 30 with 40, delete 40 from right subtree</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q18</div><div class="q-text">Write a C function to search for an element in a BST (both recursive and iterative). Trace the search for element 60 in the BST from Q15.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>// Recursive
+Node* search(Node *root, int key) {
+    if(!root || root->data==key) return root;
+    if(key < root->data) return search(root->left,key);
+    return search(root->right,key);
+}
+// Trace: 60 < 70? No. Start at 50, 60>50 → right.
+// At 70, 60<70 → left. At 60, found!</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q19</div><div class="q-text">Explain tree traversal techniques with applications: Inorder (expression trees), Preorder (copying trees), Postorder (deletion). Give one application example for each.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Inorder:</strong> BST → sorted output; expression tree → infix expression</li>
+            <li><strong>Preorder:</strong> Copying/cloning a tree; prefix expression evaluation</li>
+            <li><strong>Postorder:</strong> Safe deletion (children before parent); postfix expression</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q20</div><div class="q-text">Write a C program to find the height of a binary tree recursively. Apply it on a sample tree and trace the recursive calls.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int height(Node *root) {
+    if(!root) return 0;
+    int lh = height(root->left);
+    int rh = height(root->right);
+    return 1 + (lh > rh ? lh : rh);
+}
+// For tree in Q15: height = 3 (root→70→80)</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q21</div><div class="q-text">Explain the concept of a Binary Search Tree with its advantages over a sorted array for dynamic data sets. Discuss insertion algorithm and its time complexity.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>Node* insert(Node *root, int key) {
+    if(!root) {
+        Node *n=(Node*)malloc(sizeof(Node));
+        n->data=key; n->left=n->right=NULL; return n;
+    }
+    if(key < root->data) root->left = insert(root->left,key);
+    else root->right = insert(root->right,key);
+    return root;
+}
+// Time: O(log n) average, O(n) worst (skewed)</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q22</div><div class="q-text">Given inorder = [4,2,5,1,6,3,7] and preorder = [1,2,4,5,3,6,7], construct the binary tree. Show each step.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li>Root = preorder[0] = 1. Find 1 in inorder: index 3.</li>
+            <li>Left subtree inorder: [4,2,5]. Right: [6,3,7].</li>
+            <li>Next preorder root = 2 → left of 1. Inorder [4,2,5]: 2 at index 1.</li>
+            <li>Continue recursively to build the tree.</li>
+          </ul>
+          <pre>        1
+       / \
+      2   3
+     / \ / \
+    4  5 6  7</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q23</div><div class="q-text">Write a C program to count the total number of nodes, leaf nodes, and internal nodes of a binary tree.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int countNodes(Node *r) {
+    if(!r) return 0;
+    return 1 + countNodes(r->left) + countNodes(r->right);
+}
+int countLeaves(Node *r) {
+    if(!r) return 0;
+    if(!r->left && !r->right) return 1;
+    return countLeaves(r->left) + countLeaves(r->right);
+}
+// Internal = total - leaves</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q24</div><div class="q-text">Implement Level Order (BFS) traversal of a binary tree using a queue. Trace it on the BST from Q15.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>void levelOrder(Node *root) {
+    if(!root) return;
+    Node *q[100]; int f=0, r=0;
+    q[r++] = root;
+    while(f < r) {
+        Node *curr = q[f++];
+        printf("%d ", curr->data);
+        if(curr->left)  q[r++]=curr->left;
+        if(curr->right) q[r++]=curr->right;
+    }
+}
+// Output for Q15 BST: 50 30 70 20 40 60 80</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q25</div><div class="q-text">Write a C function to check whether a given binary tree is a valid BST. Explain the approach using range validation.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-o">◈ Occasionally Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>int isBST(Node *root, int min, int max) {
+    if(!root) return 1;
+    if(root->data <= min || root->data >= max) return 0;
+    return isBST(root->left, min, root->data) &&
+           isBST(root->right, root->data, max);
+}
+// Call: isBST(root, INT_MIN, INT_MAX)</pre>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--medium)">
+        <div class="card-top"><div class="q-num">U5·Q26</div><div class="q-text">Discuss the applications of binary trees: expression trees, Huffman coding, file system hierarchy, decision trees. Explain any two with suitable diagrams.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-medium">Medium</span><span class="rep-badge rep-f">◆ Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <ul>
+            <li><strong>Expression Tree:</strong> Each internal node is an operator, leaves are operands. Inorder gives infix expression.</li>
+            <li><strong>Huffman Coding:</strong> Build binary tree where frequently used chars have shorter codes (data compression). Greedy approach using min-heap.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="question-card" style="--diff-color:var(--hard)">
+        <div class="card-top"><div class="q-num">U5·Q27</div><div class="q-text">Construct a BST for the elements: 15, 10, 20, 8, 12, 17, 25. Perform deletion of 20 (two-children case). Show the tree before and after deletion with inorder traversal.</div></div>
+        <div class="card-meta"><span class="diff-badge diff-hard">Hard</span><span class="rep-badge rep-vf">⬥ Very Frequently Asked</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">▸ Show Outline</button>
+        <div class="answer-content">
+          <pre>Before deletion of 20:
+         15
+        /   \
+      10     20
+     / \    / \
+    8  12  17  25
+
+Delete 20 → inorder successor = 25 (smallest in right subtree that has no left child, here it's 25, actually it's 17... leftmost of right subtree = 17)
+
+Inorder successor of 20 = 25? No → leftmost of right(20) = 25 has no left child.
+Actually: right subtree of 20 = {25}, no left child → successor = 25.
+Wait: right child is 25 (no left child of 25) → inorder successor = 25.
+
+Replace 20 with 25, delete 25 from right subtree.
+
+After deletion:
+         15
+        /   \
+      10     25
+     / \    /
+    8  12  17
+
+Inorder: 8,10,12,15,17,25 ✓</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Data Structures Question Bank · JNTUK B.Tech 1st Year · 130+ Questions across 5 Units</p>
+  <p style="margin-top:0.5rem;opacity:0.5">Designed for exam preparation · All difficulty levels covered</p>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Toggle unit collapse
+  function toggleUnit(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.unit-toggle');
+    body.classList.toggle('collapsed');
+    toggle.classList.toggle('open');
+  }
+
+  // Toggle answer visibility
+  function toggleAnswer(btn) {
+    const content = btn.nextElementSibling;
+    content.classList.toggle('show');
+    btn.textContent = content.classList.contains('show') ? '▾ Hide Outline' : '▸ Show Outline';
+  }
+
+  // Scroll-to-top visibility
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+</script>
+</body>
+</html>
