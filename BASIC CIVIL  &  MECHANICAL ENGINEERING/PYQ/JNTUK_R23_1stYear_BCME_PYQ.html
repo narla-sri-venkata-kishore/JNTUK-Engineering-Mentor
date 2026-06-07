@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCME Question Bank – JNTUK B.Tech 1st Year</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Sora:wght@300;400;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1f2f4a;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7c3aed;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --easy: #10b981;
+    --medium: #f59e0b;
+    --hard: #ef4444;
+    --easy-bg: rgba(16,185,129,0.12);
+    --medium-bg: rgba(245,158,11,0.12);
+    --hard-bg: rgba(239,68,68,0.12);
+    --vfa: #818cf8;
+    --fa: #38bdf8;
+    --oa: #86efac;
+    --rare: #94a3b8;
+    --glow: 0 0 30px rgba(0,212,255,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content:'';
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    background-image: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events:none; z-index:0;
+  }
+
+  /* NAVBAR */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    flex-wrap: wrap;
+    min-height: 64px;
+  }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+  }
+  .nav-links {
+    display: flex; gap: 0.4rem; flex-wrap: wrap;
+    list-style: none; flex: 1; justify-content: flex-end;
+    padding: 0.5rem 0;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,212,255,0.07);
+  }
+  .nav-stats {
+    display: flex; gap: 0.8rem; align-items: center;
+  }
+  .stat-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(0,212,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .hero-meta-item {
+    text-align: center;
+  }
+  .hero-meta-item .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+  .hero-meta-item .label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .legend {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  /* SEARCH & FILTER BAR */
+  .filter-bar {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+  }
+  .search-box {
+    flex: 1; min-width: 200px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--text-muted); }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    color: var(--text-muted);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(0,212,255,0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+    position: relative; z-index: 1;
+  }
+
+  /* UNIT SECTION */
+  .unit-section {
+    margin-bottom: 3rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: box-shadow 0.3s;
+  }
+  .unit-section:hover { box-shadow: var(--glow); }
+
+  .unit-header {
+    padding: 1.5rem 2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .unit-header:hover { background: rgba(0,212,255,0.05); }
+  .unit-header-left { display: flex; align-items: center; gap: 1rem; }
+  .unit-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.25);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .unit-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+  .unit-subtitle {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+  .unit-stats {
+    display: flex; gap: 0.6rem; align-items: center;
+  }
+  .unit-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .collapse-icon {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .unit-section.collapsed .collapse-icon { transform: rotate(-90deg); }
+
+  .unit-body {
+    padding: 2rem;
+    transition: all 0.3s;
+  }
+  .unit-section.collapsed .unit-body {
+    display: none;
+  }
+
+  .question-type-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1.5rem; margin-top: 0.5rem;
+  }
+  .question-type-header:not(:first-child) { margin-top: 2.5rem; }
+  .type-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .type-2mark { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+  .type-5mark { background: rgba(255,107,53,0.15); color: #fb923c; border: 1px solid rgba(255,107,53,0.3); }
+  .type-divider {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* QUESTION CARD */
+  .questions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .questions-grid.single { grid-template-columns: 1fr; }
+
+  .question-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 3px 0 0 3px;
+  }
+  .question-card.easy::before { background: var(--easy); }
+  .question-card.medium::before { background: var(--medium); }
+  .question-card.hard::before { background: var(--hard); }
+
+  .question-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0,212,255,0.3);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .q-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+  .q-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+  .q-meta {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+  }
+  .badge-easy { background: var(--easy-bg); color: var(--easy); border: 1px solid rgba(16,185,129,0.25); }
+  .badge-medium { background: var(--medium-bg); color: var(--medium); border: 1px solid rgba(245,158,11,0.25); }
+  .badge-hard { background: var(--hard-bg); color: var(--hard); border: 1px solid rgba(239,68,68,0.25); }
+  .badge-vfa { background: rgba(129,140,248,0.12); color: var(--vfa); border: 1px solid rgba(129,140,248,0.25); }
+  .badge-fa { background: rgba(56,189,248,0.12); color: var(--fa); border: 1px solid rgba(56,189,248,0.25); }
+  .badge-oa { background: rgba(134,239,172,0.12); color: var(--oa); border: 1px solid rgba(134,239,172,0.25); }
+  .badge-rare { background: rgba(148,163,184,0.1); color: var(--rare); border: 1px solid rgba(148,163,184,0.2); }
+
+  .formula-block {
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin: 0.6rem 0;
+    letter-spacing: 0.02em;
+  }
+
+  .show-answer-btn {
+    margin-top: 0.8rem;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.3rem 0.7rem;
+    color: var(--text-muted);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .show-answer-btn:hover {
+    background: rgba(0,212,255,0.07);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .answer-content {
+    display: none;
+    margin-top: 0.8rem;
+    padding: 0.8rem;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    border-left: 2px solid var(--accent);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: #94a3b8;
+  }
+  .answer-content.visible { display: block; }
+
+  .diagram-placeholder {
+    background: rgba(0,0,0,0.3);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0.6rem 0;
+    letter-spacing: 0.05em;
+  }
+  .diagram-placeholder span { display: block; font-size: 1.5rem; margin-bottom: 0.3rem; opacity: 0.4; }
+
+  /* FORMULA SHEET */
+  .formula-sheet {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0,212,255,0.04);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 10px;
+  }
+  .formula-sheet h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.6rem;
+  }
+  .formula-item {
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #7dd3fc;
+    border: 1px solid rgba(0,212,255,0.1);
+  }
+  .formula-item .f-name { color: var(--text-muted); font-size: 0.62rem; margin-bottom: 0.2rem; }
+
+  /* SCROLL TOP */
+  #scrollTop {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 999;
+    transition: transform 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 16px rgba(0,212,255,0.4);
+  }
+  #scrollTop.visible { display: flex; }
+  #scrollTop:hover { transform: translateY(-2px); }
+
+  /* QUIZ MODAL */
+  .quiz-banner {
+    background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(0,212,255,0.15));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .quiz-banner h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+  .quiz-banner p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 1.2rem;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.8rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* QUIZ MODE */
+  #quizModal {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  #quizModal.open { display: flex; }
+  .quiz-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 600px; width: 100%;
+    position: relative;
+  }
+  .quiz-close {
+    position: absolute; top: 1rem; right: 1.2rem;
+    background: none; border: none;
+    color: var(--text-muted); font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .quiz-progress {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex; justify-content: space-between;
+  }
+  .quiz-progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  #quizQuestion {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  .quiz-options { display: grid; gap: 0.6rem; }
+  .quiz-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    text-align: left;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+  }
+  .quiz-opt:hover { border-color: var(--accent); background: rgba(0,212,255,0.06); }
+  .quiz-opt.correct { background: var(--easy-bg); border-color: var(--easy); color: var(--easy); }
+  .quiz-opt.wrong { background: var(--hard-bg); border-color: var(--hard); color: var(--hard); }
+  .quiz-nav {
+    display: flex; gap: 0.8rem; margin-top: 1.5rem; justify-content: flex-end;
+  }
+  .quiz-nav button {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .quiz-nav button:hover { border-color: var(--accent); color: var(--accent); }
+  #quizScore {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+  }
+  #quizScore .score-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem;
+    color: var(--accent);
+  }
+  #quizScore p { color: var(--text-muted); margin-top: 0.5rem; }
+
+  /* RESPONSIVE */
+  @media(max-width:640px){
+    nav { padding: 0 1rem; }
+    .unit-body { padding: 1rem; }
+    .questions-grid { grid-template-columns: 1fr; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .hero-meta { gap: 1rem; }
+    .hero-meta-item .num { font-size: 2rem; }
+    .filter-bar { padding: 0 1rem; }
+    main { padding: 0 1rem 4rem; }
+  }
+
+  /* HIDDEN */
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">⚙ BCME Question Bank</div>
+  <ul class="nav-links">
+    <li><a href="#unit1">Unit I</a></li>
+    <li><a href="#unit2">Unit II</a></li>
+    <li><a href="#unit3">Unit III</a></li>
+    <li><a href="#unit4">Unit IV</a></li>
+    <li><a href="#unit5">Unit V</a></li>
+    <li><a href="#unit6">Unit VI</a></li>
+  </ul>
+  <div class="nav-stats">
+    <span class="stat-chip">140 Qs</span>
+    <span class="stat-chip">6 Units</span>
+    <span class="stat-chip">JNTUK</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">📚 JNTUK B.Tech 1st Year · 2024–25 Syllabus</div>
+  <h1>Basic Civil &amp;<br>Mechanical Engineering</h1>
+  <p>A comprehensive exam-oriented question bank covering all 6 units with difficulty ratings and repetition frequency for JNTUK semester exams.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><span class="num">140</span><span class="label">Questions</span></div>
+    <div class="hero-meta-item"><span class="num">6</span><span class="label">Units</span></div>
+    <div class="hero-meta-item"><span class="num">2+5</span><span class="label">Mark Types</span></div>
+    <div class="hero-meta-item"><span class="num">3</span><span class="label">Difficulty Levels</span></div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--easy)"></div> Easy</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--medium)"></div> Medium</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--hard)"></div> Hard</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--vfa)"></div> Very Frequently Asked</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--fa)"></div> Frequently Asked</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--oa)"></div> Occasionally Asked</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rare)"></div> Rare</div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <input class="search-box" type="text" id="searchInput" placeholder="🔍  Search questions...">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="easy">🟢 Easy</button>
+  <button class="filter-btn" data-filter="medium">🟠 Medium</button>
+  <button class="filter-btn" data-filter="hard">🔴 Hard</button>
+  <button class="filter-btn" data-filter="2mark">2-Mark</button>
+  <button class="filter-btn" data-filter="5mark">5-Mark</button>
+</div>
+
+<!-- MAIN -->
+<main>
+
+<!-- QUIZ BANNER -->
+<div class="quiz-banner">
+  <h3>🎯 Test Yourself — Quick Quiz Mode</h3>
+  <p>Randomly pick 10 concept questions from the entire question bank and test your exam readiness.</p>
+  <button class="btn-primary" onclick="startQuiz()">Start Quick Quiz</button>
+</div>
+
+<!-- ============================================================
+     UNIT I – BASICS OF CIVIL ENGINEERING
+     ============================================================ -->
+<section class="unit-section" id="unit1">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <span class="unit-number">UNIT I</span>
+      <div>
+        <div class="unit-title">Basics of Civil Engineering</div>
+        <div class="unit-subtitle">Role of Engineers · Construction Materials · Prefabricated Construction</div>
+      </div>
+    </div>
+    <div class="unit-stats">
+      <span class="unit-count">12 × 2-Mark</span>
+      <span class="unit-count">11 × 5-Mark</span>
+      <span class="collapse-icon">▾</span>
+    </div>
+  </div>
+  <div class="unit-body">
+
+    <!-- FORMULA SHEET -->
+    <div class="formula-sheet">
+      <h4>⚡ Quick Reference – Unit I</h4>
+      <div class="formula-grid">
+        <div class="formula-item"><div class="f-name">Water-Cement Ratio</div>w/c = Weight of water / Weight of cement</div>
+        <div class="formula-item"><div class="f-name">Compressive Strength</div>f'c = Load / Cross-sectional Area</div>
+        <div class="formula-item"><div class="f-name">Slump (workability)</div>Slump ∝ Water content</div>
+        <div class="formula-item"><div class="f-name">Brick size (standard)</div>190×90×90 mm (nominal: 200×100×100 mm)</div>
+      </div>
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-2mark">2-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid" id="u1-2mark">
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q01 · 2-Mark</div>
+        <div class="q-text">Define Civil Engineering and state its primary objective.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q02 · 2-Mark</div>
+        <div class="q-text">What is cement? Name the main compounds responsible for its strength.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q03 · 2-Mark</div>
+        <div class="q-text">Differentiate between Fine Aggregate and Coarse Aggregate.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q04 · 2-Mark</div>
+        <div class="q-text">State the standard size of a first-class brick as per IS 1077.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q05 · 2-Mark</div>
+        <div class="q-text">What is water-cement ratio? How does it affect concrete strength?
+          <div class="formula-block">w/c ratio = Weight of water / Weight of cement</div>
+        </div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q06 · 2-Mark</div>
+        <div class="q-text">True/False: Structural engineering deals with the design of water supply systems. Justify your answer.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="2mark" data-diff="medium">
+        <div class="q-number">U1 · Q07 · 2-Mark</div>
+        <div class="q-text">Fill in the blank: The sub-discipline of Civil Engineering dealing with soil behavior is called __________ Engineering.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q08 · 2-Mark</div>
+        <div class="q-text">Match the following:<br>A. Geotechnical Engg. → ___<br>B. Environmental Engg. → ___<br>(i) Soil stability  (ii) Water treatment</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="2mark" data-diff="medium">
+        <div class="q-number">U1 · Q09 · 2-Mark</div>
+        <div class="q-text">What is prefabricated construction? Give one advantage over conventional construction.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q10 · 2-Mark</div>
+        <div class="q-text">What is cement concrete? What are its four basic ingredients?</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="2mark" data-diff="medium">
+        <div class="q-number">U1 · Q11 · 2-Mark</div>
+        <div class="q-text">Name any two types of steel used in construction and state their IS designation.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="1" data-type="2mark" data-diff="easy">
+        <div class="q-number">U1 · Q12 · 2-Mark</div>
+        <div class="q-text">Define Hydraulics &amp; Water Resources Engineering in one sentence.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+    </div><!-- end 2mark grid -->
+
+    <div class="question-type-header">
+      <span class="type-badge type-5mark">5-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid single" id="u1-5mark">
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q13 · 5-Mark</div>
+        <div class="q-text">Explain the role of Civil Engineers in modern society with at least four real-world contributions.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Civil Engineers contribute to: (1) Design and construction of infrastructure (roads, bridges, buildings). (2) Water supply and sanitation systems. (3) Environmental protection through waste treatment. (4) Transportation networks enabling economic development. (5) Disaster-resistant structures (earthquake, flood management). They bridge science and society by creating safe, sustainable built environments.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q14 · 5-Mark</div>
+        <div class="q-text">Describe the properties, composition, and uses of cement concrete. Draw a neat labeled sketch of a concrete mix.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>📐</span>[Diagram: Concrete Mix – Cement + Sand + Aggregate + Water]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Concrete = Cement + Fine Aggregate (sand) + Coarse Aggregate (gravel/crushed stone) + Water. Properties: High compressive strength (~20–40 MPa), durability, fire resistance, workability. Cement paste binds aggregates. Uses: Foundations, slabs, columns, roads, dams. Key parameter: w/c ratio (lower → stronger). Grade M20 = 20 MPa characteristic strength.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q15 · 5-Mark</div>
+        <div class="q-text">Explain any three disciplines of Civil Engineering with their scope and applications.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">1. Structural Engineering: Design of load-bearing structures (bridges, buildings, dams). Uses mechanics, materials science. 2. Geotechnical Engineering: Studies soil/rock behavior for foundations, embankments, tunnels. Tools: Boring, SPT, plate load test. 3. Transportation Engineering: Design of highways, railways, airports. Considers pavement design, traffic flow, safety. Each discipline ensures infrastructure is safe, economical, and functional.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="1" data-type="5mark" data-diff="hard">
+        <div class="q-number">U1 · Q16 · 5-Mark</div>
+        <div class="q-text">Compare the properties of brick, cement, and steel as construction materials. Which would you choose for a high-rise building and why?</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Brick: Good compressive strength (~3.5–35 MPa), thermal insulation, eco-friendly, low tensile strength. Cement: Binding agent, gains strength with hydration, used in concrete. Steel: High tensile &amp; compressive strength (~250–500 MPa), ductile, expensive, prone to corrosion. For high-rise: Steel (structural frame) + concrete (core) + brick/glass (cladding) — composite approach gives strength, ductility, and economy.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q17 · 5-Mark</div>
+        <div class="q-text">Write short notes on prefabricated construction techniques. Mention at least three advantages and two disadvantages.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Prefabrication: Structural components (panels, beams, slabs) manufactured in factory, transported and assembled on site. Advantages: (1) Faster construction, (2) Quality control in factory, (3) Reduced labor on site, (4) Less waste. Disadvantages: (1) High initial investment in molds/machinery, (2) Transportation challenges for large elements, (3) Limited design flexibility. Used in: Mass housing, bridges, industrial sheds.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q18 · 5-Mark</div>
+        <div class="q-text">Explain the importance of Environmental Engineering as a branch of Civil Engineering. How does it address pollution control?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Environmental Engineering deals with: (1) Water treatment and distribution, (2) Wastewater treatment (sewage), (3) Air pollution control, (4) Solid waste management, (5) Environmental impact assessment. Pollution control: Designing treatment plants (sedimentation, coagulation, filtration, chlorination for water). Protecting ecosystems through sustainable design. Essential for public health and sustainable urban development.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="1" data-type="5mark" data-diff="hard">
+        <div class="q-number">U1 · Q19 · 5-Mark</div>
+        <div class="q-text">A concrete mix has a water-cement ratio of 0.5 and uses 300 kg of cement per m³. Calculate (a) water required per m³ and (b) comment on the expected strength grade.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="formula-block">Water = w/c × cement = 0.5 × 300 = 150 kg/m³</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">(a) Water required = 0.5 × 300 = 150 kg/m³ (or 150 litres/m³). (b) w/c = 0.5 is a moderate ratio. According to IS code, this corresponds approximately to M20–M25 grade concrete (characteristic compressive strength 20–25 MPa at 28 days). Lower w/c → higher strength, but reduced workability. This mix is suitable for RCC structural members.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q20 · 5-Mark</div>
+        <div class="q-text">Describe the role of Transportation Engineering in economic development of a country with suitable examples.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Transportation Engineering designs and manages road, rail, air, and waterway systems. Economic impact: (1) Enables movement of goods and people, reducing trade costs. (2) Connects rural markets to urban centers (e.g., Golden Quadrilateral NH network, India). (3) Creates employment during construction and operation. (4) Attracts industrial investment to connected regions. (5) Airport development boosts tourism and FDI. Example: NH-44 (Srinagar–Kanyakumari) integrating India's economy.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q21 · 5-Mark</div>
+        <div class="q-text">What are aggregates? Classify them with examples and explain how aggregate size affects concrete mix design.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Aggregates: Granular materials (sand, gravel, crushed stone) occupying ~60–80% of concrete volume. Classification: (1) Fine Aggregate: particle size &lt; 4.75 mm (river sand, M-sand). (2) Coarse Aggregate: particle size &gt; 4.75 mm (20 mm, 40 mm graded). Effect on mix: Larger aggregates → less surface area → less cement paste needed → economical. Smaller aggregates → more workable. Proper grading (IS 383) ensures dense packing, reducing voids and improving strength.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="1" data-type="5mark" data-diff="hard">
+        <div class="q-number">U1 · Q22 · 5-Mark</div>
+        <div class="q-text">Explain the scope of Geotechnical Engineering. How do soil properties affect foundation design? Give a real-world application scenario.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Geotechnical Engineering studies soil/rock behavior under loads. Scope: Foundation design, slope stability, retaining walls, embankments, tunnels. Soil properties affecting foundation: (1) Bearing capacity (allowable load per unit area), (2) Settlement characteristics, (3) Shear strength, (4) Permeability, (5) Compressibility. Real-world: Leaning Tower of Pisa — poor geotechnical assessment of soft marine clay led to differential settlement. Modern deep foundation (pile foundations) in Mumbai on soft reclaimed land.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="1" data-type="5mark" data-diff="medium">
+        <div class="q-number">U1 · Q23 · 5-Mark</div>
+        <div class="q-text">Describe the physical and chemical properties of bricks. List the field tests performed to assess brick quality.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Physical properties: Shape (rectangular), size (190×90×90mm), color (red/cherry), texture (smooth/rough), density (~1800 kg/m³), water absorption (&lt;20%). Chemical: Mainly alumina + silica + lime + oxides of iron. Tests: (1) Water absorption test – immerse 24 hrs, gain &lt; 20% by weight, (2) Compressive strength test (crushing strength &gt; 3.5 MPa for 3rd class), (3) Hardness test – nail scratch, (4) Soundness test – ring when struck, (5) Efflorescence test – white deposits after drying.</div>
+      </div>
+
+    </div><!-- end 5mark grid -->
+  </div>
+</section>
+
+<!-- ============================================================
+     UNIT II – SURVEYING
+     ============================================================ -->
+<section class="unit-section" id="unit2">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <span class="unit-number">UNIT II</span>
+      <div>
+        <div class="unit-title">Surveying</div>
+        <div class="unit-subtitle">Horizontal &amp; Angular Measurements · Bearings · Levelling · Contour Mapping</div>
+      </div>
+    </div>
+    <div class="unit-stats">
+      <span class="unit-count">12 × 2-Mark</span>
+      <span class="unit-count">11 × 5-Mark</span>
+      <span class="collapse-icon">▾</span>
+    </div>
+  </div>
+  <div class="unit-body">
+
+    <div class="formula-sheet">
+      <h4>⚡ Quick Reference – Unit II</h4>
+      <div class="formula-grid">
+        <div class="formula-item"><div class="f-name">Reduced Bearing (NE quadrant)</div>RB = WCB (if 0°–90°)</div>
+        <div class="formula-item"><div class="f-name">WCB from RB (SW quadrant)</div>WCB = 180° + RB</div>
+        <div class="formula-item"><div class="f-name">Rise/Fall (HI method)</div>RL of next = RL + BS – FS</div>
+        <div class="formula-item"><div class="f-name">Contour Interval</div>CI = (H_max – H_min) / No. of contours</div>
+      </div>
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-2mark">2-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid" id="u2-2mark">
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q01 · 2-Mark</div>
+        <div class="q-text">Define Surveying. State the primary objective of surveying.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q02 · 2-Mark</div>
+        <div class="q-text">Differentiate between Plane Surveying and Geodetic Surveying.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q03 · 2-Mark</div>
+        <div class="q-text">What is a Bearing in surveying? Distinguish between Whole Circle Bearing (WCB) and Reduced Bearing (RB).</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="2mark" data-diff="medium">
+        <div class="q-number">U2 · Q04 · 2-Mark</div>
+        <div class="q-text">Convert the WCB of 225° to Reduced Bearing.
+          <div class="formula-block">If WCB = 225° (SW quadrant): RB = WCB – 180° = 45° → S 45° W</div>
+        </div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q05 · 2-Mark</div>
+        <div class="q-text">What is Levelling? Name any two types of levels used in field surveying.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q06 · 2-Mark</div>
+        <div class="q-text">Define Bench Mark. What is the difference between GTS Benchmark and Arbitrary Benchmark?</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="2mark" data-diff="medium">
+        <div class="q-number">U2 · Q07 · 2-Mark</div>
+        <div class="q-text">What is a contour line? State any two properties of contour lines.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="2mark" data-diff="medium">
+        <div class="q-number">U2 · Q08 · 2-Mark</div>
+        <div class="q-text">Fill in the blank: In the Height of Instrument method, RL of point = HI – ________.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q09 · 2-Mark</div>
+        <div class="q-text">Name the instrument used for measuring horizontal angles in surveying and describe it in one sentence.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="2" data-type="2mark" data-diff="easy">
+        <div class="q-number">U2 · Q10 · 2-Mark</div>
+        <div class="q-text">True/False: Contour lines of different elevations can cross each other. Justify.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="2mark" data-diff="medium">
+        <div class="q-number">U2 · Q11 · 2-Mark</div>
+        <div class="q-text">What is a staff reading in levelling? Differentiate between Back Sight, Foresight, and Intermediate Sight.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="2mark" data-diff="medium">
+        <div class="q-number">U2 · Q12 · 2-Mark</div>
+        <div class="q-text">Define Contour Interval and Horizontal Equivalent. Give one example each.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-5mark">5-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid single" id="u2-5mark">
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q13 · 5-Mark</div>
+        <div class="q-text">Explain the objectives and principles of surveying. What is the fundamental rule that governs surveying operations?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Objectives: (1) Determine relative positions of points on earth's surface, (2) Prepare accurate maps/plans, (3) Establish boundaries, (4) Layout engineering works. Principles: (1) Work from Whole to Part — establish control points first, then fill details (prevents accumulation of errors). (2) Check every measurement independently. Instruments: Chain, tape (linear), compass, theodolite (angular), level (vertical). Accuracy is paramount; small errors in control points propagate throughout the survey.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="2" data-type="5mark" data-diff="hard">
+        <div class="q-number">U2 · Q14 · 5-Mark</div>
+        <div class="q-text">The following staff readings were recorded from two instrument stations. Compute the RLs using the Height of Instrument method and apply arithmetic check.<br>BS: 1.850, IS: 1.320, 2.150, FS: 0.985 (TBM = 100.000 m)</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="formula-block">HI = RL of BM + BS | RL = HI – IS/FS | Check: ΣBS – ΣFS = First RL – Last RL</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">HI = 100.000 + 1.850 = 101.850 m. RL (IS1) = 101.850 – 1.320 = 100.530 m. RL (IS2) = 101.850 – 2.150 = 99.700 m. RL (FS) = 101.850 – 0.985 = 100.865 m. Arithmetic check: ΣBS – ΣFS = 1.850 – 0.985 = 0.865. Last RL – First RL = 100.865 – 100.000 = 0.865 ✓. Check satisfied.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q15 · 5-Mark</div>
+        <div class="q-text">Explain the characteristics (properties) of contour lines with neat sketches. How are valleys and ridges distinguished in a contour map?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🗺</span>[Diagram: Contour lines – Hills, Valleys, Ridges, Cliffs]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Properties: (1) Each contour is a closed curve. (2) Two contours cannot cross (except overhanging cliff). (3) Closely spaced = steep slope; widely spaced = gentle slope. (4) Contours do not merge except at vertical cliff. (5) Contour crossing a ridge is U-shaped (pointing downhill); crossing a valley is V-shaped (pointing uphill). Ridge: contours form U opening in direction of higher elevation. Valley: V-shaped contours point towards higher elevation.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q16 · 5-Mark</div>
+        <div class="q-text">Describe the instruments used in levelling with neat labeled sketches. Explain the procedure of simple levelling.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>📏</span>[Diagram: Dumpy Level – Telescope, Bubble tube, Levelling screws, Tripod]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Instruments: (1) Dumpy Level – telescope + spirit level + levelling head (most common). (2) Auto Level – self-compensating, faster. (3) Digital Level – electronic staff reading. (4) Levelling Staff (4m telescopic) – graduated in mm. Procedure: Set up level, center bubble, take BS on known BM, read IS on intermediate points, take FS on last point. Calculate HI = RL of BM + BS. Each RL = HI – staff reading. Apply arithmetic check.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="2" data-type="5mark" data-diff="hard">
+        <div class="q-number">U2 · Q17 · 5-Mark</div>
+        <div class="q-text">Convert the following WCBs to Reduced Bearings and determine the quadrant for each: (a) 45° (b) 145° (c) 250° (d) 310°</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="formula-block">NE: RB=WCB | SE: RB=180°–WCB | SW: RB=WCB–180° | NW: RB=360°–WCB</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">(a) WCB=45°: NE quadrant → RB = N 45° E. (b) WCB=145°: SE quadrant → RB = 180°–145° = S 35° E. (c) WCB=250°: SW quadrant → RB = 250°–180° = S 70° W. (d) WCB=310°: NW quadrant → RB = 360°–310° = N 50° W.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q18 · 5-Mark</div>
+        <div class="q-text">Explain the methods of locating contours in the field. Describe the indirect method with grid points.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Methods: (1) Direct Method: Instrument set up at known RL; staff moved until required reading obtained — slow, accurate. (2) Indirect Method (Grid): Area divided into squares (5m×5m); RL of each grid point determined by levelling; contours interpolated between points. (3) Radial Method: Rays from central point; RL along each ray surveyed. Grid method is most common for large areas — systematic, fast, can be automated with total station. Contours interpolated by proportional division between grid points.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q19 · 5-Mark</div>
+        <div class="q-text">What is a compass survey? Describe the prismatic compass and explain how horizontal bearings are measured using it.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🧭</span>[Diagram: Prismatic Compass – Prism, Needle, Graduated ring, Object vane]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Compass survey: Measures direction of survey lines relative to magnetic north. Prismatic Compass: (1) Circular graduated ring (0°–360°) attached to magnetic needle, (2) Prism for reading, (3) Object vane with hair sight, (4) Eye vane. Procedure: Set up at station, sight through object vane to target, read bearing through prism. WCB read directly. Accuracy ±30'. Used for: Rough surveys, reconnaissance, forest surveys. Local attraction (iron/steel) must be checked.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="2" data-type="5mark" data-diff="hard">
+        <div class="q-number">U2 · Q20 · 5-Mark</div>
+        <div class="q-text">Describe the Rise and Fall method of levelling. Solve: BS=1.5m, IS=0.8m, 1.2m, FS=1.9m. Starting RL=200m. Apply arithmetic check.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="formula-block">Rise/Fall = prev. reading – next reading | RL(next) = RL(prev) ± Rise/Fall</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">BS(A)=1.5, IS(B)=0.8: 1.5–0.8=0.7 Rise. IS(B)=0.8, IS(C)=1.2: 0.8–1.2=–0.4 Fall. IS(C)=1.2, FS(D)=1.9: 1.2–1.9=–0.7 Fall. RLs: A=200.0, B=200.7, C=200.3, D=199.6. Arithmetic check: ΣBS–ΣFS=1.5–1.9=–0.4. ΣRise–ΣFall=0.7–(0.4+0.7)=–0.4. Last RL–First RL=199.6–200.0=–0.4 ✓.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q21 · 5-Mark</div>
+        <div class="q-text">Explain the uses of contour maps in Civil Engineering projects with at least four practical applications.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Uses: (1) Route alignment – select best gradient for roads/railways by following contours. (2) Reservoir capacity – estimate volume of water a dam can store (planimeter area between contours). (3) Cut &amp; fill calculation – earthwork quantities for road construction. (4) Watershed delineation – identify drainage basins for irrigation projects. (5) Slope analysis – identify safe zones for construction vs landslide-prone areas. (6) Intervisibility – determine line-of-sight for communication towers. Contour maps are fundamental to all site-planning decisions.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q22 · 5-Mark</div>
+        <div class="q-text">Describe the sources of errors in chain surveying. How can these errors be minimized in field work?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Errors: (1) Personal errors – misreading tape, incorrect chaining. (2) Instrument errors – incorrect chain length (standardize regularly). (3) Natural errors – temperature changes, slope not corrected, wind. (4) Booking errors – recording wrong numbers. Minimization: (1) Apply correction for temperature and slope, (2) Keep chain free of kinks, (3) Use ranging rods for straight lines, (4) Check measurement independently (forward and back), (5) Use plumb bob on slopes, (6) Maintain proper field book entries.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="2" data-type="5mark" data-diff="medium">
+        <div class="q-number">U2 · Q23 · 5-Mark</div>
+        <div class="q-text">Write short notes on: (a) Total Station (b) GPS in Surveying. How have these modern tools transformed traditional surveying?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">(a) Total Station: Combines electronic theodolite + EDM + data recorder. Measures angles and distances simultaneously; computes coordinates automatically. Accuracy: 1" angular, 1–2 mm distance. Used for: control surveys, setting out, as-built surveys. (b) GPS: Global Positioning System – 24 satellites. Provides 3D coordinates (X,Y,Z) anywhere on earth. RTK-GPS accuracy: ±1–2 cm. Used for: cadastral surveys, highway alignment, monitoring structural deformation. Transformation: Reduced survey time by 80%, eliminated human reading errors, enabled GIS integration, automated large-scale mapping.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     UNIT III – TRANSPORTATION & WATER RESOURCES
+     ============================================================ -->
+<section class="unit-section" id="unit3">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <span class="unit-number">UNIT III</span>
+      <div>
+        <div class="unit-title">Transportation &amp; Water Resources Engineering</div>
+        <div class="unit-subtitle">Pavements · Harbour · Airport · Hydrology · Dams · Rainwater Harvesting</div>
+      </div>
+    </div>
+    <div class="unit-stats">
+      <span class="unit-count">12 × 2-Mark</span>
+      <span class="unit-count">11 × 5-Mark</span>
+      <span class="collapse-icon">▾</span>
+    </div>
+  </div>
+  <div class="unit-body">
+
+    <div class="question-type-header">
+      <span class="type-badge type-2mark">2-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid" id="u3-2mark">
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q01 · 2-Mark</div>
+        <div class="q-text">Differentiate between Flexible Pavement and Rigid Pavement in tabular form.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q02 · 2-Mark</div>
+        <div class="q-text">What is Hydrology? Name two methods of rainwater harvesting.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q03 · 2-Mark</div>
+        <div class="q-text">Define a Dam. Name two types of dams based on material of construction.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="2mark" data-diff="medium">
+        <div class="q-number">U3 · Q04 · 2-Mark</div>
+        <div class="q-text">What is a Harbour? Distinguish between a natural harbour and an artificial harbour.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q05 · 2-Mark</div>
+        <div class="q-text">Name the four sources of water and give one example for each.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="2mark" data-diff="medium">
+        <div class="q-number">U3 · Q06 · 2-Mark</div>
+        <div class="q-text">Fill in the blank: An airport's main landing area is called __________ and it requires a clear approach path called __________.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q07 · 2-Mark</div>
+        <div class="q-text">True/False: A rigid pavement distributes load to a wider area than a flexible pavement. Justify.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="2mark" data-diff="medium">
+        <div class="q-number">U3 · Q08 · 2-Mark</div>
+        <div class="q-text">What is a Reservoir? State any two functions of a reservoir.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q09 · 2-Mark</div>
+        <div class="q-text">What is meant by water quality? Name any two physical parameters used to assess drinking water quality.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="2mark" data-diff="medium">
+        <div class="q-number">U3 · Q10 · 2-Mark</div>
+        <div class="q-text">What are the components of a railway track? Name any three.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="2mark" data-diff="medium">
+        <div class="q-number">U3 · Q11 · 2-Mark</div>
+        <div class="q-text">Define Tunnel. Why are tunnels preferred over open cuts in certain terrain?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-rare">Rare</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="3" data-type="2mark" data-diff="easy">
+        <div class="q-number">U3 · Q12 · 2-Mark</div>
+        <div class="q-text">State the importance of Transportation Engineering in national economic development (2 points).</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-5mark">5-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid single" id="u3-5mark">
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q13 · 5-Mark</div>
+        <div class="q-text">Explain the structure of Flexible and Rigid pavements with neat labeled cross-section sketches. Compare their suitability for different traffic conditions.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🛣</span>[Cross-section: Flexible – Subgrade / Sub-base / Base / Bituminous surface] [Rigid – Subgrade / Sub-base / PCC slab]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Flexible: Bituminous (asphalt) surface. Distributes load through layers. Layers: Subgrade → Sub-base (granular) → Base course → Binder course → Surface course. Suitable for: Medium-heavy traffic, flexible under thermal changes. Rigid: PCC (Portland Cement Concrete) slab. Load distributed by slab flexure. Layers: Subgrade → Sub-base → CC slab (200–300 mm). Suitable for: Very heavy loads (trucks, aircraft runways, toll roads). Comparison: Flexible cheaper initially, needs maintenance; Rigid expensive, less maintenance, longer life (30 yr vs 15 yr).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q14 · 5-Mark</div>
+        <div class="q-text">What is Rainwater Harvesting? Describe any two methods with diagrams. State the benefits of rooftop rainwater harvesting.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>💧</span>[Diagram: Rooftop RWH – Roof → Gutter → Downpipe → Filter → Storage tank]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">RWH: Collecting and storing rainwater from rooftops, land surface, or rock catchments for use. Methods: (1) Rooftop RWH: Roof (catchment) → gutters → downpipes → first-flush device → filter → sump/tank. (2) Surface RWH: Check dams, percolation ponds, farm ponds — capture runoff in low-lying areas. Benefits: (1) Reduces dependence on municipal supply, (2) Recharges groundwater aquifers, (3) Reduces urban flooding, (4) Low cost, sustainable, (5) Reduces soil erosion. Mandatory in many Indian cities for buildings &gt;100 m².</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q15 · 5-Mark</div>
+        <div class="q-text">Explain the basic concepts of Dams and Reservoirs. Classify dams based on material and hydraulic design. Mention uses of a reservoir.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Dam: A barrier constructed across a watercourse to store water, regulate flow. Types by material: (1) Earthen dam – most common, cheap, uses local soil. (2) Masonry dam – stone/brick, durable, steep faces. (3) Concrete dam – gravity/arch/buttress. Types by hydraulic action: (1) Gravity dam – resists water by own weight (e.g., Nagarjuna Sagar). (2) Arch dam – transfers load to canyon walls (thin section). (3) Buttress dam – supported by buttresses (hollow, economical). Reservoir uses: Water supply, irrigation, hydropower, flood control, recreation.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="3" data-type="5mark" data-diff="hard">
+        <div class="q-number">U3 · Q16 · 5-Mark</div>
+        <div class="q-text">A city has annual rainfall of 750 mm. The rooftop area of a building is 200 m² with a runoff coefficient of 0.85. Estimate (a) annual rooftop runoff volume and (b) daily average available for storage.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="formula-block">Runoff = Rainfall × Area × Runoff coefficient</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">(a) Annual Runoff = 0.75 m × 200 m² × 0.85 = 127.5 m³ = 127,500 litres. (b) Daily average = 127,500 / 365 = ~349 litres/day. This is significant — can meet 3–4 people's daily needs (100 L/day/person). Note: First flush (3–5 mm) should be diverted away to remove contaminants. Actual collection will be seasonal; design storage for dry months.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q17 · 5-Mark</div>
+        <div class="q-text">Explain the introduction to Airport Engineering. What are the major components of an airport? Describe the factors considered while selecting an airport site.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>✈</span>[Layout: Runway, Taxiway, Apron, Terminal, Control Tower, Hangar]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Airport Engineering: Planning, design, construction of airport facilities. Components: (1) Runway – main landing/takeoff strip (length: 1500–4500m), (2) Taxiway – connects runway to apron, (3) Apron – aircraft parking and boarding area, (4) Terminal Building – passenger processing, (5) Control Tower – air traffic control, (6) Hangar – maintenance. Site selection factors: (1) Level terrain, adequate area, (2) Away from populated areas (noise), (3) Wind direction analysis, (4) Obstruction clearance (no tall buildings), (5) Soil bearing capacity, (6) Accessibility to city (15–30 km), (7) Fog and meteorological conditions.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q18 · 5-Mark</div>
+        <div class="q-text">Describe the water cycle (hydrological cycle) and explain the concept of hydrology with its importance in water resources management.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🌊</span>[Diagram: Hydrological Cycle – Evaporation → Condensation → Precipitation → Runoff → Infiltration]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Hydrology: Science of water – its occurrence, circulation, distribution, properties. Water Cycle: Evaporation (sun heats surface water) → Transpiration (plants) → Evapotranspiration → Condensation (forms clouds) → Precipitation (rain, snow) → Runoff (surface) / Infiltration (groundwater recharge) → River flow → Ocean. Importance: (1) Estimate flood discharge for dam design, (2) Plan irrigation systems, (3) Design urban drainage, (4) Groundwater management, (5) Drought prediction. Key parameters: Rainfall intensity, runoff coefficient, time of concentration.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="3" data-type="5mark" data-diff="hard">
+        <div class="q-number">U3 · Q19 · 5-Mark</div>
+        <div class="q-text">Explain the basic principles of Harbour Engineering. What are breakwaters? Describe their types and functions.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-rare">Rare</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Harbour: A sheltered water body where vessels can anchor safely. Harbour Engineering: Design of docks, breakwaters, quays, navigation channels, berthing facilities. Breakwaters: Structures built to protect harbour from wave action. Types: (1) Rubble-mound breakwater – loose stones/concrete blocks, absorb wave energy, most common. (2) Vertical breakwater – solid concrete wall, reflects waves. (3) Composite – rubble base + concrete cap. Functions: (1) Reduce wave height inside harbour, (2) Create calm water for loading/unloading, (3) Protect ships from storm surges, (4) Create navigable channel. Example: Visakhapatnam Port breakwater – 3 km long rubble-mound structure.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q20 · 5-Mark</div>
+        <div class="q-text">Write notes on Tunnel Engineering. What are the methods of tunnelling? Mention two advantages of tunnels over surface roads in hilly terrain.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Tunnel: Underground passage through a hill, mountain, river bed, or urban area. Methods: (1) Cut and Cover – excavate trench, construct structure, backfill (used in cities, shallow depth). (2) Drill and Blast – drill holes, place explosives, blast, remove muck (hard rock). (3) TBM (Tunnel Boring Machine) – mechanized excavation, circular cross-section, fast, minimal disturbance. (4) NATM (New Austrian Tunnelling Method) – uses rock strength, shotcrete lining. Advantages in hilly terrain: (1) Shorter route (avoids mountain detour), (2) No switchback curves (safer), (3) All-weather connectivity, (4) Reduces ecological disturbance vs open cut. Example: Banihal Tunnel (NH-44), J&amp;K.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q21 · 5-Mark</div>
+        <div class="q-text">Explain Railway Engineering basics. What are the components of a railway track? Distinguish between broad gauge and metre gauge.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Railway Track Components: (1) Rails – steel sections (52 kg/m, 60 kg/m), carry wheel load. (2) Sleepers (ties) – timber/concrete/steel, hold rails at correct gauge, distribute load to ballast. (3) Ballast – crushed stone (40mm size), distributes load, provides drainage, holds sleepers. (4) Fish plates – connect rail ends. (5) Spikes/rail clips – fix rails to sleepers. (6) Formation – compacted earthwork below ballast. Gauge: Broad Gauge (1676 mm, Indian standard) – higher speed, capacity. Metre Gauge (1000 mm) – narrower, economical for lower traffic. Indian Railways converting all MG lines to BG (Project Unigauge).</div>
+      </div>
+
+      <div class="question-card hard" data-unit="3" data-type="5mark" data-diff="hard">
+        <div class="q-number">U3 · Q22 · 5-Mark</div>
+        <div class="q-text">What are the BIS specifications for drinking water quality? Describe the permissible limits of pH, turbidity, hardness, and any two chemical parameters.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="formula-block">IS 10500:2012 – Indian Standard for Drinking Water Specifications</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">IS 10500:2012 Permissible Limits: (1) pH: 6.5–8.5 (desirable: 7.0–8.5). (2) Turbidity: ≤1 NTU (desirable), max 5 NTU. (3) Total Hardness: ≤200 mg/L (desirable), max 600 mg/L. (4) Total Dissolved Solids: ≤500 mg/L (desirable), max 2000 mg/L. (5) Chlorides: ≤250 mg/L (desirable), max 1000 mg/L. (6) Fluoride: 1 mg/L (desirable), max 1.5 mg/L (excess causes fluorosis). (7) Coliform bacteria: Absent in 100 mL sample. Physical tests: Color, Odor, Taste. Chemical: BOD, DO, heavy metals (Pb, As, Hg – trace limits).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="3" data-type="5mark" data-diff="medium">
+        <div class="q-number">U3 · Q23 · 5-Mark</div>
+        <div class="q-text">Explain the importance of Transportation Engineering in the economic development of India. Give four specific examples of infrastructure projects.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Transportation Engineering drives economic growth by: (1) Reducing logistics costs (good roads cut transport cost by 20–30%). (2) Connecting markets, enabling trade. (3) Creating employment during construction and operation. (4) Attracting investment to connected regions. Examples: (1) Golden Quadrilateral NH project – 5846 km connecting 4 metro cities, boosted industrial corridors. (2) Dedicated Freight Corridors (EDFC, WDFC) – separate rail freight lines, faster goods movement. (3) UDAN Scheme – regional airports connecting Tier-2/3 cities. (4) Sagarmala Project – port modernization boosting maritime trade. India needs $1.4 trillion infrastructure investment (National Infrastructure Pipeline) by 2025.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     UNIT IV – INTRODUCTION TO MECHANICAL ENGINEERING
+     ============================================================ -->
+<section class="unit-section" id="unit4">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <span class="unit-number">UNIT IV</span>
+      <div>
+        <div class="unit-title">Introduction to Mechanical Engineering</div>
+        <div class="unit-subtitle">Role · Applications · Engineering Materials · Smart Materials</div>
+      </div>
+    </div>
+    <div class="unit-stats">
+      <span class="unit-count">12 × 2-Mark</span>
+      <span class="unit-count">11 × 5-Mark</span>
+      <span class="collapse-icon">▾</span>
+    </div>
+  </div>
+  <div class="unit-body">
+
+    <div class="question-type-header">
+      <span class="type-badge type-2mark">2-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid" id="u4-2mark">
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q01 · 2-Mark</div>
+        <div class="q-text">Define Mechanical Engineering and state two major application areas.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q02 · 2-Mark</div>
+        <div class="q-text">Differentiate between Ferrous and Non-Ferrous metals. Give one example each.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q03 · 2-Mark</div>
+        <div class="q-text">What is a Composite Material? Give one engineering application.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="2mark" data-diff="medium">
+        <div class="q-number">U4 · Q04 · 2-Mark</div>
+        <div class="q-text">What are Smart Materials? Give two examples with their special property.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q05 · 2-Mark</div>
+        <div class="q-text">Fill in the blank: Cast iron has very high __________ strength but low __________ strength.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="2mark" data-diff="medium">
+        <div class="q-number">U4 · Q06 · 2-Mark</div>
+        <div class="q-text">What is the role of Mechanical Engineering in the Aerospace sector? Name any two components designed by mechanical engineers in aircraft.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q07 · 2-Mark</div>
+        <div class="q-text">True/False: Ceramics are good electrical conductors. Justify with an example.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q08 · 2-Mark</div>
+        <div class="q-text">Name the three main alloying elements in stainless steel and state why it is corrosion-resistant.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="2mark" data-diff="medium">
+        <div class="q-number">U4 · Q09 · 2-Mark</div>
+        <div class="q-text">What are Alloys? Why are alloys generally stronger than pure metals?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="4" data-type="2mark" data-diff="easy">
+        <div class="q-number">U4 · Q10 · 2-Mark</div>
+        <div class="q-text">Name any two applications of Mechanical Engineering in the Energy sector.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="2mark" data-diff="medium">
+        <div class="q-number">U4 · Q11 · 2-Mark</div>
+        <div class="q-text">What is the difference between Grey Cast Iron and White Cast Iron?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-rare">Rare</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="2mark" data-diff="medium">
+        <div class="q-number">U4 · Q12 · 2-Mark</div>
+        <div class="q-text">What is a piezoelectric material? Name one application in engineering.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-5mark">5-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid single" id="u4-5mark">
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q13 · 5-Mark</div>
+        <div class="q-text">Explain the role of Mechanical Engineering in modern society with applications in at least four sectors: Energy, Manufacturing, Automotive, and Aerospace.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Mechanical Engineering applies physics/mathematics to design machines and systems. Energy: Design of turbines (steam, hydro, wind), boilers, heat exchangers, solar collectors. Manufacturing: CNC machining centers, robotic welding systems, automated assembly lines. Automotive: IC engine design, transmission systems, suspension, braking systems, EV drivetrains. Aerospace: Jet engine design, airframe stress analysis, landing gear, rocket propulsion (ISRO, DRDO). Additional: Marine engineering (ship propulsion), HVAC (building comfort systems), Biomedical (prosthetics, medical devices). Mechanical Engineers are foundational to industrialization and technological progress.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q14 · 5-Mark</div>
+        <div class="q-text">Classify engineering materials into ferrous metals, non-ferrous metals, ceramics, composites, and smart materials. Give two examples and one application for each.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">1. Ferrous: Iron-based. Examples: Cast iron (machine beds), Mild steel (structural), Stainless steel (surgical tools). 2. Non-Ferrous: No/little iron. Examples: Aluminium (aircraft frames, lightweight structures), Copper (electrical wiring), Titanium (aerospace, medical implants). 3. Ceramics: Inorganic, non-metallic. Examples: Alumina (cutting tools), Silicon carbide (abrasives), Porcelain (insulators). 4. Composites: Two materials combined. Examples: CFRP – Carbon Fiber Reinforced Polymer (aircraft wings, F1 cars), GFRP (boat hulls). 5. Smart Materials: Change property with stimulus. Examples: SMA (shape memory alloy – stents), Piezoelectric (sensors, actuators), Magnetostrictive (sonar).</div>
+      </div>
+
+      <div class="question-card hard" data-unit="4" data-type="5mark" data-diff="hard">
+        <div class="q-number">U4 · Q15 · 5-Mark</div>
+        <div class="q-text">Explain the properties of smart materials. How are Shape Memory Alloys (SMA) and piezoelectric materials used in modern engineering applications?</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Smart Materials: Respond to external stimuli (temperature, stress, electric/magnetic field) with a useful change. SMA (e.g., Nitinol = Ni-Ti): Returns to pre-set shape when heated (shape memory effect). Applications: (1) Medical stents – expand to open blocked arteries at body temperature, (2) Actuators in aerospace (morphing wing tips), (3) Pipe couplings (self-tightening when heated). Piezoelectric (e.g., PZT, Quartz): Generate electric charge under stress; deform under electric field. Applications: (1) Pressure sensors, (2) Ultrasonic transducers (medical imaging), (3) Energy harvesters (floor tiles), (4) Inkjet printer heads, (5) Vibration dampers in precision instruments.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q16 · 5-Mark</div>
+        <div class="q-text">Describe the properties and applications of Aluminium and its alloys. Why is Aluminium preferred in aerospace applications over steel?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Aluminium: Density 2700 kg/m³ (1/3 of steel), melting point 660°C, highly corrosion resistant (Al₂O₃ passive film), good thermal/electrical conductor, easily machinable. Alloys (Duralumin = Al+Cu+Mg): UTS ~500 MPa. Aerospace preference: (1) Weight saving – critical for fuel efficiency, (2) High strength-to-weight ratio (specific strength), (3) Corrosion resistance (no painting needed), (4) Weldable and formable into complex shapes. Applications: Aircraft fuselage (7075-T6 alloy), engine parts, ship superstructures, car bodies (BMW i-series), cooking utensils, window frames. Limitation: Lower high-temperature strength than steel (not for engine internals).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q17 · 5-Mark</div>
+        <div class="q-text">Explain the classification of ferrous metals. Describe the properties and applications of (a) Cast Iron and (b) Mild Steel.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Ferrous metals contain iron as primary element. Classification: (1) Pure Iron: Soft, rarely used. (2) Cast Iron (C=2–4.5%): Brittle, high compressive strength, castable, good damping. Types: Grey CI (machine beds, pipes), White CI (very hard, wear-resistant), Malleable CI. (3) Mild Steel (C=0.1–0.3%): Ductile, weldable, good tensile strength (~250–400 MPa), cheap, used in beams, columns, plates, angles. (4) Medium/High Carbon Steel (C=0.3–1.5%): Springs, rails, cutting tools. (5) Alloy Steel: Stainless, high-speed steel. Mild Steel: Most produced engineering metal. Primary structural material (buildings, bridges, ships, vehicles).</div>
+      </div>
+
+      <div class="question-card hard" data-unit="4" data-type="5mark" data-diff="hard">
+        <div class="q-number">U4 · Q18 · 5-Mark</div>
+        <div class="q-text">Explain the concept of Carbon Fiber Reinforced Polymer (CFRP) composites. How are they manufactured, and what properties make them superior to conventional metals in aerospace and automotive industries?</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">CFRP: Matrix (epoxy resin) + Reinforcement (carbon fibres). Manufacturing: (1) Prepreg layers (carbon fibre pre-impregnated with resin), (2) Lay-up in mould, (3) Autoclave curing (120–180°C, 6–7 bar pressure). Properties: Density ~1600 kg/m³ (vs steel 7800), UTS ~1500 MPa (vs steel 500), Specific strength 10× steel, Stiffness-to-weight excellent, No corrosion, Fatigue resistant. Aerospace: Airbus A350 – 53% CFRP by weight, saving 25% fuel vs aluminium equivalent. BMW i3 – CFRP body shell. Formula 1 monocoque. Limitations: High cost, complex repair, non-recyclable easily, brittle failure mode (no ductility).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q19 · 5-Mark</div>
+        <div class="q-text">What are ceramics? Classify them and explain their mechanical and thermal properties with engineering applications.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Ceramics: Inorganic, non-metallic compounds (oxides, nitrides, carbides). Classification: (1) Traditional ceramics – clay-based (bricks, tiles, porcelain). (2) Advanced/Engineering ceramics – Al₂O₃, SiC, Si₃N₄. Properties: High hardness (Mohs 7–9), high melting point (>1500°C), excellent chemical resistance, electrical insulators (except semiconductors), brittle (low fracture toughness). Applications: (1) Cutting tools – Al₂O₃ inserts for hard turning, (2) Thermal barrier coatings in jet engine turbine blades, (3) Spark plug insulators (porcelain), (4) Bioceramics – hydroxyapatite bone implants, (5) Ceramic bearings (no lubrication needed, non-magnetic). Limitation: Cannot be welded or plastically deformed.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q20 · 5-Mark</div>
+        <div class="q-text">Describe the role of Mechanical Engineering in Marine Engineering. What machines and systems are designed by mechanical engineers in ships and submarines?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-rare">Rare</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Marine Mechanical Engineering: Design and operation of ship machinery and propulsion systems. Systems: (1) Main Propulsion – diesel engines (2-stroke crosshead, up to 80,000 kW), gas turbines for warships, nuclear propulsion for submarines. (2) Propeller design – optimise for efficiency and cavitation resistance. (3) Steering gear, (4) Auxiliary machinery – compressors, pumps, separators, (5) HVAC for crew comfort, (6) Ballast systems (submarines: diving/surfacing). Challenges: Corrosive seawater environment, high pressures (submarine), vibration and fatigue, weight limitations. Modern innovation: Azipod (azimuthing propulsion) – 360° rotation eliminates rudder, better maneuverability in ports.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q21 · 5-Mark</div>
+        <div class="q-text">Explain the mechanical properties of engineering materials: tensile strength, hardness, ductility, toughness, and fatigue. Give one test method for each.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">1. Tensile Strength: Max stress before fracture; Test: UTM (Universal Testing Machine) – dog-bone specimen. 2. Hardness: Resistance to surface indentation; Tests: Brinell (BHN – 10mm ball, 3000N), Vickers (diamond pyramid), Rockwell (HRC). 3. Ductility: Ability to deform plastically without fracture; Measured by % elongation in tensile test. 4. Toughness: Energy absorbed before fracture; Test: Charpy/Izod impact test (notched specimen, pendulum). 5. Fatigue Strength: Failure under repeated cyclic stress; Test: Rotating beam fatigue test – plot S-N curve. All are critical for material selection in design of safe engineering components.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="4" data-type="5mark" data-diff="hard">
+        <div class="q-number">U4 · Q22 · 5-Mark</div>
+        <div class="q-text">Compare the properties of copper, aluminium, and titanium as non-ferrous metals. Justify their selection for specific applications.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Copper: Density 8960 kg/m³, excellent electrical (59 MS/m) &amp; thermal conductivity, ductile, corrosion resistant. Use: Electrical cables, heat exchangers, plumbing. Aluminium: Density 2700 kg/m³, good strength-to-weight, corrosion resistant, cheap. Use: Aerospace structures, packaging, automotive body panels. Titanium: Density 4500 kg/m³, UTS ~900 MPa, excellent corrosion resistance, biocompatible, high-temperature strength. Use: Aerospace engine components, surgical implants, marine fasteners. Selection: Electrical → Copper. Lightweight structural → Aluminium. High-strength + lightweight + biocompatible → Titanium (despite 5–10× cost premium over steel).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="4" data-type="5mark" data-diff="medium">
+        <div class="q-number">U4 · Q23 · 5-Mark</div>
+        <div class="q-text">Explain the role of Mechanical Engineering in the Automotive industry. How has EV (Electric Vehicle) technology changed the scope of mechanical engineering in this sector?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Traditional Automotive ME: IC engine design, powertrain (gearbox, driveshaft, differential), suspension (springs, dampers), braking (disc brakes, ABS), body structure (crash safety). EV Impact on ME: (1) IC engine replaced by electric motor (simpler mechanically), (2) Gearbox eliminated (single-speed or direct drive), (3) Battery thermal management becomes critical mechanical problem, (4) Lightweight design (CFRP, aluminium) more important (range anxiety). New opportunities: Battery enclosure design, cooling systems, regenerative braking, motor mounting, noise/vibration isolation (EVs quieter, NVH more noticeable). India: Tata Nexon EV, Ola Electric – mechanical engineers designing indigenous EV platforms. The skill set evolves – more systems integration, less ICE-specific knowledge.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     UNIT V – MANUFACTURING & THERMAL ENGINEERING
+     ============================================================ -->
+<section class="unit-section" id="unit5">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <span class="unit-number">UNIT V</span>
+      <div>
+        <div class="unit-title">Manufacturing &amp; Thermal Engineering</div>
+        <div class="unit-subtitle">Casting · Forming · Machining · CNC · 3D Printing · IC Engines · Thermodynamic Cycles</div>
+      </div>
+    </div>
+    <div class="unit-stats">
+      <span class="unit-count">12 × 2-Mark</span>
+      <span class="unit-count">11 × 5-Mark</span>
+      <span class="collapse-icon">▾</span>
+    </div>
+  </div>
+  <div class="unit-body">
+
+    <div class="formula-sheet">
+      <h4>⚡ Quick Reference – Unit V (Thermal)</h4>
+      <div class="formula-grid">
+        <div class="formula-item"><div class="f-name">Otto Cycle Efficiency</div>η = 1 – (1/r^(γ-1)) ; r = compression ratio</div>
+        <div class="formula-item"><div class="f-name">Diesel Cycle Efficiency</div>η = 1 – (1/r^(γ-1)) × [(r_c^γ – 1)/(γ(r_c – 1))]</div>
+        <div class="formula-item"><div class="f-name">COP (Refrigeration)</div>COP = Q_L / W = T_L / (T_H – T_L)</div>
+        <div class="formula-item"><div class="f-name">Indicated Thermal Efficiency</div>η_ith = IP / (ṁ_f × CV)</div>
+      </div>
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-2mark">2-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid" id="u5-2mark">
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q01 · 2-Mark</div>
+        <div class="q-text">Differentiate between 2-Stroke and 4-Stroke IC Engines in terms of power strokes per revolution.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q02 · 2-Mark</div>
+        <div class="q-text">Distinguish between SI (Spark Ignition) and CI (Compression Ignition) engines.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q03 · 2-Mark</div>
+        <div class="q-text">What is Casting? Name two types of casting processes.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="2mark" data-diff="medium">
+        <div class="q-number">U5 · Q04 · 2-Mark</div>
+        <div class="q-text">Calculate the thermal efficiency of an Otto cycle with compression ratio r=8 (γ=1.4).
+          <div class="formula-block">η = 1 – 1/r^(γ-1) = 1 – 1/8^0.4 ≈ 56.5%</div>
+        </div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q05 · 2-Mark</div>
+        <div class="q-text">What is 3D Printing (Additive Manufacturing)? Name any two processes.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q06 · 2-Mark</div>
+        <div class="q-text">What is a Boiler? Classify boilers based on tube arrangement.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="2mark" data-diff="medium">
+        <div class="q-number">U5 · Q07 · 2-Mark</div>
+        <div class="q-text">Fill in the blank: In a refrigeration system, the device that absorbs heat from the refrigerated space is called the __________.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="2mark" data-diff="medium">
+        <div class="q-number">U5 · Q08 · 2-Mark</div>
+        <div class="q-text">What is CNC machining? State one advantage over conventional machining.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q09 · 2-Mark</div>
+        <div class="q-text">Differentiate between Forging and Rolling as forming processes.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="2mark" data-diff="medium">
+        <div class="q-number">U5 · Q10 · 2-Mark</div>
+        <div class="q-text">True/False: The Diesel cycle operates at constant volume during heat addition. Justify.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="5" data-type="2mark" data-diff="easy">
+        <div class="q-number">U5 · Q11 · 2-Mark</div>
+        <div class="q-text">What is Welding? Name two types of fusion welding processes.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="2mark" data-diff="medium">
+        <div class="q-number">U5 · Q12 · 2-Mark</div>
+        <div class="q-text">Name the four main components of a vapour compression refrigeration system and state their functions briefly.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-5mark">5-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid single" id="u5-5mark">
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q13 · 5-Mark</div>
+        <div class="q-text">Explain the working of a 4-Stroke Petrol Engine with a neat labeled P-V diagram and valve timing diagram. Name the four strokes.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🔧</span>[Diagram: 4-Stroke Engine – Intake / Compression / Power / Exhaust with P-V diagram]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">4 Strokes: (1) Suction/Intake: Piston moves down, intake valve opens, air-fuel mixture enters. (2) Compression: Both valves closed, piston moves up, mixture compressed (ratio 8:1 to 12:1). Temperature and pressure rise. (3) Power/Expansion: Spark plug fires at TDC, mixture ignites, gases expand, piston moves down — work produced. (4) Exhaust: Exhaust valve opens, piston moves up, burned gases expelled. 1 power stroke per 2 revolutions. Used in: Cars (petrol), motorcycles. Otto cycle idealizes this as two isentropic + two isochoric processes. Thermal efficiency 25–35% for actual engines.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q14 · 5-Mark</div>
+        <div class="q-text">With a neat sketch, explain the Sand Casting process. List its advantages, limitations, and applications.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>⚙</span>[Diagram: Sand Mould – Cope, Drag, Pattern, Sprue, Runner, Gate, Riser, Core]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Sand Casting: Molten metal poured into sand mould cavity. Steps: (1) Make pattern (slightly larger – shrinkage allowance), (2) Prepare sand mould (silica sand + clay + water), (3) Place pattern in flask (cope+drag), ram sand, (4) Remove pattern — cavity remains, (5) Place core (for hollow parts), (6) Close mould, pour molten metal, (7) Allow to solidify, break mould, fettling (remove gates, risers). Advantages: Cheap, any alloy, large parts, complex shapes. Limitations: Poor surface finish (Ra 12–25 µm), dimensional tolerance ±1mm, slow production rate. Applications: Engine blocks, pump housings, valves, machine tool bases.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="5" data-type="5mark" data-diff="hard">
+        <div class="q-number">U5 · Q15 · 5-Mark</div>
+        <div class="q-text">An Otto cycle has a compression ratio of 10 and the heat added per kg of working fluid is 800 kJ/kg. Calculate: (a) Thermal efficiency, (b) Work done per kg, (c) Heat rejected. (γ = 1.4, Cv = 0.718 kJ/kg·K)</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="formula-block">η = 1 – (1/r^(γ-1)) | W = η × Q_in | Q_out = Q_in – W</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">(a) η = 1 – 1/(10^0.4) = 1 – 1/2.512 = 1 – 0.398 = 0.602 = 60.2%. (b) W = η × Q_in = 0.602 × 800 = 481.6 kJ/kg. (c) Q_rejected = Q_in – W = 800 – 481.6 = 318.4 kJ/kg. Note: Higher compression ratio → higher efficiency (theoretical). Actual petrol engine r=8–12; efficiency ~25–35% due to friction, heat loss.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q16 · 5-Mark</div>
+        <div class="q-text">Explain the working principle of a Boiler. Describe a Fire Tube Boiler (Cornish or Lancashire) with a neat diagram.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🏭</span>[Diagram: Lancashire Boiler – Shell, Fire tubes, Furnace, Flue gas path, Steam outlet, Safety valve]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Boiler: Closed vessel where water is heated by combustion of fuel to generate steam. Fire Tube Boiler: Hot flue gases pass through tubes surrounded by water. Lancashire Boiler: Horizontal cylindrical shell (8m × 2m). Two internal furnace tubes carrying hot gases from front to back, then gases return via external flues below and sides. Steam collects in upper shell space. Accessories: Steam stop valve, pressure gauge, water level gauge, safety valve, feed check valve. Low pressure (&lt;10 bar), capacity 6000–9000 kg/hr steam. Used: Small industries, heating systems. Water tube boilers (Babcock & Wilcox) used for high pressure.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q17 · 5-Mark</div>
+        <div class="q-text">Explain the Vapour Compression Refrigeration Cycle with a neat P-h (Mollier) diagram. Name the four components and their functions.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>❄</span>[Diagram: VCR Cycle – Compressor → Condenser → Expansion valve → Evaporator → Compressor]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">VCR Components: (1) Compressor – raises refrigerant pressure (superheated vapour), work input W. (2) Condenser – high-pressure vapour cooled to liquid, rejects heat Q_H to surroundings. (3) Expansion valve – throttles high-pressure liquid to low pressure, temperature drops. (4) Evaporator – low-pressure refrigerant absorbs heat Q_L from refrigerated space, evaporates. Cycle (P-h): 1→2 Compression (isentropic), 2→3 Condensation (isobaric cooling), 3→4 Throttling (isenthalpic), 4→1 Evaporation (isobaric heat absorption). COP = Q_L/W. Refrigerants: R-134a (domestic), R-410A (AC), NH₃ (industrial).</div>
+      </div>
+
+      <div class="question-card hard" data-unit="5" data-type="5mark" data-diff="hard">
+        <div class="q-number">U5 · Q18 · 5-Mark</div>
+        <div class="q-text">Compare the Diesel cycle and Otto cycle. A Diesel engine has r=16, cut-off ratio r_c=2.5 (γ=1.4). Find its thermal efficiency.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="formula-block">η_Diesel = 1 – [1/r^(γ-1)] × [(r_c^γ – 1)/(γ(r_c – 1))]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">η = 1 – [1/16^0.4] × [(2.5^1.4 – 1)/(1.4×(2.5–1))]. 16^0.4 = 3.031. 2.5^1.4 = 3.251. η = 1 – (1/3.031) × [(3.251–1)/(1.4×1.5)] = 1 – 0.330 × [2.251/2.1] = 1 – 0.330 × 1.072 = 1 – 0.354 = 0.646 = 64.6%. Comparison: Otto cycle – constant volume heat addition, higher efficiency at same r. Diesel – constant pressure heat addition, higher r possible (16–22 vs 8–12), actual efficiencies similar. Diesel: heavy vehicles; Otto: light vehicles (petrol/gas).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q19 · 5-Mark</div>
+        <div class="q-text">Explain the working of a CNC machine. How does CNC differ from conventional machining? Describe any two types of CNC machine tools.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">CNC: Computer Numerical Control. Machine tool movements controlled by pre-programmed instructions (G-codes, M-codes) fed via computer. Working: Part drawing → CAD → CAM (toolpath generation) → CNC program → Machine executes automatically. Components: MCU (control unit), servo drives, ball screws, encoders (feedback). Advantages over conventional: (1) High accuracy (±0.01mm), (2) Repeatability, (3) Faster, (4) Complex profiles possible, (5) Minimal skilled operator needed, (6) 24/7 operation. Types: (1) CNC Turning Centre: Rotates workpiece, stationary tool – makes shafts, cylinders. (2) CNC Machining Centre: Rotates tool, stationary workpiece – milling, drilling, boring complex shapes. Used in: Automotive (engine parts), aerospace, mould making.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q20 · 5-Mark</div>
+        <div class="q-text">Describe the components and working principle of an Electric Vehicle (EV). How does a Hybrid Vehicle differ from a pure EV?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">EV Components: (1) Battery Pack (Li-ion) – energy storage, 400V DC, 40–100 kWh, (2) Electric Motor (PMSM or induction) – converts electrical to mechanical energy, (3) Power Electronics (inverter, DC-DC converter) – controls motor speed/torque, (4) Regenerative Braking – motor acts as generator, recovers kinetic energy, (5) On-Board Charger – converts AC grid to DC for charging, (6) Thermal Management – cooling battery+motor. Working: Battery → Inverter (DC to AC) → Motor → Drivetrain → Wheels. Hybrid: Has both IC engine + electric motor. Parallel hybrid: both can drive wheels (Toyota Prius). Series hybrid: engine charges battery only; motor drives wheels. Plug-in hybrid (PHEV): larger battery, can charge from grid. Range advantage over pure EV; lower emissions than pure ICE.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q21 · 5-Mark</div>
+        <div class="q-text">What is Smart Manufacturing? Explain how Industry 4.0 technologies (IoT, AI, Additive Manufacturing) are transforming production processes.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Smart Manufacturing (Industry 4.0): Integration of digital technologies with physical manufacturing. Pillars: (1) IoT (Industrial Internet of Things): Sensors on machines transmit real-time data — predictive maintenance, zero unplanned downtime. (2) Digital Twin: Virtual replica of machine/process — test before physical build. (3) AI/ML: Optimize process parameters, quality inspection by vision systems, demand forecasting. (4) Additive Manufacturing (3D Printing): Direct from CAD — no tooling, rapid prototyping, on-demand spare parts. (5) Collaborative Robots (Cobots): Work alongside humans safely. (6) Cloud Computing + Big Data: Analyze massive datasets from factory floor. Benefits: 20–30% productivity increase, 25% reduction in defects, mass customization. India: Make in India + Smart manufacturing = competitive global manufacturing hub.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="5" data-type="5mark" data-diff="hard">
+        <div class="q-number">U5 · Q22 · 5-Mark</div>
+        <div class="q-text">Explain the joining processes in manufacturing. Compare Arc Welding, MIG Welding, and Brazing — describe their working principles and applications.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Arc Welding (SMAW): AC/DC arc struck between coated electrode and workpiece. Base metal melts; electrode provides filler. Flux coating protects weld pool. Simple, portable. Used: Structural steel, heavy fabrication. MIG/GMAW: Wire electrode fed continuously through gun; inert gas (Ar, CO₂) shields weld. Semi-automatic, high deposition rate. Used: Automotive body, thin sheet metal, pipelines. Brazing: Base metal NOT melted. Filler metal (melting point &gt;450°C, &lt;base metal) flows into joint by capillary action. No distortion, joins dissimilar metals. Used: Copper plumbing, carbide tips on cutting tools, heat exchangers, HVAC. Comparison: Arc/MIG = fusion welding (parent metal melts); Brazing = non-fusion (only filler melts).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="5" data-type="5mark" data-diff="medium">
+        <div class="q-number">U5 · Q23 · 5-Mark</div>
+        <div class="q-text">Explain the Fused Deposition Modeling (FDM) 3D printing process with a neat diagram. State the materials used, applications, and limitations.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🖨</span>[Diagram: FDM printer – Filament spool → Extruder head → Heated nozzle → Layer-by-layer deposition on build plate]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">FDM Process: Thermoplastic filament (1.75mm or 3mm) unwound from spool → heated extruder melts filament → deposits in thin layers (0.1–0.3mm) on build platform → each layer bonds to previous → 3D object built bottom-up. CAD → STL file → Slicer software → G-code → printer. Materials: PLA (biodegradable, easy print), ABS (stronger, heat resistant), PETG (food-safe), Nylon (flexible, strong), TPU (rubber-like). Applications: Rapid prototyping, custom jigs/fixtures, architectural models, educational models, medical prosthetics. Limitations: (1) Anisotropic strength (weak in Z-direction), (2) Visible layer lines (surface finish), (3) Support structures needed for overhangs, (4) Limited materials vs injection moulding, (5) Slower than mass production. Resolution: 0.1mm layers possible.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     UNIT VI – POWER & TRANSMISSION SYSTEMS
+     ============================================================ -->
+<section class="unit-section" id="unit6">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-header-left">
+      <span class="unit-number">UNIT VI</span>
+      <div>
+        <div class="unit-title">Power &amp; Transmission Systems</div>
+        <div class="unit-subtitle">Power Plants · Belt/Chain/Gear Drives · Robotics</div>
+      </div>
+    </div>
+    <div class="unit-stats">
+      <span class="unit-count">12 × 2-Mark</span>
+      <span class="unit-count">11 × 5-Mark</span>
+      <span class="collapse-icon">▾</span>
+    </div>
+  </div>
+  <div class="unit-body">
+
+    <div class="formula-sheet">
+      <h4>⚡ Quick Reference – Unit VI</h4>
+      <div class="formula-grid">
+        <div class="formula-item"><div class="f-name">Speed Ratio (Belt Drive)</div>N₂/N₁ = D₁/D₂ (no slip)</div>
+        <div class="formula-item"><div class="f-name">Velocity Ratio (Gear)</div>VR = T₁/T₂ = N₂/N₁</div>
+        <div class="formula-item"><div class="f-name">Power Transmitted (Belt)</div>P = (T₁ – T₂) × v</div>
+        <div class="formula-item"><div class="f-name">Module (Gear)</div>m = D/T = pitch/π</div>
+      </div>
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-2mark">2-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid" id="u6-2mark">
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q01 · 2-Mark</div>
+        <div class="q-text">Differentiate between an open belt drive and a cross belt drive.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q02 · 2-Mark</div>
+        <div class="q-text">In a belt drive, the driver pulley has diameter 300 mm and rotates at 1500 RPM. Find the speed of driven pulley (diameter 600 mm).
+          <div class="formula-block">N₂ = N₁ × D₁/D₂ = 1500 × 300/600 = 750 RPM</div>
+        </div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q03 · 2-Mark</div>
+        <div class="q-text">State two advantages of Chain Drive over Belt Drive.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q04 · 2-Mark</div>
+        <div class="q-text">What is a Nuclear Power Plant? Name the fuel used and state one advantage over thermal power plants.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="2mark" data-diff="medium">
+        <div class="q-number">U6 · Q05 · 2-Mark</div>
+        <div class="q-text">Differentiate between a Spur Gear and a Helical Gear in terms of tooth orientation and noise characteristics.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="2mark" data-diff="medium">
+        <div class="q-number">U6 · Q06 · 2-Mark</div>
+        <div class="q-text">What is a Robot? Define the term 'Degree of Freedom' in robotics.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q07 · 2-Mark</div>
+        <div class="q-text">Name the three major components of a Hydro Power Plant and state their functions briefly.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q08 · 2-Mark</div>
+        <div class="q-text">True/False: Gear drives can transmit power at exact velocity ratio without slip. Justify.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="2mark" data-diff="medium">
+        <div class="q-number">U6 · Q09 · 2-Mark</div>
+        <div class="q-text">What is creep in a belt drive? How does it affect the velocity ratio?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-rare">Rare</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="2mark" data-diff="medium">
+        <div class="q-number">U6 · Q10 · 2-Mark</div>
+        <div class="q-text">Name four types of robot configurations (arm geometries) used in industry.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card easy" data-unit="6" data-type="2mark" data-diff="easy">
+        <div class="q-number">U6 · Q11 · 2-Mark</div>
+        <div class="q-text">Fill in the blank: In a Diesel Power Plant, the prime mover is a __________ engine which drives an __________.</div>
+        <div class="q-meta">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="2mark" data-diff="medium">
+        <div class="q-number">U6 · Q12 · 2-Mark</div>
+        <div class="q-text">What is a Worm and Worm Wheel gear drive? State one application where it is preferred.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="question-type-header">
+      <span class="type-badge type-5mark">5-Mark Questions</span>
+      <div class="type-divider"></div>
+    </div>
+    <div class="questions-grid single" id="u6-5mark">
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q13 · 5-Mark</div>
+        <div class="q-text">Explain the layout and working of a Thermal (Steam) Power Plant with a neat block diagram. Name the major components and the energy conversions involved.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>⚡</span>[Block Diagram: Coal → Boiler (steam) → Turbine (mechanical) → Generator (electrical) → Grid]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Thermal Power Plant: Converts chemical energy (coal) → thermal → mechanical → electrical. Components: (1) Coal handling &amp; combustion – coal pulverized, burned in boiler furnace. (2) Boiler – generates high-pressure superheated steam (500°C, 150 bar). (3) Steam Turbine – steam expands, rotates turbine shaft (mechanical energy). (4) Alternator (Generator) – turbine drives generator → AC electricity. (5) Condenser – exhaust steam condensed back to water (reuse). (6) Cooling tower – rejects condenser heat. (7) Feed pump – pressurizes condensate back to boiler. Efficiency ~33–38% (Rankine cycle). India's thermal plants: NTPC Vindhyachal (4760 MW), NTPC Talcher. Largest source of electricity in India (~70%).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q14 · 5-Mark</div>
+        <div class="q-text">Explain Belt Drives — types of belts, open vs. cross belt arrangement, and the law of belting. Derive the velocity ratio expression.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="formula-block">Velocity Ratio = N₂/N₁ = D₁/D₂ (open belt) | Cross belt: same direction of rotation irrelevant — shafts rotate opposite</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Types of belts: (1) Flat belt – simple, long centre distance, low speed ratio. (2) V-belt – trapezoidal cross-section, wedge action in groove, higher friction, compact. (3) Round belt – round cross-section, small power. (4) Toothed/timing belt – positive drive, no slip. Open belt: Both pulleys rotate in same direction. Cross belt: Driven pulley rotates opposite to driver. Law of belting: Centre plane of belt must be perpendicular to axis of pulley. Velocity ratio: Peripheral velocity of both pulleys equal (assuming no slip). πD₁N₁ = πD₂N₂ → N₂/N₁ = D₁/D₂. With slip s%: N₂ = N₁(D₁/D₂)(1–s/100). V-belts: Used in fans, compressors, washing machines, car accessories.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="6" data-type="5mark" data-diff="hard">
+        <div class="q-number">U6 · Q15 · 5-Mark</div>
+        <div class="q-text">A belt drive connects two shafts. Driver: 200mm diameter, 900 RPM; Driven: 500mm diameter. Effective pull = 400 N, belt speed = 9.42 m/s. Find (a) speed of driven pulley, (b) power transmitted.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="formula-block">N₂ = N₁ × D₁/D₂ | v = πD₁N₁/60 | P = (T₁ – T₂) × v</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">(a) N₂ = 900 × 200/500 = 360 RPM. Verify belt speed: v = π×0.2×900/60 = 9.42 m/s ✓. (b) P = Effective pull × belt speed = 400 × 9.42 = 3768 W = 3.768 kW ≈ 3.77 kW. Note: Effective pull (T₁ – T₂) is difference between tight side and slack side tension. This is net tangential force driving the load. Efficiency &lt;100% due to slip and creep.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q16 · 5-Mark</div>
+        <div class="q-text">Explain the working of a Hydro Electric Power Plant. Describe its major components and the principle of energy conversion.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-vfa">Very Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>💧</span>[Layout: Reservoir → Dam → Penstock → Turbine → Generator → Transformer → Grid]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Hydro Power: Converts potential energy of water (stored at height) → kinetic → mechanical → electrical. Components: (1) Reservoir – stores water (head = height), (2) Dam – creates water head, controls flow, (3) Intake/Gate – controls water flow, (4) Penstock – large pipe delivering water to turbine at high velocity, (5) Turbine – water drives runner (Pelton for high head, Francis/Kaplan for medium/low), (6) Draft tube – gradually slows water after turbine (energy recovery), (7) Generator – turbine shaft drives alternator, (8) Transformer – steps up voltage for transmission. Energy conversion: PE = mgh → KE → Mechanical (shaft rotation) → Electrical. Efficiency: 85–95% (highest of all power plants). Zero fuel cost, no emissions. Examples: Bhakra Dam (1325 MW), Tehri Dam (2400 MW).</div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q17 · 5-Mark</div>
+        <div class="q-text">Explain Gear Drives — types of gears, gear terminology (module, pitch circle, pressure angle), and a gear train with numerical example.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>⚙</span>[Diagram: Spur gear pair – Pitch circles, addendum, dedendum, module, pressure angle]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Types: Spur (parallel shafts, straight teeth), Helical (parallel shafts, inclined teeth, quieter), Bevel (intersecting shafts, conical), Worm (high ratio, self-locking), Rack &amp; pinion (rotary → linear). Terminology: Module m = D/T (D=pitch circle dia, T=number of teeth). Pitch circle: reference circle where gears mesh. Pressure angle (20° standard): angle between line of action and common tangent. Addendum: tooth height above pitch circle. Dedendum: tooth depth below pitch circle. Clearance: addendum – dedendum. Gear train: If T₁=20 teeth, T₂=60, N₁=1500 RPM: Velocity ratio = T₁/T₂ = 20/60 = 1/3. N₂ = 1500/3 = 500 RPM. For compound gear train, multiply individual ratios. Applications: Automotive gearbox, clock mechanisms, winches, machine tools.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q18 · 5-Mark</div>
+        <div class="q-text">Introduce Robotics — define robots, joints and links, and robot configurations. List five industrial applications of robots.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>🤖</span>[Diagram: SCARA Robot – Base, Shoulder, Elbow joints (revolute), Wrist, End-effector]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Robot: Programmable mechanical device performing tasks autonomously or semi-autonomously. Joints (allow motion): (1) Revolute (R) – rotational, like human elbow. (2) Prismatic (P) – linear sliding. Links: Rigid bodies connecting joints. DOF: Each joint adds 1 DOF; typical industrial robot has 6 DOF. Configurations: (1) Cartesian (PPP) – 3 linear axes, simple programming, large workspace. (2) Cylindrical (RPP) – rotary base + 2 linear. (3) SCARA (RRP) – horizontal arm, vertical linear, assembly work. (4) Articulated (RRR) – most like human arm, highest flexibility. (5) Parallel/Delta – high speed, lightweight handling. Applications: (1) Welding (automotive body shop), (2) Assembly (electronics), (3) Painting/spray coating, (4) Material handling (palletising), (5) CNC machine tending, (6) Surgery (Da Vinci robot), (7) Bomb disposal, (8) Space exploration (Mars Rovers).</div>
+      </div>
+
+      <div class="question-card hard" data-unit="6" data-type="5mark" data-diff="hard">
+        <div class="q-number">U6 · Q19 · 5-Mark</div>
+        <div class="q-text">Explain the working of a Nuclear Power Plant. What is nuclear fission? Describe the role of the reactor, moderator, control rods, and coolant.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="diagram-placeholder"><span>⚛</span>[Diagram: Nuclear reactor core → Heat exchanger → Steam turbine → Generator]</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Nuclear Fission: Splitting of heavy nucleus (U-235, Pu-239) by slow neutron → two lighter nuclei + 3 neutrons + enormous energy (E=mc²). Chain reaction: Released neutrons cause further fissions. Controlled chain reaction → heat → steam → turbine → electricity. Reactor components: (1) Fuel rods: U-235 enriched uranium pellets in zirconium alloy tubes. (2) Moderator: Slows neutrons to thermal speeds – heavy water (CANDU) or graphite (older), light water (PWR). (3) Control rods: Boron/cadmium rods absorb neutrons – inserted/withdrawn to regulate reaction rate. (4) Coolant: Removes heat from core – light water (PWR, BWR), heavy water (CANDU). (5) Pressure vessel: Containment at high pressure. (6) Steam generator: Transfers heat to secondary water loop → steam → turbine. India: Kudankulam NPP (VVER-1000), Tarapur. Capacity: 1000+ MW per unit. Zero CO₂ emissions; concern: radioactive waste disposal.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q20 · 5-Mark</div>
+        <div class="q-text">Explain Chain Drive — types of chains, advantages over belt drives, and applications. Where is chain drive preferred over gear drive?</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Chain Drive: Positive drive – chain links mesh with sprocket teeth. No slip → exact velocity ratio. Types: (1) Roller chain (most common): Bush roller over each pin – good for 1–100 kW, up to 50 m/s. (2) Silent/Inverted tooth chain: Tooth-shaped links – quieter at high speeds. (3) Leaf chain: Used in forklifts for lifting. Advantages over belt: (1) No slip – exact ratio, (2) Transmits more power in same cross-section, (3) Operates at higher temperatures, (4) Suitable for wet/oily conditions, (5) No creep. Chain vs Gear: Chain preferred for: (1) Long centre distances (belts slip, gears impractical), (2) Moderate power (gears for very high power at short distance). Examples: Bicycle, motorcycle final drive, conveyor systems, agricultural machinery, forklifts.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="6" data-type="5mark" data-diff="hard">
+        <div class="q-number">U6 · Q21 · 5-Mark</div>
+        <div class="q-text">A gear train has 3 gears: T₁=25, T₂=75, T₃=50 teeth. If N₁=1200 RPM, find N₃. If the gear 2 is an idler gear, what is the direction of rotation of gear 3? Also find the overall velocity ratio.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-fa">Frequently Asked</span>
+        </div>
+        <div class="formula-block">Overall VR = N₁/N₃ = (T₂/T₁) × (T₃/T₂) = T₃/T₁ (idler has no effect on VR)</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Idler gear (G2) is between G1 and G3, meshing with both. N₂ = N₁ × T₁/T₂ = 1200 × 25/75 = 400 RPM. N₃ = N₂ × T₂/T₃ = 400 × 75/50 = 600 RPM. Alternatively, N₃ = N₁ × T₁/T₃ = 1200 × 25/50 = 600 RPM. VR (overall) = N₁/N₃ = 1200/600 = 2:1. Direction: G1 clockwise → G2 anticlockwise → G3 clockwise (same as G1). Idler reverses direction twice → net: same direction as driver. Idler changes direction but NOT overall velocity ratio. Application: Lathe back-gear, reversing mechanisms in machine tools.</div>
+      </div>
+
+      <div class="question-card medium" data-unit="6" data-type="5mark" data-diff="medium">
+        <div class="q-number">U6 · Q22 · 5-Mark</div>
+        <div class="q-text">Explain the working of a Diesel Power Plant. Draw a schematic layout and compare it with Steam Power Plant in terms of efficiency, cost, and application.</div>
+        <div class="q-meta">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Diesel Power Plant: Multi-cylinder diesel engine directly (or via gearbox) drives AC alternator. Layout: Diesel engine (4-stroke) → Crankshaft → Coupling → Alternator → Switchgear → Grid. Auxiliaries: Fuel storage, fuel injection system, cooling water circuit, lube oil system, starting air system, exhaust silencer. Comparison vs Steam: Diesel – Efficiency: 32–38%, Quick startup (minutes), Small capacity (1–50 MW), High running cost (diesel fuel), Low capital cost, Suitable for standby/emergency and remote areas. Steam – Efficiency: 33–40%, Long startup (hours), Large capacity (100–2000 MW), Lower running cost (coal), High capital cost, Base load plant. Applications of Diesel: Hospital generators, construction sites, islands, rural electrification, ship propulsion.</div>
+      </div>
+
+      <div class="question-card hard" data-unit="6" data-type="5mark" data-diff="hard">
+        <div class="q-number">U6 · Q23 · 5-Mark</div>
+        <div class="q-text">Explain the applications of Industrial Robots in modern manufacturing. How do collaborative robots (Cobots) differ from traditional industrial robots? Describe safety features of cobots.</div>
+        <div class="q-meta">
+          <span class="badge badge-hard">Hard</span>
+          <span class="badge badge-oa">Occasionally Asked</span>
+        </div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Hint Answer ▾</button>
+        <div class="answer-content">Industrial Robot Applications: (1) Spot welding – automotive body assembly (ABB, Fanuc robots), (2) Arc welding – pipe fabrication, (3) Machine tending – CNC loading/unloading, (4) Painting – consistent quality, zero overspray, (5) Assembly – PCB components placement (SCARA robots), (6) Palletising/packaging – food, pharmaceuticals, (7) Inspection – vision-guided quality control, (8) Surgery – Da Vinci robotic surgery. Cobots (e.g., Universal Robots UR10, KUKA LBR iiwa): Work alongside humans without safety fences. Differences from traditional robots: (1) Lightweight (7–30 kg vs 500+ kg), (2) Force-limited (stop on contact), (3) No safety cage needed, (4) Easy reprogramming (hand-guided teaching), (5) Lower payload (up to 10 kg vs 500+ kg). Safety features: Force/torque sensors at each joint, speed monitoring, collision detection, rounded edges, soft stops. Applications: Assembly, testing, packaging in SMEs and co-working environments.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- SCROLL TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- QUIZ MODAL -->
+<div id="quizModal">
+  <div class="quiz-box">
+    <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    <div class="quiz-progress">
+      <span id="quizProgressText">Question 1 of 10</span>
+      <span id="quizScore2">Score: 0</span>
+    </div>
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgressFill" style="width:10%"></div>
+    </div>
+    <div id="quizQuestion">Loading...</div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-nav">
+      <button onclick="nextQuizQuestion()" id="nextBtn" style="display:none">Next →</button>
+    </div>
+    <div id="quizScore">
+      <div class="score-num" id="finalScore">0/10</div>
+      <p>Quiz Complete! Review the questions above for full explanations.</p>
+      <br>
+      <button class="btn-primary" onclick="startQuiz()">Retake Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// COLLAPSE/EXPAND UNITS
+function toggleUnit(header) {
+  const section = header.closest('.unit-section');
+  section.classList.toggle('collapsed');
+}
+
+// SHOW/HIDE ANSWERS
+function toggleAnswer(btn) {
+  const answer = btn.nextElementSibling;
+  if (answer.classList.contains('visible')) {
+    answer.classList.remove('visible');
+    btn.textContent = 'Show Hint Answer ▾';
+  } else {
+    answer.classList.add('visible');
+    btn.textContent = 'Hide Answer ▴';
+  }
+}
+
+// SCROLL TOP BUTTON
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// FILTER BUTTONS
+const filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  });
+});
+
+// SEARCH
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+function applyFilters() {
+  const searchVal = document.getElementById('searchInput').value.toLowerCase();
+  const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+  const cards = document.querySelectorAll('.question-card');
+  cards.forEach(card => {
+    const text = card.querySelector('.q-text').textContent.toLowerCase();
+    const diff = card.dataset.diff;
+    const type = card.dataset.type;
+    let show = true;
+    if (searchVal && !text.includes(searchVal)) show = false;
+    if (activeFilter === 'easy' && diff !== 'easy') show = false;
+    if (activeFilter === 'medium' && diff !== 'medium') show = false;
+    if (activeFilter === 'hard' && diff !== 'hard') show = false;
+    if (activeFilter === '2mark' && type !== '2mark') show = false;
+    if (activeFilter === '5mark' && type !== '5mark') show = false;
+    card.classList.toggle('hidden', !show);
+  });
+}
+
+// QUIZ MODE
+const quizQuestions = [
+  { q: "What is the water-cement ratio formula?", opts: ["w/c = Water / Cement", "w/c = Cement / Water", "w/c = Aggregate / Water", "w/c = Volume ratio"], ans: 0 },
+  { q: "Differentiate: In a 4-stroke engine, one power stroke occurs every ___ revolutions.", opts: ["1", "2", "3", "4"], ans: 1 },
+  { q: "Which thermodynamic cycle operates at CONSTANT PRESSURE during heat addition?", opts: ["Otto Cycle", "Carnot Cycle", "Diesel Cycle", "Brayton Cycle"], ans: 2 },
+  { q: "What does CNC stand for in manufacturing?", opts: ["Computer Numerical Control", "Controlled Numerical Computing", "Computer Network Control", "Centralized Numeric Control"], ans: 0 },
+  { q: "In a belt drive: N₂/N₁ = D₁/D₂. If D₁=200mm, D₂=400mm, N₁=1000RPM, N₂=?", opts: ["500 RPM", "2000 RPM", "250 RPM", "1000 RPM"], ans: 0 },
+  { q: "The primary objective of Surveying is to:", opts: ["Build structures", "Determine relative positions of points on earth's surface", "Design roads", "Study soil behavior"], ans: 1 },
+  { q: "Which type of pavement uses a cement concrete slab?", opts: ["Flexible pavement", "Rigid pavement", "Semi-rigid pavement", "Composite pavement"], ans: 1 },
+  { q: "Smart Materials that return to original shape when heated are called:", opts: ["Piezoelectric materials", "Shape Memory Alloys", "Magnetostrictive materials", "Thermoelectric materials"], ans: 1 },
+  { q: "In hydro power plant, a PENSTOCK is:", opts: ["A type of dam", "A pipe carrying water from reservoir to turbine", "A type of turbine", "A transformer"], ans: 1 },
+  { q: "Otto cycle thermal efficiency η = 1 – 1/r^(γ-1). For r=8, γ=1.4, η≈?", opts: ["35.2%", "47.5%", "56.5%", "62.5%"], ans: 2 }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz() {
+  currentQ = 0; score = 0; answered = false;
+  document.getElementById('quizScore').style.display = 'none';
+  document.getElementById('quizQuestion').style.display = 'block';
+  document.getElementById('quizOptions').style.display = 'grid';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('quizModal').classList.add('open');
+  loadQuizQuestion();
+}
+
+function loadQuizQuestion() {
+  const q = quizQuestions[currentQ];
+  document.getElementById('quizProgressText').textContent = `Question ${currentQ + 1} of ${quizQuestions.length}`;
+  document.getElementById('quizScore2').textContent = `Score: ${score}`;
+  document.getElementById('quizProgressFill').style.width = `${((currentQ + 1) / quizQuestions.length) * 100}%`;
+  document.getElementById('quizQuestion').textContent = q.q;
+  const optsContainer = document.getElementById('quizOptions');
+  optsContainer.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i, btn);
+    optsContainer.appendChild(btn);
+  });
+  answered = false;
+  document.getElementById('nextBtn').style.display = 'none';
+}
+
+function answerQ(selected, btn) {
+  if (answered) return;
+  answered = true;
+  const correct = quizQuestions[currentQ].ans;
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts[correct].classList.add('correct');
+  if (selected !== correct) {
+    btn.classList.add('wrong');
+  } else {
+    score++;
+  }
+  document.getElementById('quizScore2').textContent = `Score: ${score}`;
+  document.getElementById('nextBtn').style.display = 'block';
+}
+
+function nextQuizQuestion() {
+  currentQ++;
+  if (currentQ >= quizQuestions.length) {
+    document.getElementById('quizQuestion').style.display = 'none';
+    document.getElementById('quizOptions').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+    document.getElementById('quizScore').style.display = 'block';
+    document.getElementById('finalScore').textContent = `${score}/${quizQuestions.length}`;
+  } else {
+    loadQuizQuestion();
+  }
+}
+
+function closeQuiz() {
+  document.getElementById('quizModal').classList.remove('open');
+}
+</script>
+</body>
+</html>
