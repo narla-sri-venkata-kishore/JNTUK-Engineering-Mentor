@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Chemistry – Question Bank | JNTUK B.Tech 1st Year</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f14;
+    --surface: #16181f;
+    --surface2: #1e2029;
+    --border: #2a2d3a;
+    --text: #e8eaf0;
+    --muted: #8890a8;
+    --accent: #6c8fff;
+    --accent2: #a78bfa;
+    --easy: #22c55e;
+    --easy-bg: rgba(34,197,94,0.12);
+    --medium: #f97316;
+    --medium-bg: rgba(249,115,22,0.12);
+    --hard: #ef4444;
+    --hard-bg: rgba(239,68,68,0.12);
+    --vfa: #f59e0b;
+    --fa: #38bdf8;
+    --oa: #a78bfa;
+    --rare: #6b7280;
+    --u1: #6c8fff;
+    --u2: #a78bfa;
+    --u3: #34d399;
+    --u4: #fb923c;
+    --u5: #f472b6;
+    --nav-h: 64px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(14,15,20,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem;
+    gap: 1rem;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex; gap: .25rem; flex-wrap: wrap; justify-content: flex-end;
+  }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 500;
+    padding: .3rem .7rem; border-radius: 6px; transition: all .2s;
+    border: 1px solid transparent;
+  }
+  .nav-links a:hover { color: var(--text); border-color: var(--border); background: var(--surface2); }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,143,255,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: .3rem 1rem; border-radius: 999px; font-size: .78rem;
+    color: var(--muted); letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: .75rem;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    color: var(--muted); font-size: 1rem; max-width: 560px; margin: 0 auto 2.5rem;
+  }
+  .stats-row {
+    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+  }
+  .stat-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px; padding: .75rem 1.5rem; text-align: center;
+  }
+  .stat-box strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; color: var(--accent); }
+  .stat-box span { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    max-width: 1200px; margin: 0 auto 2rem;
+    padding: 0 1.5rem;
+    display: flex; gap: .5rem; flex-wrap: wrap; align-items: center;
+  }
+  .filter-label { color: var(--muted); font-size: .8rem; margin-right: .25rem; }
+  .filter-btn {
+    padding: .3rem .9rem; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--muted); font-size: .8rem; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all .2s; font-weight: 500;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-btn.easy.active { background: var(--easy); border-color: var(--easy); }
+  .filter-btn.medium.active { background: var(--medium); border-color: var(--medium); }
+  .filter-btn.hard.active { background: var(--hard); border-color: var(--hard); }
+
+  /* ── MAIN LAYOUT ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  /* ── UNIT SECTION ── */
+  section.unit {
+    margin-bottom: 4rem;
+    animation: fadeUp .5s ease both;
+  }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+  .unit-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .unit-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; flex-shrink: 0;
+  }
+  .unit-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem; font-weight: 700;
+  }
+  .unit-header h2 small { display: block; font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 400; color: var(--muted); margin-top: .1rem; }
+  .unit-count { margin-left: auto; background: var(--surface2); border: 1px solid var(--border); padding: .25rem .75rem; border-radius: 999px; font-size: .75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+
+  .qtype-heading {
+    font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
+    margin: 2rem 0 1rem; display: flex; align-items: center; gap: .75rem;
+  }
+  .qtype-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .qtype-pill {
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: .2rem .7rem; border-radius: 4px; font-size: .68rem;
+    font-family: 'JetBrains Mono', monospace; color: var(--accent);
+  }
+
+  /* ── GRID ── */
+  .q-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+  .q-grid.five { grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    display: flex; flex-direction: column; gap: .75rem;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+    position: relative; overflow: hidden;
+  }
+  .question-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; border-radius: 14px 14px 0 0;
+    background: var(--unit-color, var(--accent));
+  }
+  .question-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,.4);
+    border-color: var(--unit-color, var(--accent));
+  }
+
+  .q-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem; color: var(--muted);
+  }
+  .q-text {
+    font-size: .95rem; color: var(--text); font-weight: 400; line-height: 1.65;
+  }
+  .q-text sub, .q-text sup { font-size: .75em; }
+
+  .q-meta { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-top: auto; padding-top: .5rem; border-top: 1px solid var(--border); }
+
+  .badge {
+    padding: .2rem .6rem; border-radius: 6px; font-size: .7rem; font-weight: 600;
+    letter-spacing: .03em; display: inline-flex; align-items: center; gap: .3rem;
+  }
+  .badge.easy { background: var(--easy-bg); color: var(--easy); border: 1px solid rgba(34,197,94,.25); }
+  .badge.medium { background: var(--medium-bg); color: var(--medium); border: 1px solid rgba(249,115,22,.25); }
+  .badge.hard { background: var(--hard-bg); color: var(--hard); border: 1px solid rgba(239,68,68,.25); }
+
+  .rep-badge {
+    padding: .2rem .6rem; border-radius: 6px; font-size: .68rem; font-weight: 500;
+  }
+  .rep-vfa { background: rgba(245,158,11,.12); color: var(--vfa); border: 1px solid rgba(245,158,11,.25); }
+  .rep-fa  { background: rgba(56,189,248,.12); color: var(--fa);  border: 1px solid rgba(56,189,248,.25); }
+  .rep-oa  { background: rgba(167,139,250,.12); color: var(--oa); border: 1px solid rgba(167,139,250,.25); }
+  .rep-r   { background: rgba(107,114,128,.12); color: var(--rare); border: 1px solid rgba(107,114,128,.25); }
+
+  /* ── SHOW ANSWER ── */
+  .show-ans-btn {
+    margin-top: .5rem; background: transparent;
+    border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: .35rem .9rem; font-size: .78rem;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500;
+    transition: all .2s; text-align: left; width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .show-ans-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .show-ans-btn .chevron { transition: transform .3s; }
+  .show-ans-btn.open .chevron { transform: rotate(180deg); }
+  .answer-body {
+    display: none; padding: .85rem; background: var(--surface2); border-radius: 8px;
+    font-size: .88rem; line-height: 1.75; color: var(--text); border: 1px solid var(--border);
+  }
+  .answer-body.visible { display: block; animation: slideIn .25s ease; }
+  @keyframes slideIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
+  .answer-body strong { color: var(--accent); }
+  .answer-body ul { padding-left: 1.2rem; }
+  .answer-body li { margin-bottom: .3rem; }
+
+  /* ── UNIT COLORS ── */
+  .u1 { --unit-color: var(--u1); }
+  .u2 { --unit-color: var(--u2); }
+  .u3 { --unit-color: var(--u3); }
+  .u4 { --unit-color: var(--u4); }
+  .u5 { --unit-color: var(--u5); }
+
+  .u1 .unit-icon { background: rgba(108,143,255,.15); }
+  .u2 .unit-icon { background: rgba(167,139,250,.15); }
+  .u3 .unit-icon { background: rgba(52,211,153,.15); }
+  .u4 .unit-icon { background: rgba(251,146,60,.15); }
+  .u5 .unit-icon { background: rgba(244,114,182,.15); }
+
+  /* ── HIDDEN (filter) ── */
+  .question-card.hidden { display: none; }
+
+  /* ── SCROLL TOP ── */
+  #scrollTop {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent); color: #fff; border: none; cursor: pointer;
+    font-size: 1.2rem; display: none; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(108,143,255,.5); transition: transform .2s;
+  }
+  #scrollTop:hover { transform: scale(1.1); }
+  #scrollTop.visible { display: flex; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .q-grid, .q-grid.five { grid-template-columns: 1fr; }
+    .filter-bar { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Engineering Chemistry QB</div>
+  <div class="nav-links">
+    <a href="#unit1">⚛️ Unit I</a>
+    <a href="#unit2">🧱 Unit II</a>
+    <a href="#unit3">⚡ Unit III</a>
+    <a href="#unit4">🧪 Unit IV</a>
+    <a href="#unit5">🔬 Unit V</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">JNTUK B.Tech 1st Year • Updated Syllabus</div>
+  <h1>Engineering <span>Chemistry</span><br>Question Bank</h1>
+  <p class="hero-sub">130+ exam-oriented questions with difficulty levels & repetition frequency across all 5 units.</p>
+  <div class="stats-row">
+    <div class="stat-box"><strong>130+</strong><span>Questions</span></div>
+    <div class="stat-box"><strong>5</strong><span>Units</span></div>
+    <div class="stat-box"><strong>2 & 5</strong><span>Mark Sets</span></div>
+    <div class="stat-box"><strong>JNTUK</strong><span>Pattern</span></div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterDiff('all',this)">All</button>
+  <button class="filter-btn easy" onclick="filterDiff('easy',this)">🟢 Easy</button>
+  <button class="filter-btn medium" onclick="filterDiff('medium',this)">🟠 Medium</button>
+  <button class="filter-btn hard" onclick="filterDiff('hard',this)">🔴 Hard</button>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════
+     UNIT I
+═══════════════════════════════════════════ -->
+<section class="unit u1" id="unit1">
+  <div class="unit-header">
+    <div class="unit-icon">⚛️</div>
+    <h2>Unit I – Structure and Bonding Models<small>Quantum Mechanics · MOT · Wave Equations</small></h2>
+    <span class="unit-count">26 Qs</span>
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">2 MARK</span>Two-Mark Questions</div>
+  <div class="q-grid" id="u1-2m">
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q1 · 2M</div>
+      <div class="q-text">Define wave function (Ψ). What does it physically represent?</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q2 · 2M</div>
+      <div class="q-text">What is the significance of Ψ² (probability density)?</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q3 · 2M</div>
+      <div class="q-text">State the Schrödinger wave equation (time-independent form).</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q4 · 2M</div>
+      <div class="q-text">What are the conditions a wave function must satisfy to be acceptable (well-behaved)?</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q5 · 2M</div>
+      <div class="q-text">Define bond order and write its formula as per MOT.</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q6 · 2M</div>
+      <div class="q-text">Calculate the bond order of O₂ and predict its magnetic nature.</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q7 · 2M</div>
+      <div class="q-text">Calculate the bond order of CO molecule.</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q8 · 2M</div>
+      <div class="q-text">What is the difference between bonding and anti-bonding molecular orbitals?</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q9 · 2M</div>
+      <div class="q-text">What is node? How many radial and angular nodes are present in a 2p orbital?</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-oa">🟣 Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q10 · 2M</div>
+      <div class="q-text">Write the energy expression for a particle in a 1-D box. What is zero-point energy?</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="easy">
+      <div class="q-number">U1 · Q11 · 2M</div>
+      <div class="q-text">State the LCAO principle used in constructing molecular orbitals.</div>
+      <div class="q-meta">
+        <span class="badge easy">Easy</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q12 · 2M</div>
+      <div class="q-text">Explain why O₂ is paramagnetic based on MOT.</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q13 · 2M</div>
+      <div class="q-text">Write the number of π molecular orbitals of benzene and state which are bonding.</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-oa">🟣 Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div><!-- end 2m grid -->
+
+  <div class="qtype-heading"><span class="qtype-pill">5 MARK</span>Five-Mark Questions</div>
+  <div class="q-grid five" id="u1-5m">
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q14 · 5M</div>
+      <div class="q-text">Derive the expression for energy eigen values and wave functions of a particle in a one-dimensional box. Draw the first three wave functions and probability density curves.</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Setup:</strong> V = 0 for 0 ≤ x ≤ a; V = ∞ outside.<br>
+        <strong>Schrödinger Eq.:</strong> d²Ψ/dx² + (2mE/ħ²)Ψ = 0<br>
+        <strong>General solution:</strong> Ψ = A sin kx + B cos kx, k² = 2mE/ħ²<br>
+        <strong>BCs:</strong> Ψ(0)=0 → B=0; Ψ(a)=0 → ka = nπ → k = nπ/a<br>
+        <strong>Energy:</strong> E<sub>n</sub> = n²h²/(8ma²), n=1,2,3…<br>
+        <strong>Normalized Ψ<sub>n</sub>:</strong> √(2/a) sin(nπx/a)<br>
+        <strong>Zero-point energy:</strong> E₁ = h²/(8ma²) ≠ 0<br>
+        Draw: sinusoidal Ψ curves and squared (probability) curves with n nodes.
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="hard">
+      <div class="q-number">U1 · Q15 · 5M</div>
+      <div class="q-text">Explain the Molecular Orbital Theory for O₂ with energy level diagram. Calculate bond order and predict magnetic behaviour.</div>
+      <div class="q-meta">
+        <span class="badge hard">Hard</span>
+        <span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Electronic configuration of O₂ (16 e⁻):</strong><br>
+        (σ1s)²(σ*1s)²(σ2s)²(σ*2s)²(σ2p)²(π2p)⁴(π*2p)²<br>
+        <strong>Bond Order</strong> = (8 − 4)/2 = <strong>2</strong><br>
+        <strong>Unpaired e⁻:</strong> 2 (in degenerate π* orbitals)<br>
+        <strong>Magnetic nature:</strong> Paramagnetic ✓<br>
+        Draw energy level diagram with all MOs from 1s to π*2p.
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="hard">
+      <div class="q-number">U1 · Q16 · 5M</div>
+      <div class="q-text">Discuss the π molecular orbitals of butadiene using LCAO method. Draw the energy levels and node patterns for ψ₁ to ψ₄.</div>
+      <div class="q-meta">
+        <span class="badge hard">Hard</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Butadiene:</strong> 4 p-orbitals → 4 MOs<br>
+        ψ₁: 0 nodes, fully bonding (lowest E)<br>
+        ψ₂: 1 node, bonding (HOMO in ground state)<br>
+        ψ₃: 2 nodes, antibonding (LUMO)<br>
+        ψ₄: 3 nodes, fully antibonding (highest E)<br>
+        Ground state: ψ₁² ψ₂² (4 electrons in 2 bonding MOs)<br>
+        Draw horizontal lines with + and − lobes pattern.
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="hard">
+      <div class="q-number">U1 · Q17 · 5M</div>
+      <div class="q-text">Discuss the π molecular orbitals of benzene. How does aromaticity arise from MO treatment? Draw the Hückel energy levels.</div>
+      <div class="q-meta">
+        <span class="badge hard">Hard</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        6 p-orbitals → 6 π MOs: ψ₁ (1), ψ₂,ψ₃ (degenerate pair), ψ₄,ψ₅ (degenerate pair), ψ₆<br>
+        Energies: α + 2β, α + β (×2), α − β (×2), α − 2β<br>
+        6 electrons fill ψ₁ through ψ₃ — all bonding MOs fully filled = extra stability = aromaticity<br>
+        Net π bond order = 1.5 (delocalized)
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q18 · 5M</div>
+      <div class="q-text">Explain the physical significance of the wave function Ψ and Ψ². What are eigen values and eigen functions in the context of quantum mechanics?</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <ul>
+          <li>Ψ has no direct physical meaning; complex quantity</li>
+          <li>Ψ² = probability density (Born interpretation)</li>
+          <li>∫Ψ²dτ = 1 (normalization condition)</li>
+          <li>Hamiltonian operator Ĥ applied: ĤΨ = EΨ</li>
+          <li>E = eigen value; Ψ = eigen function</li>
+          <li>Conditions: single-valued, finite, continuous, normalizable</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="medium">
+      <div class="q-number">U1 · Q19 · 5M</div>
+      <div class="q-text">Give the MO electronic configuration of CO. Calculate bond order and compare with N₂. Explain why CO is isoelectronic with N₂.</div>
+      <div class="q-meta">
+        <span class="badge medium">Medium</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        CO: 14 electrons, same as N₂<br>
+        Configuration: (σ1s)²(σ*1s)²(σ2s)²(σ*2s)²(σ2p)²(π2p)⁴<br>
+        Bond Order = (8−2)/2 = <strong>3</strong> (triple bond)<br>
+        Both CO & N₂ are diamagnetic, BO = 3<br>
+        Both are isoelectronic (14 e⁻), hence similar bond properties
+      </div>
+    </div>
+
+    <div class="question-card u1" data-diff="hard">
+      <div class="q-number">U1 · Q20 · 5M</div>
+      <div class="q-text">A particle is confined in a 1-D box of length 1 nm. Calculate the energies (in eV) for the first three levels and the frequency of light emitted for n=3 → n=1 transition. (m = 9.11×10⁻³¹ kg)</div>
+      <div class="q-meta">
+        <span class="badge hard">Hard</span>
+        <span class="rep-badge rep-fa">🔵 Frequently Asked</span>
+      </div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Formula:</strong> E<sub>n</sub> = n²h²/(8ma²)<br>
+        E₁ = (1²×(6.626×10⁻³⁴)²)/(8×9.11×10⁻³¹×(10⁻⁹)²) ≈ 0.376 eV<br>
+        E₂ ≈ 1.504 eV ; E₃ ≈ 3.384 eV<br>
+        ΔE (3→1) = E₃ − E₁ ≈ 3.008 eV<br>
+        ν = ΔE/h ≈ 7.27 × 10¹⁴ Hz
+      </div>
+    </div>
+
+  </div><!-- end 5m grid -->
+</section>
+
+<!-- ═══════════════════════════════════════════
+     UNIT II
+═══════════════════════════════════════════ -->
+<section class="unit u2" id="unit2">
+  <div class="unit-header">
+    <div class="unit-icon">🧱</div>
+    <h2>Unit II – Modern Engineering Materials<small>Semiconductors · Superconductors · Nanomaterials</small></h2>
+    <span class="unit-count">26 Qs</span>
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">2 MARK</span>Two-Mark Questions</div>
+  <div class="q-grid">
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q1 · 2M</div>
+      <div class="q-text">Define semiconductor. Give two examples.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q2 · 2M</div>
+      <div class="q-text">What is the difference between n-type and p-type semiconductors?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q3 · 2M</div>
+      <div class="q-text">Define superconductivity. What is critical temperature (Tc)?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q4 · 2M</div>
+      <div class="q-text">State the Meissner effect in superconductors.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q5 · 2M</div>
+      <div class="q-text">Define nanomaterials. What is the significance of the nano-scale (1–100 nm)?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q6 · 2M</div>
+      <div class="q-text">What is a fullerene? Give the molecular formula of Buckminsterfullerene.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q7 · 2M</div>
+      <div class="q-text">Differentiate SWCNT and MWCNT (single-wall vs multi-wall carbon nanotubes).</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="easy">
+      <div class="q-number">U2 · Q8 · 2M</div>
+      <div class="q-text">What is graphene? List any two of its extraordinary properties.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q9 · 2M</div>
+      <div class="q-text">Classify supercapacitors based on the charge storage mechanism.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q10 · 2M</div>
+      <div class="q-text">Write two applications each of CNTs and graphene.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q11 · 2M</div>
+      <div class="q-text">What is doping? How does doping alter the conductivity of a semiconductor?</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q12 · 2M</div>
+      <div class="q-text">Distinguish between Type-I and Type-II superconductors.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">5 MARK</span>Five-Mark Questions</div>
+  <div class="q-grid five">
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q13 · 5M</div>
+      <div class="q-text">Explain the concept, properties, and applications of semiconductors. Distinguish between intrinsic and extrinsic semiconductors with examples.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Intrinsic:</strong> Pure Si/Ge; conductivity due to thermal excitation; σ increases with T<br>
+        <strong>Extrinsic:</strong> Doped semiconductors<br>
+        n-type: Group 15 dopant (P, As) → donor levels → excess electrons<br>
+        p-type: Group 13 dopant (B, Al) → acceptor levels → holes<br>
+        <strong>Applications:</strong> Solar cells, LEDs, transistors, diodes, photodetectors
+      </div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q14 · 5M</div>
+      <div class="q-text">What is superconductivity? Explain the Meissner effect, critical temperature, and applications of superconductors in technology.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        Zero resistance below Tc (e.g., Hg: 4.2 K; YBCO: 92 K)<br>
+        <strong>Meissner effect:</strong> Complete expulsion of magnetic flux → perfect diamagnetism<br>
+        <strong>BCS theory:</strong> Cooper pairs of electrons (phonon-mediated)<br>
+        <strong>Applications:</strong> MRI machines, maglev trains, SQUID detectors, particle accelerators, lossless power transmission
+      </div>
+    </div>
+
+    <div class="question-card u2" data-diff="hard">
+      <div class="q-number">U2 · Q15 · 5M</div>
+      <div class="q-text">Write a detailed note on Carbon Nanotubes (CNTs): structure, types, properties (electrical, mechanical, thermal) and applications.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Structure:</strong> Rolled graphene sheet; diameter ~1–50 nm<br>
+        <strong>SWCNT:</strong> Armchair (metallic), zigzag/chiral (semiconducting)<br>
+        <strong>MWCNT:</strong> Concentric SWCNTs<br>
+        <strong>Properties:</strong> 100× stronger than steel, E ~ 1 TPa; electrical conductivity ~10⁶ S/m; thermal conductivity ~3000 W/mK<br>
+        <strong>Applications:</strong> Nanocomposites, drug delivery, field-emission displays, H₂ storage, nanoscale electronics
+      </div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q16 · 5M</div>
+      <div class="q-text">Discuss graphene: preparation methods (CVD), structure, exceptional properties, and applications in energy storage and electronics.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        Single atom thick 2D sp² carbon lattice; honeycomb structure<br>
+        <strong>Prep:</strong> Mechanical exfoliation, CVD, chemical reduction of GO<br>
+        <strong>Properties:</strong> σ = 10⁸ S/m; tensile strength 130 GPa; transparency 97.7%; surface area 2630 m²/g<br>
+        <strong>Applications:</strong> Supercapacitors, batteries, photodetectors, transparent electrodes, composites
+      </div>
+    </div>
+
+    <div class="question-card u2" data-diff="medium">
+      <div class="q-number">U2 · Q17 · 5M</div>
+      <div class="q-text">Classify and explain supercapacitors. Compare them with conventional capacitors and batteries in terms of energy and power density. List applications.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Types:</strong><br>
+        1. EDLC (Electric Double Layer Capacitor) – electrostatic, activated carbon<br>
+        2. Pseudocapacitor – Faradaic (RuO₂, MnO₂)<br>
+        3. Hybrid – combination<br>
+        <strong>Comparison:</strong> Higher power than batteries; higher energy than capacitors<br>
+        <strong>Applications:</strong> regenerative braking, UPS, EVs, portable electronics
+      </div>
+    </div>
+
+    <div class="question-card u2" data-diff="hard">
+      <div class="q-number">U2 · Q18 · 5M</div>
+      <div class="q-text">Write a comprehensive note on Fullerenes: discovery, structure of C₆₀, methods of preparation (arc discharge), properties and applications.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        Discovered by Kroto, Curl, Smalley (1985); Nobel Prize 1996<br>
+        C₆₀: 20 hexagons + 12 pentagons; diameter ~0.7 nm; soccer-ball shape<br>
+        <strong>Prep:</strong> Resistive arc discharge between graphite electrodes in He<br>
+        <strong>Properties:</strong> Molecular solid, semiconductor, photoconductor; forms superconducting compounds<br>
+        <strong>Applications:</strong> Drug delivery, lubricants, photovoltaics, superconductors (K₃C₆₀)
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     UNIT III
+═══════════════════════════════════════════ -->
+<section class="unit u3" id="unit3">
+  <div class="unit-header">
+    <div class="unit-icon">⚡</div>
+    <h2>Unit III – Electrochemistry and Applications<small>Cells · Sensors · Batteries · Fuel Cells</small></h2>
+    <span class="unit-count">28 Qs</span>
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">2 MARK</span>Two-Mark Questions</div>
+  <div class="q-grid">
+
+    <div class="question-card u3" data-diff="easy">
+      <div class="q-number">U3 · Q1 · 2M</div>
+      <div class="q-text">State the Nernst equation for an electrochemical cell.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q2 · 2M</div>
+      <div class="q-text">Calculate the EMF of a Zn/Zn²⁺ || Cu²⁺/Cu cell at 25°C if [Zn²⁺]=0.1 M and [Cu²⁺]=1 M. (E°cell = 1.10 V)</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="easy">
+      <div class="q-number">U3 · Q3 · 2M</div>
+      <div class="q-text">Define specific conductance and molar conductance. Give their SI units.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="easy">
+      <div class="q-number">U3 · Q4 · 2M</div>
+      <div class="q-text">What is a potentiometric sensor? Give one example.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="easy">
+      <div class="q-number">U3 · Q5 · 2M</div>
+      <div class="q-text">Differentiate primary and secondary batteries with examples.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="easy">
+      <div class="q-number">U3 · Q6 · 2M</div>
+      <div class="q-text">Write the cell reactions at anode and cathode in a hydrogen-oxygen fuel cell.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q7 · 2M</div>
+      <div class="q-text">What is the significance of the endpoint in a conductometric titration?</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q8 · 2M</div>
+      <div class="q-text">Write the electrode reactions in a Lithium-ion battery during charging.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q9 · 2M</div>
+      <div class="q-text">What is an amperometric sensor? How does it differ from a potentiometric sensor?</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="easy">
+      <div class="q-number">U3 · Q10 · 2M</div>
+      <div class="q-text">State the advantages of PEM fuel cell over the conventional H₂-O₂ fuel cell.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q11 · 2M</div>
+      <div class="q-text">Explain the working principle of a conductivity cell.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q12 · 2M</div>
+      <div class="q-text">Write the overall cell reaction of a zinc-air primary battery.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u3" data-diff="hard">
+      <div class="q-number">U3 · Q13 · 2M</div>
+      <div class="q-text">At 298 K, if ΔG° = –nFE°cell, calculate ΔG° for a cell with E°cell = 0.34 V and n = 2.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">5 MARK</span>Five-Mark Questions</div>
+  <div class="q-grid five">
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q14 · 5M</div>
+      <div class="q-text">Derive the Nernst equation for an electrochemical cell. Solve: Calculate the EMF of the cell Zn | Zn²⁺(0.001M) || Ag⁺(0.1M) | Ag at 25°C. Given E°(Zn²⁺/Zn) = −0.76 V and E°(Ag⁺/Ag) = +0.80 V.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Nernst equation:</strong> E = E° − (RT/nF)ln Q = E° − (0.0592/n)log Q at 298K<br>
+        E°cell = E°cathode − E°anode = 0.80 − (−0.76) = 1.56 V<br>
+        Reaction: Zn + 2Ag⁺ → Zn²⁺ + 2Ag; n = 2<br>
+        Q = [Zn²⁺]/[Ag⁺]² = 0.001/(0.1)² = 0.1<br>
+        E = 1.56 − (0.0592/2)log(0.1) = 1.56 − (0.0296)(−1) = <strong>1.5896 V</strong>
+      </div>
+    </div>
+
+    <div class="question-card u3" data-diff="hard">
+      <div class="q-number">U3 · Q15 · 5M</div>
+      <div class="q-text">Explain potentiometric titration for a redox system with a neat diagram. Discuss the shape of the titration curve and how the endpoint is determined.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Principle:</strong> EMF of indicator electrode vs volume of titrant plotted<br>
+        <strong>Setup:</strong> Pt indicator electrode + SCE reference electrode + burette + potentiometer<br>
+        Example: Fe²⁺ titrated with KMnO₄ → sharp potential jump at equivalence point<br>
+        Endpoint: maximum dE/dV (inflection point in first derivative plot)<br>
+        Draw sigmoid curve and first-derivative peak diagram.
+      </div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q16 · 5M</div>
+      <div class="q-text">Explain the construction and working of a Lithium-ion battery. Write electrode reactions and discuss its advantages and limitations.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Anode:</strong> Graphite (Li intercalation): LiₓC₆ → C₆ + xLi⁺ + xe⁻<br>
+        <strong>Cathode:</strong> LiCoO₂ + xLi⁺ + xe⁻ → Li₁₊ₓCoO₂<br>
+        Electrolyte: LiPF₆ in organic solvent<br>
+        Cell voltage: ~3.6 V; energy density ~150–250 Wh/kg<br>
+        <strong>Advantages:</strong> High energy density, no memory effect, low self-discharge<br>
+        <strong>Limitations:</strong> Thermal runaway, cost, capacity fade
+      </div>
+    </div>
+
+    <div class="question-card u3" data-diff="medium">
+      <div class="q-number">U3 · Q17 · 5M</div>
+      <div class="q-text">Explain the principle, construction, and working of a PEM Fuel Cell (PEMFC) with electrode reactions. State its advantages over conventional combustion engines.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Membrane:</strong> Nafion® (proton-conducting polymer)<br>
+        <strong>Anode:</strong> H₂ → 2H⁺ + 2e⁻<br>
+        <strong>Cathode:</strong> ½O₂ + 2H⁺ + 2e⁻ → H₂O<br>
+        <strong>Overall:</strong> H₂ + ½O₂ → H₂O + electrical energy + heat<br>
+        Operating T: 60–80°C; efficiency ~60%<br>
+        <strong>Advantages:</strong> Zero emissions, high efficiency, quick startup, silent, scalable
+      </div>
+    </div>
+
+    <div class="question-card u3" data-diff="hard">
+      <div class="q-number">U3 · Q18 · 5M</div>
+      <div class="q-text">Explain conductometric titration for a strong acid vs strong base. Draw the V-shaped curve and explain changes in conductance at each stage.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        HCl + NaOH → NaCl + H₂O<br>
+        <strong>Before EP:</strong> H⁺ (high λ) replaced by Na⁺ (lower λ) → conductance decreases<br>
+        <strong>At EP:</strong> Minimum conductance (only NaCl)<br>
+        <strong>After EP:</strong> Excess OH⁻ (high λ) added → conductance increases<br>
+        Result: Classic V-shaped curve; intersection = equivalence point<br>
+        Draw clearly labelled V-shaped conductance vs volume curve.
+      </div>
+    </div>
+
+    <div class="question-card u3" data-diff="hard">
+      <div class="q-number">U3 · Q19 · 5M</div>
+      <div class="q-text">Write a detailed note on amperometric sensors: principle, Clark oxygen electrode construction, and biomedical applications.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Principle:</strong> Current proportional to analyte concentration at fixed potential<br>
+        <strong>Clark electrode:</strong> Pt cathode, Ag/AgCl anode; O₂-permeable membrane<br>
+        Reaction: O₂ + 4H⁺ + 4e⁻ → 2H₂O (at Pt cathode, –0.6 V vs SCE)<br>
+        Current ∝ pO₂ in sample<br>
+        <strong>Applications:</strong> Blood O₂ monitoring, glucose biosensor (GOx enzyme)
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     UNIT IV
+═══════════════════════════════════════════ -->
+<section class="unit u4" id="unit4">
+  <div class="unit-header">
+    <div class="unit-icon">🧪</div>
+    <h2>Unit IV – Polymer Chemistry<small>Polymerization · Plastics · Elastomers · Conducting Polymers</small></h2>
+    <span class="unit-count">27 Qs</span>
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">2 MARK</span>Two-Mark Questions</div>
+  <div class="q-grid">
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q1 · 2M</div>
+      <div class="q-text">Define polymer and monomer. Give one example of each.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q2 · 2M</div>
+      <div class="q-text">What is the functionality of a monomer? Why is it important in polymerization?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q3 · 2M</div>
+      <div class="q-text">Distinguish thermoplastics from thermosetting plastics with examples.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q4 · 2M</div>
+      <div class="q-text">Write the monomers used in the preparation of Nylon-6,6.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q5 · 2M</div>
+      <div class="q-text">What is the chemical name of Teflon? State its two important properties.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q6 · 2M</div>
+      <div class="q-text">Define elastomer. How does it differ from a plastic in terms of structure?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q7 · 2M</div>
+      <div class="q-text">What are the monomers of Buna-S and Buna-N? Mention one application each.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q8 · 2M</div>
+      <div class="q-text">Name two biodegradable polymers and write one application of each.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q9 · 2M</div>
+      <div class="q-text">What is a conducting polymer? Name two examples and state their conducting mechanism briefly.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="easy">
+      <div class="q-number">U4 · Q10 · 2M</div>
+      <div class="q-text">What is Bakelite? Name the monomers used and classify it as thermoplastic or thermosetting.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q11 · 2M</div>
+      <div class="q-text">How do carbon fibres differ from ordinary carbon? Write two structural advantages.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+    <div class="question-card u4" data-diff="hard">
+      <div class="q-number">U4 · Q12 · 2M</div>
+      <div class="q-text">Explain why coordination polymerization is used for stereoregular polymers. Give one example.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">5 MARK</span>Five-Mark Questions</div>
+  <div class="q-grid five">
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q13 · 5M</div>
+      <div class="q-text">Explain the mechanism of free-radical chain-growth polymerization. Discuss the initiation, propagation, and termination steps with examples.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Initiation:</strong> R–R → 2R• (homolytic cleavage of initiator e.g. BPO) ; R• + CH₂=CH₂ → R–CH₂–CH₂•<br>
+        <strong>Propagation:</strong> R–(CH₂–CH₂)ₙ• + CH₂=CH₂ → R–(CH₂–CH₂)ₙ₊₁•<br>
+        <strong>Termination:</strong> Combination: 2Pₙ• → Pₙ–Pₘ; Disproportionation: H transfer → one saturated + one unsaturated<br>
+        Example: Polystyrene, PVC production
+      </div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q14 · 5M</div>
+      <div class="q-text">Explain step-growth polymerization with the preparation of Nylon-6,6. Write the condensation reaction, structure, and list its properties and applications.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Monomers:</strong> Hexamethylenediamine + Adipic acid<br>
+        H₂N–(CH₂)₆–NH₂ + HOOC–(CH₂)₄–COOH → [–NH–(CH₂)₆–NH–CO–(CH₂)₄–CO–]ₙ + nH₂O<br>
+        <strong>Properties:</strong> High tensile strength, good elasticity, heat and chemical resistance<br>
+        <strong>Applications:</strong> Textile fibres, ropes, gears, bristles, parachutes
+      </div>
+    </div>
+
+    <div class="question-card u4" data-diff="hard">
+      <div class="q-number">U4 · Q15 · 5M</div>
+      <div class="q-text">Discuss the preparation, structure, properties, and applications of Bakelite. Explain the role of cross-linking in its thermosetting behaviour.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Monomers:</strong> Phenol + Formaldehyde (acid or base catalyst)<br>
+        Stage 1: Novolac (thermoplastic, linear) [acid cat.]<br>
+        Stage 2: Resol (thermosetting precursor) [base cat.]<br>
+        Stage 3: Heat + pressure → cross-linked 3D network (Bakelite)<br>
+        <strong>Properties:</strong> Heat-resistant, electrical insulator, rigid, infusible<br>
+        <strong>Applications:</strong> Electrical sockets, handles, billiard balls, adhesives
+      </div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q16 · 5M</div>
+      <div class="q-text">Write a note on conducting polymers: mechanism of conduction in polyacetylene (band theory / soliton model), doping, and applications in organic electronics.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Polyacetylene:</strong> (–CH=CH–)ₙ ; conjugated π system → band structure<br>
+        <strong>Undoped:</strong> σ ≈ 10⁻⁵ S/cm (semiconductor)<br>
+        <strong>p-doping (I₂):</strong> σ → 10³–10⁵ S/cm; soliton/polaron charge carriers<br>
+        <strong>Polyaniline:</strong> Protonation by acid → conducting emeraldine salt form<br>
+        <strong>Applications:</strong> OLEDs, solar cells, antistatic coatings, corrosion protection, supercapacitors
+      </div>
+    </div>
+
+    <div class="question-card u4" data-diff="medium">
+      <div class="q-number">U4 · Q17 · 5M</div>
+      <div class="q-text">Discuss biodegradable polymers PGA and PLA: synthesis, degradation mechanism, and biomedical applications. Compare with conventional plastics.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>PGA</strong> (Polyglycolic acid): ring-opening polymerization of glycolide; degrades by hydrolysis<br>
+        <strong>PLA</strong> (Polylactic acid): from lactic acid (corn starch); degrades to CO₂ + H₂O<br>
+        <strong>Degradation:</strong> Enzymatic + hydrolytic; rate tunable by copolymerization<br>
+        <strong>Applications:</strong> Sutures (Vicryl® = PGA/PLA), drug delivery implants, tissue scaffolds, packaging
+      </div>
+    </div>
+
+    <div class="question-card u4" data-diff="hard">
+      <div class="q-number">U4 · Q18 · 5M</div>
+      <div class="q-text">Write a comprehensive note on carbon fibres: preparation from polyacrylonitrile (PAN), structure, mechanical properties, and aerospace/sports applications.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Precursor:</strong> Polyacrylonitrile (PAN) or pitch<br>
+        <strong>Steps:</strong> Stabilization (200–300°C, air) → Carbonization (1000–1500°C, N₂) → Graphitization (>2500°C)<br>
+        <strong>Structure:</strong> Graphitic planes aligned along fibre axis; d-spacing ~0.34 nm<br>
+        <strong>Properties:</strong> Tensile strength ~3.5 GPa; modulus ~230 GPa; density 1.7 g/cm³<br>
+        <strong>Applications:</strong> Aircraft fuselage, racing cars, wind blades, sports equipment
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     UNIT V
+═══════════════════════════════════════════ -->
+<section class="unit u5" id="unit5">
+  <div class="unit-header">
+    <div class="unit-icon">🔬</div>
+    <h2>Unit V – Instrumental Methods and Applications<small>Spectroscopy · Chromatography · HPLC</small></h2>
+    <span class="unit-count">23 Qs</span>
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">2 MARK</span>Two-Mark Questions</div>
+  <div class="q-grid">
+
+    <div class="question-card u5" data-diff="easy">
+      <div class="q-number">U5 · Q1 · 2M</div>
+      <div class="q-text">State Beer-Lambert's Law. Write its mathematical expression.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="easy">
+      <div class="q-number">U5 · Q2 · 2M</div>
+      <div class="q-text">What are the types of electronic transitions observed in UV-Visible spectroscopy?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="easy">
+      <div class="q-number">U5 · Q3 · 2M</div>
+      <div class="q-text">What are the selection rules for IR spectroscopy?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="easy">
+      <div class="q-number">U5 · Q4 · 2M</div>
+      <div class="q-text">How many vibrational modes does a non-linear molecule with N atoms have?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q5 · 2M</div>
+      <div class="q-text">Distinguish between absorption and transmittance in spectrophotometry.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="easy">
+      <div class="q-number">U5 · Q6 · 2M</div>
+      <div class="q-text">What is the stationary phase and mobile phase in HPLC?</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="easy">
+      <div class="q-number">U5 · Q7 · 2M</div>
+      <div class="q-text">Define chromophore and auxochrome. Give one example of each.</div>
+      <div class="q-meta"><span class="badge easy">Easy</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q8 · 2M</div>
+      <div class="q-text">What is the principle of chromatographic separation?</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q9 · 2M</div>
+      <div class="q-text">A solution has an absorbance of 0.60 in a 1 cm cell. Calculate transmittance and % transmittance.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q10 · 2M</div>
+      <div class="q-text">State the electromagnetic spectrum regions in order of increasing wavelength.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+    <div class="question-card u5" data-diff="hard">
+      <div class="q-number">U5 · Q11 · 2M</div>
+      <div class="q-text">What is the difference between normal-phase and reverse-phase HPLC?</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-oa">🟣 Occasionally Asked</span></div>
+    </div>
+
+  </div>
+
+  <div class="qtype-heading"><span class="qtype-pill">5 MARK</span>Five-Mark Questions</div>
+  <div class="q-grid five">
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q12 · 5M</div>
+      <div class="q-text">State and explain Beer-Lambert's Law. Derive the expression A = εcl. Discuss its limitations and solve: a solution of concentration 2×10⁻⁴ M in a 2 cm cell has T = 0.25. Find ε.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Beer's Law:</strong> A ∝ c; <strong>Lambert's Law:</strong> A ∝ l<br>
+        <strong>Combined:</strong> A = εcl; where A = –log T = log(I₀/I)<br>
+        <strong>Solution:</strong> A = –log(0.25) = 0.602<br>
+        ε = A/(cl) = 0.602/(2×10⁻⁴ × 2) = <strong>1505 L mol⁻¹ cm⁻¹</strong><br>
+        <strong>Limitations:</strong> Valid only at low concentration; stray light; polychromatic radiation; chemical changes
+      </div>
+    </div>
+
+    <div class="question-card u5" data-diff="hard">
+      <div class="q-number">U5 · Q13 · 5M</div>
+      <div class="q-text">Explain UV-Visible spectroscopy: types of electronic transitions (σ→σ*, n→σ*, π→π*, n→π*), instrumentation (block diagram), and applications in quantitative analysis.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Transitions (increasing energy):</strong><br>
+        n→π* (longest λ, lowest E, weak) → π→π* → n→σ* → σ→σ* (shortest λ, highest E)<br>
+        <strong>Instrumentation:</strong> Light source (D₂/W lamp) → Monochromator → Sample cell → Detector (PMT) → Recorder<br>
+        <strong>Applications:</strong> Drug analysis, enzyme kinetics, protein quantification (280 nm), water analysis, reaction rate monitoring
+      </div>
+    </div>
+
+    <div class="question-card u5" data-diff="hard">
+      <div class="q-number">U5 · Q14 · 5M</div>
+      <div class="q-text">Explain IR spectroscopy in detail: vibrational modes of molecules, selection rules, instrumentation (FTIR), and applications in functional group identification.</div>
+      <div class="q-meta"><span class="badge hard">Hard</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Vibrational modes:</strong> Stretching (symmetric, asymmetric) + Bending (scissoring, rocking, wagging, twisting)<br>
+        For non-linear N-atom molecule: 3N−6 modes<br>
+        <strong>Selection rule:</strong> Change in dipole moment during vibration<br>
+        <strong>FTIR instrumentation:</strong> Source (globar) → Michelson interferometer → Sample → Detector → Computer (FFT)<br>
+        <strong>Applications:</strong> Functional group ID (~1650: C=O, ~3300: O–H, ~2200: C≡N), polymer characterisation, pharmaceutical QC
+      </div>
+    </div>
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q15 · 5M</div>
+      <div class="q-text">Explain the principle, instrumentation, and applications of HPLC. Draw the block diagram and describe the role of the pump, injector, column, and detector.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-vfa">⭐ Very Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Principle:</strong> Differential migration of analytes between stationary (C18 silica) and mobile phases under high pressure<br>
+        <strong>Instrumentation:</strong> Reservoir → High-pressure pump (≥400 bar) → Injector (Rheodyne valve) → Column (4.6 mm ID, 15 cm) → Detector (UV, RI, FLD) → Data system<br>
+        <strong>Modes:</strong> Reverse-phase (most common), normal-phase, ion-exchange, size-exclusion<br>
+        <strong>Applications:</strong> Pharmaceutical analysis, food safety, environmental monitoring, protein separation, forensics
+      </div>
+    </div>
+
+    <div class="question-card u5" data-diff="medium">
+      <div class="q-number">U5 · Q16 · 5M</div>
+      <div class="q-text">Classify chromatographic techniques based on the nature of stationary and mobile phases. Explain the principle of adsorption vs partition chromatography.</div>
+      <div class="q-meta"><span class="badge medium">Medium</span><span class="rep-badge rep-fa">🔵 Frequently Asked</span></div>
+      <button class="show-ans-btn" onclick="toggleAns(this)">💡 Show Answer Outline <span class="chevron">▼</span></button>
+      <div class="answer-body">
+        <strong>Classification:</strong> GSC, GLC, LSC, LLC, Ion-exchange, Size-exclusion, Affinity<br>
+        <strong>Adsorption (LSC):</strong> Analyte adsorbs onto solid surface (silica, alumina); selective desorption by eluent<br>
+        <strong>Partition (LLC):</strong> Analyte partitions between two immiscible liquid phases; governed by partition coefficient K = Cs/Cm<br>
+        Higher K → longer retention; basis of HPLC separation
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div><!-- end container -->
+
+<!-- SCROLL TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── FILTER ──
+function filterDiff(level, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.question-card').forEach(card => {
+    if (level === 'all' || card.dataset.diff === level) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// ── SHOW ANSWER ──
+function toggleAns(btn) {
+  const ansBody = btn.nextElementSibling;
+  btn.classList.toggle('open');
+  ansBody.classList.toggle('visible');
+}
+
+// ── SCROLL TOP VISIBILITY ──
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── ANIMATE UNITS ON SCROLL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('section.unit').forEach((el, i) => {
+  el.style.animationDelay = `${i * 0.05}s`;
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
