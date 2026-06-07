@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Mathematics | JNTUK B.Tech R23</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Exo+2:wght@300;400;600;800&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f172a;
+    --bg3: #141e35;
+    --card: rgba(15,23,42,0.85);
+    --glass: rgba(255,255,255,0.04);
+    --glass2: rgba(255,255,255,0.08);
+    --blue: #3b82f6;
+    --blue2: #60a5fa;
+    --cyan: #06b6d4;
+    --cyan2: #22d3ee;
+    --purple: #8b5cf6;
+    --purple2: #a78bfa;
+    --neon: #00ffff;
+    --neon2: #7c3aed;
+    --pink: #ec4899;
+    --green: #10b981;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --border: rgba(99,179,237,0.15);
+    --glow-blue: 0 0 20px rgba(59,130,246,0.4);
+    --glow-cyan: 0 0 20px rgba(6,182,212,0.4);
+    --glow-purple: 0 0 20px rgba(139,92,246,0.4);
+    --glow-neon: 0 0 30px rgba(0,255,255,0.3);
+  }
+  [data-theme="light"] {
+    --bg: #f0f4ff;
+    --bg2: #e8effe;
+    --bg3: #dde6ff;
+    --card: rgba(255,255,255,0.9);
+    --glass: rgba(0,0,0,0.03);
+    --glass2: rgba(0,0,0,0.06);
+    --text: #0f172a;
+    --text2: #334155;
+    --text3: #64748b;
+    --border: rgba(59,130,246,0.2);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Exo 2',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    transition:background 0.4s,color 0.4s;
+  }
+
+  /* ── LOADING SCREEN ── */
+  #loader{
+    position:fixed;inset:0;z-index:9999;
+    background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:opacity 0.6s,visibility 0.6s;
+  }
+  #loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+  .loader-ring{
+    width:80px;height:80px;border-radius:50%;
+    border:3px solid transparent;
+    border-top:3px solid var(--cyan);
+    border-right:3px solid var(--purple);
+    animation:spin 1s linear infinite;
+    margin-bottom:20px;
+  }
+  .loader-text{font-family:'Orbitron',monospace;color:var(--cyan);font-size:14px;letter-spacing:4px;animation:pulse 1s ease infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes pulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
+
+  /* ── MATH BACKGROUND ── */
+  #math-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);
+    background-size:60px 60px;
+    animation:gridmove 20s linear infinite;
+  }
+  @keyframes gridmove{0%{transform:translate(0,0);}100%{transform:translate(60px,60px);}}
+  .float-sym{
+    position:absolute;
+    font-size:clamp(20px,3vw,40px);
+    opacity:0.06;
+    font-family:'Space Mono',monospace;
+    color:var(--cyan);
+    animation:floatup var(--dur,20s) linear infinite;
+    animation-delay:var(--delay,0s);
+    top:110%;
+  }
+  @keyframes floatup{
+    0%{transform:translateY(0) rotate(0deg);opacity:0;}
+    10%{opacity:0.06;}
+    90%{opacity:0.06;}
+    100%{transform:translateY(-120vh) rotate(720deg);opacity:0;}
+  }
+
+  /* ── NAVBAR ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(10,14,26,0.85);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    padding:0 24px;
+    display:flex;align-items:center;justify-content:space-between;
+    height:60px;
+    transition:background 0.4s;
+  }
+  .nav-logo{
+    font-family:'Orbitron',monospace;
+    font-size:14px;font-weight:700;
+    background:linear-gradient(90deg,var(--cyan),var(--purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    letter-spacing:2px;
+  }
+  .nav-links{display:flex;gap:4px;align-items:center;}
+  .nav-links a{
+    color:var(--text2);font-size:12px;font-weight:600;
+    text-decoration:none;padding:6px 10px;border-radius:6px;
+    letter-spacing:0.5px;transition:all 0.2s;
+    font-family:'Space Mono',monospace;
+  }
+  .nav-links a:hover{color:var(--cyan);background:rgba(6,182,212,0.08);}
+  .nav-right{display:flex;align-items:center;gap:12px;}
+  .theme-btn{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--glass2);border:1px solid var(--border);
+    cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
+    transition:all 0.2s;color:var(--text);
+  }
+  .theme-btn:hover{background:rgba(6,182,212,0.15);border-color:var(--cyan);}
+  #search-input{
+    width:180px;padding:6px 12px 6px 30px;
+    background:var(--glass2);border:1px solid var(--border);
+    border-radius:20px;color:var(--text);font-size:12px;
+    font-family:'Space Mono',monospace;outline:none;
+    transition:all 0.3s;
+  }
+  #search-input:focus{border-color:var(--cyan);box-shadow:var(--glow-cyan);width:220px;}
+  .search-wrap{position:relative;}
+  .search-wrap::before{
+    content:'⌕';position:absolute;left:9px;top:50%;transform:translateY(-50%);
+    color:var(--text3);font-size:14px;pointer-events:none;
+  }
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+  .hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s;}
+
+  /* ── SECTIONS ── */
+  section{position:relative;z-index:1;padding:80px 24px;}
+  .container{max-width:1100px;margin:0 auto;}
+  .section-title{
+    font-family:'Orbitron',monospace;
+    font-size:clamp(18px,3vw,28px);font-weight:700;
+    margin-bottom:40px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .section-title::after{
+    content:'';flex:1;height:1px;
+    background:linear-gradient(90deg,var(--border),transparent);
+  }
+  .section-title .icon{font-size:1.2em;}
+
+  /* ── HERO ── */
+  #hero{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;padding-top:80px;
+  }
+  .hero-inner{position:relative;z-index:1;}
+  .hero-badge{
+    display:inline-block;
+    padding:6px 20px;border-radius:20px;
+    background:rgba(6,182,212,0.1);
+    border:1px solid rgba(6,182,212,0.3);
+    color:var(--cyan);font-size:12px;font-family:'Space Mono',monospace;
+    letter-spacing:2px;margin-bottom:24px;
+    animation:fadein 1s ease 0.5s both;
+  }
+  .hero-title{
+    font-family:'Orbitron',monospace;
+    font-size:clamp(32px,6vw,72px);
+    font-weight:900;line-height:1.1;
+    background:linear-gradient(135deg,#60a5fa,#06b6d4,#8b5cf6,#ec4899);
+    background-size:200% 200%;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    animation:gradmove 4s ease infinite, fadein 1s ease 0.7s both;
+    text-shadow:none;
+  }
+  @keyframes gradmove{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+  .hero-sub{
+    font-size:clamp(14px,2vw,18px);color:var(--text2);margin:16px 0 32px;
+    font-family:'Space Mono',monospace;letter-spacing:1px;
+    animation:fadein 1s ease 0.9s both;
+  }
+  .hero-sub span{color:var(--purple2);}
+  .type-formula{
+    font-family:'Space Mono',monospace;font-size:clamp(12px,1.5vw,16px);
+    color:var(--cyan2);background:rgba(0,0,0,0.3);
+    padding:10px 20px;border-radius:8px;border:1px solid var(--border);
+    display:inline-block;margin-bottom:32px;min-height:44px;
+    animation:fadein 1s ease 1.1s both;
+  }
+  .type-cursor{animation:blink 0.7s step-end infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+  .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadein 1s ease 1.3s both;}
+  .btn-primary{
+    padding:14px 32px;border-radius:30px;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    color:#fff;font-weight:700;font-size:14px;cursor:pointer;
+    border:none;letter-spacing:1px;font-family:'Orbitron',monospace;
+    box-shadow:0 0 30px rgba(6,182,212,0.4);
+    transition:all 0.3s;text-decoration:none;display:inline-block;
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(6,182,212,0.6);}
+  .btn-secondary{
+    padding:14px 32px;border-radius:30px;
+    background:transparent;color:var(--purple2);font-weight:700;
+    font-size:14px;cursor:pointer;border:2px solid var(--purple);
+    letter-spacing:1px;font-family:'Orbitron',monospace;
+    transition:all 0.3s;text-decoration:none;display:inline-block;
+  }
+  .btn-secondary:hover{background:rgba(139,92,246,0.15);transform:translateY(-3px);}
+  .progress-ring{margin:40px auto 0;width:130px;height:130px;}
+  .progress-ring svg circle:last-child{
+    stroke-dasharray:350;stroke-dashoffset:350;
+    animation:ringfill 2s ease 1.5s forwards;
+  }
+  @keyframes ringfill{to{stroke-dashoffset:50;}}
+  .ring-label{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    text-align:center;
+  }
+  .ring-pct{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:var(--cyan);}
+  .ring-txt{font-size:9px;color:var(--text3);letter-spacing:1px;}
+  .ring-wrap{position:relative;width:130px;height:130px;}
+  @keyframes fadein{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ── GLASS CARD ── */
+  .glass-card{
+    background:var(--glass);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:28px;
+    transition:all 0.3s;
+  }
+  .glass-card:hover{border-color:rgba(6,182,212,0.3);box-shadow:var(--glow-cyan);}
+
+  /* ── COURSE OVERVIEW ── */
+  .overview-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:16px;margin-top:24px;
+  }
+  .icon-card{
+    background:var(--glass2);border:1px solid var(--border);
+    border-radius:12px;padding:20px 16px;text-align:center;
+    transition:all 0.3s;cursor:default;
+  }
+  .icon-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--cyan);
+    box-shadow:var(--glow-cyan);
+    background:rgba(6,182,212,0.08);
+  }
+  .icon-card .ic-emoji{font-size:28px;margin-bottom:10px;display:block;}
+  .icon-card .ic-name{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:0.5px;}
+  .obj-text{
+    font-size:15px;color:var(--text2);line-height:1.7;
+    border-left:3px solid var(--cyan);padding-left:16px;margin-bottom:24px;
+    font-style:italic;
+  }
+
+  /* ── CO CARDS ── */
+  .co-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+  .co-card{
+    background:var(--glass);border:1px solid var(--border);
+    border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.3s;
+  }
+  .co-card:hover{border-color:var(--purple);box-shadow:var(--glow-purple);}
+  .co-head{
+    padding:16px 20px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--glass2);
+  }
+  .co-label{
+    font-family:'Orbitron',monospace;font-size:11px;font-weight:700;
+    padding:3px 10px;border-radius:10px;margin-right:12px;
+  }
+  .co-label.c1{background:rgba(59,130,246,0.2);color:var(--blue2);}
+  .co-label.c2{background:rgba(139,92,246,0.2);color:var(--purple2);}
+  .co-label.c3{background:rgba(6,182,212,0.2);color:var(--cyan2);}
+  .co-label.c4{background:rgba(236,72,153,0.2);color:#f472b6;}
+  .co-label.c5{background:rgba(16,185,129,0.2);color:#34d399;}
+  .co-title{font-size:13px;color:var(--text);flex:1;font-weight:600;}
+  .co-arrow{transition:transform 0.3s;color:var(--text3);font-size:12px;}
+  .co-card.open .co-arrow{transform:rotate(180deg);}
+  .co-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease;}
+  .co-card.open .co-body{max-height:300px;}
+  .co-content{padding:16px 20px;font-size:13px;color:var(--text2);line-height:1.7;}
+  .co-example{
+    margin-top:10px;padding:10px 14px;
+    background:rgba(0,0,0,0.2);border-radius:8px;
+    font-family:'Space Mono',monospace;font-size:12px;color:var(--cyan2);
+    border-left:2px solid var(--cyan);
+  }
+
+  /* ── SYLLABUS ACCORDION ── */
+  .unit{margin-bottom:12px;border-radius:14px;overflow:hidden;border:1px solid var(--border);}
+  .unit-header{
+    padding:18px 24px;cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--glass2);transition:background 0.3s;
+  }
+  .unit-header:hover{background:rgba(139,92,246,0.08);}
+  .unit.open .unit-header{background:rgba(139,92,246,0.1);border-bottom:1px solid var(--border);}
+  .unit-title{
+    font-family:'Orbitron',monospace;font-size:14px;font-weight:700;
+    display:flex;align-items:center;gap:12px;
+  }
+  .unit-num{
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;
+  }
+  .u1 .unit-num{background:rgba(139,92,246,0.2);color:var(--purple2);}
+  .u2 .unit-num{background:rgba(59,130,246,0.2);color:var(--blue2);}
+  .u3 .unit-num{background:rgba(6,182,212,0.2);color:var(--cyan2);}
+  .u4 .unit-num{background:rgba(236,72,153,0.2);color:#f472b6;}
+  .u5 .unit-num{background:rgba(16,185,129,0.2);color:#34d399;}
+  .unit-meta{font-size:11px;color:var(--text3);margin-left:auto;margin-right:16px;font-family:'Space Mono',monospace;}
+  .unit-chevron{transition:transform 0.3s;color:var(--text3);}
+  .unit.open .unit-chevron{transform:rotate(180deg);}
+  .unit-body{max-height:0;overflow:hidden;transition:max-height 0.5s ease;}
+  .unit.open .unit-body{max-height:2000px;}
+  .unit-content{padding:24px;}
+  .topic-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;}
+  .topic-list li{
+    padding:8px 14px;border-radius:8px;
+    background:var(--glass);border:1px solid var(--border);
+    font-size:13px;color:var(--text2);
+    display:flex;align-items:center;gap:8px;transition:all 0.2s;
+  }
+  .topic-list li:hover{border-color:var(--cyan);color:var(--text);background:rgba(6,182,212,0.06);}
+  .topic-list li::before{content:'▹';color:var(--cyan);font-size:10px;}
+  .topic-list li.highlight-search{background:rgba(255,204,0,0.1);border-color:#ffd700;color:#ffd700;}
+  .exam-tips{
+    margin-top:20px;padding:16px;
+    background:rgba(16,185,129,0.06);
+    border:1px solid rgba(16,185,129,0.2);
+    border-radius:10px;
+  }
+  .exam-tips h4{color:#34d399;font-size:13px;margin-bottom:8px;font-family:'Orbitron',monospace;}
+  .exam-tips ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .exam-tips ul li{font-size:12px;color:var(--text2);padding-left:16px;position:relative;}
+  .exam-tips ul li::before{content:'→';position:absolute;left:0;color:#34d399;}
+  .diff-bar-wrap{margin-top:16px;}
+  .diff-bar-label{font-size:11px;color:var(--text3);margin-bottom:6px;font-family:'Space Mono',monospace;}
+  .diff-bar-bg{background:rgba(255,255,255,0.05);border-radius:10px;height:8px;overflow:hidden;}
+  .diff-bar-fill{height:100%;border-radius:10px;transition:width 1s ease;width:0;}
+  .d-easy{background:linear-gradient(90deg,#10b981,#34d399);}
+  .d-med{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+  .d-hard{background:linear-gradient(90deg,#ef4444,#f87171);}
+
+  /* ── PROGRESS TRACKER ── */
+  .progress-section{
+    background:var(--glass);border:1px solid var(--border);
+    border-radius:16px;padding:28px;
+  }
+  .progress-units{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px;}
+  .prog-unit{
+    background:var(--glass2);border:1px solid var(--border);
+    border-radius:10px;padding:14px;
+    display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.3s;
+  }
+  .prog-unit:hover{border-color:var(--cyan);}
+  .prog-unit.done{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.3);}
+  .prog-check{
+    width:22px;height:22px;border-radius:50%;
+    border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;flex-shrink:0;transition:all 0.3s;
+  }
+  .prog-unit.done .prog-check{background:#10b981;border-color:#10b981;color:#fff;}
+  .prog-unit-name{font-size:12px;font-weight:600;color:var(--text2);}
+  .prog-unit.done .prog-unit-name{color:#34d399;}
+  .big-ring-wrap{position:relative;width:150px;height:150px;margin:24px auto;}
+  .big-ring-pct{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    text-align:center;
+  }
+  .big-ring-pct .num{font-family:'Orbitron',monospace;font-size:28px;font-weight:700;color:var(--cyan);}
+  .big-ring-pct .lbl{font-size:10px;color:var(--text3);letter-spacing:2px;}
+
+  /* ── IMPORTANT QUESTIONS ── */
+  .q-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+  .q-tab{
+    padding:8px 20px;border-radius:20px;font-size:12px;font-weight:600;
+    cursor:pointer;border:1px solid var(--border);
+    background:transparent;color:var(--text2);
+    font-family:'Space Mono',monospace;transition:all 0.2s;
+  }
+  .q-tab.active{background:rgba(6,182,212,0.15);border-color:var(--cyan);color:var(--cyan);}
+  .q-tab:hover{border-color:var(--cyan);}
+  .q-panel{display:none;}
+  .q-panel.active{display:block;}
+  .q-list{display:flex;flex-direction:column;gap:10px;}
+  .q-item{
+    padding:14px 18px;border-radius:10px;
+    background:var(--glass2);border:1px solid var(--border);
+    font-size:13px;color:var(--text);
+    display:flex;align-items:flex-start;gap:12px;
+    transition:all 0.2s;
+  }
+  .q-item:hover{border-color:var(--purple);background:rgba(139,92,246,0.06);}
+  .q-num{
+    min-width:24px;height:24px;border-radius:50%;
+    background:rgba(139,92,246,0.2);color:var(--purple2);
+    font-size:11px;font-family:'Space Mono',monospace;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+
+  /* ── STUDY PLAN ── */
+  .days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+  .day-card{
+    background:var(--glass);border:1px solid var(--border);
+    border-radius:12px;padding:16px;text-align:center;
+    transition:all 0.3s;cursor:pointer;
+  }
+  .day-card.done-day{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.3);}
+  .day-card:hover{transform:translateY(-4px);border-color:var(--cyan);}
+  .day-num{
+    font-family:'Orbitron',monospace;font-size:11px;color:var(--text3);
+    letter-spacing:2px;margin-bottom:8px;
+  }
+  .day-topic{font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;}
+  .day-check{
+    width:26px;height:26px;border-radius:50%;
+    border:2px solid var(--border);
+    margin:0 auto;font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.3s;
+  }
+  .day-card.done-day .day-check{background:#10b981;border-color:#10b981;color:#fff;}
+
+  /* ── FORMULA CARDS ── */
+  .formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+  .formula-card{
+    background:var(--glass);border:1px solid var(--border);
+    border-radius:12px;padding:20px;
+    text-align:center;cursor:pointer;transition:all 0.3s;
+    position:relative;overflow:hidden;
+  }
+  .formula-card::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 0%,rgba(6,182,212,0.1),transparent 70%);
+    opacity:0;transition:opacity 0.3s;
+  }
+  .formula-card:hover{border-color:var(--cyan);box-shadow:var(--glow-cyan);}
+  .formula-card:hover::before{opacity:1;}
+  .formula-title{font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:12px;font-family:'Space Mono',monospace;}
+  .formula-eq{
+    font-family:'Space Mono',monospace;font-size:clamp(12px,1.5vw,16px);
+    color:var(--cyan2);padding:10px;
+    background:rgba(0,0,0,0.3);border-radius:8px;
+    margin-bottom:10px;line-height:1.5;
+  }
+  .formula-tooltip{font-size:11px;color:var(--text3);line-height:1.5;opacity:0;max-height:0;overflow:hidden;transition:all 0.3s;}
+  .formula-card:hover .formula-tooltip{opacity:1;max-height:100px;}
+
+  /* ── TEXTBOOKS ── */
+  .books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+  .book-card{
+    background:var(--glass);border:1px solid var(--border);
+    border-radius:12px;padding:20px;transition:all 0.3s;
+  }
+  .book-card:hover{transform:translateY(-4px);border-color:var(--purple);box-shadow:var(--glow-purple);}
+  .book-type{font-size:10px;letter-spacing:2px;color:var(--text3);margin-bottom:8px;font-family:'Space Mono',monospace;}
+  .book-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
+  .book-author{font-size:12px;color:var(--text2);}
+  .book-icon{font-size:32px;margin-bottom:12px;}
+
+  /* ── EXAM STRATEGY ── */
+  .strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+  .strat-card{
+    background:var(--glass);border:1px solid var(--border);
+    border-radius:12px;padding:24px;
+  }
+  .strat-card h3{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;margin-bottom:16px;color:var(--cyan);}
+  .strat-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .strat-list li{
+    font-size:13px;color:var(--text2);
+    padding-left:20px;position:relative;
+  }
+  .strat-list li::before{content:'✦';position:absolute;left:0;color:var(--purple2);font-size:10px;top:2px;}
+  .scoring-tip{
+    margin-top:24px;padding:20px;
+    background:linear-gradient(135deg,rgba(6,182,212,0.08),rgba(139,92,246,0.08));
+    border:1px solid rgba(6,182,212,0.3);border-radius:12px;
+    text-align:center;
+  }
+  .scoring-tip p{font-size:15px;color:var(--cyan2);font-weight:600;font-family:'Space Mono',monospace;}
+
+  /* ── FOOTER ── */
+  footer{
+    position:relative;z-index:1;
+    padding:60px 24px 40px;
+    border-top:1px solid var(--border);
+    text-align:center;
+  }
+  .footer-quote{
+    font-family:'Space Mono',monospace;
+    font-size:clamp(14px,2vw,18px);
+    color:var(--text2);margin-bottom:16px;
+    animation:fadein 1s ease;
+  }
+  .footer-quote span{color:var(--cyan);}
+  .footer-sub{font-size:12px;color:var(--text3);letter-spacing:2px;}
+
+  /* ── BACK TO TOP ── */
+  #back-top{
+    position:fixed;bottom:24px;right:24px;z-index:90;
+    width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    border:none;cursor:pointer;color:#fff;font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 20px rgba(6,182,212,0.4);
+    opacity:0;transform:translateY(20px);
+    transition:all 0.3s;
+  }
+  #back-top.show{opacity:1;transform:translateY(0);}
+  #back-top:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(6,182,212,0.6);}
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(var(--cyan),var(--purple));border-radius:3px;}
+
+  /* ── MOBILE ── */
+  @media(max-width:768px){
+    .nav-links{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:rgba(10,14,26,0.97);padding:16px;gap:4px;border-bottom:1px solid var(--border);}
+    .nav-links.open{display:flex;}
+    .hamburger{display:flex;}
+    #search-input{width:140px;}
+    section{padding:60px 16px;}
+    .hero-btns{flex-direction:column;align-items:center;}
+    .topic-list{grid-template-columns:1fr;}
+  }
+  @media(max-width:480px){
+    .nav-links a{font-size:13px;padding:10px 16px;}
+    .overview-grid{grid-template-columns:repeat(3,1fr);}
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s,transform 0.6s;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .counter{transition:all 0.5s;}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">INITIALIZING...</div>
+</div>
+
+<!-- MATH BACKGROUND -->
+<div id="math-bg">
+  <div class="grid-bg"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">EM · R23</div>
+  <div class="nav-links" id="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#overview">Overview</a>
+    <a href="#outcomes">CO</a>
+    <a href="#syllabus">Syllabus</a>
+    <a href="#progress">Progress</a>
+    <a href="#questions">Questions</a>
+    <a href="#plan">Plan</a>
+    <a href="#formulas">Formulas</a>
+    <a href="#books">Books</a>
+    <a href="#strategy">Strategy</a>
+  </div>
+  <div class="nav-right">
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="Search topic...">
+    </div>
+    <button class="theme-btn" id="theme-btn" title="Toggle theme">🌙</button>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner container">
+    <div class="hero-badge">✦ JNTUK B.TECH R23 REGULATIONS ✦</div>
+    <h1 class="hero-title">ENGINEERING<br>MATHEMATICS</h1>
+    <p class="hero-sub">Common to All Branches &nbsp;|&nbsp; <span>5 Units · 75 Hours</span></p>
+    <div class="type-formula" id="type-box">
+      <span id="typed-text"></span><span class="type-cursor">|</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#syllabus" class="btn-primary">▶ Start Learning</a>
+      <a href="#progress" class="btn-secondary">Track Progress</a>
+    </div>
+    <div class="ring-wrap" style="margin:40px auto 0;">
+      <svg class="progress-ring" viewBox="0 0 130 130">
+        <circle cx="65" cy="65" r="55" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+        <circle cx="65" cy="65" r="55" fill="none" stroke="url(#ringGrad)" stroke-width="8" stroke-linecap="round" transform="rotate(-90 65 65)"/>
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#06b6d4"/>
+            <stop offset="100%" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="ring-label">
+        <div class="ring-pct" id="hero-pct">0%</div>
+        <div class="ring-txt">COMPLETE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">📘</span> Course Overview</div>
+    <div class="glass-card reveal">
+      <p class="obj-text">"To build strong analytical and mathematical foundations required for engineering problem solving."</p>
+      <div class="overview-grid">
+        <div class="icon-card"><span class="ic-emoji">📊</span><div class="ic-name">Linear Algebra</div></div>
+        <div class="icon-card"><span class="ic-emoji">🔢</span><div class="ic-name">Eigen Analysis</div></div>
+        <div class="icon-card"><span class="ic-emoji">📈</span><div class="ic-name">Calculus</div></div>
+        <div class="icon-card"><span class="ic-emoji">🌐</span><div class="ic-name">Multivariable Calculus</div></div>
+        <div class="icon-card"><span class="ic-emoji">🧮</span><div class="ic-name">Integration Techniques</div></div>
+        <div class="icon-card"><span class="ic-emoji">⚙️</span><div class="ic-name">Problem Solving</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE OUTCOMES -->
+<section id="outcomes">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">🎯</span> Course Outcomes</div>
+    <div class="co-grid">
+      <div class="co-card reveal" onclick="toggleCO(this)">
+        <div class="co-head">
+          <span class="co-label c1">CO1</span>
+          <span class="co-title">Solve systems of linear equations using matrix methods.</span>
+          <span class="co-arrow">▼</span>
+        </div>
+        <div class="co-body"><div class="co-content">
+          Understand and apply matrix rank, Echelon form, Normal form, Gauss elimination, Jacobi and Gauss-Seidel iterative methods to solve both homogeneous and non-homogeneous systems.
+          <div class="co-example">Ex: AX = B → find X using Gauss-Seidel with 3 iterations</div>
+        </div></div>
+      </div>
+      <div class="co-card reveal" onclick="toggleCO(this)">
+        <div class="co-head">
+          <span class="co-label c2">CO2</span>
+          <span class="co-title">Analyze matrices using eigenvalues and diagonalization.</span>
+          <span class="co-arrow">▼</span>
+        </div>
+        <div class="co-body"><div class="co-content">
+          Compute eigenvalues and eigenvectors, apply Cayley-Hamilton theorem to find matrix inverse and powers. Diagonalize matrices and reduce quadratic forms using orthogonal transformations.
+          <div class="co-example">Ex: |A − λI| = 0 → λ₁, λ₂, λ₃ → eigenvectors → P⁻¹AP = D</div>
+        </div></div>
+      </div>
+      <div class="co-card reveal" onclick="toggleCO(this)">
+        <div class="co-head">
+          <span class="co-label c3">CO3</span>
+          <span class="co-title">Apply mean value theorems in engineering problems.</span>
+          <span class="co-arrow">▼</span>
+        </div>
+        <div class="co-body"><div class="co-content">
+          Use Rolle's, Lagrange's, and Cauchy's mean value theorems. Expand functions using Taylor and Maclaurin series and apply them to engineering approximations.
+          <div class="co-example">Ex: f(x) = eˣ → Maclaurin: 1 + x + x²/2! + x³/3! + ...</div>
+        </div></div>
+      </div>
+      <div class="co-card reveal" onclick="toggleCO(this)">
+        <div class="co-head">
+          <span class="co-label c4">CO4</span>
+          <span class="co-title">Solve multivariable calculus problems and optimization.</span>
+          <span class="co-arrow">▼</span>
+        </div>
+        <div class="co-body"><div class="co-content">
+          Compute partial derivatives, Jacobians, apply chain rule, total derivative. Find extreme values using Lagrange multipliers for constrained optimization problems.
+          <div class="co-example">Ex: J(u,v)/(x,y) = |∂(u,v)/∂(x,y)| — Jacobian determinant</div>
+        </div></div>
+      </div>
+      <div class="co-card reveal" onclick="toggleCO(this)">
+        <div class="co-head">
+          <span class="co-label c5">CO5</span>
+          <span class="co-title">Evaluate multiple integrals for area and volume.</span>
+          <span class="co-arrow">▼</span>
+        </div>
+        <div class="co-body"><div class="co-content">
+          Set up and evaluate double and triple integrals. Change order of integration and use coordinate transformations (polar, cylindrical, spherical) to compute areas and volumes.
+          <div class="co-example">Ex: ∬ r dr dθ over polar region → Area = π r²</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYLLABUS -->
+<section id="syllabus">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">📚</span> Detailed Syllabus</div>
+
+    <!-- UNIT I -->
+    <div class="unit u1 reveal" id="unit1">
+      <div class="unit-header" onclick="toggleUnit('unit1')">
+        <div class="unit-title"><span class="unit-num">I</span>Matrices</div>
+        <span class="unit-meta">9 topics</span>
+        <span class="unit-chevron">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <ul class="topic-list" id="topics-u1">
+            <li data-topic="rank">Rank of a Matrix (Echelon Form)</li>
+            <li data-topic="rank normal">Rank (Normal Form)</li>
+            <li data-topic="cauchy binet">Cauchy-Binet Formula (concept)</li>
+            <li data-topic="gauss jordan inverse">Inverse using Gauss-Jordan Method</li>
+            <li data-topic="homogeneous system">Homogeneous System of Equations</li>
+            <li data-topic="non-homogeneous system">Non-Homogeneous System of Equations</li>
+            <li data-topic="gauss elimination">Gauss Elimination Method</li>
+            <li data-topic="jacobi iteration">Jacobi Iteration Method</li>
+            <li data-topic="gauss seidel">Gauss-Seidel Method</li>
+          </ul>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Rank problems are the most frequently asked topic</li>
+              <li>Practice all 3 iterative methods step-by-step</li>
+              <li>Gauss elimination — show row operations clearly</li>
+              <li>Normal form rank = number of non-zero rows</li>
+            </ul>
+          </div>
+          <div class="diff-bar-wrap">
+            <div class="diff-bar-label">Difficulty Level</div>
+            <div class="diff-bar-bg"><div class="diff-bar-fill d-med" data-width="65%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT II -->
+    <div class="unit u2 reveal" id="unit2">
+      <div class="unit-header" onclick="toggleUnit('unit2')">
+        <div class="unit-title"><span class="unit-num">II</span>Eigenvalues & Orthogonal Transformation</div>
+        <span class="unit-meta">8 topics</span>
+        <span class="unit-chevron">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <ul class="topic-list" id="topics-u2">
+            <li data-topic="eigenvalues eigenvectors">Eigenvalues & Eigenvectors</li>
+            <li data-topic="diagonalization">Diagonalization of a Matrix</li>
+            <li data-topic="cayley hamilton">Cayley-Hamilton Theorem</li>
+            <li data-topic="inverse cayley hamilton">Inverse using Cayley-Hamilton</li>
+            <li data-topic="quadratic forms">Quadratic Forms</li>
+            <li data-topic="canonical form">Reduction to Canonical Form</li>
+            <li data-topic="orthogonal transformation">Orthogonal Transformation</li>
+            <li data-topic="nature quadratic">Nature of Quadratic Form</li>
+          </ul>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Cayley-Hamilton theorem carries highest weightage</li>
+              <li>Quadratic form problems are very scoring</li>
+              <li>Always verify: sum of eigenvalues = trace(A)</li>
+              <li>Product of eigenvalues = det(A)</li>
+            </ul>
+          </div>
+          <div class="diff-bar-wrap">
+            <div class="diff-bar-label">Difficulty Level</div>
+            <div class="diff-bar-bg"><div class="diff-bar-fill d-hard" data-width="80%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT III -->
+    <div class="unit u3 reveal" id="unit3">
+      <div class="unit-header" onclick="toggleUnit('unit3')">
+        <div class="unit-title"><span class="unit-num">III</span>Calculus</div>
+        <span class="unit-meta">5 topics</span>
+        <span class="unit-chevron">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <ul class="topic-list" id="topics-u3">
+            <li data-topic="rolles theorem">Rolle's Theorem</li>
+            <li data-topic="lagrange mean value">Lagrange Mean Value Theorem</li>
+            <li data-topic="cauchy mean value">Cauchy Mean Value Theorem</li>
+            <li data-topic="taylor series">Taylor Series Expansion</li>
+            <li data-topic="maclaurin series">Maclaurin Series Expansion</li>
+          </ul>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Geometric interpretation of MVT is important</li>
+              <li>Taylor & Maclaurin expansions frequently asked</li>
+              <li>Verify all conditions before applying theorems</li>
+              <li>Rolle's: f(a) = f(b) condition is critical</li>
+            </ul>
+          </div>
+          <div class="diff-bar-wrap">
+            <div class="diff-bar-label">Difficulty Level</div>
+            <div class="diff-bar-bg"><div class="diff-bar-fill d-easy" data-width="45%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT IV -->
+    <div class="unit u4 reveal" id="unit4">
+      <div class="unit-header" onclick="toggleUnit('unit4')">
+        <div class="unit-title"><span class="unit-num">IV</span>Partial Differentiation</div>
+        <span class="unit-meta">9 topics</span>
+        <span class="unit-chevron">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <ul class="topic-list" id="topics-u4">
+            <li data-topic="functions several variables">Functions of Several Variables</li>
+            <li data-topic="partial derivatives">Partial Derivatives</li>
+            <li data-topic="chain rule">Chain Rule</li>
+            <li data-topic="total derivative">Total Derivative</li>
+            <li data-topic="directional derivative">Directional Derivatives</li>
+            <li data-topic="jacobians">Jacobians</li>
+            <li data-topic="functional dependence">Functional Dependence</li>
+            <li data-topic="maxima minima">Maxima & Minima</li>
+            <li data-topic="lagrange multipliers">Lagrange Multipliers</li>
+          </ul>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Jacobians are very important — always asked</li>
+              <li>Lagrange multipliers frequently appear in 10-mark questions</li>
+              <li>For maxima/minima: use second derivative test</li>
+              <li>Total derivative: dz = (∂z/∂x)dx + (∂z/∂y)dy</li>
+            </ul>
+          </div>
+          <div class="diff-bar-wrap">
+            <div class="diff-bar-label">Difficulty Level</div>
+            <div class="diff-bar-bg"><div class="diff-bar-fill d-hard" data-width="75%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT V -->
+    <div class="unit u5 reveal" id="unit5">
+      <div class="unit-header" onclick="toggleUnit('unit5')">
+        <div class="unit-title"><span class="unit-num">V</span>Multiple Integrals</div>
+        <span class="unit-meta">7 topics</span>
+        <span class="unit-chevron">▼</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <ul class="topic-list" id="topics-u5">
+            <li data-topic="double integrals">Double Integrals</li>
+            <li data-topic="triple integrals">Triple Integrals</li>
+            <li data-topic="change of order">Change of Order of Integration</li>
+            <li data-topic="polar coordinates">Polar Coordinates Integration</li>
+            <li data-topic="cylindrical coordinates">Cylindrical Coordinates</li>
+            <li data-topic="spherical coordinates">Spherical Coordinates</li>
+            <li data-topic="area volume applications">Area & Volume Applications</li>
+          </ul>
+          <div class="exam-tips">
+            <h4>🎯 Exam Tips</h4>
+            <ul>
+              <li>Coordinate transformation is most important</li>
+              <li>Always draw region of integration for clarity</li>
+              <li>Change of order: redraw limits carefully</li>
+              <li>Volume in spherical: dV = r²sinφ dr dθ dφ</li>
+            </ul>
+          </div>
+          <div class="diff-bar-wrap">
+            <div class="diff-bar-label">Difficulty Level</div>
+            <div class="diff-bar-bg"><div class="diff-bar-fill d-med" data-width="60%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER -->
+<section id="progress">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">📊</span> Progress Tracker</div>
+    <div class="progress-section reveal">
+      <div class="big-ring-wrap">
+        <svg viewBox="0 0 150 150" style="width:150px;height:150px;">
+          <circle cx="75" cy="75" r="65" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
+          <circle id="prog-circle" cx="75" cy="75" r="65" fill="none" stroke="url(#progGrad)" stroke-width="10" stroke-linecap="round" transform="rotate(-90 75 75)" stroke-dasharray="408" stroke-dashoffset="408" style="transition:stroke-dashoffset 0.8s ease;"/>
+          <defs>
+            <linearGradient id="progGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="big-ring-pct">
+          <div class="num" id="prog-pct">0%</div>
+          <div class="lbl">COMPLETED</div>
+        </div>
+      </div>
+      <div class="progress-units" id="prog-units">
+        <div class="prog-unit" data-unit="1" onclick="toggleProgress(this)">
+          <div class="prog-check">✓</div>
+          <div class="prog-unit-name">Unit I — Matrices</div>
+        </div>
+        <div class="prog-unit" data-unit="2" onclick="toggleProgress(this)">
+          <div class="prog-check">✓</div>
+          <div class="prog-unit-name">Unit II — Eigenvalues</div>
+        </div>
+        <div class="prog-unit" data-unit="3" onclick="toggleProgress(this)">
+          <div class="prog-check">✓</div>
+          <div class="prog-unit-name">Unit III — Calculus</div>
+        </div>
+        <div class="prog-unit" data-unit="4" onclick="toggleProgress(this)">
+          <div class="prog-check">✓</div>
+          <div class="prog-unit-name">Unit IV — Partial Diff.</div>
+        </div>
+        <div class="prog-unit" data-unit="5" onclick="toggleProgress(this)">
+          <div class="prog-check">✓</div>
+          <div class="prog-unit-name">Unit V — Multiple Integrals</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTANT QUESTIONS -->
+<section id="questions">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">🧠</span> Important Questions</div>
+    <div class="reveal">
+      <div class="q-tabs">
+        <button class="q-tab active" onclick="switchTab('q2')">📝 2 Marks</button>
+        <button class="q-tab" onclick="switchTab('q5')">📄 5 Marks</button>
+        <button class="q-tab" onclick="switchTab('q10')">📋 10 Marks</button>
+      </div>
+      <div class="q-panel active" id="q2">
+        <div class="q-list">
+          <div class="q-item"><div class="q-num">1</div>Define eigenvalues and eigenvectors of a matrix.</div>
+          <div class="q-item"><div class="q-num">2</div>State Rolle's Theorem with conditions.</div>
+          <div class="q-item"><div class="q-num">3</div>Define rank of a matrix. When is rank zero?</div>
+          <div class="q-item"><div class="q-num">4</div>State Cayley-Hamilton theorem.</div>
+          <div class="q-item"><div class="q-num">5</div>Define Jacobian of two functions of two variables.</div>
+          <div class="q-item"><div class="q-num">6</div>What is the condition for consistency of AX = B?</div>
+          <div class="q-item"><div class="q-num">7</div>State Lagrange's Mean Value Theorem.</div>
+          <div class="q-item"><div class="q-num">8</div>Define a quadratic form. Give an example.</div>
+          <div class="q-item"><div class="q-num">9</div>What is Maclaurin series expansion?</div>
+          <div class="q-item"><div class="q-num">10</div>Define partial derivative of z = f(x,y) w.r.t. x.</div>
+        </div>
+      </div>
+      <div class="q-panel" id="q5">
+        <div class="q-list">
+          <div class="q-item"><div class="q-num">1</div>Solve the system of equations using Gauss Elimination method.</div>
+          <div class="q-item"><div class="q-num">2</div>Find the Jacobian ∂(u,v)/∂(x,y) for given functions.</div>
+          <div class="q-item"><div class="q-num">3</div>Find eigenvalues and eigenvectors of a 3×3 matrix.</div>
+          <div class="q-item"><div class="q-num">4</div>Expand f(x) = log(1+x) using Maclaurin series up to 4 terms.</div>
+          <div class="q-item"><div class="q-num">5</div>Find the rank of the matrix using Echelon form.</div>
+          <div class="q-item"><div class="q-num">6</div>Apply Lagrange's MVT to f(x) = x³ on [1,3]. Find c.</div>
+          <div class="q-item"><div class="q-num">7</div>Solve the iterative system by Gauss-Seidel method (3 iterations).</div>
+          <div class="q-item"><div class="q-num">8</div>Find the maxima and minima of f(x,y) = x³+y³ − 3xy.</div>
+        </div>
+      </div>
+      <div class="q-panel" id="q10">
+        <div class="q-list">
+          <div class="q-item"><div class="q-num">1</div>Diagonalize the given matrix A and find A⁴ using diagonalization.</div>
+          <div class="q-item"><div class="q-num">2</div>Apply Cayley-Hamilton theorem to find A⁻¹ and A³ for the given matrix.</div>
+          <div class="q-item"><div class="q-num">3</div>Reduce the quadratic form to canonical form using orthogonal transformation.</div>
+          <div class="q-item"><div class="q-num">4</div>Evaluate the double integral ∬ f(x,y) dA over the given region.</div>
+          <div class="q-item"><div class="q-num">5</div>Find the volume of the solid bounded by given surfaces using triple integrals.</div>
+          <div class="q-item"><div class="q-num">6</div>Find the extremum of f(x,y,z) subject to constraint using Lagrange multipliers.</div>
+          <div class="q-item"><div class="q-num">7</div>Solve using Gauss-Jordan: find inverse of 3×3 matrix with complete row operations.</div>
+          <div class="q-item"><div class="q-num">8</div>Evaluate ∬ (x+y) dA by changing order of integration with clear diagram.</div>
+          <div class="q-item"><div class="q-num">9</div>Expand f(x,y) = eˣ sin y using Taylor series about origin up to 3rd degree.</div>
+          <div class="q-item"><div class="q-num">10</div>Find all eigenvalues, eigenvectors and verify orthogonality of eigenvectors of symmetric matrix.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY PLAN -->
+<section id="plan">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">📅</span> 7-Day Smart Study Plan</div>
+    <div class="days-grid reveal" id="days-grid">
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 01</div>
+        <div class="day-topic">📊 Matrices</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Rank, Systems, Gauss Elim.</div>
+        <div class="day-check">✓</div>
+      </div>
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 02</div>
+        <div class="day-topic">🔢 Eigenvalues</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Eigen, Cayley-Hamilton</div>
+        <div class="day-check">✓</div>
+      </div>
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 03</div>
+        <div class="day-topic">📈 Calculus</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">MVT, Taylor, Maclaurin</div>
+        <div class="day-check">✓</div>
+      </div>
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 04</div>
+        <div class="day-topic">🌐 Partial Diff.</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Jacobians, Lagrange Mult.</div>
+        <div class="day-check">✓</div>
+      </div>
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 05</div>
+        <div class="day-topic">🧮 Integrals</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Double, Triple, Polar</div>
+        <div class="day-check">✓</div>
+      </div>
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 06</div>
+        <div class="day-topic">⚙️ Practice</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Previous Year Papers</div>
+        <div class="day-check">✓</div>
+      </div>
+      <div class="day-card" onclick="toggleDay(this)">
+        <div class="day-num">DAY 07</div>
+        <div class="day-topic">🔄 Full Revision</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">All Units Quick Review</div>
+        <div class="day-check">✓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA QUICK REVISION -->
+<section id="formulas">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">📌</span> Formula Quick Revision</div>
+    <div class="formula-grid">
+      <div class="formula-card reveal">
+        <div class="formula-title">MATRIX INVERSE (Gauss-Jordan)</div>
+        <div class="formula-eq">[A | I] → Row Ops<br>→ [I | A⁻¹]</div>
+        <div class="formula-tooltip">Augment matrix A with identity. Apply row operations to reduce A to identity. The right side becomes A⁻¹.</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">EIGENVALUE EQUATION</div>
+        <div class="formula-eq">det(A − λI) = 0<br>Characteristic Eq.</div>
+        <div class="formula-tooltip">Set the determinant of (A - λI) to zero to get the characteristic polynomial. Roots λ are eigenvalues.</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">TAYLOR SERIES</div>
+        <div class="formula-eq">f(x) = Σ fⁿ(a)/n! · (x−a)ⁿ</div>
+        <div class="formula-tooltip">Expand f(x) around point a. When a=0 it is Maclaurin series. Used to approximate transcendental functions.</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">JACOBIAN</div>
+        <div class="formula-eq">J = |∂(u,v)/∂(x,y)|<br>= |∂u/∂x  ∂u/∂y|<br>  |∂v/∂x  ∂v/∂y|</div>
+        <div class="formula-tooltip">2×2 determinant of partial derivatives. Used for change of variables in multiple integrals and to test functional dependence.</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">DOUBLE INTEGRAL</div>
+        <div class="formula-eq">∬_R f(x,y) dA<br>= ∫∫ f(x,y) dy dx</div>
+        <div class="formula-tooltip">Integrate over 2D region R. To change order, sketch the region and re-express limits accordingly.</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">CAYLEY-HAMILTON</div>
+        <div class="formula-eq">Every matrix satisfies<br>its own characteristic eq.<br>p(A) = 0</div>
+        <div class="formula-tooltip">Replace λ with A in characteristic polynomial. Use this to find A⁻¹ and powers of A without direct computation.</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">LAGRANGE MVT</div>
+        <div class="formula-eq">f'(c) = f(b)−f(a)<br>         ———————<br>              b − a</div>
+        <div class="formula-tooltip">There exists c ∈ (a,b) where the instantaneous rate equals average rate. f must be continuous on [a,b], differentiable on (a,b).</div>
+      </div>
+      <div class="formula-card reveal">
+        <div class="formula-title">QUADRATIC FORM</div>
+        <div class="formula-eq">Q = Xᵀ A X<br>A = symmetric matrix</div>
+        <div class="formula-tooltip">Express as Q = aX² + bY² + cZ² + 2fYZ + ... Use orthogonal transformation P to diagonalize: Pᵀ A P = D.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEXTBOOKS -->
+<section id="books">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">📚</span> Textbooks & References</div>
+    <div class="books-grid">
+      <div class="book-card reveal">
+        <div class="book-icon">📗</div>
+        <div class="book-type">PRIMARY TEXTBOOK</div>
+        <div class="book-title">Higher Engineering Mathematics</div>
+        <div class="book-author">B.S. Grewal — 44th Edition</div>
+      </div>
+      <div class="book-card reveal">
+        <div class="book-icon">📘</div>
+        <div class="book-type">TEXTBOOK</div>
+        <div class="book-title">Engineering Mathematics Vol. I & II</div>
+        <div class="book-author">T.K.V. Iyengar et al.</div>
+      </div>
+      <div class="book-card reveal">
+        <div class="book-icon">📙</div>
+        <div class="book-type">REFERENCE</div>
+        <div class="book-title">Advanced Engineering Mathematics</div>
+        <div class="book-author">Erwin Kreyszig — 10th Edition</div>
+      </div>
+      <div class="book-card reveal">
+        <div class="book-icon">📕</div>
+        <div class="book-type">REFERENCE</div>
+        <div class="book-title">Thomas' Calculus</div>
+        <div class="book-author">Thomas & Finney — 12th Edition</div>
+      </div>
+      <div class="book-card reveal">
+        <div class="book-icon">📓</div>
+        <div class="book-type">REFERENCE</div>
+        <div class="book-title">Linear Algebra & Its Applications</div>
+        <div class="book-author">Gilbert Strang</div>
+      </div>
+      <div class="book-card reveal">
+        <div class="book-icon">📔</div>
+        <div class="book-type">JNTUK MATERIAL</div>
+        <div class="book-title">Engineering Maths R23 Notes</div>
+        <div class="book-author">JNTUK Official Curriculum</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM STRATEGY -->
+<section id="strategy">
+  <div class="container">
+    <div class="section-title reveal"><span class="icon">🎯</span> Exam Strategy</div>
+    <div class="strategy-grid">
+      <div class="strat-card reveal">
+        <h3>📅 Before Exam</h3>
+        <ul class="strat-list">
+          <li>Revise all formulas from quick revision cards</li>
+          <li>Practice derivations for key theorems</li>
+          <li>Solve at least 3 previous year papers</li>
+          <li>Memorize Cayley-Hamilton steps</li>
+          <li>Revise coordinate transformation rules</li>
+        </ul>
+      </div>
+      <div class="strat-card reveal">
+        <h3>✍️ During Exam</h3>
+        <ul class="strat-list">
+          <li>Attempt well-known questions first</li>
+          <li>Show all intermediate steps clearly</li>
+          <li>Draw graphs / region diagrams neatly</li>
+          <li>Write formulas before applying them</li>
+          <li>Allocate time: 2M×5 + 5M×5 + 10M×3</li>
+        </ul>
+      </div>
+      <div class="strat-card reveal">
+        <h3>🏆 Unit Weightage</h3>
+        <ul class="strat-list">
+          <li>Unit I — Matrices: ★★★★☆</li>
+          <li>Unit II — Eigenvalues: ★★★★★</li>
+          <li>Unit III — Calculus: ★★★☆☆</li>
+          <li>Unit IV — Partial Diff.: ★★★★☆</li>
+          <li>Unit V — Integrals: ★★★★☆</li>
+        </ul>
+      </div>
+    </div>
+    <div class="scoring-tip reveal">
+      <p>👉 Steps + Formula + Diagram = Full Marks 🎯</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p class="footer-quote">✨ <span>"Mathematics is not about numbers, it's about understanding."</span></p>
+    <p class="footer-sub">Designed for JNTUK B.Tech Students · R23 Regulations · All Branches</p>
+    <p style="font-size:11px;color:var(--text3);margin-top:8px;font-family:'Space Mono',monospace;">
+      ∑ ∫ λ π ∇ · Engineering Mathematics · 2024-25
+    </p>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ═══════════════════════════════════
+// LOADING SCREEN
+// ═══════════════════════════════════
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+    initAnimations();
+  }, 1200);
+});
+
+// ═══════════════════════════════════
+// FLOATING MATH SYMBOLS
+// ═══════════════════════════════════
+const symbols = ['∑','∫','λ','π','∇','∂','∞','α','β','γ','δ','θ','Φ','ω','μ','σ','ρ','Δ','≈','≡'];
+const bg = document.getElementById('math-bg');
+symbols.concat(symbols).forEach((sym, i) => {
+  const el = document.createElement('div');
+  el.className = 'float-sym';
+  el.textContent = sym;
+  el.style.cssText = `left:${Math.random()*100}%;--dur:${15+Math.random()*20}s;--delay:${-Math.random()*20}s;font-size:${20+Math.random()*30}px;`;
+  bg.appendChild(el);
+});
+
+// ═══════════════════════════════════
+// TYPING ANIMATION
+// ═══════════════════════════════════
+const formulas = [
+  'Ax = λx  (Eigenvalue Equation)',
+  'det(A - λI) = 0  (Characteristic Eq.)',
+  'f(b) - f(a) = f\'(c)(b-a)  (LMVT)',
+  'J = ∂(u,v)/∂(x,y)  (Jacobian)',
+  'f(x) = Σ fⁿ(a)/n! · (x-a)ⁿ  (Taylor)',
+  '∬ f(x,y) dA  (Double Integral)',
+  'p(A) = 0  (Cayley-Hamilton)',
+];
+let fi = 0, ci = 0, typing = true;
+const typedEl = document.getElementById('typed-text');
+function typeNext() {
+  const str = formulas[fi];
+  if (typing) {
+    typedEl.textContent = str.slice(0, ci);
+    ci++;
+    if (ci > str.length) { typing = false; setTimeout(typeNext, 1800); return; }
+  } else {
+    typedEl.textContent = str.slice(0, ci);
+    ci--;
+    if (ci < 0) { fi = (fi+1)%formulas.length; ci = 0; typing = true; }
+  }
+  setTimeout(typeNext, typing ? 55 : 25);
+}
+setTimeout(typeNext, 1500);
+
+// ═══════════════════════════════════
+// HERO RING COUNTER
+// ═══════════════════════════════════
+function animateCounter(el, target, suffix='%', duration=2000) {
+  let start = 0, step = target / (duration/16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.round(start) + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// ═══════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════
+function initAnimations() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // animate diff bars
+        e.target.querySelectorAll('.diff-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width;
+        });
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  setTimeout(() => animateCounter(document.getElementById('hero-pct'), 86), 2000);
+}
+
+// ═══════════════════════════════════
+// UNIT ACCORDION
+// ═══════════════════════════════════
+function toggleUnit(id) {
+  const unit = document.getElementById(id);
+  unit.classList.toggle('open');
+}
+
+// ═══════════════════════════════════
+// CO CARDS
+// ═══════════════════════════════════
+function toggleCO(card) {
+  card.classList.toggle('open');
+}
+
+// ═══════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('.topic-list li').forEach(li => {
+    li.classList.remove('highlight-search');
+    if (q && li.dataset.topic && li.dataset.topic.includes(q)) {
+      li.classList.add('highlight-search');
+      // open parent unit
+      const unit = li.closest('.unit');
+      if (unit && !unit.classList.contains('open')) unit.classList.add('open');
+      li.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+  });
+  // also search in text
+  if (q) {
+    document.querySelectorAll('.topic-list li').forEach(li => {
+      if (!li.classList.contains('highlight-search') && li.textContent.toLowerCase().includes(q)) {
+        li.classList.add('highlight-search');
+        const unit = li.closest('.unit');
+        if (unit && !unit.classList.contains('open')) unit.classList.add('open');
+      }
+    });
+  }
+});
+
+// ═══════════════════════════════════
+// PROGRESS TRACKER
+// ═══════════════════════════════════
+function toggleProgress(el) {
+  el.classList.toggle('done');
+  updateProgress();
+}
+function updateProgress() {
+  const total = document.querySelectorAll('.prog-unit').length;
+  const done = document.querySelectorAll('.prog-unit.done').length;
+  const pct = Math.round((done/total)*100);
+  document.getElementById('prog-pct').textContent = pct + '%';
+  // update circle
+  const circ = document.getElementById('prog-circle');
+  const offset = 408 - (408 * pct / 100);
+  circ.style.strokeDashoffset = offset;
+  // update hero ring too
+  document.getElementById('hero-pct').textContent = pct + '%';
+  // animate counter
+  const heroCircle = document.querySelector('.progress-ring circle:last-child');
+  if (heroCircle) {
+    const heroOffset = 350 - (350 * pct / 86 * 0.86);
+  }
+}
+
+// ═══════════════════════════════════
+// QUESTION TABS
+// ═══════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.q-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['q2','q5','q10'][i] === id);
+  });
+  document.querySelectorAll('.q-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ═══════════════════════════════════
+// STUDY PLAN DAY TOGGLE
+// ═══════════════════════════════════
+function toggleDay(card) {
+  card.classList.toggle('done-day');
+}
+
+// ═══════════════════════════════════
+// THEME TOGGLE
+// ═══════════════════════════════════
+const themeBtn = document.getElementById('theme-btn');
+themeBtn.addEventListener('click', () => {
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  themeBtn.textContent = isDark ? '🌞' : '🌙';
+});
+
+// ═══════════════════════════════════
+// BACK TO TOP
+// ═══════════════════════════════════
+const backTop = document.getElementById('back-top');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('show', window.scrollY > 400);
+});
+
+// ═══════════════════════════════════
+// HAMBURGER MENU
+// ═══════════════════════════════════
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+});
+
+// ═══════════════════════════════════
+// STICKY NAV SHADOW
+// ═══════════════════════════════════
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.style.boxShadow = window.scrollY > 10 ? '0 4px 30px rgba(0,0,0,0.5)' : 'none';
+});
+</script>
+</body>
+</html>

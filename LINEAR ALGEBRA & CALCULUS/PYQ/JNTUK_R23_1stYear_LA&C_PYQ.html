@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Mathematics – Question Bank | B.Tech 1st Year</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --bg2: #12152b;
+    --bg3: #181c35;
+    --card: #1a1e36;
+    --card-hover: #1f2440;
+    --border: #2a2f52;
+    --gold: #e8b96a;
+    --gold2: #f5d58a;
+    --silver: #8a9bb5;
+    --text: #d4daf0;
+    --text-dim: #7a85a8;
+    --easy: #3dba7f;
+    --easy-bg: #0f2e1e;
+    --medium: #e8943a;
+    --medium-bg: #2e1a08;
+    --hard: #e05555;
+    --hard-bg: #2e0f0f;
+    --freq1: #9b7fe8;
+    --freq2: #5b9cf6;
+    --freq3: #4dbfbf;
+    --freq4: #8a9bb5;
+    --unit1: #e06fa0;
+    --unit2: #6fa0e0;
+    --unit3: #6fe0a0;
+    --unit4: #e0c36f;
+    --unit5: #c36fe0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 10% 20%, rgba(100,80,200,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(80,150,220,0.07) 0%, transparent 50%);
+  }
+
+  /* ── HEADER ──────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #0a0c1e 0%, #141830 60%, #0d1025 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '∫ ∂ λ Σ ∇ ∮ ∞ ∆ ∏ θ';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    font-size: 72px;
+    opacity: 0.03;
+    letter-spacing: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    font-family: 'Playfair Display', serif;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(232,185,106,0.12);
+    border: 1px solid rgba(232,185,106,0.3);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  header h1 span { color: var(--gold); }
+  header p {
+    color: var(--silver);
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .stat-pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 8px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .stat-pill strong { color: var(--gold2); font-size: 15px; }
+
+  /* ── STICKY NAV ───────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,15,26,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav ul {
+    display: inline-flex;
+    list-style: none;
+    gap: 0;
+    min-width: 100%;
+    justify-content: center;
+  }
+  nav ul li a {
+    display: block;
+    padding: 14px 18px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav ul li a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  nav ul li a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── LEGEND ───────────────────────────────────────── */
+  .legend {
+    max-width: 1200px;
+    margin: 32px auto 0;
+    padding: 0 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--silver);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  /* ── MAIN LAYOUT ──────────────────────────────────── */
+  main { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── SECTION / UNIT ──────────────────────────────── */
+  .unit-section { margin-top: 56px; }
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .unit-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .unit-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .unit-header h2 small {
+    display: block;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    color: var(--text-dim);
+    margin-top: 2px;
+    font-style: normal;
+  }
+  .unit-count {
+    margin-left: auto;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .unit-count strong { display: block; font-size: 18px; color: var(--gold); }
+
+  /* ── QUESTION TYPE HEADER ─────────────────────────── */
+  .qtype-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 16px;
+  }
+  .qtype-header h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .qtype-line { flex: 1; height: 1px; background: var(--border); }
+  .mark-badge {
+    background: rgba(232,185,106,0.1);
+    border: 1px solid rgba(232,185,106,0.25);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+  }
+
+  /* ── QUESTION GRID ────────────────────────────────── */
+  .question-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+  .question-grid.five-mark {
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  }
+
+  /* ── QUESTION CARD ────────────────────────────────── */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .question-card:hover {
+    transform: translateY(-2px);
+    background: var(--card-hover);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+  }
+  .question-card.easy::before { background: var(--easy); }
+  .question-card.medium::before { background: var(--medium); }
+  .question-card.hard::before { background: var(--hard); }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .q-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-text {
+    font-size: 15.5px;
+    color: var(--text);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .q-text .math {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    color: var(--gold2);
+    background: rgba(232,185,106,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .badge-easy { background: var(--easy-bg); color: var(--easy); border: 1px solid rgba(61,186,127,0.3); }
+  .badge-medium { background: var(--medium-bg); color: var(--medium); border: 1px solid rgba(232,148,58,0.3); }
+  .badge-hard { background: var(--hard-bg); color: var(--hard); border: 1px solid rgba(224,85,85,0.3); }
+
+  .freq-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .freq-vf { background: rgba(155,127,232,0.1); color: var(--freq1); border-color: rgba(155,127,232,0.3); }
+  .freq-f  { background: rgba(91,156,246,0.1); color: var(--freq2); border-color: rgba(91,156,246,0.3); }
+  .freq-o  { background: rgba(77,191,191,0.1); color: var(--freq3); border-color: rgba(77,191,191,0.3); }
+  .freq-r  { background: rgba(138,155,181,0.1); color: var(--freq4); border-color: rgba(138,155,181,0.3); }
+
+  /* ── SHOW SOLUTION TOGGLE (5-mark) ───────────────── */
+  .solution-toggle {
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+  .toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .solution-body {
+    display: none;
+    margin-top: 10px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: var(--silver);
+    line-height: 1.7;
+    border-left: 2px solid var(--gold);
+  }
+  .solution-body.open { display: block; animation: fadeIn 0.2s ease; }
+  .solution-body .step {
+    margin: 6px 0;
+    padding-left: 12px;
+    position: relative;
+  }
+  .solution-body .step::before {
+    content: '→';
+    position: absolute;
+    left: -4px;
+    color: var(--gold);
+    font-size: 12px;
+  }
+  .solution-body .math {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--gold2);
+  }
+
+  @keyframes fadeIn { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform:none; } }
+
+  /* ── SCROLLTOP ────────────────────────────────────── */
+  .scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 44px; height: 44px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    text-decoration: none;
+  }
+  .scroll-top.visible { opacity: 1; pointer-events: all; }
+  .scroll-top:hover { background: var(--card-hover); transform: translateY(-2px); }
+
+  /* ── UNIT COLORS ──────────────────────────────────── */
+  .u1 .unit-icon { background: rgba(224,111,160,0.12); color: var(--unit1); }
+  .u2 .unit-icon { background: rgba(111,160,224,0.12); color: var(--unit2); }
+  .u3 .unit-icon { background: rgba(111,224,160,0.12); color: var(--unit3); }
+  .u4 .unit-icon { background: rgba(224,195,111,0.12); color: var(--unit4); }
+  .u5 .unit-icon { background: rgba(195,111,224,0.12); color: var(--unit5); }
+  .u1 .unit-header h2 { border-left: 3px solid var(--unit1); padding-left: 12px; }
+  .u2 .unit-header h2 { border-left: 3px solid var(--unit2); padding-left: 12px; }
+  .u3 .unit-header h2 { border-left: 3px solid var(--unit3); padding-left: 12px; }
+  .u4 .unit-header h2 { border-left: 3px solid var(--unit4); padding-left: 12px; }
+  .u5 .unit-header h2 { border-left: 3px solid var(--unit5); padding-left: 12px; }
+
+  /* ── FOOTER ───────────────────────────────────────── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  footer strong { color: var(--gold); }
+
+  /* ── SEARCH BAR ───────────────────────────────────── */
+  .search-bar {
+    max-width: 600px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+  }
+  .search-bar input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 18px;
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-bar input::placeholder { color: var(--text-dim); }
+  .search-bar input:focus { border-color: var(--gold); }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 640px) {
+    .question-grid, .question-grid.five-mark {
+      grid-template-columns: 1fr;
+    }
+    nav ul { justify-content: flex-start; }
+    .unit-count { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════ -->
+<header>
+  <div class="header-badge">JNTUK B.Tech 1st Year · Academic Question Bank</div>
+  <h1>Engineering <span>Mathematics</span></h1>
+  <p>Comprehensive Exam-Oriented Question Bank — All Five Units</p>
+  <div class="stats-row">
+    <div class="stat-pill"><strong>130</strong> Questions</div>
+    <div class="stat-pill"><strong>5</strong> Units</div>
+    <div class="stat-pill"><strong>2 & 5</strong> Mark Sets</div>
+    <div class="stat-pill"><strong>3</strong> Difficulty Levels</div>
+  </div>
+</header>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="🔍  Search questions across all units…" oninput="filterCards(this.value)">
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="legend-label">Difficulty:</span>
+  <span class="legend-item"><span class="dot" style="background:var(--easy)"></span> Easy</span>
+  <span class="legend-item"><span class="dot" style="background:var(--medium)"></span> Medium</span>
+  <span class="legend-item"><span class="dot" style="background:var(--hard)"></span> Hard</span>
+  &nbsp;&nbsp;
+  <span class="legend-label">Frequency:</span>
+  <span class="legend-item"><span class="dot" style="background:var(--freq1)"></span> Very Frequently Asked</span>
+  <span class="legend-item"><span class="dot" style="background:var(--freq2)"></span> Frequently Asked</span>
+  <span class="legend-item"><span class="dot" style="background:var(--freq3)"></span> Occasionally Asked</span>
+  <span class="legend-item"><span class="dot" style="background:var(--freq4)"></span> Rare</span>
+</div>
+
+<!-- STICKY NAV -->
+<nav>
+  <ul>
+    <li><a href="#unit1">Unit I · Matrices</a></li>
+    <li><a href="#unit2">Unit II · Eigenvalues</a></li>
+    <li><a href="#unit3">Unit III · Calculus</a></li>
+    <li><a href="#unit4">Unit IV · Partial Diff.</a></li>
+    <li><a href="#unit5">Unit V · Multiple Integrals</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT I — MATRICES
+════════════════════════════════════════════════════ -->
+<section class="unit-section u1" id="unit1">
+  <div class="unit-header">
+    <div class="unit-icon">𝐌</div>
+    <h2>Unit I — Matrices
+      <small>Rank · Echelon Form · Gauss-Jordan · Linear Systems · Iterative Methods</small>
+    </h2>
+    <div class="unit-count"><strong>26</strong>questions</div>
+  </div>
+
+  <!-- 2-MARK -->
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>2-Mark Questions</h3>
+    <span class="mark-badge">2 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card easy" data-text="Define rank of a matrix. State its significance.">
+      <div class="card-top">
+        <span class="q-number">I.2.01</span>
+        <span class="q-text">Define the <strong>rank</strong> of a matrix. State its significance in the context of linear systems.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What is echelon form and row-reduced echelon form?">
+      <div class="card-top">
+        <span class="q-number">I.2.02</span>
+        <span class="q-text">Distinguish between <strong>Echelon form</strong> and <strong>Row-Reduced Echelon form</strong> of a matrix.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What are elementary row operations?">
+      <div class="card-top">
+        <span class="q-number">I.2.03</span>
+        <span class="q-text">List all <strong>elementary row operations</strong> used to reduce a matrix to echelon form.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the Cauchy-Binet formula for product of matrices.">
+      <div class="card-top">
+        <span class="q-number">I.2.04</span>
+        <span class="q-text">State the <strong>Cauchy-Binet formula</strong> for the rank of a product of two matrices.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Define normal form of a matrix. What does it reveal?">
+      <div class="card-top">
+        <span class="q-number">I.2.05</span>
+        <span class="q-text">Define the <strong>normal form (canonical form)</strong> of a matrix. What does it reveal about the matrix?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State the condition for a homogeneous system to have non-trivial solutions.">
+      <div class="card-top">
+        <span class="q-number">I.2.06</span>
+        <span class="q-text">State the condition for a <strong>homogeneous system</strong> <span class="math">AX = 0</span> to have a non-trivial solution.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="When is a non-homogeneous system consistent? State Rouché–Capelli theorem.">
+      <div class="card-top">
+        <span class="q-number">I.2.07</span>
+        <span class="q-text">State the condition for consistency of a <strong>non-homogeneous system</strong> <span class="math">AX = B</span> using the Rouché–Capelli theorem.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="What is the difference between Jacobi and Gauss-Seidel iterative methods?">
+      <div class="card-top">
+        <span class="q-number">I.2.08</span>
+        <span class="q-text">Differentiate between the <strong>Jacobi</strong> and <strong>Gauss-Seidel</strong> iterative methods for solving linear systems.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What is the condition for convergence of Gauss-Seidel method?">
+      <div class="card-top">
+        <span class="q-number">I.2.09</span>
+        <span class="q-text">State the sufficient condition for <strong>convergence</strong> of the Gauss-Seidel iterative method.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Define singular and non-singular matrix. When does inverse exist?">
+      <div class="card-top">
+        <span class="q-number">I.2.10</span>
+        <span class="q-text">Define a <strong>non-singular matrix</strong>. Under what condition does the inverse of a matrix exist?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Write the Gauss-Jordan method steps for finding inverse.">
+      <div class="card-top">
+        <span class="q-number">I.2.11</span>
+        <span class="q-text">Outline the steps of the <strong>Gauss-Jordan method</strong> for computing the inverse of a matrix. What augmented matrix is formed?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What is the rank of a zero matrix and identity matrix?">
+      <div class="card-top">
+        <span class="q-number">I.2.12</span>
+        <span class="q-text">State the rank of a <strong>zero matrix</strong> of order <span class="math">m × n</span> and an <strong>identity matrix</strong> <span class="math">Iₙ</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Relate rank of a matrix to number of solutions of linear equations.">
+      <div class="card-top">
+        <span class="q-number">I.2.13</span>
+        <span class="q-text">For an <span class="math">m × n</span> system <span class="math">AX = B</span>, relate <strong>rank(A)</strong> and <strong>rank([A|B])</strong> to the nature (unique / infinite / no) of solutions.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+  </div><!-- /question-grid -->
+
+  <!-- 5-MARK -->
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>5-Mark Questions</h3>
+    <span class="mark-badge">5 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card medium" data-text="Find rank of matrix using echelon form">
+      <div class="card-top">
+        <span class="q-number">I.5.01</span>
+        <span class="q-text">Find the rank of <span class="math">A = [[1,2,3],[2,4,6],[1,1,1]]</span> by reducing it to <strong>Echelon form</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Write matrix A and apply <span class="math">R₂ ← R₂ − 2R₁</span>, <span class="math">R₃ ← R₃ − R₁</span>.</div>
+          <div class="step">Result: <span class="math">[[1,2,3],[0,0,0],[0,−1,−2]]</span>. Swap <span class="math">R₂ ↔ R₃</span>.</div>
+          <div class="step">Two non-zero rows → <strong>Rank(A) = 2</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Reduce matrix to normal form and find rank">
+      <div class="card-top">
+        <span class="q-number">I.5.02</span>
+        <span class="q-text">Reduce the matrix <span class="math">A = [[1,2,−1,3],[2,4,1,2],[3,6,3,4]]</span> to <strong>Normal form</strong> and hence determine its rank.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Apply row and column operations to obtain the normal form <span class="math">Iᵣ | 0</span>.</div>
+          <div class="step">Use <span class="math">R₂←R₂−2R₁</span>, <span class="math">R₃←R₃−3R₁</span>, then column operations.</div>
+          <div class="step"><strong>Rank = 2</strong> (two non-zero rows in final form).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find inverse using Gauss-Jordan method for 3x3 matrix">
+      <div class="card-top">
+        <span class="q-number">I.5.03</span>
+        <span class="q-text">Using the <strong>Gauss-Jordan method</strong>, find the inverse of <span class="math">A = [[2,1,1],[3,2,3],[1,4,9]]</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Form augmented matrix <span class="math">[A | I]</span>.</div>
+          <div class="step">Apply row operations to reduce A side to identity.</div>
+          <div class="step">The right half transforms to <span class="math">A⁻¹</span>. Compute det(A) first to confirm invertibility.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Solve system of linear equations using Gauss elimination">
+      <div class="card-top">
+        <span class="q-number">I.5.04</span>
+        <span class="q-text">Solve the system: <span class="math">x+y+z=6, 2x+y−z=1, x+2y−z=2</span> using <strong>Gauss elimination method</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Write augmented matrix <span class="math">[A|B]</span> and reduce to upper triangular form.</div>
+          <div class="step">Back-substitute to find <span class="math">z, y, x</span>.</div>
+          <div class="step">Verify: <span class="math">x=1, y=2, z=3</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Test for consistency and solve non-homogeneous system with parameter">
+      <div class="card-top">
+        <span class="q-number">I.5.05</span>
+        <span class="q-text">Test for consistency and solve: <span class="math">2x−y+3z=8, x+y+z=6, x−y+z=2</span>. Also discuss the solution when the system has infinite solutions.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Form <span class="math">[A|B]</span>, compute rank(A) and rank([A|B]).</div>
+          <div class="step">If rank(A) = rank([A|B]) = n → unique. If ranks equal but &lt; n → infinite solutions.</div>
+          <div class="step">Express free variables in terms of parameter <span class="math">t</span>; write general solution.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find solution of homogeneous system and basis of solution space">
+      <div class="card-top">
+        <span class="q-number">I.5.06</span>
+        <span class="q-text">Find a <strong>non-trivial solution</strong> (basis of null space) for: <span class="math">x+y−z=0, 2x−y+z=0, 3x+2y−2z=0</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Reduce coefficient matrix A to echelon form; find rank r.</div>
+          <div class="step">Number of free variables = n − r. Assign free variables as parameters.</div>
+          <div class="step">Back-substitute to find the fundamental solution vectors.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Solve using Gauss-Jordan for system with multiple solutions">
+      <div class="card-top">
+        <span class="q-number">I.5.07</span>
+        <span class="q-text">Using <strong>Gauss-Jordan elimination</strong>, solve: <span class="math">x+2y−z+2w=1, 2x+3y+z=3, x−y+4z−2w=2</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Write augmented matrix with 4 unknowns; perform complete row reduction to RREF.</div>
+          <div class="step">Identify pivot and free variables; express pivot vars in terms of free vars.</div>
+          <div class="step">Write general solution as particular + homogeneous solution.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Apply Jacobi method to solve linear system iteratively">
+      <div class="card-top">
+        <span class="q-number">I.5.08</span>
+        <span class="q-text">Apply the <strong>Jacobi iterative method</strong> to solve: <span class="math">10x+2y+z=9, x+10y−z=−22, −2x+3y+10z=22</span>. Perform 3 iterations starting from <span class="math">(0,0,0)</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Express: <span class="math">x=(9−2y−z)/10, y=(−22−x+z)/10, z=(22+2x−3y)/10</span>.</div>
+          <div class="step">Iteration 1: substitute <span class="math">(0,0,0)</span> → <span class="math">x=0.9, y=−2.2, z=2.2</span>.</div>
+          <div class="step">Iterate till convergence; confirm diagonal dominance ensures convergence.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Apply Gauss-Seidel method to solve linear system">
+      <div class="card-top">
+        <span class="q-number">I.5.09</span>
+        <span class="q-text">Apply the <strong>Gauss-Seidel method</strong> to solve: <span class="math">5x+y+z=10, x+4y+z=12, x+y+5z=14</span>. Perform 4 iterations. Compare convergence with Jacobi.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">In G-S, use updated values immediately: <span class="math">x¹=(10−y⁰−z⁰)/5</span>, then use <span class="math">x¹</span> to get <span class="math">y¹</span>, etc.</div>
+          <div class="step">Faster convergence than Jacobi for diagonally dominant systems.</div>
+          <div class="step">True solution: <span class="math">x=1, y=2, z=2</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find values of lambda for which system has non-trivial solution">
+      <div class="card-top">
+        <span class="q-number">I.5.10</span>
+        <span class="q-text">Find values of <span class="math">λ</span> for which the system <span class="math">(λ−1)x+2y=0, x+(λ−3)y=0</span> has a <strong>non-trivial solution</strong>. Find the solution for each value.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">For non-trivial solution: <span class="math">det(A) = 0</span>.</div>
+          <div class="step"><span class="math">(λ−1)(λ−3)−2 = 0 → λ²−4λ+1 = 0 → λ = 2 ± √3</span>.</div>
+          <div class="step">Substitute each λ and solve the resulting system for x, y (free variable).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find rank using Cauchy-Binet formula for product AB">
+      <div class="card-top">
+        <span class="q-number">I.5.11</span>
+        <span class="q-text">Using the <strong>Cauchy-Binet formula</strong>, verify that <span class="math">rank(AB) ≤ min(rank(A), rank(B))</span> for given matrices A (3×4) and B (4×2).</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">State Cauchy-Binet: determinants of submatrices of AB.</div>
+          <div class="step">Compute rank(A), rank(B), rank(AB) independently.</div>
+          <div class="step">Verify the inequality holds numerically.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Investigate values of a,b for which system has unique, no, infinite solutions">
+      <div class="card-top">
+        <span class="q-number">I.5.12</span>
+        <span class="q-text">Investigate the values of <span class="math">a</span> and <span class="math">b</span> for which <span class="math">x+y+z=6, x+2y+3z=10, x+2y+az=b</span> has (i) unique, (ii) no, (iii) infinite solutions.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Form <span class="math">[A|B]</span> and reduce; the last row becomes <span class="math">[0, 0, a−3 | b−10]</span>.</div>
+          <div class="step">Unique: <span class="math">a≠3</span>. No solution: <span class="math">a=3, b≠10</span>. Infinite: <span class="math">a=3, b=10</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Reduce 4x4 matrix to normal form and find rank">
+      <div class="card-top">
+        <span class="q-number">I.5.13</span>
+        <span class="q-text">Reduce the matrix <span class="math">A = [[1,2,3,4],[2,3,4,5],[3,4,5,6],[4,5,6,7]]</span> to <strong>normal form</strong> and find its rank.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Apply <span class="math">Rᵢ ← Rᵢ − R₁</span> for rows 2,3,4; then column operations similarly.</div>
+          <div class="step">The matrix has all rows linearly dependent; only 2 are independent.</div>
+          <div class="step"><strong>Rank = 2</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /question-grid -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT II — EIGENVALUES & ORTHOGONAL TRANSFORMATIONS
+════════════════════════════════════════════════════ -->
+<section class="unit-section u2" id="unit2">
+  <div class="unit-header">
+    <div class="unit-icon">λ</div>
+    <h2>Unit II — Eigenvalues, Eigenvectors & Quadratic Forms
+      <small>Diagonalization · Cayley-Hamilton · Quadratic Forms · Orthogonal Transformation</small>
+    </h2>
+    <div class="unit-count"><strong>26</strong>questions</div>
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>2-Mark Questions</h3>
+    <span class="mark-badge">2 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card easy" data-text="Define eigenvalue and eigenvector of a matrix.">
+      <div class="card-top">
+        <span class="q-number">II.2.01</span>
+        <span class="q-text">Define <strong>eigenvalue</strong> and <strong>eigenvector</strong> of a square matrix <span class="math">A</span>. Write the characteristic equation.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State Cayley-Hamilton theorem.">
+      <div class="card-top">
+        <span class="q-number">II.2.02</span>
+        <span class="q-text">State the <strong>Cayley-Hamilton Theorem</strong> and illustrate with a 2×2 example.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What is a diagonalizable matrix? State the condition.">
+      <div class="card-top">
+        <span class="q-number">II.2.03</span>
+        <span class="q-text">When is a matrix said to be <strong>diagonalizable</strong>? State the necessary and sufficient condition.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="What is the characteristic polynomial of a matrix?">
+      <div class="card-top">
+        <span class="q-number">II.2.04</span>
+        <span class="q-text">Define the <strong>characteristic polynomial</strong> of a matrix A. What are its roots called?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Sum and product of eigenvalues relate to trace and determinant.">
+      <div class="card-top">
+        <span class="q-number">II.2.05</span>
+        <span class="q-text">State the relation between eigenvalues and the <strong>trace</strong> and <strong>determinant</strong> of a matrix.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Define quadratic form and write its matrix representation.">
+      <div class="card-top">
+        <span class="q-number">II.2.06</span>
+        <span class="q-text">Define a <strong>quadratic form</strong> in two variables and express it as <span class="math">X^T A X</span>. What is the associated matrix?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Classify quadratic forms: positive definite, negative definite, etc.">
+      <div class="card-top">
+        <span class="q-number">II.2.07</span>
+        <span class="q-text">Classify the nature of a quadratic form. State conditions for <strong>positive definite</strong>, <strong>negative definite</strong>, and <strong>indefinite</strong> forms.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="What is index and signature of a quadratic form?">
+      <div class="card-top">
+        <span class="q-number">II.2.08</span>
+        <span class="q-text">Define the <strong>index</strong> and <strong>signature</strong> of a quadratic form in its canonical form.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What is an orthogonal matrix? State its properties.">
+      <div class="card-top">
+        <span class="q-number">II.2.09</span>
+        <span class="q-text">Define an <strong>orthogonal matrix</strong>. List at least two properties of orthogonal matrices.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the spectral theorem for symmetric matrices.">
+      <div class="card-top">
+        <span class="q-number">II.2.10</span>
+        <span class="q-text">State the <strong>Spectral Theorem</strong>: Every real symmetric matrix has real eigenvalues and orthogonal eigenvectors.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="If lambda is eigenvalue of A, what are eigenvalues of A^2 and A^-1?">
+      <div class="card-top">
+        <span class="q-number">II.2.11</span>
+        <span class="q-text">If <span class="math">λ</span> is an eigenvalue of <span class="math">A</span>, express the eigenvalues of <span class="math">A²</span>, <span class="math">A⁻¹</span>, and <span class="math">A + kI</span> in terms of <span class="math">λ</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Define similar matrices.">
+      <div class="card-top">
+        <span class="q-number">II.2.12</span>
+        <span class="q-text">Define <strong>similar matrices</strong>. Show that similar matrices have the same eigenvalues.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the rank-nullity theorem and its relation to eigenvalues.">
+      <div class="card-top">
+        <span class="q-number">II.2.13</span>
+        <span class="q-text">What is the <strong>geometric multiplicity</strong> of an eigenvalue? How does it compare to algebraic multiplicity?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>5-Mark Questions</h3>
+    <span class="mark-badge">5 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card medium" data-text="Find eigenvalues and eigenvectors of a 3x3 matrix">
+      <div class="card-top">
+        <span class="q-number">II.5.01</span>
+        <span class="q-text">Find the eigenvalues and eigenvectors of <span class="math">A = [[4,1,−1],[2,5,−2],[1,1,2]]</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Solve <span class="math">det(A − λI) = 0</span>: expand 3×3 determinant.</div>
+          <div class="step">Characteristic equation gives <span class="math">λ = 3, 4, 4</span> (or actual values).</div>
+          <div class="step">For each λ, solve <span class="math">(A − λI)X = 0</span> to get eigenvectors.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Verify Cayley-Hamilton theorem for 2x2 matrix and find inverse">
+      <div class="card-top">
+        <span class="q-number">II.5.02</span>
+        <span class="q-text">For <span class="math">A = [[1,4],[2,3]]</span>, verify the <strong>Cayley-Hamilton theorem</strong> and hence find <span class="math">A⁻¹</span> and <span class="math">A⁴</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Characteristic polynomial: <span class="math">λ²−4λ−5=0</span>.</div>
+          <div class="step">By C-H: <span class="math">A²−4A−5I=0</span>; verify by substituting A.</div>
+          <div class="step"><span class="math">A⁻¹ = (1/5)(A−4I)</span>; use polynomial reduction for <span class="math">A⁴</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Diagonalize a symmetric matrix using orthogonal transformation">
+      <div class="card-top">
+        <span class="q-number">II.5.03</span>
+        <span class="q-text">Diagonalize the matrix <span class="math">A = [[6,−2,2],[−2,3,−1],[2,−1,3]]</span> by finding an <strong>orthogonal matrix</strong> P such that <span class="math">P^TAP = D</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Find eigenvalues; for symmetric matrix all are real.</div>
+          <div class="step">Find eigenvectors for each λ; apply <strong>Gram-Schmidt</strong> orthogonalization if repeated.</div>
+          <div class="step">Normalize eigenvectors → columns of P. Then <span class="math">D = diag(λ₁, λ₂, λ₃)</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Reduce quadratic form to canonical form using orthogonal transformation">
+      <div class="card-top">
+        <span class="q-number">II.5.04</span>
+        <span class="q-text">Reduce the quadratic form <span class="math">3x²+5y²+3z²−2yz+2zx−2xy</span> to <strong>canonical form</strong> using orthogonal transformation. Determine its nature.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Write the symmetric matrix A of the quadratic form.</div>
+          <div class="step">Find eigenvalues (λ₁, λ₂, λ₃); get orthonormal eigenvectors.</div>
+          <div class="step">Canonical form: <span class="math">λ₁Y₁²+λ₂Y₂²+λ₃Y₃²</span>. All λ > 0 → Positive Definite.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find nature of quadratic form using Sylvester criterion">
+      <div class="card-top">
+        <span class="q-number">II.5.05</span>
+        <span class="q-text">Using <strong>Sylvester's criterion</strong>, determine the nature of the quadratic form <span class="math">2x²+y²+3z²+2xy</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Write matrix A; check all leading principal minors: <span class="math">Δ₁=2, Δ₂=det([[2,1],[1,1]])=1, Δ₃=det(A)</span>.</div>
+          <div class="step">All minors positive → <strong>Positive Definite</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Apply Cayley-Hamilton to find A^8 for a 3x3 matrix">
+      <div class="card-top">
+        <span class="q-number">II.5.06</span>
+        <span class="q-text">Using <strong>Cayley-Hamilton theorem</strong>, find <span class="math">A⁸</span> for <span class="math">A = [[1,0,1],[0,1,1],[1,1,0]]</span> by expressing in terms of lower powers.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Find characteristic polynomial p(λ) = 0; by C-H, p(A) = 0.</div>
+          <div class="step">Express <span class="math">A³</span> in terms of <span class="math">A², A, I</span>; then step up to <span class="math">A⁸</span> by repeated substitution.</div>
+          <div class="step">Result is expressed as <span class="math">αA² + βA + γI</span> for scalars α, β, γ.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find eigenvalues and eigenvectors of 2x2 matrix and verify properties">
+      <div class="card-top">
+        <span class="q-number">II.5.07</span>
+        <span class="q-text">Find eigenvalues and eigenvectors of <span class="math">A = [[2,1],[1,2]]</span>. Verify that eigenvectors are <strong>orthogonal</strong> and trace = sum of eigenvalues.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">det(A−λI) = (2−λ)²−1 = 0 → λ=1, λ=3</span>.</div>
+          <div class="step">Eigenvectors: <span class="math">v₁=(1,−1), v₂=(1,1)</span>. Check <span class="math">v₁·v₂=0</span> ✓.</div>
+          <div class="step">Trace = 4 = 1+3 ✓. Determinant = 3 = 1×3 ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Reduce quadratic form to sum of squares (Lagrange reduction)">
+      <div class="card-top">
+        <span class="q-number">II.5.08</span>
+        <span class="q-text">Reduce <span class="math">x²+2y²+3z²+2xy+2xz</span> to a sum of squares (canonical form) by the method of <strong>Lagrange reduction</strong>. State the rank, index, and signature.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Complete the square w.r.t x: <span class="math">x²+2xy+2xz=(x+y+z)²−y²−z²−2yz</span>.</div>
+          <div class="step">Substitute <span class="math">u=x+y+z</span>; continue completing squares in y, z.</div>
+          <div class="step">Final canonical form gives rank, index (# positive terms), signature (pos − neg).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Diagonalize 3x3 matrix with distinct eigenvalues">
+      <div class="card-top">
+        <span class="q-number">II.5.09</span>
+        <span class="q-text">Diagonalize <span class="math">A = [[1,0,0],[0,2,1],[0,1,2]]</span>. Find the modal matrix P and diagonal matrix D such that <span class="math">A = PDP⁻¹</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Find λ₁=1, λ₂=1, λ₃=3 from characteristic equation.</div>
+          <div class="step">Get eigenvectors; form P = [v₁ | v₂ | v₃]; D = diag(1,1,3).</div>
+          <div class="step">Verify <span class="math">AP = PD</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Use eigenvalues to determine nature of critical points in optimization">
+      <div class="card-top">
+        <span class="q-number">II.5.10</span>
+        <span class="q-text">Given the Hessian matrix <span class="math">H = [[4,2],[2,3]]</span> at a critical point, use eigenvalue analysis to confirm the point is a <strong>minimum</strong>. Relate to quadratic form nature.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Eigenvalues of H: <span class="math">λ = (7 ± √17)/2</span>, both positive.</div>
+          <div class="step">H positive definite ↔ all eigenvalues positive ↔ local minimum.</div>
+          <div class="step">Quadratic form <span class="math">X^THX</span> is positive definite.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Prove eigenvectors corresponding to distinct eigenvalues of symmetric matrix are orthogonal">
+      <div class="card-top">
+        <span class="q-number">II.5.11</span>
+        <span class="q-text">Prove that the eigenvectors corresponding to <strong>distinct eigenvalues</strong> of a real symmetric matrix are orthogonal.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Let <span class="math">Av₁=λ₁v₁, Av₂=λ₂v₂</span> with <span class="math">λ₁≠λ₂</span>.</div>
+          <div class="step">Compute <span class="math">v₂ᵀ(Av₁) = λ₁(v₂ᵀv₁)</span> and <span class="math">(v₂ᵀA)v₁ = λ₂(v₂ᵀv₁)</span>.</div>
+          <div class="step">Since A symmetric: both equal → <span class="math">(λ₁−λ₂)(v₂ᵀv₁)=0</span>; as <span class="math">λ₁≠λ₂</span>, v₁⊥v₂.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find A^10 and A^-3 using Cayley-Hamilton for a 3x3 matrix">
+      <div class="card-top">
+        <span class="q-number">II.5.12</span>
+        <span class="q-text">For <span class="math">A = [[2,1,0],[0,2,1],[0,0,2]]</span>, use <strong>Cayley-Hamilton</strong> to compute <span class="math">A⁻¹</span> and <span class="math">A³</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Characteristic polynomial: <span class="math">(λ−2)³=0</span>, so <span class="math">(A−2I)³=0</span>.</div>
+          <div class="step">Expand: <span class="math">A³−6A²+12A−8I=0</span>; rearrange for A³ and A⁻¹.</div>
+          <div class="step"><span class="math">A⁻¹ = (A²−6A+12I)/8</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Determine congruent transformation to reduce quadratic form to canonical">
+      <div class="card-top">
+        <span class="q-number">II.5.13</span>
+        <span class="q-text">Show that the quadratic form <span class="math">2x₁x₂+2x₁x₃−2x₂x₃</span> is <strong>indefinite</strong> by finding its canonical form and computing eigenvalues.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Symmetric matrix: <span class="math">A=[[0,1,1],[1,0,−1],[1,−1,0]]</span>.</div>
+          <div class="step">Eigenvalues include both positive and negative values.</div>
+          <div class="step">Since eigenvalues are of mixed sign → quadratic form is <strong>indefinite</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT III — CALCULUS (MEAN VALUE THEOREMS & SERIES)
+════════════════════════════════════════════════════ -->
+<section class="unit-section u3" id="unit3">
+  <div class="unit-header">
+    <div class="unit-icon">∫</div>
+    <h2>Unit III — Calculus
+      <small>Rolle's · Lagrange's · Cauchy's MVT · Taylor's & Maclaurin's Series</small>
+    </h2>
+    <div class="unit-count"><strong>26</strong>questions</div>
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>2-Mark Questions</h3>
+    <span class="mark-badge">2 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card easy" data-text="State Rolle's theorem with all conditions.">
+      <div class="card-top">
+        <span class="q-number">III.2.01</span>
+        <span class="q-text">State <strong>Rolle's Theorem</strong> clearly, listing all three conditions required for its application.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State Lagrange's Mean Value Theorem and give its geometrical interpretation.">
+      <div class="card-top">
+        <span class="q-number">III.2.02</span>
+        <span class="q-text">State <strong>Lagrange's Mean Value Theorem</strong> and describe its <strong>geometrical interpretation</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State Cauchy's mean value theorem.">
+      <div class="card-top">
+        <span class="q-number">III.2.03</span>
+        <span class="q-text">State <strong>Cauchy's Mean Value Theorem</strong>. How does it generalize Lagrange's MVT?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write Taylor's series expansion for f(x) about x = a.">
+      <div class="card-top">
+        <span class="q-number">III.2.04</span>
+        <span class="q-text">Write the general formula for the <strong>Taylor's series</strong> expansion of <span class="math">f(x)</span> about <span class="math">x = a</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write Maclaurin's series as special case of Taylor's series.">
+      <div class="card-top">
+        <span class="q-number">III.2.05</span>
+        <span class="q-text">Write the <strong>Maclaurin's series</strong> for <span class="math">f(x)</span>. How is it a special case of Taylor's series?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write Maclaurin's series for e^x and sin x.">
+      <div class="card-top">
+        <span class="q-number">III.2.06</span>
+        <span class="q-text">Write the Maclaurin's series expansions for <span class="math">e^x</span>, <span class="math">sin x</span>, and <span class="math">cos x</span> up to the fourth term.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Verify Rolle's theorem is applicable to f(x) = sin x on [0, pi].">
+      <div class="card-top">
+        <span class="q-number">III.2.07</span>
+        <span class="q-text">Verify that <strong>Rolle's Theorem</strong> is applicable to <span class="math">f(x)=\sin x</span> on <span class="math">[0, π]</span> and find the value of <span class="math">c</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the remainder term in Taylor's theorem (Lagrange form).">
+      <div class="card-top">
+        <span class="q-number">III.2.08</span>
+        <span class="q-text">Write the <strong>Lagrange's form of remainder</strong> in Taylor's theorem. What does it represent?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="What conditions make Rolle's theorem fail?">
+      <div class="card-top">
+        <span class="q-number">III.2.09</span>
+        <span class="q-text">Construct a function on <span class="math">[a,b]</span> where <strong>Rolle's Theorem fails</strong> and identify which condition is violated.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write the expansion of log(1+x) using Maclaurin's series.">
+      <div class="card-top">
+        <span class="q-number">III.2.10</span>
+        <span class="q-text">Expand <span class="math">log(1+x)</span> using Maclaurin's series up to the 4th degree term. State its interval of convergence.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the physical interpretation of Lagrange MVT using velocity.">
+      <div class="card-top">
+        <span class="q-number">III.2.11</span>
+        <span class="q-text">Explain the <strong>physical interpretation</strong> of Lagrange's MVT using the analogy of instantaneous velocity equaling average velocity.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="What is the difference between Taylor's and Maclaurin's theorem?">
+      <div class="card-top">
+        <span class="q-number">III.2.12</span>
+        <span class="q-text">State one key difference between <strong>Taylor's theorem</strong> and <strong>Maclaurin's theorem</strong> and give an example where Maclaurin's fails.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Expansion of (1+x)^n using binomial Maclaurin series.">
+      <div class="card-top">
+        <span class="q-number">III.2.13</span>
+        <span class="q-text">Write the Maclaurin's series for <span class="math">(1+x)^n</span>. For what values of <span class="math">n</span> does the series terminate?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>5-Mark Questions</h3>
+    <span class="mark-badge">5 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card medium" data-text="Verify Rolle's theorem for f(x) = x^2 - 5x + 6 on [2,3]">
+      <div class="card-top">
+        <span class="q-number">III.5.01</span>
+        <span class="q-text">Verify <strong>Rolle's Theorem</strong> for <span class="math">f(x)=x²−5x+6</span> on <span class="math">[2,3]</span> and find the value of <span class="math">c</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Check: f is polynomial (continuous + differentiable), <span class="math">f(2)=0, f(3)=0</span> ✓.</div>
+          <div class="step"><span class="math">f'(x)=2x−5=0 → x=5/2</span>. Since <span class="math">5/2 ∈ (2,3)</span>, Rolle's holds ✓.</div>
+          <div class="step"><strong>c = 5/2</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Verify Lagrange's MVT for f(x)=x^3-x on [-2,2]">
+      <div class="card-top">
+        <span class="q-number">III.5.02</span>
+        <span class="q-text">Verify <strong>Lagrange's MVT</strong> for <span class="math">f(x)=x³−x</span> on <span class="math">[−2,2]</span> and find all values of <span class="math">c</span> satisfying the theorem.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">f(2)=6, f(−2)=−6</span>. Average rate = <span class="math">(6−(−6))/(2−(−2))=3</span>.</div>
+          <div class="step"><span class="math">f'(x)=3x²−1=3 → x²=4/3 → x=±2/√3</span>. Both in (−2,2) ✓.</div>
+          <div class="step"><strong>c = ±2/√3</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Expand sin x using Taylor's series about x = pi/2">
+      <div class="card-top">
+        <span class="q-number">III.5.03</span>
+        <span class="q-text">Expand <span class="math">sin x</span> as a <strong>Taylor's series</strong> about <span class="math">x = π/2</span> up to the fourth term.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Compute: <span class="math">f(π/2)=1, f'(π/2)=0, f''(π/2)=−1, f'''(π/2)=0</span>.</div>
+          <div class="step"><span class="math">sin x = 1 − (x−π/2)²/2! + (x−π/2)⁴/4! − …</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Expand e^x sin x using Maclaurin's series up to x^4">
+      <div class="card-top">
+        <span class="q-number">III.5.04</span>
+        <span class="q-text">Expand <span class="math">e^x \sin x</span> using <strong>Maclaurin's series</strong> up to the term containing <span class="math">x⁴</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Expand each: <span class="math">eˣ = 1+x+x²/2+x³/6+x⁴/24+…</span> and <span class="math">sinx = x−x³/6+…</span></div>
+          <div class="step">Multiply series and collect terms up to <span class="math">x⁴</span>.</div>
+          <div class="step">Result: <span class="math">x + x² + x³/3 − x⁴/30 + …</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Apply Cauchy's MVT for f(x) and g(x) on interval">
+      <div class="card-top">
+        <span class="q-number">III.5.05</span>
+        <span class="q-text">Verify <strong>Cauchy's MVT</strong> for <span class="math">f(x)=\sqrt{x}</span> and <span class="math">g(x)=1/\sqrt{x}</span> on <span class="math">[1,4]</span>. Find <span class="math">c</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">[f(4)−f(1)] / [g(4)−g(1)] = f'(c)/g'(c)</span>.</div>
+          <div class="step"><span class="math">(2−1)/(1/2−1) = (1/2√c)/(−1/2c^{3/2})</span>. Simplify both sides.</div>
+          <div class="step">Solve for <span class="math">c</span>; verify <span class="math">c ∈ (1,4)</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Expand log(1+sin x) using Maclaurin's series up to x^4">
+      <div class="card-top">
+        <span class="q-number">III.5.06</span>
+        <span class="q-text">Expand <span class="math">\log(1+\sin x)</span> using <strong>Maclaurin's series</strong> up to <span class="math">x⁴</span> term.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Let <span class="math">u = sin x = x − x³/6 + …</span></div>
+          <div class="step">Use <span class="math">log(1+u) = u − u²/2 + u³/3 − …</span> and substitute.</div>
+          <div class="step">Collect: <span class="math">x − x²/2 + x³/6 − x⁴/12 + …</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Using MVT show that |sin a - sin b| <= |a - b|">
+      <div class="card-top">
+        <span class="q-number">III.5.07</span>
+        <span class="q-text">Using <strong>Lagrange's MVT</strong>, prove that <span class="math">|\sin a − \sin b| ≤ |a − b|</span> for all real <span class="math">a, b</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Apply LMVT to <span class="math">f(x)=sin x</span> on <span class="math">[a,b]</span>.</div>
+          <div class="step"><span class="math">sin a − sin b = cos(c)·(a−b)</span> for some <span class="math">c</span> between a, b.</div>
+          <div class="step">Since <span class="math">|cos c| ≤ 1</span>: <span class="math">|sin a − sin b| ≤ |a−b|</span> ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Expand tan x by Maclaurin's series up to x^5">
+      <div class="card-top">
+        <span class="q-number">III.5.08</span>
+        <span class="q-text">Obtain the <strong>Maclaurin's series</strong> for <span class="math">\tan x</span> up to the term in <span class="math">x⁵</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Compute successive derivatives: <span class="math">f(0)=0, f'(0)=1, f''(0)=0, f'''(0)=2, f⁴(0)=0, f⁵(0)=16</span>.</div>
+          <div class="step"><span class="math">tan x = x + x³/3 + 2x⁵/15 + …</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Show function satisfies Rolle's condition on [a,b] and find c">
+      <div class="card-top">
+        <span class="q-number">III.5.09</span>
+        <span class="q-text">Show that <span class="math">f(x)=(x−1)(x−2)(x−3)</span> satisfies <strong>Rolle's Theorem</strong> on <span class="math">[1,3]</span> and find all <span class="math">c</span> in <span class="math">(1,3)</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">f(1)=f(3)=0</span>; f is polynomial ✓ (continuous + differentiable).</div>
+          <div class="step">Expand and differentiate; <span class="math">f'(x)=3x²−12x+11=0 → x=(12±√12)/6=2±1/√3</span>.</div>
+          <div class="step">Both <span class="math">2±1/√3 ∈ (1,3)</span> ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Expand f(x) = x^x near x = 1 using Taylor's series">
+      <div class="card-top">
+        <span class="q-number">III.5.10</span>
+        <span class="q-text">Expand <span class="math">f(x) = x^x</span> near <span class="math">x = 1</span> using <strong>Taylor's series</strong> up to second-degree terms.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Take logarithm: <span class="math">ln f = x ln x</span>. Differentiate implicitly.</div>
+          <div class="step"><span class="math">f(1)=1, f'(1)=1</span>. Second derivative needs chain rule.</div>
+          <div class="step"><span class="math">x^x ≈ 1 + (x−1) + (x−1)² + …</span> near <span class="math">x=1</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Apply Cauchy MVT to prove L'Hopital's rule idea">
+      <div class="card-top">
+        <span class="q-number">III.5.11</span>
+        <span class="q-text">Use <strong>Cauchy's MVT</strong> to evaluate <span class="math">\lim_{x→0} \frac{e^x−1}{\sin x}</span> and outline how CMVT underlies L'Hôpital's rule.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Take <span class="math">f(x)=eˣ−1, g(x)=sin x</span> on <span class="math">[0,h]</span> as h→0.</div>
+          <div class="step">By CMVT: ratio → <span class="math">f'(c)/g'(c) = eᶜ/cos c → e⁰/cos 0 = 1</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Expand cos x in Taylor series about x=pi/3">
+      <div class="card-top">
+        <span class="q-number">III.5.12</span>
+        <span class="q-text">Expand <span class="math">\cos x</span> in a <strong>Taylor series</strong> about <span class="math">x = π/3</span> up to the 4th term and use it to find <span class="math">\cos(61°)</span> approximately.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Center: <span class="math">a=π/3</span>. <span class="math">f(π/3)=1/2, f'(π/3)=−√3/2, f''(π/3)=−1/2, f'''(π/3)=√3/2</span>.</div>
+          <div class="step">Set <span class="math">x=61°=π/3+π/180</span>; substitute into Taylor polynomial.</div>
+          <div class="step">Result ≈ 0.4848.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Prove Lagrange MVT from Rolle's theorem using an auxiliary function">
+      <div class="card-top">
+        <span class="q-number">III.5.13</span>
+        <span class="q-text"><strong>Prove Lagrange's MVT</strong> by constructing an appropriate auxiliary function and applying Rolle's Theorem.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Define <span class="math">g(x) = f(x) − f(a) − [(f(b)−f(a))/(b−a)](x−a)</span>.</div>
+          <div class="step"><span class="math">g(a)=g(b)=0</span>; g satisfies all conditions of Rolle's Theorem.</div>
+          <div class="step">By Rolle's: <span class="math">∃c∈(a,b): g'(c)=0 → f'(c)=[f(b)−f(a)]/(b−a)</span> ✓.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT IV — PARTIAL DIFFERENTIATION
+════════════════════════════════════════════════════ -->
+<section class="unit-section u4" id="unit4">
+  <div class="unit-header">
+    <div class="unit-icon">∂</div>
+    <h2>Unit IV — Partial Differentiation & Applications
+      <small>Chain Rule · Jacobians · Taylor's Series (2-var) · Maxima/Minima · Lagrange Multipliers</small>
+    </h2>
+    <div class="unit-count"><strong>26</strong>questions</div>
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>2-Mark Questions</h3>
+    <span class="mark-badge">2 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card easy" data-text="Define partial derivative of a function of two variables.">
+      <div class="card-top">
+        <span class="q-number">IV.2.01</span>
+        <span class="q-text">Define the <strong>partial derivative</strong> of <span class="math">f(x,y)</span> with respect to <span class="math">x</span>. Write the limit definition.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State the total derivative (total differential) of f(x,y).">
+      <div class="card-top">
+        <span class="q-number">IV.2.02</span>
+        <span class="q-text">Write the expression for the <strong>total derivative</strong> <span class="math">df</span> of a function <span class="math">f(x,y)</span> when <span class="math">x</span> and <span class="math">y</span> are functions of <span class="math">t</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State Euler's theorem for homogeneous functions.">
+      <div class="card-top">
+        <span class="q-number">IV.2.03</span>
+        <span class="q-text">State <strong>Euler's Theorem</strong> for homogeneous functions of degree <span class="math">n</span>. Write the identity it satisfies.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Define Jacobian of a transformation.">
+      <div class="card-top">
+        <span class="q-number">IV.2.04</span>
+        <span class="q-text">Define the <strong>Jacobian</strong> <span class="math">∂(u,v)/∂(x,y)</span> of a transformation. What is its significance?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the necessary conditions for a function to have extreme values.">
+      <div class="card-top">
+        <span class="q-number">IV.2.05</span>
+        <span class="q-text">State the <strong>necessary and sufficient conditions</strong> for <span class="math">f(x,y)</span> to have a maximum or minimum at a point <span class="math">(a,b)</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="What is a saddle point of a function of two variables?">
+      <div class="card-top">
+        <span class="q-number">IV.2.06</span>
+        <span class="q-text">Define a <strong>saddle point</strong> of <span class="math">f(x,y)</span>. When does the second derivative test indicate a saddle point?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State the principle of Lagrange multipliers.">
+      <div class="card-top">
+        <span class="q-number">IV.2.07</span>
+        <span class="q-text">State the method of <strong>Lagrange Multipliers</strong> for finding extrema of <span class="math">f(x,y)</span> subject to constraint <span class="math">g(x,y)=0</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Define directional derivative and gradient of a function.">
+      <div class="card-top">
+        <span class="q-number">IV.2.08</span>
+        <span class="q-text">Define the <strong>directional derivative</strong> of <span class="math">f(x,y)</span> in direction <span class="math">\hat{u}</span>. How is it related to the gradient <span class="math">∇f</span>?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Verify that u = f(x/y) is homogeneous. What is its degree?">
+      <div class="card-top">
+        <span class="q-number">IV.2.09</span>
+        <span class="q-text">Verify that <span class="math">u = f(x/y)</span> is a <strong>homogeneous function</strong> of degree zero and confirm Euler's theorem.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Define functional dependence and state the condition using Jacobian.">
+      <div class="card-top">
+        <span class="q-number">IV.2.10</span>
+        <span class="q-text">State the condition for <strong>functional dependence</strong> of <span class="math">u(x,y)</span> and <span class="math">v(x,y)</span> using the Jacobian <span class="math">J = ∂(u,v)/∂(x,y)</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State chain rule for partial derivatives when x, y are functions of u, v.">
+      <div class="card-top">
+        <span class="q-number">IV.2.11</span>
+        <span class="q-text">Write the <strong>chain rule</strong> for <span class="math">∂z/∂u</span> when <span class="math">z=f(x,y)</span>, <span class="math">x=x(u,v)</span>, <span class="math">y=y(u,v)</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write Taylor's series for f(x,y) about (a,b).">
+      <div class="card-top">
+        <span class="q-number">IV.2.12</span>
+        <span class="q-text">Write <strong>Taylor's series</strong> for <span class="math">f(x,y)</span> about the point <span class="math">(a,b)</span> up to second-degree terms.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the condition for implicit differentiation of F(x,y)=0.">
+      <div class="card-top">
+        <span class="q-number">IV.2.13</span>
+        <span class="q-text">Using partial derivatives, write the formula for <span class="math">dy/dx</span> when <span class="math">F(x,y) = 0</span> is implicitly defined.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>5-Mark Questions</h3>
+    <span class="mark-badge">5 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card medium" data-text="Verify Euler's theorem for a homogeneous function and find mixed partials">
+      <div class="card-top">
+        <span class="q-number">IV.5.01</span>
+        <span class="q-text">Verify <strong>Euler's Theorem</strong> for <span class="math">u = x³+y³−3xy²</span> and find the value of <span class="math">x u_{xx} + 2xy u_{xy} + y² u_{yy}</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">u is homogeneous of degree 3; by Euler: <span class="math">x u_x + y u_y = 3u</span>.</div>
+          <div class="step">Differentiate Euler's identity w.r.t. x and y again to get the second-order relation.</div>
+          <div class="step"><span class="math">x²u_{xx} + 2xy u_{xy} + y²u_{yy} = n(n−1)u = 6u</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find Jacobian of polar transformation x=r cos theta, y=r sin theta">
+      <div class="card-top">
+        <span class="q-number">IV.5.02</span>
+        <span class="q-text">Find the <strong>Jacobian</strong> <span class="math">∂(x,y)/∂(r,θ)</span> for the polar transformation <span class="math">x=r\cosθ, y=r\sinθ</span>. Verify that <span class="math">J·J^{-1}=1</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Compute <span class="math">∂(x,y)/∂(r,θ) = |cos θ, −r sin θ; sin θ, r cos θ|</span>.</div>
+          <div class="step">Determinant = <span class="math">r cos²θ + r sin²θ = r</span>. Hence <span class="math">J = r</span>.</div>
+          <div class="step">Similarly compute <span class="math">∂(r,θ)/∂(x,y) = 1/r</span>; product = 1 ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find maxima and minima of f(x,y) = x^3 + y^3 - 3xy">
+      <div class="card-top">
+        <span class="q-number">IV.5.03</span>
+        <span class="q-text">Find the <strong>maxima and minima</strong> of <span class="math">f(x,y)=x³+y³−3xy</span>. Classify all critical points.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Critical points: <span class="math">f_x=3x²−3y=0, f_y=3y²−3x=0</span> → <span class="math">(0,0)</span> and <span class="math">(1,1)</span>.</div>
+          <div class="step">Compute <span class="math">D = f_{xx}f_{yy} − f_{xy}²</span> at each point.</div>
+          <div class="step">At (0,0): D=−9 &lt;0 → <strong>Saddle</strong>. At (1,1): D=27>0, f_{xx}=6>0 → <strong>Minimum</strong> with f=−1.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Use Lagrange multipliers to maximize f subject to constraint">
+      <div class="card-top">
+        <span class="q-number">IV.5.04</span>
+        <span class="q-text">Using <strong>Lagrange multipliers</strong>, find the maximum value of <span class="math">f(x,y,z)=xyz</span> subject to <span class="math">x+y+z=a</span> and <span class="math">x,y,z>0</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Set <span class="math">∇f = λ∇g</span>: <span class="math">yz=λ, xz=λ, xy=λ</span> and <span class="math">x+y+z=a</span>.</div>
+          <div class="step">From first two: <span class="math">yz=xz → y=x</span>; similarly <span class="math">z=x</span>. So <span class="math">x=y=z=a/3</span>.</div>
+          <div class="step">Max <span class="math">f = (a/3)³ = a³/27</span>. This proves AM-GM inequality.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Expand f(x,y) = e^x sin y near origin using Taylor's series">
+      <div class="card-top">
+        <span class="q-number">IV.5.05</span>
+        <span class="q-text">Expand <span class="math">f(x,y)=e^x \sin y</span> about the origin using <strong>Taylor's series</strong> up to second-degree terms.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Compute partials at (0,0): <span class="math">f=0, f_x=0, f_y=1, f_{xx}=0, f_{xy}=1, f_{yy}=0</span>.</div>
+          <div class="step"><span class="math">f ≈ y + xy + …</span> up to 2nd degree.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find all partial derivatives of a composite function using chain rule">
+      <div class="card-top">
+        <span class="q-number">IV.5.06</span>
+        <span class="q-text">If <span class="math">z=f(u,v)</span>, <span class="math">u=x+y</span>, <span class="math">v=x−y</span>, show that <span class="math">∂z/∂x − ∂z/∂y = 2 ∂z/∂v</span> using the <strong>chain rule</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">∂z/∂x = z_u·u_x + z_v·v_x = z_u + z_v</span>.</div>
+          <div class="step"><span class="math">∂z/∂y = z_u·u_y + z_v·v_y = z_u − z_v</span>.</div>
+          <div class="step">Subtract: <span class="math">∂z/∂x − ∂z/∂y = 2z_v = 2∂z/∂v</span> ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find maximum and minimum distances from origin to ellipse using Lagrange">
+      <div class="card-top">
+        <span class="q-number">IV.5.07</span>
+        <span class="q-text">Find the maximum and minimum distances from the origin to the curve <span class="math">3x²+4xy+3y²=10</span> using <strong>Lagrange multipliers</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Minimize/maximize <span class="math">f=x²+y²</span> subject to <span class="math">g=3x²+4xy+3y²−10=0</span>.</div>
+          <div class="step">Set <span class="math">∇f=λ∇g</span>: <span class="math">2x=λ(6x+4y), 2y=λ(4x+6y)</span>.</div>
+          <div class="step">Leads to eigenvalue problem; distances = <span class="math">√2</span> and <span class="math">√10</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find the directional derivative of f = x^2 + y^2 in direction of vector">
+      <div class="card-top">
+        <span class="q-number">IV.5.08</span>
+        <span class="q-text">Find the <strong>directional derivative</strong> of <span class="math">f(x,y,z)=x²yz+4xz²</span> at <span class="math">(1,−2,1)</span> in the direction of <span class="math">\hat{i}+2\hat{j}−2\hat{k}</span>. Also find the maximum rate of change.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Compute <span class="math">∇f = (2xyz+4z²)\hat{i} + x²z\hat{j} + (x²y+8xz)\hat{k}</span>; evaluate at (1,−2,1).</div>
+          <div class="step">Unit vector: <span class="math">\hat{u} = (1,2,−2)/3</span>. D_uf = ∇f · \hat{u}.</div>
+          <div class="step">Max rate = |∇f| at the point.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Check functional dependence using Jacobian and express one in terms of other">
+      <div class="card-top">
+        <span class="q-number">IV.5.09</span>
+        <span class="q-text">Show that <span class="math">u = x+y</span> and <span class="math">v = x/(x+y)</span> are <strong>functionally dependent</strong> using the Jacobian and express the relationship.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Compute <span class="math">J = ∂(u,v)/∂(x,y)</span>: partial derivatives of u and v w.r.t. x, y.</div>
+          <div class="step">If J = 0, the functions are functionally dependent.</div>
+          <div class="step">Here <span class="math">v = x/u</span>, i.e. <span class="math">x = uv</span> → explicit functional relation exists.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find extreme values of f(x,y) = sin x + sin y + sin(x+y) on [0,pi/2]">
+      <div class="card-top">
+        <span class="q-number">IV.5.10</span>
+        <span class="q-text">Find the extreme values of <span class="math">f(x,y)=\sin x + \sin y + \sin(x+y)</span> for <span class="math">x,y \in [0,π/2]</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Critical: <span class="math">f_x=\cos x+\cos(x+y)=0</span>, <span class="math">f_y=\cos y+\cos(x+y)=0</span>.</div>
+          <div class="step">Subtract: <span class="math">\cos x = \cos y → x=y</span>. Then <span class="math">2\cos x + \cos 2x = 0</span>.</div>
+          <div class="step">Solution: <span class="math">x=y=π/3</span>. Max <span class="math">f=3√3/2</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Using Lagrange multipliers find the closest point on plane to origin">
+      <div class="card-top">
+        <span class="q-number">IV.5.11</span>
+        <span class="q-text">Find the point on the plane <span class="math">x+2y+3z=14</span> <strong>closest to the origin</strong> using Lagrange multipliers.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Minimize <span class="math">f=x²+y²+z²</span> subject to <span class="math">g=x+2y+3z−14=0</span>.</div>
+          <div class="step"><span class="math">∇f=λ∇g</span>: <span class="math">2x=λ, 2y=2λ, 2z=3λ</span>. So <span class="math">x=λ/2, y=λ, z=3λ/2</span>.</div>
+          <div class="step">Substitute into constraint: <span class="math">λ/2+2λ+9λ/2=14 → λ=2 → (1,2,3)</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Taylor series expansion of f(x,y) = e^(x+y) near (0,0)">
+      <div class="card-top">
+        <span class="q-number">IV.5.12</span>
+        <span class="q-text">Expand <span class="math">f(x,y)=e^{x+y}</span> and <span class="math">f(x,y)=\cos x \cos y</span> about <span class="math">(0,0)</span> using <strong>Taylor's series for two variables</strong> up to third-degree terms.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">All partials at (0,0) for <span class="math">e^{x+y}</span> equal 1.</div>
+          <div class="step"><span class="math">e^{x+y} = 1+(x+y)+\frac{(x+y)^2}{2}+\frac{(x+y)^3}{6}+…</span></div>
+          <div class="step">For <span class="math">\cos x \cos y</span>, use product of Maclaurin expansions.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find dimensions of rectangular box of max volume with given surface area">
+      <div class="card-top">
+        <span class="q-number">IV.5.13</span>
+        <span class="q-text">Find the dimensions of a <strong>rectangular box</strong> of maximum volume inscribed in a sphere of radius <span class="math">R</span> using Lagrange multipliers.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Maximize <span class="math">V=xyz</span> subject to <span class="math">x²+y²+z²=R²</span>.</div>
+          <div class="step">By symmetry and Lagrange: <span class="math">x=y=z=R/√3</span>.</div>
+          <div class="step">Max volume = <span class="math">(R/√3)³ = R³/(3√3)</span>. The box is a cube!</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     UNIT V — MULTIPLE INTEGRALS
+════════════════════════════════════════════════════ -->
+<section class="unit-section u5" id="unit5">
+  <div class="unit-header">
+    <div class="unit-icon">∬</div>
+    <h2>Unit V — Multiple Integrals
+      <small>Double & Triple Integrals · Change of Order · Polar, Cylindrical, Spherical Coordinates · Area & Volume</small>
+    </h2>
+    <div class="unit-count"><strong>26</strong>questions</div>
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>2-Mark Questions</h3>
+    <span class="mark-badge">2 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card easy" data-text="Define double integral over a rectangular region.">
+      <div class="card-top">
+        <span class="q-number">V.2.01</span>
+        <span class="q-text">Define the <strong>double integral</strong> <span class="math">∬_R f(x,y) dA</span> over a rectangular region R. Write it as an iterated integral.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="State Fubini's theorem for changing order of double integration.">
+      <div class="card-top">
+        <span class="q-number">V.2.02</span>
+        <span class="q-text">State <strong>Fubini's Theorem</strong> and explain when the order of integration can be interchanged in a double integral.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write the formula for double integral in polar coordinates.">
+      <div class="card-top">
+        <span class="q-number">V.2.03</span>
+        <span class="q-text">Write the formula for transforming a <strong>double integral</strong> <span class="math">∬ f(x,y)\,dA</span> to <strong>polar coordinates</strong>. What is the Jacobian?</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write triple integral in cylindrical coordinates with volume element.">
+      <div class="card-top">
+        <span class="q-number">V.2.04</span>
+        <span class="q-text">Write the <strong>volume element</strong> <span class="math">dV</span> in cylindrical coordinates <span class="math">(r,θ,z)</span> and the relations <span class="math">x=r\cosθ, y=r\sinθ, z=z</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Write volume element in spherical coordinates.">
+      <div class="card-top">
+        <span class="q-number">V.2.05</span>
+        <span class="q-text">Write the <strong>volume element</strong> <span class="math">dV = ρ²\sinφ\,dρ\,dφ\,dθ</span> in spherical coordinates. Define <span class="math">ρ, φ, θ</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Express area of region bounded by curves as a double integral.">
+      <div class="card-top">
+        <span class="q-number">V.2.06</span>
+        <span class="q-text">Write the double integral expression for the <strong>area</strong> enclosed by two curves <span class="math">y=g₁(x)</span> and <span class="math">y=g₂(x)</span> between <span class="math">x=a</span> and <span class="math">x=b</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Write volume of solid bounded by surfaces as a triple integral.">
+      <div class="card-top">
+        <span class="q-number">V.2.07</span>
+        <span class="q-text">Express the <strong>volume</strong> of a solid region S as a <strong>triple integral</strong> <span class="math">∭_S dV</span>. Give an example region.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="State the relation between Cartesian and spherical coordinates.">
+      <div class="card-top">
+        <span class="q-number">V.2.08</span>
+        <span class="q-text">Write the transformation equations from <strong>spherical to Cartesian coordinates</strong> and compute the Jacobian <span class="math">∂(x,y,z)/∂(ρ,φ,θ)</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Evaluate a simple double integral over rectangle.">
+      <div class="card-top">
+        <span class="q-number">V.2.09</span>
+        <span class="q-text">Evaluate <span class="math">∫₀¹ ∫₀² xy\,dx\,dy</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="What is the difference between Type I and Type II regions for double integrals?">
+      <div class="card-top">
+        <span class="q-number">V.2.10</span>
+        <span class="q-text">Distinguish between <strong>Type I</strong> (vertical slice) and <strong>Type II</strong> (horizontal slice) regions in setting up a double integral. Give examples.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Write the surface area formula using double integral.">
+      <div class="card-top">
+        <span class="q-number">V.2.11</span>
+        <span class="q-text">Write the formula for the <strong>surface area</strong> of <span class="math">z=f(x,y)</span> over a region R in the xy-plane using a double integral.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card easy" data-text="Evaluate simple triple integral over a box.">
+      <div class="card-top">
+        <span class="q-number">V.2.12</span>
+        <span class="q-text">Evaluate <span class="math">∫₀¹ ∫₀² ∫₀³ xyz\,dz\,dy\,dx</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-easy">Easy</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="When should polar coordinates be preferred for double integrals?">
+      <div class="card-top">
+        <span class="q-number">V.2.13</span>
+        <span class="q-text">State two situations where changing to <strong>polar coordinates</strong> simplifies a double integral. Give an example integrand.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <div class="qtype-line"></div>
+    <h3>5-Mark Questions</h3>
+    <span class="mark-badge">5 MARKS · 13 Qs</span>
+    <div class="qtype-line"></div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card medium" data-text="Evaluate double integral by changing order of integration">
+      <div class="card-top">
+        <span class="q-number">V.5.01</span>
+        <span class="q-text">Change the <strong>order of integration</strong> and evaluate: <span class="math">∫₀¹ ∫_x^{√x} (x+y)\,dy\,dx</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Original region: <span class="math">0≤x≤1, x≤y≤√x</span>. Sketch and re-express as <span class="math">y²≤x≤y</span>, <span class="math">0≤y≤1</span>.</div>
+          <div class="step">New integral: <span class="math">∫₀¹ ∫_{y²}^{y} (x+y)\,dx\,dy</span>.</div>
+          <div class="step">Evaluate inner then outer integral; answer = <span class="math">3/10</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Evaluate double integral over circular region using polar coordinates">
+      <div class="card-top">
+        <span class="q-number">V.5.02</span>
+        <span class="q-text">Evaluate <span class="math">∬_R e^{−(x²+y²)}\,dA</span> over the entire <span class="math">xy</span>-plane using <strong>polar coordinates</strong>. Hence find <span class="math">∫₋∞^∞ e^{−x²}\,dx</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Convert: <span class="math">∫₀^{2π}∫₀^∞ e^{−r²} r\,dr\,dθ = 2π · (1/2) = π</span>.</div>
+          <div class="step">So <span class="math">(∫e^{−x²}dx)² = π → ∫₋∞^∞ e^{−x²}dx = √π</span>. The Gaussian integral!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find volume of sphere using triple integral in spherical coordinates">
+      <div class="card-top">
+        <span class="q-number">V.5.03</span>
+        <span class="q-text">Find the <strong>volume of a sphere</strong> of radius <span class="math">a</span> using a <strong>triple integral</strong> in spherical coordinates.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">V = ∫₀^{2π}∫₀^π∫₀^a ρ²\sinφ\,dρ\,dφ\,dθ</span>.</div>
+          <div class="step">Inner: <span class="math">∫₀^a ρ²dρ = a³/3</span>. Middle: <span class="math">∫₀^π \sinφ dφ = 2</span>. Outer: <span class="math">∫₀^{2π}dθ = 2π</span>.</div>
+          <div class="step"><span class="math">V = (a³/3)·2·2π = 4πa³/3</span> ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find area bounded by parabola and line using double integral">
+      <div class="card-top">
+        <span class="q-number">V.5.04</span>
+        <span class="q-text">Find the <strong>area</strong> bounded by the parabola <span class="math">y²=4ax</span> and its latus rectum <span class="math">x=a</span> using a <strong>double integral</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Area <span class="math">= ∫₋{2a}^{2a} ∫_0^{y²/(4a)} dx\,dy = 2∫₀^{2a} y²/(4a)\,dy</span>.</div>
+          <div class="step">Evaluate: <span class="math">= 2·[y³/(12a)]₀^{2a} = 2·8a³/(12a) = 4a²/3</span>.</div>
+          <div class="step"><strong>Area = 8a²/3</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Evaluate triple integral over tetrahedron bounded by coordinate planes and plane x+y+z=1">
+      <div class="card-top">
+        <span class="q-number">V.5.05</span>
+        <span class="q-text">Evaluate <span class="math">∭ xyz\,dV</span> over the tetrahedron bounded by the planes <span class="math">x=0, y=0, z=0</span>, and <span class="math">x+y+z=1</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Limits: <span class="math">x: 0→1, y: 0→1−x, z: 0→1−x−y</span>.</div>
+          <div class="step"><span class="math">∫₀¹ x ∫₀^{1−x} y ∫₀^{1−x−y} z\,dz\,dy\,dx</span>. Evaluate iteratively.</div>
+          <div class="step">Answer = <span class="math">1/720</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Change double integral to polar coordinates and evaluate over circle x^2+y^2=a^2">
+      <div class="card-top">
+        <span class="q-number">V.5.06</span>
+        <span class="q-text">Evaluate <span class="math">∬_R \sqrt{a²−x²−y²}\,dA</span> over the circle <span class="math">x²+y²≤a²</span> by changing to <strong>polar coordinates</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">In polar: <span class="math">∫₀^{2π}∫₀^a \sqrt{a²−r²} · r\,dr\,dθ</span>.</div>
+          <div class="step">Let <span class="math">u=a²−r², du=−2r\,dr</span>. Inner = <span class="math">[−(a²−r²)^{3/2}/3]₀^a = a³/3</span>.</div>
+          <div class="step">Answer = <span class="math">2π · a³/3 = 2πa³/3</span> (volume of hemisphere).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Evaluate double integral by changing to polar for x^2+y^2 integrand">
+      <div class="card-top">
+        <span class="q-number">V.5.07</span>
+        <span class="q-text">Evaluate <span class="math">∫₀^a ∫₀^{\sqrt{a²−x²}} (x²+y²)\,dy\,dx</span> by changing to <strong>polar coordinates</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Region is quarter-circle; in polar: <span class="math">∫₀^{π/2}∫₀^a r²·r\,dr\,dθ</span>.</div>
+          <div class="step"><span class="math">= ∫₀^{π/2}dθ · ∫₀^a r³dr = (π/2)·(a⁴/4) = πa⁴/8</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find volume of cone using triple integral in cylindrical coordinates">
+      <div class="card-top">
+        <span class="q-number">V.5.08</span>
+        <span class="q-text">Find the <strong>volume of the cone</strong> <span class="math">z = \sqrt{x²+y²}</span> bounded above by the plane <span class="math">z=h</span> using <strong>cylindrical coordinates</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">In cylindrical: <span class="math">z=r</span>. Limits: <span class="math">θ:0→2π, r:0→h, z:r→h</span>.</div>
+          <div class="step"><span class="math">V = ∫₀^{2π}∫₀^h ∫_r^h r\,dz\,dr\,dθ = 2π ∫₀^h r(h−r)dr</span>.</div>
+          <div class="step"><span class="math">= 2π[hr²/2 − r³/3]₀^h = 2π·h³/6 = πh³/3</span> ✓.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Change order of integration for non-trivial limits and evaluate">
+      <div class="card-top">
+        <span class="q-number">V.5.09</span>
+        <span class="q-text">Change the order of integration and evaluate: <span class="math">∫₀^{π/2} ∫_y^{π/2} \frac{\sin x}{x}\,dx\,dy</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Original region: <span class="math">y≤x≤π/2, 0≤y≤π/2</span>. After change: <span class="math">0≤y≤x, 0≤x≤π/2</span>.</div>
+          <div class="step"><span class="math">∫₀^{π/2} \frac{\sin x}{x} ∫₀^x dy\,dx = ∫₀^{π/2} \sin x\,dx</span>.</div>
+          <div class="step"><span class="math">= [−\cos x]₀^{π/2} = 1</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Evaluate triple integral over sphere using spherical coordinates">
+      <div class="card-top">
+        <span class="q-number">V.5.10</span>
+        <span class="q-text">Evaluate <span class="math">∭ (x²+y²+z²)\,dV</span> over the sphere <span class="math">x²+y²+z²≤a²</span> using <strong>spherical coordinates</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-vf">Very Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">In spherical: <span class="math">x²+y²+z²=ρ²</span>. Integral becomes <span class="math">∫₀^{2π}∫₀^π∫₀^a ρ²·ρ²\sinφ\,dρ\,dφ\,dθ</span>.</div>
+          <div class="step"><span class="math">= 2π·2·(a⁵/5) = 4πa⁵/5</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card medium" data-text="Find area between two curves y=x^2 and y=sqrt(x) using double integral">
+      <div class="card-top">
+        <span class="q-number">V.5.11</span>
+        <span class="q-text">Find the <strong>area</strong> enclosed between <span class="math">y=x²</span> and <span class="math">y=\sqrt{x}</span> using a <strong>double integral</strong>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-medium">Medium</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Intersection: <span class="math">x=0,1</span>. Area <span class="math">= ∫₀¹ ∫_{x²}^{√x} dy\,dx</span>.</div>
+          <div class="step"><span class="math">= ∫₀¹ (√x−x²)\,dx = [2x^{3/2}/3 − x³/3]₀¹ = 2/3 − 1/3 = 1/3</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Find volume of solid bounded by paraboloid and plane using double integral">
+      <div class="card-top">
+        <span class="q-number">V.5.12</span>
+        <span class="q-text">Find the <strong>volume</strong> of the solid bounded by the paraboloid <span class="math">z=4−x²−y²</span> and the plane <span class="math">z=0</span> using a double integral in polar form.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-f">Frequently Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step">Region: <span class="math">x²+y²≤4</span> (circle radius 2). In polar: <span class="math">r≤2</span>.</div>
+          <div class="step"><span class="math">V=∫₀^{2π}∫₀^2 (4−r²)r\,dr\,dθ = 2π∫₀^2 (4r−r³)\,dr</span>.</div>
+          <div class="step"><span class="math">= 2π[2r²−r⁴/4]₀^2 = 2π(8−4) = 8π</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-card hard" data-text="Evaluate triple integral over region bounded by two cylinders and planes">
+      <div class="card-top">
+        <span class="q-number">V.5.13</span>
+        <span class="q-text">Using <strong>cylindrical coordinates</strong>, evaluate <span class="math">∭ z\,dV</span> over the region bounded by <span class="math">z=0</span>, <span class="math">z=2</span>, and <span class="math">x²+y²=1</span>.</span>
+      </div>
+      <div class="card-meta">
+        <span class="badge badge-hard">Hard</span>
+        <span class="freq-badge freq-o">Occasionally Asked</span>
+      </div>
+      <div class="solution-toggle">
+        <button class="toggle-btn" onclick="toggleSolution(this)">▸ Show Approach</button>
+        <div class="solution-body">
+          <div class="step"><span class="math">∫₀^{2π}∫₀^1∫₀^2 z·r\,dz\,dr\,dθ</span>.</div>
+          <div class="step">Inner: <span class="math">∫₀^2 z\,dz=2</span>. Middle: <span class="math">∫₀^1 r\,dr=1/2</span>. Outer: <span class="math">∫₀^{2π}dθ=2π</span>.</div>
+          <div class="step">Answer = <span class="math">2·(1/2)·2π = 2π</span>.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div>Engineering Mathematics Question Bank · B.Tech 1st Year · <strong>JNTUK Pattern</strong></div>
+  <div style="margin-top:6px; color: var(--text-dim)">130 Questions · 5 Units · 2-Mark & 5-Mark Sets · Difficulty & Frequency Indexed</div>
+</footer>
+
+<!-- SCROLL TOP -->
+<a class="scroll-top" href="#" id="scrollTopBtn" title="Back to top">↑</a>
+
+<script>
+  // Toggle solution visibility
+  function toggleSolution(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open');
+    btn.textContent = isOpen ? '▸ Show Approach' : '▾ Hide Approach';
+  }
+
+  // Search filter
+  function filterCards(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.question-card').forEach(card => {
+      const text = (card.dataset.text || '') + ' ' + card.innerText;
+      card.classList.toggle('hidden', q !== '' && !text.toLowerCase().includes(q));
+    });
+  }
+
+  // Scroll-to-top button
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('.unit-section');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
