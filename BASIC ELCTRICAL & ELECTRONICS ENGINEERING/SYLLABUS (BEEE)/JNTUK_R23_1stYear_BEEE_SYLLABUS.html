@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BEEE – JNTUK R23 | Interactive Study Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#050b18;
+  --bg2:#080f20;
+  --bg3:#0c1428;
+  --card:#0d1a35;
+  --card2:#111f3d;
+  --blue:#00b4ff;
+  --blue2:#0066ff;
+  --cyan:#00fff7;
+  --purple:#9b5de5;
+  --purple2:#c77dff;
+  --pink:#ff006e;
+  --green:#39ff14;
+  --yellow:#ffd60a;
+  --white:#e8f4ff;
+  --dim:#7a9cbf;
+  --border:rgba(0,180,255,0.18);
+  --glow:0 0 24px rgba(0,180,255,0.25);
+  --glow2:0 0 40px rgba(155,93,229,0.3);
+  --r:14px;
+  --transition:.3s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"]{
+  --bg:#eef4ff;--bg2:#e4eeff;--bg3:#dce8ff;
+  --card:#fff;--card2:#f5f9ff;
+  --white:#0a1628;--dim:#4a6080;
+  --border:rgba(0,100,220,0.18);
+  --glow:0 4px 24px rgba(0,100,220,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--bg);color:var(--white);font-family:'Exo 2',sans-serif;overflow-x:hidden;min-height:100vh;}
+
+/* ── CANVAS ─────────────────────────────── */
+#circuit-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.35;}
+
+/* ── SEARCH ─────────────────────────────── */
+#search-overlay{display:none;position:fixed;inset:0;background:rgba(5,11,24,.92);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(12px);}
+#search-overlay.active{display:flex;}
+#search-box{background:var(--card);border:1.5px solid var(--blue);border-radius:var(--r);padding:1.2rem 1.5rem;width:min(600px,90vw);display:flex;gap:.8rem;align-items:center;}
+#search-input{flex:1;background:none;border:none;outline:none;color:var(--white);font-family:'Exo 2',sans-serif;font-size:1.1rem;}
+#search-results{position:absolute;top:calc(50% + 2.5rem);left:50%;transform:translateX(-50%);width:min(600px,90vw);background:var(--card2);border:1px solid var(--border);border-radius:var(--r);max-height:60vh;overflow-y:auto;}
+.sr-item{padding:.8rem 1.2rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background var(--transition);}
+.sr-item:hover{background:rgba(0,180,255,.1);}
+.sr-item .sr-title{font-weight:600;color:var(--blue);}
+.sr-item .sr-unit{font-size:.78rem;color:var(--dim);}
+
+/* ── NAV ─────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:.8rem 2rem;display:flex;align-items:center;gap:1rem;background:rgba(5,11,24,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all var(--transition);}
+.nav-brand{font-family:'Orbitron',monospace;font-weight:700;font-size:1rem;color:var(--cyan);letter-spacing:.06em;white-space:nowrap;}
+.nav-brand span{color:var(--purple2);}
+.nav-links{display:flex;gap:.3rem;flex:1;flex-wrap:wrap;justify-content:center;}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:.82rem;padding:.35rem .7rem;border-radius:6px;transition:all var(--transition);font-weight:600;letter-spacing:.03em;}
+.nav-links a:hover{color:var(--cyan);background:rgba(0,255,247,.08);}
+.nav-actions{display:flex;gap:.6rem;align-items:center;white-space:nowrap;}
+.btn-icon{background:none;border:1.5px solid var(--border);color:var(--dim);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;transition:all var(--transition);display:flex;align-items:center;justify-content:center;}
+.btn-icon:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 12px rgba(0,255,247,.3);}
+
+/* ── HERO ─────────────────────────────────── */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;overflow:hidden;}
+.hero-content{position:relative;z-index:2;max-width:800px;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,180,255,.1);border:1px solid var(--blue);border-radius:50px;padding:.4rem 1.2rem;font-size:.8rem;color:var(--blue);font-weight:600;letter-spacing:.08em;margin-bottom:1.5rem;animation:fadeDown .8s both;}
+.hero-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,5vw,3.4rem);font-weight:900;line-height:1.15;margin-bottom:1rem;animation:fadeDown .9s .1s both;}
+.hero-title .line1{display:block;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-title .line2{display:block;background:linear-gradient(135deg,var(--purple),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.6em;}
+.hero-subtitle{color:var(--dim);font-size:1rem;margin-bottom:2rem;animation:fadeDown 1s .2s both;}
+.hero-pills{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;animation:fadeDown 1s .3s both;}
+.pill{background:rgba(155,93,229,.12);border:1px solid rgba(155,93,229,.3);border-radius:50px;padding:.3rem .9rem;font-size:.78rem;color:var(--purple2);font-weight:600;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem;animation:fadeDown 1s .4s both;}
+.btn-primary{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;border:none;border-radius:50px;padding:.75rem 2rem;font-family:'Exo 2',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.04em;box-shadow:0 0 30px rgba(0,180,255,.4);transition:all var(--transition);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,180,255,.6);}
+.btn-outline{background:none;color:var(--cyan);border:1.5px solid var(--cyan);border-radius:50px;padding:.75rem 2rem;font-family:'Exo 2',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.04em;transition:all var(--transition);}
+.btn-outline:hover{background:rgba(0,255,247,.08);transform:translateY(-2px);}
+
+/* progress ring */
+.progress-ring-wrap{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;animation:fadeDown 1s .5s both;}
+.ring-container{position:relative;width:110px;height:110px;}
+.ring-container svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:8;}
+.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease;}
+.ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-pct{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;}
+.ring-label{font-size:.65rem;color:var(--dim);letter-spacing:.06em;}
+
+/* ── SECTION SKELETON ─────────────────────── */
+section{position:relative;z-index:2;padding:5rem 2rem;}
+.container{max-width:1100px;margin:0 auto;}
+.section-header{text-align:center;margin-bottom:3rem;}
+.section-eyebrow{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:.6rem;}
+.section-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;line-height:1.2;}
+.section-title .accent{background:linear-gradient(135deg,var(--cyan),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.section-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));margin:1rem auto 0;border-radius:3px;}
+
+/* ── GLASSMORPHISM CARD ────────────────────── */
+.glass{background:rgba(13,26,53,.6);border:1px solid var(--border);border-radius:var(--r);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all var(--transition);}
+.glass:hover{border-color:rgba(0,180,255,.4);box-shadow:var(--glow);}
+
+/* ── OVERVIEW ICONS ────────────────────────── */
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;}
+.icon-card{padding:1.5rem;text-align:center;cursor:default;}
+.icon-card .ic{font-size:2.4rem;margin-bottom:.7rem;display:block;}
+.icon-card h4{font-size:.88rem;font-weight:700;color:var(--white);}
+.icon-card p{font-size:.75rem;color:var(--dim);margin-top:.3rem;}
+
+/* ── OBJECTIVE CARD ────────────────────────── */
+.obj-card{padding:2rem;border-left:4px solid var(--cyan);margin-bottom:2rem;}
+.obj-card p{color:var(--dim);line-height:1.7;font-size:.95rem;}
+
+/* ── CO CARDS ──────────────────────────────── */
+.co-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;}
+.co-card{padding:1.5rem;cursor:pointer;position:relative;overflow:hidden;}
+.co-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,180,255,.05),rgba(155,93,229,.05));opacity:0;transition:opacity var(--transition);}
+.co-card:hover::before{opacity:1;}
+.co-num{font-family:'Orbitron',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:.12em;margin-bottom:.5rem;}
+.co-text{font-size:.88rem;color:var(--dim);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.co-card.open .co-text{max-height:200px;}
+.co-title{font-size:1rem;font-weight:700;margin-bottom:.3rem;}
+.co-arrow{position:absolute;right:1.2rem;top:1.2rem;color:var(--dim);transition:transform var(--transition);}
+.co-card.open .co-arrow{transform:rotate(180deg);color:var(--cyan);}
+
+/* ── UNIT ACCORDIONS ────────────────────────── */
+.unit-wrap{margin-bottom:1rem;}
+.unit-header{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;cursor:pointer;border-radius:var(--r);border:1px solid var(--border);background:var(--card);transition:all var(--transition);user-select:none;}
+.unit-header:hover{border-color:rgba(0,180,255,.4);box-shadow:var(--glow);}
+.unit-header.open{border-color:var(--blue);box-shadow:var(--glow);background:linear-gradient(135deg,rgba(0,100,255,.1),rgba(13,26,53,.9));}
+.unit-num{font-family:'Orbitron',monospace;font-size:.7rem;color:var(--cyan);min-width:60px;letter-spacing:.1em;}
+.unit-title{font-size:1rem;font-weight:700;flex:1;}
+.unit-badge{font-size:.72rem;background:rgba(0,180,255,.1);border:1px solid rgba(0,180,255,.2);color:var(--blue);padding:.2rem .7rem;border-radius:50px;}
+.unit-chevron{color:var(--dim);font-size:1.2rem;transition:transform var(--transition);}
+.unit-header.open .unit-chevron{transform:rotate(180deg);color:var(--cyan);}
+.unit-body{max-height:0;overflow:hidden;transition:max-height .7s cubic-bezier(.4,0,.2,1);}
+.unit-body.open{max-height:9999px;}
+.unit-content{padding:1.5rem;background:var(--bg2);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);}
+
+/* topic grid */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin:1rem 0;}
+.topic-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;background:rgba(0,180,255,.04);border:1px solid rgba(0,180,255,.1);border-radius:8px;font-size:.83rem;cursor:pointer;transition:all var(--transition);}
+.topic-item input[type=checkbox]{accent-color:var(--cyan);width:14px;height:14px;cursor:pointer;}
+.topic-item:hover{border-color:var(--cyan);background:rgba(0,255,247,.06);}
+.topic-item.done{border-color:rgba(57,255,20,.25);background:rgba(57,255,20,.04);text-decoration:line-through;color:var(--dim);}
+
+/* subtopic section */
+.subtopic-section{margin:1rem 0;}
+.subtopic-title{font-family:'Orbitron',monospace;font-size:.75rem;color:var(--purple2);letter-spacing:.1em;margin-bottom:.7rem;padding-bottom:.4rem;border-bottom:1px solid rgba(155,93,229,.2);}
+
+/* phasor animation */
+.phasor-wrap{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,247,.15);border-radius:10px;padding:1rem;margin:1.2rem 0;text-align:center;}
+.phasor-label{font-size:.78rem;color:var(--dim);margin-top:.5rem;}
+
+/* exam tips */
+.tips-box{background:linear-gradient(135deg,rgba(255,214,10,.06),rgba(255,0,110,.06));border:1px solid rgba(255,214,10,.25);border-radius:10px;padding:1.2rem 1.5rem;margin:1rem 0;}
+.tips-box h4{color:var(--yellow);font-size:.85rem;margin-bottom:.7rem;letter-spacing:.06em;}
+.tip-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.83rem;color:var(--dim);margin:.4rem 0;}
+.tip-item::before{content:'⚡';flex-shrink:0;}
+
+/* difficulty */
+.diff-wrap{display:flex;align-items:center;gap:.8rem;margin:.8rem 0;}
+.diff-label{font-size:.78rem;color:var(--dim);}
+.diff-bar{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.diff-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+
+/* machine cards */
+.machine-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin:1rem 0;}
+.machine-card{padding:1.2rem;border-radius:10px;background:rgba(155,93,229,.06);border:1px solid rgba(155,93,229,.2);transition:all var(--transition);}
+.machine-card:hover{border-color:var(--purple2);box-shadow:var(--glow2);transform:translateY(-2px);}
+.machine-icon{font-size:1.8rem;margin-bottom:.5rem;}
+.machine-name{font-size:.88rem;font-weight:700;color:var(--purple2);margin-bottom:.3rem;}
+.machine-desc{font-size:.75rem;color:var(--dim);line-height:1.5;}
+
+/* instruments */
+.instr-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0;}
+.instr-table th{background:rgba(0,180,255,.1);color:var(--blue);padding:.6rem .8rem;text-align:left;font-weight:700;}
+.instr-table td{padding:.5rem .8rem;border-bottom:1px solid rgba(255,255,255,.05);color:var(--dim);}
+.instr-table tr:hover td{color:var(--white);}
+
+/* energy comparison */
+.energy-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0;}
+.energy-table th{padding:.6rem .8rem;text-align:left;font-weight:700;}
+.energy-table td{padding:.5rem .8rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.etag-conv{color:var(--blue);}
+.etag-nconv{color:var(--green);}
+
+/* calculator */
+.calc-wrap{background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.2);border-radius:12px;padding:1.5rem;margin:1rem 0;}
+.calc-wrap h4{color:var(--green);margin-bottom:1rem;font-size:.88rem;letter-spacing:.06em;}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem;}
+.calc-field label{display:block;font-size:.75rem;color:var(--dim);margin-bottom:.3rem;}
+.calc-field input{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(57,255,20,.2);border-radius:6px;padding:.5rem .8rem;color:var(--white);font-family:'Exo 2',sans-serif;font-size:.9rem;outline:none;}
+.calc-field input:focus{border-color:var(--green);box-shadow:0 0 10px rgba(57,255,20,.2);}
+.btn-calc{background:linear-gradient(135deg,#1a5e1a,#39ff14);color:#000;border:none;border-radius:8px;padding:.6rem 1.5rem;font-family:'Exo 2',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;transition:all var(--transition);}
+.btn-calc:hover{transform:translateY(-1px);box-shadow:0 0 20px rgba(57,255,20,.4);}
+.calc-result{display:none;background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.3);border-radius:8px;padding:1rem;margin-top:1rem;}
+.calc-result.show{display:block;}
+.result-row{display:flex;justify-content:space-between;font-size:.88rem;margin:.3rem 0;}
+.result-val{font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:600;}
+
+/* safety cards */
+.safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin:1rem 0;}
+.safety-card{padding:1.2rem;border-radius:10px;text-align:center;}
+.safety-card.red{background:rgba(255,0,110,.06);border:1px solid rgba(255,0,110,.25);}
+.safety-card.yellow{background:rgba(255,214,10,.06);border:1px solid rgba(255,214,10,.25);}
+.safety-card.green{background:rgba(57,255,20,.06);border:1px solid rgba(57,255,20,.25);}
+.safety-card.blue{background:rgba(0,180,255,.06);border:1px solid rgba(0,180,255,.25);}
+.safety-icon{font-size:2rem;margin-bottom:.5rem;}
+.safety-title{font-size:.85rem;font-weight:700;margin-bottom:.3rem;}
+.safety-desc{font-size:.73rem;color:var(--dim);line-height:1.4;}
+
+/* questions */
+.q-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.q-tab{padding:.4rem 1.2rem;border-radius:50px;border:1.5px solid var(--border);background:none;color:var(--dim);font-family:'Exo 2',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all var(--transition);}
+.q-tab.active{border-color:var(--cyan);color:var(--cyan);background:rgba(0,255,247,.08);}
+.q-panel{display:none;}
+.q-panel.active{display:block;}
+.q-list{list-style:none;}
+.q-item{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem;border-bottom:1px solid rgba(255,255,255,.05);font-size:.85rem;transition:background var(--transition);}
+.q-item:hover{background:rgba(0,180,255,.04);}
+.q-num{font-family:'JetBrains Mono',monospace;color:var(--blue);font-size:.78rem;min-width:28px;padding-top:.1rem;}
+.q-text{color:var(--dim);line-height:1.5;}
+.q-unit-tag{font-size:.68rem;color:var(--purple2);background:rgba(155,93,229,.1);border:1px solid rgba(155,93,229,.2);border-radius:4px;padding:.1rem .4rem;margin-top:.2rem;display:inline-block;}
+
+/* study plan */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;}
+.plan-day{padding:1.2rem;text-align:center;cursor:pointer;position:relative;}
+.plan-day-num{font-family:'Orbitron',monospace;font-size:.7rem;color:var(--cyan);margin-bottom:.4rem;letter-spacing:.1em;}
+.plan-day-title{font-size:.82rem;font-weight:700;margin-bottom:.5rem;}
+.plan-day-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);margin:0 auto;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+.plan-day-check.done{border-color:var(--green);background:rgba(57,255,20,.2);color:var(--green);}
+.plan-day.active-day{border-color:var(--cyan);}
+
+/* formulas */
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+.formula-card{padding:1.5rem;text-align:center;background:linear-gradient(135deg,rgba(0,100,255,.08),rgba(155,93,229,.08));position:relative;overflow:hidden;}
+.formula-card::after{content:'';position:absolute;inset:-50%;background:radial-gradient(circle,rgba(0,180,255,.05) 0%,transparent 70%);animation:pulse 3s infinite;}
+.formula-name{font-size:.78rem;color:var(--dim);letter-spacing:.08em;margin-bottom:.6rem;text-transform:uppercase;}
+.formula-eq{font-family:'JetBrains Mono',monospace;font-size:1.4rem;color:var(--cyan);font-weight:600;margin-bottom:.5rem;}
+.formula-desc{font-size:.72rem;color:var(--dim);}
+
+/* books */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;}
+.book-card{display:flex;gap:1rem;align-items:flex-start;padding:1.2rem;}
+.book-icon{font-size:2rem;flex-shrink:0;}
+.book-title{font-size:.88rem;font-weight:700;margin-bottom:.3rem;}
+.book-author{font-size:.75rem;color:var(--dim);}
+.book-tag{font-size:.68rem;color:var(--blue);background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.2);border-radius:4px;padding:.1rem .4rem;display:inline-block;margin-top:.4rem;}
+
+/* exam strategy */
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+.strategy-card{padding:1.5rem;}
+.strategy-card h3{font-size:.9rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.strategy-list{list-style:none;}
+.strategy-list li{font-size:.83rem;color:var(--dim);padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:.6rem;}
+.strategy-list li::before{content:'→';color:var(--cyan);flex-shrink:0;}
+.trick-box{background:linear-gradient(135deg,rgba(255,214,10,.06),rgba(155,93,229,.06));border:1px solid rgba(255,214,10,.25);border-radius:10px;padding:1.2rem;margin-top:1rem;font-size:.85rem;color:var(--dim);}
+.trick-box strong{color:var(--yellow);}
+
+/* footer */
+footer{position:relative;z-index:2;padding:3rem 2rem;text-align:center;border-top:1px solid var(--border);}
+.footer-quote{font-family:'Orbitron',monospace;font-size:clamp(1rem,2.5vw,1.6rem);font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--purple2),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;background-size:200%;}
+.footer-sub{font-size:.82rem;color:var(--dim);margin-top:.8rem;}
+
+/* back to top */
+#btt{position:fixed;bottom:2rem;right:2rem;z-index:900;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--blue));border:none;color:#fff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(0,180,255,.4);display:none;align-items:center;justify-content:center;transition:all var(--transition);}
+#btt.show{display:flex;}
+#btt:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(0,180,255,.6);}
+
+/* progress tracker */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));z-index:9999;transition:width .2s;}
+
+/* animations */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.7}}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 20px rgba(0,255,247,.5)}50%{text-shadow:0 0 40px rgba(0,255,247,.9),0 0 80px rgba(0,255,247,.4)}}
+@keyframes circuit-flow{0%{stroke-dashoffset:1000}100%{stroke-dashoffset:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.animate-float{animation:float 4s ease-in-out infinite;}
+.animate-glow{animation:glow-pulse 2.5s ease-in-out infinite;}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* responsive */
+@media(max-width:768px){
+  nav{padding:.7rem 1rem;}
+  .nav-links{display:none;}
+  section{padding:3rem 1rem;}
+  .hero-title{font-size:1.6rem;}
+}
+/* ── extra unit1 phasor & waveform canvas ── */
+#phasorCanvas{display:block;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<canvas id="circuit-canvas"></canvas>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay">
+  <div style="position:relative;width:min(620px,92vw);">
+    <div id="search-box">
+      <span style="color:var(--dim);font-size:1.1rem;">🔍</span>
+      <input id="search-input" placeholder="Search topics, laws, machines…" autocomplete="off"/>
+      <button class="btn-icon" onclick="closeSearch()">✕</button>
+    </div>
+    <div id="search-results"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-brand">BEEE<span>⚡</span></div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#unit1">Unit I</a>
+    <a href="#unit2">Unit II</a>
+    <a href="#unit3">Unit III</a>
+    <a href="#questions">Questions</a>
+    <a href="#formulas">Formulas</a>
+    <a href="#studyplan">Study Plan</a>
+    <a href="#books">Books</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-icon" title="Search" onclick="openSearch()">🔍</button>
+    <button class="btn-icon" id="theme-toggle" title="Toggle theme" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">⚡ JNTUK B.Tech R23 Regulations</div>
+    <h1 class="hero-title animate-glow">
+      <span class="line1">BASIC ELECTRICAL &</span>
+      <span class="line1">ELECTRONICS ENGINEERING</span>
+      <span class="line2">Interactive Study Dashboard</span>
+    </h1>
+    <p class="hero-subtitle">Common to All Engineering Branches &nbsp;·&nbsp; 3 Units &nbsp;·&nbsp; Theory + Practicals</p>
+    <div class="hero-pills">
+      <span class="pill">DC & AC Circuits</span>
+      <span class="pill">Machines</span>
+      <span class="pill">Measuring Instruments</span>
+      <span class="pill">Energy Resources</span>
+      <span class="pill">Safety</span>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('unit1').scrollIntoView({behavior:'smooth'})">⚡ Start Learning</button>
+      <button class="btn-outline" onclick="document.getElementById('studyplan').scrollIntoView({behavior:'smooth'})">📅 Study Plan</button>
+    </div>
+    <div class="progress-ring-wrap">
+      <div class="ring-container animate-float">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle class="ring-bg" cx="55" cy="55" r="46"/>
+          <circle class="ring-fill" id="ring1" cx="55" cy="55" r="46" stroke="url(#g1)" stroke-dasharray="289" stroke-dashoffset="289"/>
+          <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00b4ff"/><stop offset="100%" stop-color="#00fff7"/></linearGradient></defs>
+        </svg>
+        <div class="ring-text"><span class="ring-pct" id="ring1-pct" style="color:var(--cyan)">0%</span><span class="ring-label">PROGRESS</span></div>
+      </div>
+      <div style="text-align:left;max-width:280px;">
+        <p style="font-size:.9rem;font-weight:600;color:var(--white);margin-bottom:.4rem;">Track Your Progress</p>
+        <p style="font-size:.8rem;color:var(--dim);line-height:1.6;">Check off topics as you complete them. Your progress updates in real time across all units.</p>
+        <div id="hero-stats" style="margin-top:.7rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--blue);">0 / 0 topics done</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview" class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">// course overview</span>
+      <h2 class="section-title">What You'll <span class="accent">Master</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="obj-card glass">
+      <p>🎯 <strong style="color:var(--cyan)">Course Objective:</strong> To expose students to the field of electrical and electronics engineering, fundamental laws, operating principles, and help acquire strong conceptual foundations necessary for interdisciplinary engineering applications.</p>
+    </div>
+    <div class="icon-grid">
+      <div class="icon-card glass"><span class="ic">⚡</span><h4>Electrical Fundamentals</h4><p>R, L, C elements, Ohm's law, KCL, KVL</p></div>
+      <div class="icon-card glass"><span class="ic">🔌</span><h4>Circuit Analysis</h4><p>Series, parallel, theorems, phasors</p></div>
+      <div class="icon-card glass"><span class="ic">⚙️</span><h4>Machines</h4><p>Motors, generators, transformers</p></div>
+      <div class="icon-card glass"><span class="ic">📊</span><h4>Measurement</h4><p>PMMC, MI, Wheatstone Bridge</p></div>
+      <div class="icon-card glass"><span class="ic">🌍</span><h4>Energy Systems</h4><p>Hydel, nuclear, solar, wind</p></div>
+      <div class="icon-card glass"><span class="ic">🛡️</span><h4>Safety</h4><p>Fuse, MCB, earthing, shock prevention</p></div>
+    </div>
+    <br>
+    <div class="section-header" style="margin-bottom:1.5rem;">
+      <span class="section-eyebrow">// course outcomes</span>
+      <h2 class="section-title">After This Course You Can <span class="accent">—</span></h2>
+    </div>
+    <div class="co-grid">
+      <div class="co-card glass" onclick="toggleCO(this)">
+        <span class="co-arrow">▾</span>
+        <div class="co-num">CO 1</div>
+        <div class="co-title">Laws & Principles</div>
+        <div class="co-text">Describe fundamental laws and operating principles of motors, generators, PMMC and MI instruments. Understand Ohm's law, KCL, KVL, superposition theorem, and AC circuit analysis.</div>
+      </div>
+      <div class="co-card glass" onclick="toggleCO(this)">
+        <span class="co-arrow">▾</span>
+        <div class="co-num">CO 2</div>
+        <div class="co-title">Working of Machines</div>
+        <div class="co-text">Demonstrate working of electrical machines (DC motors/generators, transformer, alternator, induction motor) and explain power generation stations (hydel, thermal, nuclear, solar, wind).</div>
+      </div>
+      <div class="co-card glass" onclick="toggleCO(this)">
+        <span class="co-arrow">▾</span>
+        <div class="co-num">CO 3</div>
+        <div class="co-title">Mathematical Tools</div>
+        <div class="co-text">Apply mathematical tools to derive electrical circuit equations, phasor relationships, RMS/average values, power equations, and energy formulae for practical circuit problems.</div>
+      </div>
+      <div class="co-card glass" onclick="toggleCO(this)">
+        <span class="co-arrow">▾</span>
+        <div class="co-num">CO 4</div>
+        <div class="co-title">Electrical Load & Bills</div>
+        <div class="co-text">Calculate electrical load, energy consumption, and electricity bills using power ratings and domestic tariff structures. Understand power factor correction and energy conservation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIT I -->
+<section id="unit1" style="padding:3rem 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">// unit i</span>
+      <h2 class="section-title">DC & AC <span class="accent">Circuits</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="unit-wrap reveal">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <span class="unit-num">UNIT I</span>
+        <span class="unit-title">DC Circuits & AC Fundamentals</span>
+        <span class="unit-badge">15 Topics</span>
+        <span class="unit-chevron">▾</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <!-- DC -->
+          <div class="subtopic-section">
+            <div class="subtopic-title">⚡ DC CIRCUITS</div>
+            <div class="topic-grid" id="dc-topics">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Electrical Elements (R, L, C)</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Ohm's Law & Limitations</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Kirchhoff's Current Law (KCL)</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Kirchhoff's Voltage Law (KVL)</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Series Circuits</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Parallel Circuits</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Series-Parallel Circuits</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Superposition Theorem</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Numerical Problems (DC)</label>
+            </div>
+          </div>
+          <!-- AC -->
+          <div class="subtopic-section">
+            <div class="subtopic-title">〰 AC CIRCUITS</div>
+            <div class="topic-grid">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> AC Fundamentals & Equation</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Waveform, Period, Frequency</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Amplitude, Phase & Phase Difference</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Average Value & RMS Value</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Form Factor & Peak Factor</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Phasor Diagrams (R, L, C)</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Impedance & Power Triangle</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Active, Reactive & Apparent Power</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Power Factor</label>
+            </div>
+          </div>
+
+          <!-- Phasor Animation -->
+          <div class="phasor-wrap">
+            <div class="subtopic-title" style="border:none;margin-bottom:.3rem;">🎯 INTERACTIVE PHASOR DIAGRAM (R-L-C)</div>
+            <canvas id="phasorCanvas" width="420" height="240"></canvas>
+            <div class="phasor-label">Live phasor animation — V leads I (inductive circuit). Adjust: 
+              <select id="phasor-type" onchange="drawPhasor()" style="background:var(--card);color:var(--white);border:1px solid var(--border);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;">
+                <option value="rl">R-L Circuit (V leads I)</option>
+                <option value="rc">R-C Circuit (I leads V)</option>
+                <option value="r">Pure R (V in phase)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Key Formulas Quick Ref -->
+          <div style="margin:1rem 0;">
+            <div class="subtopic-title">📐 KEY FORMULAS</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">
+              <div class="formula-card glass" style="padding:.8rem;font-size:.8rem;">
+                <div class="formula-name">RMS Value (Sinusoidal)</div>
+                <div class="formula-eq" style="font-size:1rem;">V<sub style="font-size:.7em">rms</sub> = V<sub style="font-size:.7em">m</sub>/√2</div>
+              </div>
+              <div class="formula-card glass" style="padding:.8rem;font-size:.8rem;">
+                <div class="formula-name">Average Value</div>
+                <div class="formula-eq" style="font-size:1rem;">V<sub style="font-size:.7em">avg</sub> = 2V<sub style="font-size:.7em">m</sub>/π</div>
+              </div>
+              <div class="formula-card glass" style="padding:.8rem;font-size:.8rem;">
+                <div class="formula-name">Form Factor</div>
+                <div class="formula-eq" style="font-size:1rem;">K<sub style="font-size:.7em">f</sub> = V<sub style="font-size:.7em">rms</sub>/V<sub style="font-size:.7em">avg</sub> = 1.11</div>
+              </div>
+              <div class="formula-card glass" style="padding:.8rem;font-size:.8rem;">
+                <div class="formula-name">Peak Factor</div>
+                <div class="formula-eq" style="font-size:1rem;">K<sub style="font-size:.7em">p</sub> = V<sub style="font-size:.7em">m</sub>/V<sub style="font-size:.7em">rms</sub> = √2</div>
+              </div>
+              <div class="formula-card glass" style="padding:.8rem;font-size:.8rem;">
+                <div class="formula-name">Impedance (R-L)</div>
+                <div class="formula-eq" style="font-size:1rem;">Z = √(R²+X<sub style="font-size:.7em">L</sub>²)</div>
+              </div>
+              <div class="formula-card glass" style="padding:.8rem;font-size:.8rem;">
+                <div class="formula-name">Power Factor</div>
+                <div class="formula-eq" style="font-size:1rem;">cos φ = R/Z = P/S</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Difficulty -->
+          <div class="diff-wrap">
+            <span class="diff-label">Difficulty:</span>
+            <div class="diff-bar"><div class="diff-fill" style="width:65%;background:linear-gradient(90deg,var(--green),var(--yellow));"></div></div>
+            <span style="font-size:.78rem;color:var(--yellow);">Medium</span>
+          </div>
+          <div class="tips-box">
+            <h4>⚡ EXAM TIPS — UNIT I</h4>
+            <div class="tip-item">Focus heavily on numericals — KCL/KVL circuit problems appear in every exam</div>
+            <div class="tip-item">Practice phasor diagrams carefully — draw neat diagrams for full marks</div>
+            <div class="tip-item">Remember RMS = Vm/√2 and average = 2Vm/π for sinusoidal waves</div>
+            <div class="tip-item">Superposition theorem: frequently asked as 5/10-mark derivation + numerical</div>
+            <div class="tip-item">Power triangle (P, Q, S) and power factor are must-revise topics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIT II -->
+<section id="unit2" style="padding:3rem 2rem;background:rgba(155,93,229,.02);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">// unit ii</span>
+      <h2 class="section-title">Machines & Measuring <span class="accent">Instruments</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="unit-wrap reveal">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <span class="unit-num">UNIT II</span>
+        <span class="unit-title">Electrical Machines & Instruments</span>
+        <span class="unit-badge">14 Topics</span>
+        <span class="unit-chevron">▾</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <div class="subtopic-section">
+            <div class="subtopic-title">⚙ ELECTRICAL MACHINES</div>
+            <div class="topic-grid">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> DC Motor — Construction & Working</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> DC Generator — Principle & EMF eq.</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Single Phase Transformer</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Transformer EMF Equation</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Three Phase Induction Motor</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Alternator (AC Generator)</label>
+            </div>
+          </div>
+          <div class="machine-grid">
+            <div class="machine-card">
+              <div class="machine-icon">🔋</div>
+              <div class="machine-name">DC Motor</div>
+              <div class="machine-desc">Converts electrical energy to mechanical energy. Works on Fleming's Left Hand Rule. Types: Series, Shunt, Compound. Applications: Cranes, traction.</div>
+            </div>
+            <div class="machine-card">
+              <div class="machine-icon">⚡</div>
+              <div class="machine-name">DC Generator</div>
+              <div class="machine-desc">Converts mechanical to electrical. EMF: E = PΦNZ/60A. Works on Faraday's law. Types: Separately excited, self-excited (series/shunt).</div>
+            </div>
+            <div class="machine-card">
+              <div class="machine-icon">🔄</div>
+              <div class="machine-name">Transformer</div>
+              <div class="machine-desc">EMF eq: E = 4.44fΦmN. Works on mutual induction. Ratio: V1/V2 = N1/N2. Applications: Power transmission, isolation.</div>
+            </div>
+            <div class="machine-card">
+              <div class="machine-icon">🌀</div>
+              <div class="machine-name">Induction Motor (3φ)</div>
+              <div class="machine-desc">Self-starting, no brushes. Works on rotating magnetic field. Slip = (Ns-Nr)/Ns. Applications: Pumps, compressors, fans.</div>
+            </div>
+            <div class="machine-card">
+              <div class="machine-icon">🔆</div>
+              <div class="machine-name">Alternator</div>
+              <div class="machine-desc">Converts mechanical to AC. EMF: E = 4.44fΦmNKw. Synchronous speed Ns = 120f/P. Applications: Power stations.</div>
+            </div>
+          </div>
+
+          <div class="subtopic-section" style="margin-top:1.5rem;">
+            <div class="subtopic-title">📊 MEASURING INSTRUMENTS</div>
+            <div class="topic-grid">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> PMMC Instrument</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Moving Iron (MI) Instrument</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Wheatstone Bridge</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Comparison: PMMC vs MI</label>
+            </div>
+          </div>
+          <table class="instr-table glass">
+            <tr><th>Parameter</th><th>PMMC</th><th>MI Instrument</th><th>Wheatstone Bridge</th></tr>
+            <tr><td>Full Name</td><td>Permanent Magnet Moving Coil</td><td>Moving Iron</td><td>Resistance Measurement</td></tr>
+            <tr><td>Works On</td><td>DC only</td><td>AC & DC</td><td>DC (null deflection)</td></tr>
+            <tr><td>Principle</td><td>Force on current-carrying coil</td><td>Attraction/Repulsion of iron</td><td>Balanced Wheatstone circuit</td></tr>
+            <tr><td>Scale</td><td>Uniform</td><td>Non-uniform (cramped at start)</td><td>Galvanometer null method</td></tr>
+            <tr><td>Accuracy</td><td>High</td><td>Moderate</td><td>Very High</td></tr>
+          </table>
+
+          <div class="diff-wrap">
+            <span class="diff-label">Difficulty:</span>
+            <div class="diff-bar"><div class="diff-fill" style="width:72%;background:linear-gradient(90deg,var(--yellow),var(--pink));"></div></div>
+            <span style="font-size:.78rem;color:var(--pink);">Medium-Hard</span>
+          </div>
+          <div class="tips-box">
+            <h4>⚡ EXAM TIPS — UNIT II</h4>
+            <div class="tip-item">Construction + working principle questions are <strong style="color:var(--yellow)">repeated every semester</strong></div>
+            <div class="tip-item">Most Important: DC Motor, Single Phase Transformer, Alternator, Wheatstone Bridge</div>
+            <div class="tip-item">Always draw labeled diagrams for machines — presentation marks</div>
+            <div class="tip-item">EMF equation of transformer (E = 4.44fΦmN) is a guaranteed derivation</div>
+            <div class="tip-item">Comparison table of PMMC vs MI is asked as 5-mark question</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIT III -->
+<section id="unit3" style="padding:3rem 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">// unit iii</span>
+      <h2 class="section-title">Energy Resources, Billing <span class="accent">& Safety</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="unit-wrap reveal">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <span class="unit-num">UNIT III</span>
+        <span class="unit-title">Energy Resources, Electricity Bill & Safety Measures</span>
+        <span class="unit-badge">12 Topics</span>
+        <span class="unit-chevron">▾</span>
+      </div>
+      <div class="unit-body">
+        <div class="unit-content">
+          <div class="subtopic-section">
+            <div class="subtopic-title">🌍 ENERGY RESOURCES</div>
+            <div class="topic-grid">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Hydel Power Generation</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Nuclear Power Generation</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Solar Energy Systems</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Wind Energy Systems</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Comparison of Energy Sources</label>
+            </div>
+          </div>
+          <table class="energy-table glass" style="font-size:.8rem;">
+            <tr>
+              <th>Parameter</th>
+              <th class="etag-conv">💧 Hydel</th>
+              <th class="etag-conv">☢ Nuclear</th>
+              <th class="etag-nconv">☀ Solar</th>
+              <th class="etag-nconv">💨 Wind</th>
+            </tr>
+            <tr>
+              <td>Type</td>
+              <td>Conventional</td><td>Conventional</td><td>Non-conventional</td><td>Non-conventional</td>
+            </tr>
+            <tr>
+              <td>Fuel</td>
+              <td>Water (kinetic)</td><td>Uranium/Plutonium</td><td>Sunlight (PV)</td><td>Wind kinetic energy</td>
+            </tr>
+            <tr>
+              <td>Cost/Unit</td>
+              <td>Very Low</td><td>Low</td><td>Zero (after install)</td><td>Zero (after install)</td>
+            </tr>
+            <tr>
+              <td>Pollution</td>
+              <td>None</td><td>Nuclear waste</td><td>None</td><td>None</td>
+            </tr>
+            <tr>
+              <td>Reliability</td>
+              <td>Depends on rainfall</td><td>Very high</td><td>Depends on sunlight</td><td>Depends on wind speed</td>
+            </tr>
+            <tr>
+              <td>India Example</td>
+              <td>Bhakra Dam</td><td>Tarapur (TAPS)</td><td>Charanka Solar Park</td><td>Muppandal Wind Farm</td>
+            </tr>
+          </table>
+
+          <!-- Electricity Bill Calculator -->
+          <div class="subtopic-section" style="margin-top:1.5rem;">
+            <div class="subtopic-title">🧮 ELECTRICITY BILL CALCULATOR</div>
+            <div class="topic-grid" style="margin-bottom:.5rem;">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Power Rating & Units</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Tariff & Domestic Billing</label>
+            </div>
+          </div>
+          <div class="calc-wrap">
+            <h4>⚡ Interactive Electricity Bill Calculator</h4>
+            <div id="appliance-list">
+              <div class="calc-grid appliance-row">
+                <div class="calc-field"><label>Appliance</label><input type="text" placeholder="e.g. Fan" value="Fan"/></div>
+                <div class="calc-field"><label>Wattage (W)</label><input type="number" placeholder="75" value="75"/></div>
+                <div class="calc-field"><label>Hours/Day</label><input type="number" placeholder="8" value="8"/></div>
+                <div class="calc-field"><label>No. of Days</label><input type="number" placeholder="30" value="30"/></div>
+              </div>
+              <div class="calc-grid appliance-row">
+                <div class="calc-field"><label>Appliance</label><input type="text" placeholder="e.g. Bulb" value="LED Bulb"/></div>
+                <div class="calc-field"><label>Wattage (W)</label><input type="number" placeholder="9" value="9"/></div>
+                <div class="calc-field"><label>Hours/Day</label><input type="number" placeholder="6" value="6"/></div>
+                <div class="calc-field"><label>No. of Days</label><input type="number" placeholder="30" value="30"/></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.8rem;align-items:center;">
+              <button class="btn-calc" onclick="addAppliance()">+ Add Appliance</button>
+              <div class="calc-field" style="flex:1;min-width:160px;">
+                <label>Tariff Rate (₹/unit)</label>
+                <input type="number" id="tariff" value="6.5" step="0.1"/>
+              </div>
+              <button class="btn-calc" onclick="calculateBill()">Calculate Bill ⚡</button>
+            </div>
+            <div class="calc-result" id="calc-result">
+              <div id="appliance-breakdown"></div>
+              <hr style="border-color:rgba(57,255,20,.2);margin:.6rem 0;"/>
+              <div class="result-row"><span>Total Energy Consumed:</span><span class="result-val" id="res-units">— kWh</span></div>
+              <div class="result-row"><span>Estimated Electricity Bill:</span><span class="result-val" id="res-bill">— ₹</span></div>
+              <div style="font-size:.72rem;color:var(--dim);margin-top:.5rem;">Formula: Units = (Wattage × Hours × Days) / 1000 &nbsp;|&nbsp; Bill = Units × Tariff</div>
+            </div>
+          </div>
+
+          <!-- Safety -->
+          <div class="subtopic-section" style="margin-top:1.5rem;">
+            <div class="subtopic-title">🛡 SAFETY MEASURES</div>
+            <div class="topic-grid" style="margin-bottom:1rem;">
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Fuse & MCB Working</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Earthing (Grounding)</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Electric Shock & First Aid</label>
+              <label class="topic-item"><input type="checkbox" onchange="updateProgress()"> Electrical Safety Precautions</label>
+            </div>
+          </div>
+          <div class="safety-grid">
+            <div class="safety-card red"><div class="safety-icon">💥</div><div class="safety-title" style="color:var(--pink);">Fuse</div><div class="safety-desc">Thin wire that melts when current exceeds safe limit. Breaks circuit permanently. Must be replaced after operation.</div></div>
+            <div class="safety-card yellow"><div class="safety-icon">🔧</div><div class="safety-title" style="color:var(--yellow);">MCB</div><div class="safety-desc">Miniature Circuit Breaker. Automatically trips on overload/short circuit. Can be reset manually. More reliable than fuse.</div></div>
+            <div class="safety-card green"><div class="safety-icon">🌍</div><div class="safety-title" style="color:var(--green);">Earthing</div><div class="safety-desc">Connects metallic parts to earth. Provides safe path for fault current. Prevents electric shock to users.</div></div>
+            <div class="safety-card blue"><div class="safety-icon">⚠️</div><div class="safety-title" style="color:var(--blue);">Electric Shock</div><div class="safety-desc">Occurs when body becomes part of circuit. First aid: Disconnect supply → CPR if unconscious → Do NOT touch victim directly.</div></div>
+          </div>
+
+          <div class="diff-wrap">
+            <span class="diff-label">Difficulty:</span>
+            <div class="diff-bar"><div class="diff-fill" style="width:45%;background:linear-gradient(90deg,var(--green),var(--cyan));"></div></div>
+            <span style="font-size:.78rem;color:var(--green);">Easy-Medium</span>
+          </div>
+          <div class="tips-box">
+            <h4>⚡ EXAM TIPS — UNIT III</h4>
+            <div class="tip-item">Electricity bill calculation is an easy 5-mark numerical — don't skip it</div>
+            <div class="tip-item">Comparison table of conventional vs non-conventional energy is a quick 5-mark</div>
+            <div class="tip-item">MCB vs Fuse comparison is frequently asked in 2-mark and 5-mark questions</div>
+            <div class="tip-item">Earthing diagrams with labels score full presentation marks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM QUESTIONS -->
+<section id="questions" class="reveal" style="padding:5rem 2rem;background:rgba(0,100,255,.02);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">// exam questions</span>
+      <h2 class="section-title">Important JNTUK <span class="accent">Questions</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="q-tabs">
+      <button class="q-tab active" onclick="switchTab(this,'q2')">2 Marks</button>
+      <button class="q-tab" onclick="switchTab(this,'q5')">5 Marks</button>
+      <button class="q-tab" onclick="switchTab(this,'q10')">10 Marks</button>
+    </div>
+    <div id="q2" class="q-panel active glass" style="border-radius:var(--r);overflow:hidden;">
+      <ul class="q-list">
+        <li class="q-item"><span class="q-num">01</span><span class="q-text">State Ohm's Law and list its limitations.<br><span class="q-unit-tag">Unit I • DC Circuits</span></span></li>
+        <li class="q-item"><span class="q-num">02</span><span class="q-text">State Kirchhoff's Current Law (KCL) and Voltage Law (KVL).<br><span class="q-unit-tag">Unit I • DC Circuits</span></span></li>
+        <li class="q-item"><span class="q-num">03</span><span class="q-text">Define RMS value and Average value of an AC signal.<br><span class="q-unit-tag">Unit I • AC Circuits</span></span></li>
+        <li class="q-item"><span class="q-num">04</span><span class="q-text">What is Form Factor and Peak Factor? Give values for sinusoidal wave.<br><span class="q-unit-tag">Unit I • AC Circuits</span></span></li>
+        <li class="q-item"><span class="q-num">05</span><span class="q-text">Define Power Factor. What is its significance?<br><span class="q-unit-tag">Unit I • AC Power</span></span></li>
+        <li class="q-item"><span class="q-num">06</span><span class="q-text">Differentiate between Active Power, Reactive Power, and Apparent Power.<br><span class="q-unit-tag">Unit I • AC Power</span></span></li>
+        <li class="q-item"><span class="q-num">07</span><span class="q-text">State Fleming's Left Hand Rule and Right Hand Rule.<br><span class="q-unit-tag">Unit II • Machines</span></span></li>
+        <li class="q-item"><span class="q-num">08</span><span class="q-text">What is the difference between a DC Motor and a DC Generator?<br><span class="q-unit-tag">Unit II • Machines</span></span></li>
+        <li class="q-item"><span class="q-num">09</span><span class="q-text">What is slip in a three-phase induction motor? Give the formula.<br><span class="q-unit-tag">Unit II • Machines</span></span></li>
+        <li class="q-item"><span class="q-num">10</span><span class="q-text">Compare PMMC and Moving Iron instruments in two points each.<br><span class="q-unit-tag">Unit II • Instruments</span></span></li>
+        <li class="q-item"><span class="q-num">11</span><span class="q-text">What is a Wheatstone Bridge? State the condition for balance.<br><span class="q-unit-tag">Unit II • Instruments</span></span></li>
+        <li class="q-item"><span class="q-num">12</span><span class="q-text">Define 1 unit of electrical energy (kWh).<br><span class="q-unit-tag">Unit III • Billing</span></span></li>
+        <li class="q-item"><span class="q-num">13</span><span class="q-text">Differentiate between Fuse and MCB.<br><span class="q-unit-tag">Unit III • Safety</span></span></li>
+        <li class="q-item"><span class="q-num">14</span><span class="q-text">What is earthing? Why is it necessary?<br><span class="q-unit-tag">Unit III • Safety</span></span></li>
+        <li class="q-item"><span class="q-num">15</span><span class="q-text">Compare Solar and Wind energy sources in 2 points each.<br><span class="q-unit-tag">Unit III • Energy</span></span></li>
+      </ul>
+    </div>
+    <div id="q5" class="q-panel glass" style="border-radius:var(--r);overflow:hidden;">
+      <ul class="q-list">
+        <li class="q-item"><span class="q-num">01</span><span class="q-text">Explain Superposition Theorem with an example. Solve a numerical.<br><span class="q-unit-tag">Unit I • Theorems</span></span></li>
+        <li class="q-item"><span class="q-num">02</span><span class="q-text">Derive the RMS value of a sinusoidal alternating current from first principles.<br><span class="q-unit-tag">Unit I • AC</span></span></li>
+        <li class="q-item"><span class="q-num">03</span><span class="q-text">Explain phasor diagram for a series R-L-C circuit. Draw the voltage triangle.<br><span class="q-unit-tag">Unit I • AC</span></span></li>
+        <li class="q-item"><span class="q-num">04</span><span class="q-text">Solve: Two resistors 6Ω and 3Ω are connected in parallel across 12V. Find current through each branch and total power.<br><span class="q-unit-tag">Unit I • Numerical</span></span></li>
+        <li class="q-item"><span class="q-num">05</span><span class="q-text">Explain the construction and working principle of a DC Motor with neat diagram.<br><span class="q-unit-tag">Unit II • Machines</span></span></li>
+        <li class="q-item"><span class="q-num">06</span><span class="q-text">Derive the EMF equation of a single-phase transformer: E = 4.44fΦmN.<br><span class="q-unit-tag">Unit II • Transformer</span></span></li>
+        <li class="q-item"><span class="q-num">07</span><span class="q-text">Explain the construction and working of a Moving Iron instrument. Draw neat diagram.<br><span class="q-unit-tag">Unit II • Instruments</span></span></li>
+        <li class="q-item"><span class="q-num">08</span><span class="q-text">Explain the Wheatstone bridge principle with diagram. Derive the balance condition P/Q = R/S.<br><span class="q-unit-tag">Unit II • Instruments</span></span></li>
+        <li class="q-item"><span class="q-num">09</span><span class="q-text">A family uses: 4 fans (75W, 10hr), 6 bulbs (9W, 6hr), 1 TV (120W, 5hr) for 30 days. Tariff = ₹7/unit. Find monthly bill.<br><span class="q-unit-tag">Unit III • Numerical</span></span></li>
+        <li class="q-item"><span class="q-num">10</span><span class="q-text">Compare conventional and non-conventional energy sources with a table (Hydel, Nuclear, Solar, Wind).<br><span class="q-unit-tag">Unit III • Energy</span></span></li>
+      </ul>
+    </div>
+    <div id="q10" class="q-panel glass" style="border-radius:var(--r);overflow:hidden;">
+      <ul class="q-list">
+        <li class="q-item"><span class="q-num">01</span><span class="q-text">Explain Superposition Theorem in detail. Apply it to find current through each element in a given DC circuit with two voltage sources.<br><span class="q-unit-tag">Unit I • 10M</span></span></li>
+        <li class="q-item"><span class="q-num">02</span><span class="q-text">What is an AC waveform? Derive expressions for Average Value, RMS Value, Form Factor, and Peak Factor. Draw the waveform with labels.<br><span class="q-unit-tag">Unit I • 10M</span></span></li>
+        <li class="q-item"><span class="q-num">03</span><span class="q-text">Explain the construction, principle, and working of a single-phase transformer. Derive its EMF equation. Also draw and explain the phasor diagram under no-load.<br><span class="q-unit-tag">Unit II • 10M</span></span></li>
+        <li class="q-item"><span class="q-num">04</span><span class="q-text">Describe in detail: (a) DC Motor — construction, working, types and applications. (b) Draw the back-EMF equation and explain its significance.<br><span class="q-unit-tag">Unit II • 10M</span></span></li>
+        <li class="q-item"><span class="q-num">05</span><span class="q-text">Explain the working principle of a 3-phase induction motor. Define slip. How does speed vary with load? Derive the torque equation.<br><span class="q-unit-tag">Unit II • 10M</span></span></li>
+        <li class="q-item"><span class="q-num">06</span><span class="q-text">Write short notes on: (a) Hydel power generation, (b) Nuclear power generation, (c) Solar energy systems, (d) Electricity bill calculation with example.<br><span class="q-unit-tag">Unit III • 10M</span></span></li>
+        <li class="q-item"><span class="q-num">07</span><span class="q-text">Explain electrical safety in detail: (a) Fuse and MCB working, (b) Types of earthing with diagram, (c) Causes and effects of electric shock, (d) Safety precautions.<br><span class="q-unit-tag">Unit III • 10M</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY PLAN -->
+<section id="studyplan" class="reveal" style="padding:5rem 2rem;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">// 7-day plan</span>
+      <h2 class="section-title">Smart Study <span class="accent">Schedule</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="plan-grid" id="plan-grid">
+      <div class="plan-day glass"><div class="plan-day-num">DAY 1</div><div class="plan-day-title">Unit I — DC Circuits</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">Ohm's Law, KCL, KVL, Series/Parallel</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+      <div class="plan-day glass"><div class="plan-day-num">DAY 2</div><div class="plan-day-title">Unit I — AC Circuits</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">RMS, Phasors, Power Factor</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+      <div class="plan-day glass"><div class="plan-day-num">DAY 3</div><div class="plan-day-title">Machines</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">DC Motor, DC Generator, Transformer</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+      <div class="plan-day glass"><div class="plan-day-num">DAY 4</div><div class="plan-day-title">Instruments</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">PMMC, MI, Wheatstone Bridge</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+      <div class="plan-day glass"><div class="plan-day-num">DAY 5</div><div class="plan-day-title">Energy Resources</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">Hydel, Nuclear, Solar, Wind</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+      <div class="plan-day glass"><div class="plan-day-num">DAY 6</div><div class="plan-day-title">Billing + Safety</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">Electricity bill, Fuse, MCB, Earthing</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+      <div class="plan-day glass" style="border-color:rgba(57,255,20,.3)"><div class="plan-day-num" style="color:var(--green)">DAY 7</div><div class="plan-day-title">Revision + Practice</div><div style="font-size:.72rem;color:var(--dim);margin-bottom:.6rem;">All questions, formulas, numericals</div><div class="plan-day-check" onclick="togglePlanDay(this)"></div></div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem;font-size:.82rem;color:var(--dim);">Click the circle to mark a day complete ✔</div>
+  </div>
+</section>
+
+<!-- FORMULAS -->
+<section id="formulas" class="reveal" style="padding:5rem 2rem;background:rgba(0,0,0,.2);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">// quick revision</span>
+      <h2 class="section-title">Formula <span class="accent">Reference</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="formula-grid">
+      <div class="formula-card glass"><div class="formula-name">Ohm's Law</div><div class="formula-eq">V = IR</div><div class="formula-desc">V: voltage (V), I: current (A), R: resistance (Ω)</div></div>
+      <div class="formula-card glass"><div class="formula-name">Power</div><div class="formula-eq">P = VI = I²R</div><div class="formula-desc">P in Watts, V in Volts, I in Amperes</div></div>
+      <div class="formula-card glass"><div class="formula-name">Energy</div><div class="formula-eq">E = Pt (Wh)</div><div class="formula-desc">E = Pt/1000 gives kilowatt-hours (units)</div></div>
+      <div class="formula-card glass"><div class="formula-name">Frequency</div><div class="formula-eq">f = 1/T</div><div class="formula-desc">f in Hz, T: time period in seconds</div></div>
+      <div class="formula-card glass"><div class="formula-name">RMS Voltage</div><div class="formula-eq">V<sub>rms</sub> = V<sub>m</sub>/√2</div><div class="formula-desc">≈ 0.707 × peak voltage</div></div>
+      <div class="formula-card glass"><div class="formula-name">Average Value</div><div class="formula-eq">V<sub>avg</sub> = 2V<sub>m</sub>/π</div><div class="formula-desc">≈ 0.637 × peak voltage</div></div>
+      <div class="formula-card glass"><div class="formula-name">Impedance Z</div><div class="formula-eq">Z = √(R²+X²)</div><div class="formula-desc">X = XL - XC (net reactance)</div></div>
+      <div class="formula-card glass"><div class="formula-name">Power Factor</div><div class="formula-eq">pf = cos φ = R/Z</div><div class="formula-desc">Ranges 0 (reactive) to 1 (resistive)</div></div>
+      <div class="formula-card glass"><div class="formula-name">Active Power P</div><div class="formula-eq">P = VI cos φ</div><div class="formula-desc">Real power in Watts (W)</div></div>
+      <div class="formula-card glass"><div class="formula-name">Reactive Power Q</div><div class="formula-eq">Q = VI sin φ</div><div class="formula-desc">Reactive power in VAR</div></div>
+      <div class="formula-card glass"><div class="formula-name">Apparent Power S</div><div class="formula-eq">S = VI = √(P²+Q²)</div><div class="formula-desc">Apparent power in VA</div></div>
+      <div class="formula-card glass"><div class="formula-name">Transformer EMF</div><div class="formula-eq">E = 4.44fΦmN</div><div class="formula-desc">f: frequency, Φm: max flux, N: turns</div></div>
+      <div class="formula-card glass"><div class="formula-name">Transformer Ratio</div><div class="formula-eq">V₁/V₂ = N₁/N₂</div><div class="formula-desc">Turns ratio = voltage ratio</div></div>
+      <div class="formula-card glass"><div class="formula-name">Synchronous Speed</div><div class="formula-eq">Ns = 120f/P</div><div class="formula-desc">f: frequency (Hz), P: poles</div></div>
+      <div class="formula-card glass"><div class="formula-name">Slip (IM)</div><div class="formula-eq">s = (Ns-Nr)/Ns</div><div class="formula-desc">Ns: sync speed, Nr: rotor speed</div></div>
+      <div class="formula-card glass"><div class="formula-name">Electricity Units</div><div class="formula-eq">E = W×H×D/1000</div><div class="formula-desc">W:watts, H:hours/day, D:days → kWh</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section id="books" class="reveal" style="padding:5rem 2rem;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">// references</span>
+      <h2 class="section-title">Textbooks & <span class="accent">References</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div style="margin-bottom:1.2rem;"><span class="section-eyebrow">📚 TEXTBOOKS</span></div>
+    <div class="book-grid" style="margin-bottom:2rem;">
+      <div class="book-card glass"><div class="book-icon">📘</div><div><div class="book-title">Basic Electrical Engineering</div><div class="book-author">D.P. Kothari & I.J. Nagrath</div><div class="book-tag">Tata McGraw Hill, 3rd Ed.</div></div></div>
+      <div class="book-card glass"><div class="book-icon">📗</div><div><div class="book-title">Basic Electrical Engineering</div><div class="book-author">V.K. Mehta & Rohit Mehta</div><div class="book-tag">S. Chand Publications</div></div></div>
+      <div class="book-card glass"><div class="book-icon">📙</div><div><div class="book-title">Fundamentals of EEE</div><div class="book-author">B.L. Theraja & A.K. Theraja</div><div class="book-tag">S. Chand, Vol I & II</div></div></div>
+      <div class="book-card glass"><div class="book-icon">📕</div><div><div class="book-title">Basic Electrical & Electronics Engg</div><div class="book-author">U.A. Bakshi & A.P. Godse</div><div class="book-tag">Technical Publications</div></div></div>
+    </div>
+    <div style="margin-bottom:1.2rem;"><span class="section-eyebrow">📖 REFERENCES</span></div>
+    <div class="book-grid">
+      <div class="book-card glass"><div class="book-icon">🔖</div><div><div class="book-title">Electrical Technology Vol. I & II</div><div class="book-author">B.L. Theraja</div><div class="book-tag">Classic Reference</div></div></div>
+      <div class="book-card glass"><div class="book-icon">🔖</div><div><div class="book-title">Principles of Electrical Engineering</div><div class="book-author">Del Toro</div><div class="book-tag">Prentice Hall</div></div></div>
+      <div class="book-card glass"><div class="book-icon">🔖</div><div><div class="book-title">Electrical Machines</div><div class="book-author">I.J. Nagrath & D.P. Kothari</div><div class="book-tag">McGraw Hill India</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM STRATEGY -->
+<section class="reveal" style="padding:5rem 2rem;background:rgba(155,93,229,.03);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">// exam strategy</span>
+      <h2 class="section-title">How to <span class="accent">Score High</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="strategy-grid">
+      <div class="strategy-card glass">
+        <h3 style="color:var(--purple2);">📅 Before the Exam</h3>
+        <ul class="strategy-list">
+          <li>Revise all formulas — make a formula sheet</li>
+          <li>Practice derivations (RMS, EMF equation, Superposition)</li>
+          <li>Solve at least 10 numericals per unit</li>
+          <li>Memorize construction diagrams with labels</li>
+          <li>Review comparison tables (PMMC vs MI, Fuse vs MCB)</li>
+        </ul>
+      </div>
+      <div class="strategy-card glass">
+        <h3 style="color:var(--cyan);">✍ During the Exam</h3>
+        <ul class="strategy-list">
+          <li>Read all questions first — start with known topics</li>
+          <li>Attempt theory questions with diagrams first</li>
+          <li>Show all steps in numericals — partial marks matter</li>
+          <li>Draw neat, labeled diagrams for every machine</li>
+          <li>Write units with every numerical answer</li>
+        </ul>
+      </div>
+      <div class="strategy-card glass">
+        <h3 style="color:var(--green);">🎯 Quick Win Topics</h3>
+        <ul class="strategy-list">
+          <li>Electricity bill calculation — always in exam</li>
+          <li>KCL/KVL numericals — straightforward marks</li>
+          <li>EMF equation of transformer — standard derivation</li>
+          <li>Phasor diagrams R, L, C circuits</li>
+          <li>Conventional vs Non-conventional energy comparison</li>
+        </ul>
+      </div>
+    </div>
+    <div class="trick-box">
+      <strong>⭐ Scoring Trick:</strong> In JNTUK exams, <strong style="color:var(--cyan)">Diagrams + proper headings + step-by-step working + correct units</strong> = extra presentation marks even if your answer is partially correct. A neat paper with diagrams always gets 8+ out of 10 for 10-mark questions.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-quote">Master Concepts, Not Just Marks ⚡</div>
+  <p class="footer-sub">Designed for JNTUK B.Tech R23 Students — BEEE Common to All Branches</p>
+  <p style="font-size:.72rem;color:rgba(122,156,191,.4);margin-top:.5rem;">Interactive Study Dashboard · All Units I–III Covered</p>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ─── CIRCUIT CANVAS ANIMATION ────────────────────────────────────
+(function(){
+  const c=document.getElementById('circuit-canvas');
+  const ctx=c.getContext('2d');
+  let W,H,nodes=[],packets=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;makeNodes();}
+  function makeNodes(){
+    nodes=[];
+    const cols=Math.ceil(W/120),rows=Math.ceil(H/100);
+    for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++)
+      nodes.push({x:cc*120+Math.random()*40,y:r*100+Math.random()*30});
+  }
+  function makePacket(){
+    const a=nodes[Math.floor(Math.random()*nodes.length)];
+    const b=nodes[Math.floor(Math.random()*nodes.length)];
+    packets.push({x:a.x,y:a.y,tx:b.x,ty:b.y,p:0,spd:.004+Math.random()*.006,
+      col:Math.random()<.5?'#00b4ff':'#9b5de5'});
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // grid lines
+    ctx.strokeStyle='rgba(0,180,255,0.04)';ctx.lineWidth=1;
+    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+      const n=nodes[i],m=nodes[j];
+      const d=Math.hypot(n.x-m.x,n.y-m.y);
+      if(d<160){ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke();}
+    }
+    // nodes
+    ctx.fillStyle='rgba(0,255,247,0.15)';
+    nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,2,0,Math.PI*2);ctx.fill();});
+    // packets
+    packets.forEach((p,i)=>{
+      p.p+=p.spd;
+      if(p.p>=1){packets.splice(i,1);return;}
+      const x=p.x+(p.tx-p.x)*p.p,y=p.y+(p.ty-p.y)*p.p;
+      ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);
+      ctx.fillStyle=p.col;ctx.shadowBlur=8;ctx.shadowColor=p.col;ctx.fill();
+      ctx.shadowBlur=0;
+    });
+    if(packets.length<30&&Math.random()<.1)makePacket();
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
+// ─── PHASOR CANVAS ───────────────────────────────────────────────
+const pCanvas=document.getElementById('phasorCanvas');
+const pCtx=pCanvas.getContext('2d');
+let pAngle=0;
+function drawPhasor(){
+  const type=document.getElementById('phasor-type').value;
+  const W=pCanvas.width,H=pCanvas.height;
+  const cx=W/2,cy=H/2,R=80;
+  pCtx.clearRect(0,0,W,H);
+  // background grid
+  pCtx.strokeStyle='rgba(255,255,255,0.05)';pCtx.lineWidth=1;
+  for(let i=0;i<=W;i+=30){pCtx.beginPath();pCtx.moveTo(i,0);pCtx.lineTo(i,H);pCtx.stroke();}
+  for(let i=0;i<=H;i+=30){pCtx.beginPath();pCtx.moveTo(0,i);pCtx.lineTo(W,i);pCtx.stroke();}
+  // axes
+  pCtx.strokeStyle='rgba(255,255,255,.2)';pCtx.lineWidth=1;
+  pCtx.beginPath();pCtx.moveTo(cx-R-30,cy);pCtx.lineTo(cx+R+30,cy);pCtx.stroke();
+  pCtx.beginPath();pCtx.moveTo(cx,cy-R-20);pCtx.lineTo(cx,cy+R+20);pCtx.stroke();
+  // labels
+  pCtx.fillStyle='rgba(255,255,255,.4)';pCtx.font='11px Exo 2';
+  pCtx.fillText('+j',cx+4,cy-R-6);pCtx.fillText('Re',cx+R+8,cy+4);
+
+  let vAngle,iAngle;
+  if(type==='rl'){vAngle=pAngle+0.5;iAngle=pAngle-0.3;}
+  else if(type==='rc'){vAngle=pAngle-0.5;iAngle=pAngle+0.3;}
+  else{vAngle=pAngle;iAngle=pAngle;}
+
+  function drawArrow(ctx,angle,len,color,label){
+    const x2=cx+Math.cos(angle)*len,y2=cy-Math.sin(angle)*len;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x2,y2);
+    ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.shadowBlur=10;ctx.shadowColor=color;ctx.stroke();
+    ctx.shadowBlur=0;
+    // arrowhead
+    const a=Math.atan2(cy-y2,x2-cx);
+    ctx.beginPath();ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-10*Math.cos(a-0.4),y2+10*Math.sin(a-0.4));
+    ctx.lineTo(x2-10*Math.cos(a+0.4),y2+10*Math.sin(a+0.4));
+    ctx.closePath();ctx.fillStyle=color;ctx.fill();
+    // label
+    ctx.fillStyle=color;ctx.font='bold 12px Exo 2';
+    ctx.fillText(label,x2+10*Math.cos(angle)-8,y2-10*Math.sin(angle)+4);
+  }
+  drawArrow(pCtx,vAngle,R,'#00fff7','V');
+  drawArrow(pCtx,iAngle,R*0.75,'#ff006e','I');
+
+  // legend
+  pCtx.font='11px Exo 2';
+  pCtx.fillStyle='#00fff7';pCtx.fillText('— V (Voltage)',10,18);
+  pCtx.fillStyle='#ff006e';pCtx.fillText('— I (Current)',10,34);
+}
+function animPhasor(){pAngle+=0.015;drawPhasor();requestAnimationFrame(animPhasor);}
+animPhasor();
+
+// ─── TOGGLE UNIT ACCORDION ───────────────────────────────────────
+function toggleUnit(header){
+  const body=header.nextElementSibling;
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ─── TOGGLE CO ───────────────────────────────────────────────────
+function toggleCO(card){card.classList.toggle('open');}
+
+// ─── PROGRESS ────────────────────────────────────────────────────
+function updateProgress(){
+  const all=document.querySelectorAll('.topic-item input[type=checkbox]');
+  const done=document.querySelectorAll('.topic-item input[type=checkbox]:checked');
+  const total=all.length,completed=done.length;
+  const pct=total?Math.round((completed/total)*100):0;
+  // ring
+  const r=document.getElementById('ring1');
+  const circ=289;
+  r.style.strokeDashoffset=circ-circ*(pct/100);
+  document.getElementById('ring1-pct').textContent=pct+'%';
+  document.getElementById('hero-stats').textContent=completed+' / '+total+' topics done';
+  // mark done topics
+  document.querySelectorAll('.topic-item').forEach(li=>{
+    if(li.querySelector('input').checked)li.classList.add('done');
+    else li.classList.remove('done');
+  });
+}
+// init ring
+window.addEventListener('load',()=>setTimeout(updateProgress,500));
+
+// ─── STUDY PLAN DAY ──────────────────────────────────────────────
+function togglePlanDay(el){
+  el.classList.toggle('done');
+  el.textContent=el.classList.contains('done')?'✔':'';
+}
+
+// ─── QUESTION TABS ───────────────────────────────────────────────
+function switchTab(btn,panel){
+  document.querySelectorAll('.q-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.q-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panel).classList.add('active');
+}
+
+// ─── ELECTRICITY BILL CALCULATOR ─────────────────────────────────
+function addAppliance(){
+  const list=document.getElementById('appliance-list');
+  const row=document.createElement('div');
+  row.className='calc-grid appliance-row';
+  row.innerHTML=`
+    <div class="calc-field"><label>Appliance</label><input type="text" placeholder="e.g. AC"/></div>
+    <div class="calc-field"><label>Wattage (W)</label><input type="number" placeholder="1500"/></div>
+    <div class="calc-field"><label>Hours/Day</label><input type="number" placeholder="8"/></div>
+    <div class="calc-field"><label>No. of Days</label><input type="number" placeholder="30"/></div>`;
+  list.appendChild(row);
+}
+function calculateBill(){
+  const rows=document.querySelectorAll('.appliance-row');
+  const tariff=parseFloat(document.getElementById('tariff').value)||6.5;
+  let totalUnits=0,breakdown='';
+  rows.forEach(row=>{
+    const inputs=row.querySelectorAll('input');
+    const name=inputs[0].value||'Appliance';
+    const w=parseFloat(inputs[1].value)||0;
+    const h=parseFloat(inputs[2].value)||0;
+    const d=parseFloat(inputs[3].value)||0;
+    const units=(w*h*d)/1000;
+    totalUnits+=units;
+    if(w>0)breakdown+=`<div class="result-row"><span>${name} (${w}W × ${h}h × ${d}d)</span><span class="result-val">${units.toFixed(2)} kWh</span></div>`;
+  });
+  const bill=(totalUnits*tariff).toFixed(2);
+  document.getElementById('appliance-breakdown').innerHTML=breakdown;
+  document.getElementById('res-units').textContent=totalUnits.toFixed(2)+' kWh';
+  document.getElementById('res-bill').textContent='₹ '+bill;
+  const r=document.getElementById('calc-result');
+  r.classList.add('show');
+}
+
+// ─── SEARCH ──────────────────────────────────────────────────────
+const searchData=[
+  {title:"Ohm's Law",unit:"Unit I • DC Circuits",id:"unit1"},
+  {title:"KCL — Kirchhoff's Current Law",unit:"Unit I • DC Circuits",id:"unit1"},
+  {title:"KVL — Kirchhoff's Voltage Law",unit:"Unit I • DC Circuits",id:"unit1"},
+  {title:"Superposition Theorem",unit:"Unit I • DC Circuits",id:"unit1"},
+  {title:"RMS Value of AC",unit:"Unit I • AC Circuits",id:"unit1"},
+  {title:"Average Value",unit:"Unit I • AC Circuits",id:"unit1"},
+  {title:"Form Factor & Peak Factor",unit:"Unit I • AC Circuits",id:"unit1"},
+  {title:"Phasor Diagram",unit:"Unit I • AC Circuits",id:"unit1"},
+  {title:"Power Factor",unit:"Unit I • AC Power",id:"unit1"},
+  {title:"Active Reactive Apparent Power",unit:"Unit I • AC Power",id:"unit1"},
+  {title:"DC Motor — Construction & Working",unit:"Unit II • Machines",id:"unit2"},
+  {title:"DC Generator EMF Equation",unit:"Unit II • Machines",id:"unit2"},
+  {title:"Single Phase Transformer",unit:"Unit II • Machines",id:"unit2"},
+  {title:"EMF Equation of Transformer",unit:"Unit II • Machines",id:"unit2"},
+  {title:"Three Phase Induction Motor",unit:"Unit II • Machines",id:"unit2"},
+  {title:"Alternator (AC Generator)",unit:"Unit II • Machines",id:"unit2"},
+  {title:"PMMC Instrument",unit:"Unit II • Instruments",id:"unit2"},
+  {title:"Moving Iron Instrument",unit:"Unit II • Instruments",id:"unit2"},
+  {title:"Wheatstone Bridge",unit:"Unit II • Instruments",id:"unit2"},
+  {title:"Hydel Power Generation",unit:"Unit III • Energy",id:"unit3"},
+  {title:"Nuclear Power Generation",unit:"Unit III • Energy",id:"unit3"},
+  {title:"Solar Energy",unit:"Unit III • Energy",id:"unit3"},
+  {title:"Wind Energy",unit:"Unit III • Energy",id:"unit3"},
+  {title:"Electricity Bill Calculation",unit:"Unit III • Billing",id:"unit3"},
+  {title:"Fuse Working Principle",unit:"Unit III • Safety",id:"unit3"},
+  {title:"MCB — Miniature Circuit Breaker",unit:"Unit III • Safety",id:"unit3"},
+  {title:"Earthing (Grounding)",unit:"Unit III • Safety",id:"unit3"},
+  {title:"Electric Shock First Aid",unit:"Unit III • Safety",id:"unit3"},
+];
+function openSearch(){document.getElementById('search-overlay').classList.add('active');document.getElementById('search-input').focus();}
+function closeSearch(){document.getElementById('search-overlay').classList.remove('active');document.getElementById('search-results').innerHTML='';}
+document.getElementById('search-input').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  const res=document.getElementById('search-results');
+  if(!q){res.innerHTML='';return;}
+  const matches=searchData.filter(d=>d.title.toLowerCase().includes(q)||d.unit.toLowerCase().includes(q));
+  res.innerHTML=matches.slice(0,8).map(m=>`<div class="sr-item" onclick="goTo('${m.id}')"><div class="sr-title">${m.title}</div><div class="sr-unit">${m.unit}</div></div>`).join('');
+  if(!matches.length)res.innerHTML='<div class="sr-item"><span style="color:var(--dim)">No results found</span></div>';
+});
+function goTo(id){
+  closeSearch();
+  const el=document.getElementById(id);
+  if(el){el.scrollIntoView({behavior:'smooth'});
+    const h=el.querySelector('.unit-header');
+    if(h&&!h.classList.contains('open'))toggleUnit(h);
+  }
+}
+document.getElementById('search-overlay').addEventListener('click',function(e){if(e.target===this)closeSearch();});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!document.getElementById('search-overlay').classList.contains('active')){e.preventDefault();openSearch();}if(e.key==='Escape')closeSearch();});
+
+// ─── THEME TOGGLE ─────────────────────────────────────────────────
+function toggleTheme(){
+  const body=document.body;const btn=document.getElementById('theme-toggle');
+  if(body.dataset.theme==='light'){body.removeAttribute('data-theme');btn.textContent='🌙';}
+  else{body.dataset.theme='light';btn.textContent='☀️';}
+}
+
+// ─── SCROLL PROGRESS BAR ─────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(s/h*100)+'%';
+  document.getElementById('btt').classList.toggle('show',s>400);
+});
+
+// ─── REVEAL ON SCROLL ────────────────────────────────────────────
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ─── OPEN UNIT I BY DEFAULT ──────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    const h=document.querySelector('#unit1 .unit-header');
+    if(h&&!h.classList.contains('open'))toggleUnit(h);
+  },600);
+});
+</script>
+</body>
+</html>

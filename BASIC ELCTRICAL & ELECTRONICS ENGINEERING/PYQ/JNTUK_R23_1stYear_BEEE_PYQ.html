@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEEE Question Bank – B.Tech 1st Year | JNTUK</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #13162a;
+    --surface2: #1a1e35;
+    --border: #252a45;
+    --accent: #4f8ef7;
+    --accent2: #7c3aed;
+    --text: #e8eaf6;
+    --text-muted: #8892b0;
+    --easy: #22c55e;
+    --easy-bg: rgba(34,197,94,0.12);
+    --medium: #f59e0b;
+    --medium-bg: rgba(245,158,11,0.12);
+    --hard: #ef4444;
+    --hard-bg: rgba(239,68,68,0.12);
+    --vfa: #a78bfa;
+    --vfa-bg: rgba(167,139,250,0.15);
+    --fa: #38bdf8;
+    --fa-bg: rgba(56,189,248,0.12);
+    --oa: #fb923c;
+    --oa-bg: rgba(251,146,60,0.10);
+    --rare: #94a3b8;
+    --rare-bg: rgba(148,163,184,0.08);
+    --u1: #4f8ef7;
+    --u2: #a78bfa;
+    --u3: #22c55e;
+    --u4: #f59e0b;
+    --u5: #ef4444;
+    --u6: #38bdf8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,15,26,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1rem;
+    height: 60px; overflow-x: auto;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--accent);
+    white-space: nowrap; flex-shrink: 0;
+    margin-right: 1rem;
+  }
+  .nav-links { display: flex; gap: 0.25rem; flex-shrink: 0; }
+  .nav-links a {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.78rem; font-weight: 600;
+    text-decoration: none;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface2); border-color: var(--border); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d0f1a 0%, #131840 50%, #0d0f1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 3.5rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(79,142,247,0.15), transparent);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--vfa-bg);
+    border: 1px solid var(--vfa);
+    color: var(--vfa);
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.3rem 0.9rem; border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800; line-height: 1.15;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fff 30%, #4f8ef7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto 1.5rem; }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1200px; margin: 1.5rem auto 0;
+    padding: 0 1.5rem;
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem; color: var(--text-muted);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* MAIN */
+  main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* UNIT SECTION */
+  .unit-section {
+    margin-bottom: 3.5rem;
+    scroll-margin-top: 70px;
+  }
+  .unit-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .unit-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .unit-title { flex: 1; }
+  .unit-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 0.15rem;
+  }
+  .unit-subtitle { font-size: 0.82rem; color: var(--text-muted); }
+  .unit-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; font-weight: 600;
+    padding: 0.25rem 0.65rem; border-radius: 6px;
+    border: 1px solid; flex-shrink: 0;
+  }
+
+  /* QUESTION TYPE HEADER */
+  .qtype-header {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin: 1.5rem 0 1rem;
+  }
+  .qtype-header h3 {
+    font-size: 0.9rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .qtype-line { flex: 1; height: 1px; background: var(--border); }
+  .qtype-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 0.2rem 0.55rem; border-radius: 5px;
+    background: var(--surface2); color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  /* QUESTION GRID */
+  .question-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 0.9rem;
+  }
+  .question-grid.five-mark { grid-template-columns: 1fr; }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; border-radius: 3px 0 0 3px;
+  }
+  .question-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    border-color: #353b5e;
+  }
+  .q-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .q-text {
+    font-size: 0.92rem; font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .q-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .badge {
+    font-size: 0.68rem; font-weight: 700;
+    padding: 0.2rem 0.55rem; border-radius: 20px;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .badge-easy { background: var(--easy-bg); color: var(--easy); border-color: rgba(34,197,94,0.3); }
+  .badge-medium { background: var(--medium-bg); color: var(--medium); border-color: rgba(245,158,11,0.3); }
+  .badge-hard { background: var(--hard-bg); color: var(--hard); border-color: rgba(239,68,68,0.3); }
+  .badge-vfa { background: var(--vfa-bg); color: var(--vfa); border-color: rgba(167,139,250,0.3); }
+  .badge-fa { background: var(--fa-bg); color: var(--fa); border-color: rgba(56,189,248,0.3); }
+  .badge-oa { background: var(--oa-bg); color: var(--oa); border-color: rgba(251,146,60,0.3); }
+  .badge-rare { background: var(--rare-bg); color: var(--rare); border-color: rgba(148,163,184,0.2); }
+
+  /* Diagram note */
+  .diagram-note {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* Unit color variants */
+  .u1 .question-card::before { background: var(--u1); }
+  .u2 .question-card::before { background: var(--u2); }
+  .u3 .question-card::before { background: var(--u3); }
+  .u4 .question-card::before { background: var(--u4); }
+  .u5 .question-card::before { background: var(--u5); }
+  .u6 .question-card::before { background: var(--u6); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 600px) {
+    .question-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.2rem; }
+    .unit-header { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">⚡ BEEE QB</div>
+    <div class="nav-links">
+      <a href="#unit1">Unit I</a>
+      <a href="#unit2">Unit II</a>
+      <a href="#unit3">Unit III</a>
+      <a href="#unit4">Unit IV</a>
+      <a href="#unit5">Unit V</a>
+      <a href="#unit6">Unit VI</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">JNTUK · B.Tech 1st Year · All Units I–VI</div>
+  <h1>BEEE Question Bank</h1>
+  <p>Basic Electrical & Electronics Engineering — Comprehensive Exam-Oriented Question Bank with Difficulty & Repetition Metadata</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">135+</span><span class="stat-label">Questions</span></div>
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">Units</span></div>
+    <div class="stat"><span class="stat-num">2 & 5</span><span class="stat-label">Mark Types</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Difficulty Levels</span></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:var(--easy)"></div> Easy</div>
+  <div class="legend-item"><div class="dot" style="background:var(--medium)"></div> Medium</div>
+  <div class="legend-item"><div class="dot" style="background:var(--hard)"></div> Hard</div>
+  <div class="legend-item"><div class="dot" style="background:var(--vfa)"></div> Very Frequently Asked</div>
+  <div class="legend-item"><div class="dot" style="background:var(--fa)"></div> Frequently Asked</div>
+  <div class="legend-item"><div class="dot" style="background:var(--oa)"></div> Occasionally Asked</div>
+  <div class="legend-item"><div class="dot" style="background:var(--rare)"></div> Rare</div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  UNIT I – DC & AC CIRCUITS                      -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="unit-section u1" id="unit1">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:rgba(79,142,247,0.15);color:var(--u1)">⚡</div>
+    <div class="unit-title">
+      <h2 style="color:var(--u1)">Unit I – DC & AC Circuits</h2>
+      <div class="unit-subtitle">R, L, C Elements · KCL/KVL · Superposition · RMS · Phasors · Power Factor</div>
+    </div>
+    <div class="unit-badge" style="color:var(--u1);border-color:var(--u1)">Unit 01</div>
+  </div>
+
+  <!-- 2-MARK -->
+  <div class="qtype-header">
+    <h3>2-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">2 Marks · 13 Questions</div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card">
+      <div class="q-number">Q1.1</div>
+      <div class="q-text">Define Ohm's Law and state its mathematical form.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.2</div>
+      <div class="q-text">State the limitations of Ohm's Law.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.3</div>
+      <div class="q-text">State Kirchhoff's Current Law (KCL) and Kirchhoff's Voltage Law (KVL).</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.4</div>
+      <div class="q-text">Define RMS value and average value of an AC quantity.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.5</div>
+      <div class="q-text">Define form factor and peak factor of a sinusoidal waveform.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.6</div>
+      <div class="q-text">What is power factor? Write the formula and state its significance.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.7</div>
+      <div class="q-text">Distinguish between active power, reactive power, and apparent power.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.8</div>
+      <div class="q-text">Define impedance in an AC circuit and write its expression for a series RLC circuit.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.9</div>
+      <div class="q-text">Define frequency, amplitude, and phase of an AC waveform.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.10</div>
+      <div class="q-text">State Superposition Theorem in DC circuits.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.11</div>
+      <div class="q-text">Find the equivalent resistance of three resistors 4Ω, 6Ω, and 12Ω connected in parallel.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.12</div>
+      <div class="q-text">What is a phasor? How does a phasor represent an AC quantity?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.13</div>
+      <div class="q-text">Define inductive reactance and capacitive reactance. Write their formulas.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- 5-MARK -->
+  <div class="qtype-header">
+    <h3>5-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">5 Marks · 12 Questions</div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card">
+      <div class="q-number">Q1.14</div>
+      <div class="q-text">Explain Superposition Theorem with a suitable numerical example involving two voltage sources and resistors. Verify results using KVL.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.15</div>
+      <div class="q-text">Derive the expression for equivalent resistance of resistors in series and parallel combinations. A circuit has R₁=10Ω and R₂=15Ω in series, connected in parallel with R₃=25Ω. Find the total resistance and current for V=50V.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.16</div>
+      <div class="q-text">Apply KCL and KVL to find all branch currents in a network with two meshes containing EMF sources E₁=10V, E₂=20V, and resistances R₁=2Ω, R₂=4Ω, R₃=6Ω. Draw the circuit diagram.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.17</div>
+      <div class="q-text">Derive the RMS value and average value of a sinusoidal AC waveform i = Im sin(ωt). Hence calculate form factor and peak factor.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.18</div>
+      <div class="q-text">Explain the behaviour of a pure resistor, pure inductor, and pure capacitor in an AC circuit. Draw phasor diagrams for each and derive current-voltage relationships.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Phasor Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.19</div>
+      <div class="q-text">A series RLC circuit has R=10Ω, L=0.1H, C=100μF. The supply voltage is 230V at 50Hz. Find impedance, current, power factor, active power, reactive power, and apparent power. Draw the phasor diagram.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Phasor Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.20</div>
+      <div class="q-text">Explain the concept of power factor in AC circuits. What are the effects of low power factor and how is it improved? Derive the power triangle.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Power Triangle Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.21</div>
+      <div class="q-text">Two impedances Z₁ = (8 + j6)Ω and Z₂ = (6 – j8)Ω are connected in parallel across a 200V, 50Hz supply. Calculate total current, power factor, and active power consumed.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.22</div>
+      <div class="q-text">Describe the properties of R, L, and C circuit elements in detail. How do they store or dissipate energy in DC and AC circuits?</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.23</div>
+      <div class="q-text">Using Superposition Theorem, find the current through the 5Ω resistor in a circuit where a 10V battery and a 2A current source are present. Draw the circuit with all steps.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Circuit Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.24</div>
+      <div class="q-text">Explain the series RLC circuit at resonance: derive the resonant frequency expression, Q-factor, and bandwidth. State applications of resonance.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q1.25</div>
+      <div class="q-text">A resistor of 20Ω and an inductor of 0.2H are connected in series across 230V, 50Hz supply. Calculate impedance, current, voltage across each element, power factor, and power consumed. Show phasor diagram.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Phasor Diagram Required</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  UNIT II – MACHINES & MEASURING INSTRUMENTS     -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="unit-section u2" id="unit2">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:rgba(167,139,250,0.15);color:var(--u2)">⚙️</div>
+    <div class="unit-title">
+      <h2 style="color:var(--u2)">Unit II – Machines & Measuring Instruments</h2>
+      <div class="unit-subtitle">DC Motor/Generator · Transformer · Induction Motor · Alternator · PMMC · Wheatstone Bridge</div>
+    </div>
+    <div class="unit-badge" style="color:var(--u2);border-color:var(--u2)">Unit 02</div>
+  </div>
+
+  <div class="qtype-header">
+    <h3>2-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">2 Marks · 13 Questions</div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card">
+      <div class="q-number">Q2.1</div>
+      <div class="q-text">State the principle of operation of a DC motor.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.2</div>
+      <div class="q-text">Define back EMF in a DC motor. Write its significance.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.3</div>
+      <div class="q-text">State the working principle of a DC generator. Write the EMF equation.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.4</div>
+      <div class="q-text">Define transformation ratio of a single-phase transformer.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.5</div>
+      <div class="q-text">What is slip in a three-phase induction motor? Write its formula.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.6</div>
+      <div class="q-text">Define PMMC instrument. On what principle does it work?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.7</div>
+      <div class="q-text">State the principle of Moving Iron (MI) instrument and mention one application.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.8</div>
+      <div class="q-text">State the condition for balance in a Wheatstone bridge.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.9</div>
+      <div class="q-text">Distinguish between step-up and step-down transformers with examples.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.10</div>
+      <div class="q-text">What is synchronous speed? Write its formula and calculate it for a 4-pole motor at 50Hz.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.11</div>
+      <div class="q-text">Mention four applications of DC motors in industry.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.12</div>
+      <div class="q-text">What is an alternator? On what principle does it work?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.13</div>
+      <div class="q-text">Differentiate between PMMC and Moving Iron instruments.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <h3>5-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">5 Marks · 12 Questions</div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card">
+      <div class="q-number">Q2.14</div>
+      <div class="q-text">Explain the construction and working principle of a DC motor with a neat diagram. Derive the torque equation and explain the role of back EMF.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Construction Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.15</div>
+      <div class="q-text">Explain the construction and working of a DC generator. Derive the EMF equation E = (PΦNZ)/(60A) with all terms defined. Distinguish between lap and wave winding.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Construction Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.16</div>
+      <div class="q-text">Explain the principle, construction, and working of a single-phase transformer. Derive the EMF equation and define efficiency and voltage regulation with numerical example.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Core & Winding Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.17</div>
+      <div class="q-text">A single-phase transformer has 500 primary turns and 100 secondary turns. Primary voltage is 2200V, 50Hz. Find secondary voltage, transformation ratio, and secondary current if primary current is 5A (assume ideal transformer). Also find the kVA rating.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.18</div>
+      <div class="q-text">Explain the principle of operation and construction of a three-phase induction motor with neat diagrams. Explain the concept of rotating magnetic field and slip.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Stator-Rotor Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.19</div>
+      <div class="q-text">A 3-phase induction motor runs at 960 RPM on a 50Hz supply. Determine: (a) number of poles, (b) percentage slip, (c) frequency of rotor current, (d) rotor speed at 5% slip.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.20</div>
+      <div class="q-text">Describe the construction and working of a PMMC instrument. Explain the torque equation and state advantages and disadvantages compared to MI instruments.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 PMMC Instrument Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.21</div>
+      <div class="q-text">Explain the Wheatstone bridge principle and derive the condition for balance. Describe how it is used to measure an unknown resistance with a practical numerical.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Bridge Circuit Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.22</div>
+      <div class="q-text">Explain the construction and working of a three-phase alternator with a neat diagram. Derive the EMF equation and state advantages of stationary armature and rotating field system.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 Alternator Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.23</div>
+      <div class="q-text">Explain the types of DC motors (series, shunt, compound) with torque-speed characteristics and mention applications of each type.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Characteristics Curves Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.24</div>
+      <div class="q-text">Compare and contrast squirrel cage and slip ring induction motors in terms of construction, starting method, efficiency, and applications.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q2.25</div>
+      <div class="q-text">Explain losses in a single-phase transformer (core losses and copper losses). How is transformer efficiency calculated? Find efficiency if output is 10kW, copper loss is 500W, and iron loss is 300W.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  UNIT III – ENERGY RESOURCES & SAFETY           -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="unit-section u3" id="unit3">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:rgba(34,197,94,0.15);color:var(--u3)">🌿</div>
+    <div class="unit-title">
+      <h2 style="color:var(--u3)">Unit III – Energy Resources & Safety</h2>
+      <div class="unit-subtitle">Hydel · Nuclear · Solar · Wind · Tariff · Fuse · MCB · Earthing · Electric Shock</div>
+    </div>
+    <div class="unit-badge" style="color:var(--u3);border-color:var(--u3)">Unit 03</div>
+  </div>
+
+  <div class="qtype-header">
+    <h3>2-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">2 Marks · 12 Questions</div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card">
+      <div class="q-number">Q3.1</div>
+      <div class="q-text">Distinguish between conventional and non-conventional energy sources with two examples each.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.2</div>
+      <div class="q-text">Define one unit of electrical energy. Write the formula for electricity bill calculation.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.3</div>
+      <div class="q-text">What is a fuse? State its function and mention the material used in fuse wire.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.4</div>
+      <div class="q-text">Differentiate between a fuse and an MCB. State one advantage of MCB over fuse.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.5</div>
+      <div class="q-text">Define electric shock. What is the safe limit of current through the human body?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.6</div>
+      <div class="q-text">What is earthing? Why is it essential in electrical installations?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.7</div>
+      <div class="q-text">Name four advantages of solar energy as a non-conventional energy source.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.8</div>
+      <div class="q-text">State the working principle of a nuclear power plant in two to three sentences.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.9</div>
+      <div class="q-text">Calculate the electricity bill for a 1.5kW AC running for 8 hours/day for 30 days at ₹6 per unit.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.10</div>
+      <div class="q-text">What is tariff in electrical systems? Name two types of tariff structures.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.11</div>
+      <div class="q-text">List the types of earthing used in electrical systems.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.12</div>
+      <div class="q-text">What is the working principle of a wind turbine? Mention two limitations.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <h3>5-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">5 Marks · 12 Questions</div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card">
+      <div class="q-number">Q3.13</div>
+      <div class="q-text">Explain the layout and working of a hydro-electric power plant with a neat block diagram. Discuss its advantages, disadvantages, and applications in India.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Block Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.14</div>
+      <div class="q-text">Describe the working principle and layout of a nuclear power plant. Explain the role of moderator, control rods, coolant, and heat exchanger. State advantages and hazards.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Block Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.15</div>
+      <div class="q-text">Explain solar power generation using photovoltaic (PV) cells. Describe the construction of a PV cell, I-V characteristics, and applications. Compare solar power with wind power.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.16</div>
+      <div class="q-text">A household has the following loads: 5×60W lamps (8hrs/day), 1×1.5kW AC (6hrs/day), 1×500W refrigerator (24hrs/day), 1×1000W geyser (2hrs/day). Calculate monthly units consumed and bill at ₹5.50/unit.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.17</div>
+      <div class="q-text">Explain the causes, effects, and first-aid treatment for electric shock. Describe the physiological effects of electric current on the human body at various levels (1mA to 10A).</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.18</div>
+      <div class="q-text">Explain the types of earthing systems: plate earthing, pipe earthing, and rod earthing with diagrams. State the purpose of each and IS standards followed.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Earthing Diagrams Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.19</div>
+      <div class="q-text">Compare and contrast fuse and MCB in terms of working principle, operating time, resetting, current rating, and cost. When is each preferred? Explain with circuit diagrams.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.20</div>
+      <div class="q-text">Explain the working of a wind energy conversion system with a neat diagram. Describe horizontal and vertical axis wind turbines, and discuss the current scenario of wind energy in India.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 Wind Turbine Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.21</div>
+      <div class="q-text">Explain tariff structure in electrical power systems. Discuss flat rate tariff, block rate tariff, and two-part tariff with examples. Solve: A consumer uses 200 units/month; flat rate ₹4/unit + ₹50 fixed charge. Find the bill.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.22</div>
+      <div class="q-text">Write short notes on: (a) Advantages of non-conventional energy, (b) Environmental impact of conventional energy, (c) India's renewable energy targets.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-rare">★ Rare</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.23</div>
+      <div class="q-text">Explain safety precautions to be taken while working with electrical equipment. Describe the role of protective devices: fuse, MCB, ELCB, and earthing in preventing electrical accidents.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q3.24</div>
+      <div class="q-text">Compare conventional power plants (thermal, hydro, nuclear) on the basis of fuel, cost, environmental impact, reliability, and power output using a tabular format. State which is best for India and justify.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  UNIT IV – SEMICONDUCTOR DEVICES                -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="unit-section u4" id="unit4">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:rgba(245,158,11,0.15);color:var(--u4)">🔬</div>
+    <div class="unit-title">
+      <h2 style="color:var(--u4)">Unit IV – Semiconductor Devices</h2>
+      <div class="unit-subtitle">PN Junction Diode · Zener Diode · BJT Configurations · CE Amplifier Basics</div>
+    </div>
+    <div class="unit-badge" style="color:var(--u4);border-color:var(--u4)">Unit 04</div>
+  </div>
+
+  <div class="qtype-header">
+    <h3>2-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">2 Marks · 13 Questions</div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card">
+      <div class="q-number">Q4.1</div>
+      <div class="q-text">Define a PN junction diode. What is a depletion region?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.2</div>
+      <div class="q-text">Define forward bias and reverse bias in a PN junction diode.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.3</div>
+      <div class="q-text">What is a Zener diode? State its breakdown voltage significance.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.4</div>
+      <div class="q-text">Define α (alpha) and β (beta) of a BJT and state the relation between them.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.5</div>
+      <div class="q-text">Name the three BJT configurations and state which configuration gives maximum power gain.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.6</div>
+      <div class="q-text">Draw the symbol of NPN and PNP transistors and identify the terminals.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Symbol Drawing Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.7</div>
+      <div class="q-text">Define cut-off, active, and saturation regions of a BJT.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.8</div>
+      <div class="q-text">What is the difference between intrinsic and extrinsic semiconductors?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.9</div>
+      <div class="q-text">Define N-type and P-type semiconductors. Name the majority and minority carriers in each.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.10</div>
+      <div class="q-text">What is the knee voltage of a silicon diode and germanium diode?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.11</div>
+      <div class="q-text">What is the significance of the evolution of electronics from vacuum tubes to ICs?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.12</div>
+      <div class="q-text">State two applications of Zener diode.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.13</div>
+      <div class="q-text">If β = 100 and IB = 20μA, find IC and IE for a BJT in CE configuration.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <h3>5-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">5 Marks · 11 Questions</div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card">
+      <div class="q-number">Q4.14</div>
+      <div class="q-text">Explain the V-I characteristics of a PN junction diode in forward and reverse bias with a neat diagram. Define knee voltage, breakdown voltage, and reverse saturation current.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 V-I Characteristics Graph Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.15</div>
+      <div class="q-text">Describe the V-I characteristics of a Zener diode. Explain Zener breakdown and avalanche breakdown mechanisms. How is a Zener diode used as a voltage regulator?</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Zener Characteristics & Regulator Circuit Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.16</div>
+      <div class="q-text">Explain the Common Emitter (CE) configuration of a BJT with input and output characteristics. Define and derive current gain β. State advantages of CE configuration over CB and CC.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 CE Circuit & Characteristics Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.17</div>
+      <div class="q-text">Compare CB, CE, and CC configurations of a BJT in terms of input resistance, output resistance, current gain, voltage gain, and phase relationship between input and output. Present as table.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.18</div>
+      <div class="q-text">Explain the construction and working of a BJT. Describe the transistor action and role of majority and minority carriers in NPN transistor operation.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 BJT Structure Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.19</div>
+      <div class="q-text">Draw and explain the CE amplifier circuit. Describe DC and AC analysis. What is the phase reversal between input and output in CE configuration? State advantages and applications.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 CE Amplifier Circuit Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.20</div>
+      <div class="q-text">Trace the evolution of electronics: from thermionic valves (vacuum tubes) to transistors to ICs to VLSI. State Moore's Law and its relevance.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.21</div>
+      <div class="q-text">Explain how PN junction is formed. Discuss potential barrier, contact difference of potential, and the effect of temperature on the depletion region. Draw the charge distribution diagram.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 PN Junction Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.22</div>
+      <div class="q-text">For a transistor with α = 0.98, find β. If IB = 40μA and ICBO = 2μA, find IC and IE. Also determine VCE if VCC = 12V and RC = 2kΩ.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.23</div>
+      <div class="q-text">Explain the Common Base (CB) configuration of BJT with input and output characteristics. Define α (alpha) and state why CB configuration gives less than unity current gain.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 CB Circuit & Characteristics Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q4.24</div>
+      <div class="q-text">Describe the concept of doping in semiconductors. Explain how adding pentavalent and trivalent impurities creates N-type and P-type materials. Draw energy band diagrams.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  UNIT V – ELECTRONIC CIRCUITS & INSTRUMENTATION -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="unit-section u5" id="unit5">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:rgba(239,68,68,0.15);color:var(--u5)">📡</div>
+    <div class="unit-title">
+      <h2 style="color:var(--u5)">Unit V – Electronic Circuits & Instrumentation</h2>
+      <div class="unit-subtitle">Rectifiers · Filters · Zener Regulator · CE Amplifier · Frequency Response · PA System</div>
+    </div>
+    <div class="unit-badge" style="color:var(--u5);border-color:var(--u5)">Unit 05</div>
+  </div>
+
+  <div class="qtype-header">
+    <h3>2-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">2 Marks · 12 Questions</div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card">
+      <div class="q-number">Q5.1</div>
+      <div class="q-text">What is rectification? Distinguish between half-wave and full-wave rectification.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.2</div>
+      <div class="q-text">Define ripple factor and efficiency of a rectifier.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.3</div>
+      <div class="q-text">What is a filter circuit? Why is it used after a rectifier?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.4</div>
+      <div class="q-text">Define voltage regulation. Write its formula and state ideal value.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.5</div>
+      <div class="q-text">What is a Public Address (PA) system? List its main components.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.6</div>
+      <div class="q-text">Define bandwidth and state how it is determined from the frequency response of an amplifier.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.7</div>
+      <div class="q-text">What are the advantages of a bridge rectifier over a centre-tap full-wave rectifier?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.8</div>
+      <div class="q-text">Draw the block diagram of an instrumentation system and name its blocks.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Block Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.9</div>
+      <div class="q-text">What is a Zener voltage regulator? State its principle of operation.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.10</div>
+      <div class="q-text">Define lower half-power frequency (f1) and upper half-power frequency (f2) in amplifier frequency response.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.11</div>
+      <div class="q-text">Calculate the ripple factor for an ideal full-wave bridge rectifier (γ = 0.482). What does this indicate?</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.12</div>
+      <div class="q-text">What is the role of a transducer in an instrumentation system? Give two examples.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <h3>5-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">5 Marks · 11 Questions</div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card">
+      <div class="q-number">Q5.13</div>
+      <div class="q-text">Explain the working of a full-wave bridge rectifier with a neat circuit diagram and waveforms. Derive expressions for output DC voltage, ripple factor, efficiency, and peak inverse voltage (PIV).</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Circuit Diagram & Waveforms Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.14</div>
+      <div class="q-text">Explain the concept and working of a capacitor filter. Draw the circuit and waveforms showing filtered output. Explain how capacitance value affects ripple. Compare with no filter case numerically.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Circuit Diagram & Waveforms Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.15</div>
+      <div class="q-text">Explain the Zener diode as a voltage regulator with neat circuit diagram. Derive the expression for load current, Zener current, and determine the range of input voltages for regulation. Solve a practical numerical.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Regulator Circuit Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.16</div>
+      <div class="q-text">Draw the frequency response of a CE amplifier. Explain the factors affecting low-frequency and high-frequency response. Define mid-band gain, bandwidth, and 3dB frequencies. Sketch and label fully.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Frequency Response Curve Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.17</div>
+      <div class="q-text">Explain the complete block diagram of a Public Address (PA) system. Describe the function of microphone, preamplifier, power amplifier, and loudspeaker. Mention applications and practical considerations.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Block Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.18</div>
+      <div class="q-text">Draw and explain the block diagram of a generalized electronic instrumentation system. Describe the functions of sensor, signal conditioner, ADC, display, and data logger with real-world examples.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Block Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.19</div>
+      <div class="q-text">A Zener regulator has Vz = 6.2V, RS = 500Ω, Vin = 12V. Load resistance varies from 1kΩ to 10kΩ. Find the range of load current, Zener current, and verify the Zener operates in breakdown for all load conditions.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.20</div>
+      <div class="q-text">Compare half-wave rectifier, full-wave centre-tap rectifier, and bridge rectifier in terms of number of diodes, PIV, efficiency, output frequency, and ripple factor. State which is most widely used and why.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.21</div>
+      <div class="q-text">Explain the CE amplifier circuit in detail: draw the circuit, explain biasing resistors, bypass capacitor CE, coupling capacitors, and derive voltage gain Av = –β(RC/rπ). State its applications.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 CE Amplifier Circuit Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.22</div>
+      <div class="q-text">Explain the concept of gain in amplifiers. Convert the following gains to dB: (a) Av = 100, (b) Ai = 50, (c) Ap = 5000. Also find the voltage gain from a cascade of three amplifier stages with gains 20dB, 30dB, and 15dB.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q5.23</div>
+      <div class="q-text">A bridge rectifier uses 4 silicon diodes (0.7V forward drop each, conducting in pairs). Input is 230V RMS, 50Hz. Find: (a) DC output voltage, (b) ripple frequency, (c) PIV rating of each diode, (d) efficiency.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  UNIT VI – DIGITAL ELECTRONICS                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="unit-section u6" id="unit6">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:rgba(56,189,248,0.15);color:var(--u6)">💻</div>
+    <div class="unit-title">
+      <h2 style="color:var(--u6)">Unit VI – Digital Electronics</h2>
+      <div class="unit-subtitle">Number Systems · Logic Gates · Codes · Boolean Algebra · Adders · Flip-Flops · Registers · Counters</div>
+    </div>
+    <div class="unit-badge" style="color:var(--u6);border-color:var(--u6)">Unit 06</div>
+  </div>
+
+  <div class="qtype-header">
+    <h3>2-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">2 Marks · 15 Questions</div>
+  </div>
+  <div class="question-grid">
+
+    <div class="question-card">
+      <div class="q-number">Q6.1</div>
+      <div class="q-text">Convert (1101)₂ to decimal, octal, and hexadecimal.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.2</div>
+      <div class="q-text">State De Morgan's theorems and verify with a truth table for two variables A and B.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.3</div>
+      <div class="q-text">Define NAND and NOR gates as universal gates. Implement NOT and AND using only NAND gates.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.4</div>
+      <div class="q-text">What is BCD code? Write BCD codes for decimal numbers 0 to 9.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.5</div>
+      <div class="q-text">Define Excess-3 code. Convert decimal 7 to Excess-3 and vice versa.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.6</div>
+      <div class="q-text">What is Gray code? Why is it called unit distance code? Convert binary 1011 to Gray code.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.7</div>
+      <div class="q-text">Draw the truth table and logic diagram for a half adder. Write the Boolean expressions for sum and carry.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Logic Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.8</div>
+      <div class="q-text">Define a flip-flop. What is the difference between a latch and a flip-flop?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.9</div>
+      <div class="q-text">Perform binary addition: (1101)₂ + (1011)₂ and verify by converting to decimal.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.10</div>
+      <div class="q-text">What is a register? Differentiate between SISO, SIPO, PISO, and PIPO shift registers.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.11</div>
+      <div class="q-text">Simplify using Boolean algebra: Y = AB + A'B + AB'</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.12</div>
+      <div class="q-text">Convert hexadecimal (3F)₁₆ to binary and decimal.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.13</div>
+      <div class="q-text">What is Hamming code? State the minimum Hamming distance for single-error correction.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.14</div>
+      <div class="q-text">Define a counter. Differentiate between synchronous and asynchronous counters.</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.15</div>
+      <div class="q-text">Draw and explain the truth table of an SR flip-flop. What is the forbidden state?</div>
+      <div class="q-meta">
+        <span class="badge badge-easy">● Easy</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="qtype-header">
+    <h3>5-Mark Questions</h3>
+    <div class="qtype-line"></div>
+    <div class="qtype-tag">5 Marks · 13 Questions</div>
+  </div>
+  <div class="question-grid five-mark">
+
+    <div class="question-card">
+      <div class="q-number">Q6.16</div>
+      <div class="q-text">Explain all basic logic gates (AND, OR, NOT, NAND, NOR, XOR, XNOR) with truth tables, Boolean expressions, and logic symbols. State how NAND and NOR serve as universal gates with implementations.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Logic Gate Symbols Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.17</div>
+      <div class="q-text">Explain number system conversions with examples: Binary↔Decimal, Octal↔Binary, Hexadecimal↔Binary. Convert: (a) (245.75)₁₀ to binary, (b) (10110111)₂ to hex, (c) (A4F)₁₆ to decimal.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.18</div>
+      <div class="q-text">Explain BCD, Excess-3, and Gray codes with conversion examples. Convert decimal 27 to BCD, Excess-3, and Gray code. State advantages and applications of each code.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.19</div>
+      <div class="q-text">Explain Hamming code error detection and correction. Encode the data bits 1011 using Hamming code. Introduce a single-bit error in bit position 5 and show how it is detected and corrected.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.20</div>
+      <div class="q-text">Simplify the Boolean expression Y = A'BC + ABC' + ABC + A'BC' using Boolean algebra and K-map method. Draw the logic circuit for the simplified expression.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 K-map & Logic Circuit Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.21</div>
+      <div class="q-text">Explain the half adder and full adder with truth tables, Boolean expressions, and logic diagrams. Show how two half adders and an OR gate form a full adder.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Logic Diagrams Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.22</div>
+      <div class="q-text">Explain SR, JK, D, and T flip-flops with truth tables, logic diagrams, and timing diagrams. State how the race-around condition in JK flip-flop is resolved by using master-slave configuration.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-vfa">★ Very Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Truth Tables & Logic Diagrams Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.23</div>
+      <div class="q-text">Explain a 4-bit shift register in SIPO mode using D flip-flops with a timing diagram. Show the state of each flip-flop as data 1011 is shifted in serially, MSB first.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Timing Diagram & Circuit Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.24</div>
+      <div class="q-text">Explain a 3-bit asynchronous (ripple) binary counter using JK flip-flops. Draw the circuit diagram, state table, and timing diagram. Determine the MOD number and count sequence.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+      <div class="diagram-note">📐 Circuit & Timing Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.25</div>
+      <div class="q-text">Prove the following Boolean identities using truth tables and algebraic laws: (a) A + AB = A, (b) A(A + B) = A, (c) A + A'B = A + B (Absorption theorem). State the duality principle.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-fa">★ Frequently Asked</span>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.26</div>
+      <div class="q-text">Design a MOD-5 synchronous counter using JK flip-flops. Draw the state diagram, state table, derive the excitation equations, draw the logic diagram, and verify the operation.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 State Diagram & Logic Diagram Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.27</div>
+      <div class="q-text">Implement a full adder using NAND gates only. Also implement a 4-bit parallel adder using four full adders. Perform the addition: (1010)₂ + (0111)₂ using the circuit and verify.</div>
+      <div class="q-meta">
+        <span class="badge badge-hard">● Hard</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+      <div class="diagram-note">📐 NAND Gate Implementation Required</div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-number">Q6.28</div>
+      <div class="q-text">Explain the differences between combinational and sequential logic circuits. Give two examples of each. Discuss how state memory (flip-flops) differentiates sequential from combinational logic with timing diagrams.</div>
+      <div class="q-meta">
+        <span class="badge badge-medium">● Medium</span>
+        <span class="badge badge-oa">★ Occasionally Asked</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>⚡ BEEE Question Bank &nbsp;|&nbsp; B.Tech 1st Year · All Units I–VI &nbsp;|&nbsp; JNTUK Academic Reference</p>
+  <p style="margin-top:0.4rem; font-size:0.72rem; opacity:0.6;">For educational purposes only. Prepare all diagrams and derivations thoroughly for examinations.</p>
+</footer>
+
+</body>
+</html>
