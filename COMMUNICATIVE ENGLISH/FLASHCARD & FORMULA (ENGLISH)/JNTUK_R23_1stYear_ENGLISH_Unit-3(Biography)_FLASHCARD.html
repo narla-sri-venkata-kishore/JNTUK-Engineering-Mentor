@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>English Unit III Flashcards</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f5f7fa;color:#1a2a4a;min-height:100vh}
+header{background:#1a2a4a;color:#fff;padding:2rem 1.5rem 1.5rem;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;letter-spacing:.5px}
+header p{color:#f0a500;font-size:.95rem;margin-top:.4rem}
+header .meta{color:#aed6f1;font-size:.82rem;margin-top:.3rem}
+nav{display:flex;flex-wrap:wrap;gap:8px;padding:1rem 1.5rem;background:#fff;border-bottom:1px solid #dde3ed;justify-content:center;position:sticky;top:0;z-index:100}
+nav button{padding:6px 14px;border:1px solid #c5d0e0;border-radius:20px;background:#f5f7fa;color:#1a2a4a;font-size:.8rem;cursor:pointer;transition:.15s}
+nav button.active,nav button:hover{background:#1a2a4a;color:#fff;border-color:#1a2a4a}
+main{max-width:860px;margin:0 auto;padding:1.5rem}
+.section{display:none}
+.section.visible{display:block}
+.section-banner{background:#1a2a4a;color:#fff;border-radius:10px;padding:1rem 1.5rem;margin-bottom:1.5rem;text-align:center}
+.section-banner h2{font-size:1.2rem;font-weight:700}
+.section-banner p{color:#f0a500;font-size:.85rem;margin-top:.25rem}
+.card-group-label{font-size:.8rem;font-weight:700;color:#185fa5;margin:.8rem 0 .4rem;text-transform:uppercase;letter-spacing:.5px}
+.flashcard{border-radius:10px;overflow:hidden;border:1px solid #aed6f1;margin-bottom:1rem;cursor:pointer;transition:.15s}
+.flashcard:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.fc-front{background:#e8f4fd;padding:1rem 1.25rem}
+.fc-front .tag{font-size:.7rem;font-weight:700;color:#185fa5;margin-bottom:.3rem}
+.fc-front .question{font-size:1rem;font-weight:700;color:#1a2a4a}
+.fc-back{background:#eafaf1;padding:1rem 1.25rem;display:none;border-top:1px solid #aed6f1}
+.fc-back.shown{display:block}
+.fc-back .ans-label{font-size:.7rem;font-weight:700;color:#1e8449;margin-bottom:.4rem}
+.fc-back ul{padding-left:1rem}
+.fc-back li{font-size:.92rem;color:#1c2833;line-height:1.5;margin-bottom:.3rem;list-style:disc}
+.flashcard.value .fc-front{background:#eafaf1}
+.flashcard.value .fc-back{background:#d5f5e3}
+.flashcard.analytical .fc-front{background:#f4ecf7}
+.flashcard.analytical .fc-back{background:#ebdef0}
+.flashcard.ten .fc-front{background:#fef9e7}
+.flashcard.ten .fc-back{background:#fef5e4}
+.flip-hint{font-size:.72rem;color:#7f8c8d;float:right;margin-top:.15rem}
+
+.vocab-card{border:1px solid #aed6f1;border-radius:8px;overflow:hidden;margin-bottom:.7rem;display:grid;grid-template-columns:1fr auto}
+.vc-main{background:#e8f4fd;padding:.7rem 1rem}
+.vc-main .term{font-size:1rem;font-weight:700;color:#1a2a4a}
+.vc-badge{padding:.5rem .9rem;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff}
+.vc-badge.compound{background:#0d7377}
+.vc-badge.colloc{background:#d35400}
+.vc-badge.academic{background:#6c3483}
+.vc-def{background:#fff;padding:.55rem 1rem;font-size:.88rem;color:#1c2833;grid-column:1/-1;border-top:1px solid #dde3ed}
+.vc-eg{background:#f5f7fa;padding:.5rem 1rem;font-size:.82rem;color:#7f8c8d;font-style:italic;grid-column:1/-1}
+
+.glossary-row{display:grid;grid-template-columns:30% 70%;border:0.5px solid #aed6f1;margin-bottom:4px;border-radius:5px;overflow:hidden}
+.gl-term{background:#e8f4fd;padding:.55rem .9rem;font-size:.88rem;font-weight:700;color:#1a2a4a}
+.gl-def{background:#fff;padding:.55rem .9rem;font-size:.88rem;color:#1c2833;line-height:1.45}
+
+.info-box{background:#e8f4fd;border:1.5px solid #0d7377;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.2rem}
+.info-box.gold{background:#fef9e7;border-color:#f0a500}
+.info-box.green{background:#eafaf1;border-color:#1e8449}
+.info-box.yellow{background:#fef5e4;border-color:#d35400}
+.info-box li{font-size:.88rem;color:#1c2833;line-height:1.5;margin-bottom:.35rem;list-style:disc;margin-left:1rem}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+.quick-fact{background:#1a2a4a;color:#fff;border-radius:8px;padding:1rem;text-align:center}
+.quick-fact .label{font-size:.72rem;color:#aed6f1}
+.quick-fact .val{font-size:1.05rem;font-weight:700;color:#f0a500;margin-top:.2rem}
+
+table.comp{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:1.2rem}
+table.comp th{background:#1a2a4a;color:#fff;padding:7px 10px;text-align:center}
+table.comp td{padding:6px 10px;border:0.5px solid #aed6f1;text-align:center;color:#1c2833}
+table.comp tr:nth-child(even) td{background:#f5f7fa}
+
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.2rem}
+.stat{background:#1a2a4a;color:#fff;border-radius:8px;padding:.65rem 1rem;flex:1;min-width:100px;text-align:center}
+.stat .n{font-size:1.4rem;font-weight:700;color:#f0a500}
+.stat .l{font-size:.72rem;color:#aed6f1;margin-top:.1rem}
+
+.progress-bar{background:#e0e7ef;border-radius:99px;height:8px;overflow:hidden;margin-bottom:1.5rem}
+.progress-fill{background:#0d7377;height:100%;border-radius:99px;transition:.3s}
+
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.2rem}
+.tip-card{background:#fff;border:0.5px solid #aed6f1;border-radius:8px;padding:.9rem 1rem}
+.tip-card h4{font-size:.88rem;font-weight:700;color:#1a2a4a;margin-bottom:.4rem}
+.tip-card p{font-size:.8rem;color:#5f6b7a;line-height:1.45}
+
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.glossary-row{grid-template-columns:1fr}.gl-term{border-bottom:0.5px solid #aed6f1}}
+</style>
+</head>
+<body>
+<header>
+  <h1>English · Unit III – Flashcard Study Pack</h1>
+  <p>Biography: Elon Musk</p>
+  <div class="meta">B.Tech First Year &nbsp;·&nbsp; Listening · Speaking · Reading · Writing · Grammar · Vocabulary</div>
+</header>
+
+<nav>
+  <button class="active" onclick="show('home',this)">Home</button>
+  <button onclick="show('lit',this)">📖 Literature</button>
+  <button onclick="show('listening',this)">🎧 Listening</button>
+  <button onclick="show('speaking',this)">🗣 Speaking</button>
+  <button onclick="show('reading',this)">📚 Reading</button>
+  <button onclick="show('writing',this)">✍ Writing</button>
+  <button onclick="show('grammar',this)">📏 Grammar</button>
+  <button onclick="show('vocab',this)">📖 Vocabulary</button>
+  <button onclick="show('glossary',this)">📘 Glossary</button>
+</nav>
+
+<main>
+
+<!-- HOME -->
+<div class="section visible" id="home">
+  <div class="section-banner"><h2>Welcome to Your Study Pack</h2><p>60+ Exam-Ready Flashcards · Tap any card to reveal the answer</p></div>
+  <div class="stats">
+    <div class="stat"><div class="n">8</div><div class="l">Sections</div></div>
+    <div class="stat"><div class="n">60+</div><div class="l">Flashcards</div></div>
+    <div class="stat"><div class="n">25</div><div class="l">Vocab Words</div></div>
+    <div class="stat"><div class="n">25</div><div class="l">Glossary Terms</div></div>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card"><h4>Active Recall</h4><p>Cover the answer, read the question aloud, then reveal. Writing the answer before checking boosts retention.</p></div>
+    <div class="tip-card"><h4>Spaced Repetition</h4><p>Day 1 → Day 2 → Day 4 → Day 7 → Eve of exam. Review difficult cards more frequently.</p></div>
+    <div class="tip-card"><h4>2-mark answers</h4><p>Answer in 2–3 crisp sentences. No padding. State the rule or fact, then apply.</p></div>
+    <div class="tip-card"><h4>10-mark answers</h4><p>Use: Intro → Body (3-4 points with examples) → Conclusion. Always follow this structure.</p></div>
+    <div class="tip-card"><h4>Grammar questions</h4><p>State the rule first, then apply it to the given sentence. Examiners reward rule knowledge.</p></div>
+    <div class="tip-card"><h4>Vocabulary</h4><p>Learn word + meaning + example sentence as one unit. Never learn meaning alone.</p></div>
+  </div>
+  <div class="info-box green">
+    <li>Use these cards in 25-minute study blocks (Pomodoro technique) with 5-minute breaks.</li>
+    <li>Shuffle cards to avoid positional memory. Randomisation boosts retention.</li>
+    <li>Teach each concept to an imaginary student — if you can teach it, you know it.</li>
+    <li>Review and rewrite notes within 24 hours while memory is fresh.</li>
+  </div>
+</div>
+
+<!-- LITERATURE -->
+<div class="section" id="lit">
+  <div class="section-banner"><h2>📖 Literature</h2><p>Biography – Elon Musk</p></div>
+  <div class="section-banner" style="background:#0d7377;margin-bottom:1rem;padding:.7rem 1rem"><h2 style="font-size:.95rem">Quick Reference: Life at a Glance</h2></div>
+  <div class="info-box">
+    <li><strong>Full name:</strong> Elon Reeve Musk &nbsp;|&nbsp; <strong>Born:</strong> 28 June 1971, Pretoria, South Africa</li>
+    <li><strong>Education:</strong> Queen's University → Wharton School, UPenn (Economics & Physics) → Stanford PhD (dropped out after 2 days)</li>
+    <li><strong>Companies:</strong> Zip2 (1995) → X.com / PayPal (1999) → SpaceX (2002) → Tesla (2004) → SolarCity (2006) → Neuralink (2016) → xAI (2023)</li>
+    <li><strong>Milestone:</strong> First private person to send humans to the International Space Station (2020).</li>
+    <li><strong>Core values:</strong> First-principles thinking, extreme work ethic, mission over money, calculated risk-taking.</li>
+  </div>
+
+  <div class="card-group-label">2-Mark Questions</div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">When and where was Elon Musk born?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>Elon Musk was born on 28 June 1971 in Pretoria, South Africa.</li><li>He later moved to Canada and then the United States to pursue higher education.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What was Elon Musk's first company and what did it do?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>Musk's first company was Zip2, co-founded with his brother Kimbal in 1995.</li><li>Zip2 provided online city guide software to newspapers.</li><li>It was sold to Compaq for approximately $307 million in 1999.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Which universities did Elon Musk attend?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>Musk attended Queen's University in Ontario, Canada.</li><li>He transferred to UPenn (Wharton School) and earned degrees in Economics and Physics.</li><li>He was accepted at Stanford for a PhD but left after two days to pursue entrepreneurship.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is SpaceX and when was it founded?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>SpaceX (Space Exploration Technologies Corp.) was founded by Elon Musk in 2002.</li><li>Its mission is to reduce space transportation costs and enable the colonisation of Mars.</li><li>It became the first private company to successfully launch, orbit, and recover a spacecraft.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Name two personality traits that made Elon Musk a successful entrepreneur.</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Resilience:</strong> Overcame multiple failures (SpaceX's first three rocket failures, Tesla's near-bankruptcy) without giving up.</li><li><strong>First-Principles Thinking:</strong> Breaks problems to fundamental truths and builds solutions from scratch rather than following convention.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is the central theme of Elon Musk's biography?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>The central theme is the power of vision, relentless perseverance, and risk-taking in the face of failure.</li><li>His life demonstrates that transformative innovation requires the courage to challenge existing systems and think beyond conventional boundaries.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is Tesla and what is its significance?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>Tesla, Inc. is an American electric vehicle and clean energy company.</li><li>Musk joined as chairman in 2004 and became CEO in 2008.</li><li>Tesla revolutionised the automobile industry by proving electric vehicles can be commercially viable, performance-driven, and desirable.</li></ul></div>
+  </div>
+  <div class="flashcard" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [2M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Why is Elon Musk considered a visionary leader?</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li>He pursues long-term goals that benefit humanity (sustainable energy, multi-planetary civilisation) over short-term profits.</li><li>He challenges industries dominated by legacy giants and disrupts them with innovation.</li><li>His companies pursue missions that few believed were possible.</li></ul></div>
+  </div>
+
+  <div class="card-group-label">10-Mark Descriptive Questions</div>
+  <div class="flashcard ten" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [10M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Write a detailed note on the life and achievements of Elon Musk.</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Introduction:</strong> Elon Reeve Musk (born 1971) is a South African-born American entrepreneur, engineer, and visionary whose work has redefined multiple industries.</li><li><strong>Early life:</strong> Showed early aptitude for technology; taught himself programming at age 10 and sold a game code at age 12. Moved to Canada at 17.</li><li><strong>Education:</strong> Wharton School (Economics & Physics); accepted at Stanford but dropped out after 2 days.</li><li><strong>Entrepreneurship:</strong> Zip2 ($307M) → PayPal ($1.5B) → SpaceX (2002) → Tesla (2004) → SolarCity, Neuralink, Boring Company, xAI.</li><li><strong>Key achievements:</strong> First private company to dock with ISS; Tesla surpassed all legacy automakers in market cap; Starlink provides global satellite internet.</li><li><strong>Leadership:</strong> First-principles thinking, 100-hour work weeks, mission-driven, high tolerance for risk.</li><li><strong>Conclusion:</strong> Musk's biography teaches that audacious goals, resilience, and belief in one's mission can create world-changing outcomes.</li></ul></div>
+  </div>
+  <div class="flashcard ten" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [10M]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Discuss the importance of studying biography as a literary genre for students.</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Definition:</strong> A biography is a detailed, factual account of a real person's life written by another person.</li><li><strong>Educational value:</strong> Biographies expose students to real-world examples of success and failure, making abstract values like perseverance and integrity concrete.</li><li><strong>Inspiration:</strong> Reading about figures like Musk shows students that extraordinary achievement begins with extraordinary dedication.</li><li><strong>Language skills:</strong> Develops vocabulary, reading comprehension, inference skills, and ability to identify themes and character traits.</li><li><strong>Critical thinking:</strong> Students learn to evaluate decisions, analyse cause-effect relationships, and form judgements about leadership and ethics.</li><li><strong>Writing skills:</strong> Studying biography structure (chronological, thematic) helps students structure their own essays effectively.</li><li><strong>Conclusion:</strong> Biographies bridge literature and life, making them one of the most educationally rich genres for academic and personal growth.</li></ul></div>
+  </div>
+
+  <div class="card-group-label">Value-Based & Analytical Questions</div>
+  <div class="flashcard value" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [Value]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What values can students learn from Elon Musk's life? Explain with examples.</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Resilience:</strong> SpaceX's first three launches failed. Musk used his last $30M to fund a fourth, which succeeded.</li><li><strong>Risk-taking:</strong> After selling PayPal, he invested almost all his money into SpaceX and Tesla simultaneously.</li><li><strong>Curiosity & Learning:</strong> Musk is self-taught in rocket science, reading textbooks like Rocket Propulsion Elements.</li><li><strong>Vision beyond self:</strong> Goals—clean energy, Mars colonisation, neural interfaces—aim to benefit all of humanity.</li><li><strong>Work ethic:</strong> Reports of 80–100 hour work weeks demonstrate that exceptional results require exceptional effort.</li><li><strong>Conclusion:</strong> Values like courage, curiosity, perseverance, and selfless vision are the true engines of transformative success.</li></ul></div>
+  </div>
+  <div class="flashcard analytical" onclick="flip(this)">
+    <div class="fc-front"><div class="tag">Q [Analytical]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Critically analyse Elon Musk's leadership style and its impact on his companies.</div></div>
+    <div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Transformational leadership:</strong> Inspires employees with a grand vision that transcends daily tasks, creating deep organisational commitment.</li><li><strong>First-principles approach:</strong> He calculated the raw material cost of a battery and found it 40x cheaper than market prices, driving Tesla's cost reduction strategy.</li><li><strong>Direct and demanding:</strong> Sets 'stretch goals' that push teams beyond perceived limits, sometimes causing burnout but also extraordinary breakthroughs.</li><li><strong>Criticism:</strong> Management style has been called autocratic; high employee turnover; controversial social media statements affected stock prices.</li><li><strong>Positive impact:</strong> SpaceX achieved in years what NASA took decades; Tesla transformed the auto industry.</li><li><strong>Conclusion:</strong> Highly effective for innovation-driven missions, but the tension between his demanding style and employee wellbeing remains a subject of debate.</li></ul></div>
+  </div>
+</div>
+
+<!-- LISTENING -->
+<div class="section" id="listening">
+  <div class="section-banner"><h2>🎧 Listening Skills</h2><p>Global Comprehension · Summarising · Note-Taking</p></div>
+  <div class="info-box">
+    <li>Listen for the MAIN IDEA first (global comprehension), not every word.</li>
+    <li>Identify KEY WORDS: nouns, verbs, dates, names, numbers — these carry core meaning.</li>
+    <li>Notice SIGNAL WORDS: 'however', 'therefore', 'in conclusion', 'for example' — they indicate idea shifts.</li>
+    <li>Use abbreviations while note-taking: w/ = with, eg = example, imp = important, → = leads to.</li>
+    <li>After listening, immediately summarise in 2–3 sentences without re-listening — this is active recall.</li>
+  </div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Listening]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is the difference between hearing and listening?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Hearing is a passive, involuntary physical process of receiving sound waves through the ears.</li><li>Listening is an active, conscious process involving attention, comprehension, interpretation, and response.</li><li>Key difference: Hearing requires no effort; listening requires focused mental engagement.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Listening]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What are the four levels of listening comprehension?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>1. Global comprehension:</strong> Understanding the overall topic and main idea.</li><li><strong>2. Selective comprehension:</strong> Identifying specific details, facts, or figures.</li><li><strong>3. Inferential comprehension:</strong> Understanding implied meanings not directly stated.</li><li><strong>4. Evaluative comprehension:</strong> Critically judging the speaker's purpose, bias, or credibility.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Listening]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What strategies help in effective note-taking while listening?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Use the CORNELL METHOD: Divide paper into Notes (right), Cues (left), Summary (bottom).</li><li>Write only KEY PHRASES, not full sentences. Use arrows and symbols.</li><li>Leave BLANK SPACES to fill in missed points immediately after listening.</li><li>Number your points to maintain the sequence of ideas.</li><li>Review and rewrite notes within 24 hours while memory is fresh.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Listening]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is global comprehension and why is it important in listening?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Global comprehension refers to understanding the overall meaning, topic, and purpose of a spoken text without focusing on every individual word.</li><li>It provides the framework into which specific details fit and prevents losing the 'big picture'.</li><li>Technique: Before listening, read any questions available to set a listening purpose; during listening, focus on topic sentences and signal words.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Listening]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What signal words indicate a contrast or opposing idea in a spoken text?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>However / Nevertheless / On the other hand / Yet / Despite this / In contrast / Although / Even though / But / Whereas.</li><li>Example: 'Musk's early companies succeeded quickly. However, SpaceX faced three consecutive launch failures before achieving orbit.'</li><li>Recognising these signals helps listeners adjust their understanding and anticipate a shift in argument.</li></ul></div></div>
+</div>
+
+<!-- SPEAKING -->
+<div class="section" id="speaking">
+  <div class="section-banner"><h2>🗣 Speaking Skills</h2><p>Group Discussions · Pair Discussions · Reporting</p></div>
+  <div class="info-box gold">
+    <li><strong>Initiation:</strong> Open with a definition or question. ('Let's begin by defining innovation...')</li>
+    <li><strong>Development:</strong> Present your view with a reason and example. ('I believe... because... For instance...')</li>
+    <li><strong>Agreement/Disagreement:</strong> Respond to others politely before adding your point.</li>
+    <li><strong>Summarising:</strong> The reporter summarises the key points discussed at the close.</li>
+    <li><strong>Key rule:</strong> Speak clearly, listen actively, do not dominate or interrupt aggressively.</li>
+  </div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Speaking]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is a group discussion and what are its key objectives?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>A group discussion (GD) is a structured oral activity where a small group (4–8 participants) examines a topic from multiple perspectives.</li><li>Objectives: Develop communication and listening skills; evaluate ability to think, articulate, and collaborate; practise agreeing and disagreeing politely; build confidence in formal oral communication.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Speaking]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Give 6 useful phrases for agreeing and disagreeing politely in a group discussion.</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Agreeing:</strong> 'I completely agree with your point because...' | 'That's an excellent observation. Additionally...' | 'You've raised a valid point. To add to that...'</li><li><strong>Disagreeing:</strong> 'I see your perspective, however I think...' | 'With due respect, I'd like to offer an alternate view...' | 'While that is a valid point, we must also consider...'</li><li><strong>Golden rule:</strong> Always acknowledge the other speaker's view before presenting your counter-argument.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Speaking]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">How do you report the outcomes of a group discussion?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Use third-person reporting language and formal tone.</li><li>Structure: (1) State the topic discussed; (2) Summarise the main points raised; (3) Note areas of agreement and disagreement; (4) State the group's conclusion.</li><li>Sample: 'Our group discussed electric vehicles. Most members agreed they are the future, citing environmental benefits. However, there was disagreement on affordability. The group concluded that government subsidies are essential.'</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Speaking]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What should you do if you do not know the answer during a group discussion?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>DO NOT stay silent or make up facts.</li><li>Admit honestly: 'I don't have specific data on that, but based on general knowledge...'</li><li>Redirect: 'That's an interesting angle. Could we hear others' views first?'</li><li>Ask a question: 'What does the group think about...?' — shows engagement.</li><li>Silence is more damaging than an honest admission. Active listening and thoughtful questions are valued equally.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Speaking]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is a pair discussion and how does it differ from a group discussion?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>A pair discussion involves two participants exchanging views on a given topic, typically for 5–10 minutes.</li><li>Pair = 2 people, more intimate, each person speaks longer; GD = 4–8 people, requires skills to manage turn-taking.</li><li>Common structure: Speaker A presents → Speaker B responds → Both explore a conclusion together.</li></ul></div></div>
+</div>
+
+<!-- READING -->
+<div class="section" id="reading">
+  <div class="section-banner"><h2>📚 Reading Skills</h2><p>Inference · Context Clues · Detailed Comprehension</p></div>
+  <div class="info-box">
+    <li><strong>Definition clue:</strong> Meaning directly stated. 'Philanthropy, the practice of donating to charitable causes...'</li>
+    <li><strong>Synonym clue:</strong> Similar-meaning word nearby. 'His tenacity, or stubbornness, was legendary.'</li>
+    <li><strong>Antonym/contrast clue:</strong> Opposite word signals meaning. 'Unlike cautious investors, Musk was audacious.'</li>
+    <li><strong>Example clue:</strong> Examples illustrate the word. 'Musk invested in renewable ventures such as solar energy and electric vehicles.'</li>
+    <li><strong>Inference clue:</strong> Meaning implied through surrounding sentences. Read 2 sentences before and after the unknown word.</li>
+  </div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Reading]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is an inference in reading comprehension?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>An inference is a logical conclusion drawn from evidence in the text that is not directly stated by the author.</li><li>It requires combining textual evidence with prior knowledge to arrive at an implied meaning.</li><li>Example: If a text says 'Musk slept on the factory floor during Tesla's production crisis,' we can INFER he was extremely dedicated — even though the text does not use the word 'dedication.'</li><li>Strategy: Ask 'What does this suggest?' rather than 'What does this say?'</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Reading]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is the difference between skimming and scanning?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Skimming:</strong> Reading quickly to get the general idea or gist. Read the title, headings, first and last sentences. Used for: deciding if an article is relevant.</li><li><strong>Scanning:</strong> Moving eyes rapidly to locate a specific piece of information (a date, name, statistic). Used for: answering a specific question without reading the whole passage.</li><li>Memory trick: Skim = Surface; Scan = Specific Search.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Reading]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Identify the context clue type and meaning: 'Musk's ventures were unprecedented; no entrepreneur had ever attempted anything like them before.'</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Type:</strong> Definition / Restatement Clue.</li><li>The phrase 'no entrepreneur had ever attempted anything like them before' directly explains 'unprecedented.'</li><li><strong>Meaning:</strong> Never having happened or existed before; completely new and without comparison.</li><li>Technique: Look for punctuation (semicolons, commas, dashes) or phrases like 'that is', 'in other words', 'or' which signal a restatement.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Reading]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What are the steps to answer an inference-based comprehension question?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Step 1: Read the question carefully — identify what is being asked (cause, consequence, attitude, implied meaning?).</li><li>Step 2: Locate the relevant section. Read 2–3 sentences around it.</li><li>Step 3: Identify key words and phrases that hint at the answer.</li><li>Step 4: Combine textual evidence with logical reasoning. Do NOT copy sentences directly.</li><li>Step 5: Write: 'The text implies... supported by the phrase... which indicates...'</li></ul></div></div>
+</div>
+
+<!-- WRITING -->
+<div class="section" id="writing">
+  <div class="section-banner"><h2>✍ Writing Skills</h2><p>Summarising · Note-Making · Paraphrasing</p></div>
+  <table class="comp">
+    <tr><th>Feature</th><th>Summary</th><th>Notes</th><th>Paraphrase</th></tr>
+    <tr><td>Length</td><td>1/3 of original</td><td>Very brief, point-form</td><td>Similar length to original</td></tr>
+    <tr><td>Format</td><td>Continuous prose</td><td>Headings, bullets, symbols</td><td>Continuous prose</td></tr>
+    <tr><td>Own words?</td><td>Yes</td><td>Abbreviated</td><td>Completely own words</td></tr>
+    <tr><td>Purpose</td><td>Condense meaning</td><td>Quick reference</td><td>Restate clearly</td></tr>
+    <tr><td>Exam use</td><td>End of comprehension</td><td>Study aid</td><td>Avoiding plagiarism</td></tr>
+  </table>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Writing]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What are the steps to write an effective summary?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Step 1: Read the passage carefully once for overall meaning.</li><li>Step 2: Identify the main idea and 3–4 key supporting points.</li><li>Step 3: Underline or note these key points.</li><li>Step 4: Put away the original. Write the summary entirely in your own words.</li><li>Step 5: Limit length to 1/3 of the original. Begin with 'The passage discusses...'</li><li>Step 6: Review — ensure no opinions, examples, or direct quotes from the original are included.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Writing]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">How do you make effective notes from a reading passage?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Write the heading/topic at the top. Divide into sub-headings (Who, What, When, Where, Why, How).</li><li>Use bullet points for key facts. Avoid full sentences.</li><li>Use abbreviations: eg., imp., re., &, →, approx., b/w (between).</li><li>Use symbols: ✓ for confirmed facts, ? for uncertain points, ★ for key points.</li><li>End with a brief summary line connecting all points.</li><li>Example: 'Musk, E. → Born: 1971, SA → Companies: SpaceX (2002), Tesla (2004) → Key trait: Resilience'</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Writing]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is paraphrasing and what are the techniques for effective paraphrasing?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Paraphrasing means expressing someone else's ideas in your own words while retaining the original meaning.</li><li><strong>Synonym substitution:</strong> Replace key words. 'innovative' → 'groundbreaking'; 'founded' → 'established'.</li><li><strong>Sentence restructuring:</strong> Change structure. Active → Passive; Simple → Complex.</li><li><strong>Change word forms:</strong> 'His innovation was significant' → 'He innovated significantly.'</li><li><strong>Check:</strong> Cover the original. Does your paraphrase convey the same meaning? Are no more than 3 consecutive words identical?</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Writing]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What are the most common mistakes students make in summary writing?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Copying sentences directly from the original → Always rewrite in own words.</li><li>Including personal opinions ('I think...', 'In my view...') → Summaries are objective.</li><li>Adding examples not in the original → Summaries only contain what the source contains.</li><li>Writing more than 1/3 of the original length → Count words and trim.</li><li>Starting with 'This passage is about...' (weak opener) → Begin with the main idea directly.</li><li>Changing the meaning while paraphrasing → Verify meaning match after writing.</li></ul></div></div>
+</div>
+
+<!-- GRAMMAR -->
+<div class="section" id="grammar">
+  <div class="section-banner"><h2>📏 Grammar</h2><p>Tenses · Subject-Verb Agreement · Compound Words · Collocations</p></div>
+  <div class="card-group-label">Tenses</div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – Tenses]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">When do we use the Simple Past Tense? Give 2 examples from Elon Musk's biography.</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Use Simple Past for completed actions at a specific time in the past. Structure: Subject + V2.</li><li>Example 1: 'Elon Musk founded SpaceX in 2002.'</li><li>Example 2: 'He sold PayPal to eBay for $1.5 billion in 2002.'</li><li>Signal words: yesterday, in [year], ago, last year, once, when.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – Tenses]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is the difference between Simple Past and Past Perfect Tense?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Simple Past:</strong> Single completed action. → 'Musk launched the Falcon 1 rocket.'</li><li><strong>Past Perfect:</strong> Action completed before another past action. → 'By the time Tesla became profitable, Musk had invested his entire fortune in the company.'</li><li>Key signal: Past Perfect requires TWO past events; the earlier one uses 'had + V3'.</li><li>Memory trick: Past Perfect = 'the more past of two past events.'</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – Tenses]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Correct the tense error: 'Before Musk starts SpaceX, he was already founded PayPal.'</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Correction:</strong> 'Before Musk started SpaceX, he had already founded PayPal.'</li><li><strong>Error 1:</strong> 'starts' (present) → 'started' (Simple Past, the more recent of two past events).</li><li><strong>Error 2:</strong> 'was already founded' (passive, incorrect) → 'had already founded' (Past Perfect, the earlier of two past events).</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – Tenses]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">When is the Present Perfect Tense used? Provide 2 exam-ready examples.</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>Use for: (1) actions completed at an unspecified time in the past; (2) actions that began in the past and continue to the present; (3) life experiences.</li><li>Structure: Subject + has/have + V3</li><li>Example 1: 'SpaceX has successfully launched over 200 missions to date.'</li><li>Example 2: 'Elon Musk has transformed the electric vehicle industry.'</li><li>Signal words: already, yet, just, ever, never, since, for, so far, recently, to date.</li></ul></div></div>
+  <div class="card-group-label">Subject-Verb Agreement</div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – SVA]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">State the basic rule of Subject-Verb Agreement with examples.</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Rule:</strong> A singular subject takes a singular verb. A plural subject takes a plural verb.</li><li>Singular: 'Elon Musk IS a visionary entrepreneur.'</li><li>Plural: 'His companies ARE changing the world.'</li><li>TRICK: 'Each', 'every', 'either', 'neither', 'anyone', 'everyone', 'no one' are ALWAYS singular.</li><li>Example: 'Every one of his companies HAS a specific mission.' (NOT 'have')</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – SVA]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Identify and correct the error: 'The team of engineers are working on the new rocket design.'</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Error:</strong> 'are' is incorrect.</li><li><strong>Correction:</strong> 'The team of engineers IS working on the new rocket design.'</li><li><strong>Rule:</strong> Collective nouns (team, committee, group, staff, board, jury) acting as a single unit take a SINGULAR verb.</li><li><strong>Exception:</strong> If members act individually → plural verb. 'The team were divided in their opinions.'</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – SVA]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">Fill in the blank: 'Neither Musk nor his critics _____ (was/were) prepared for Tesla's success.'</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li><strong>Answer:</strong> were</li><li><strong>Rule:</strong> With 'Neither...nor' / 'Either...or', the verb agrees with the SUBJECT CLOSER TO THE VERB (the nearer subject rule).</li><li>'his critics' is plural and is the nearer subject → plural verb 'were'.</li><li>Memory tip: 'The verb follows its nearest neighbour.'</li></ul></div></div>
+  <div class="card-group-label">Compound Words & Collocations</div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – Compound]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is a compound word? Give 5 examples from the context of technology and innovation.</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>A compound word is formed by combining two or more words to create a new word with a distinct meaning.</li><li>Types: Closed (breakthrough, spacecraft, benchmark, feedback, output); Hyphenated (well-known, self-taught, state-of-the-art); Open (electric vehicle, solar panel, space station).</li><li>Technology examples: breakthrough, spacecraft, software, benchmark, workflow.</li></ul></div></div>
+  <div class="flashcard" onclick="flip(this)"><div class="fc-front"><div class="tag">Q [Grammar – Collocation]<span class="flip-hint">tap to reveal ▾</span></div><div class="question">What is a collocation? How is it different from a compound word?</div></div><div class="fc-back"><div class="ans-label">A ►</div><ul><li>A collocation is a pair of words that frequently occur together and sound natural to native speakers.</li><li>Examples: 'make a decision' (NOT 'do a decision'); 'strong coffee' (NOT 'powerful coffee'); 'take a risk' (NOT 'make a risk').</li><li><strong>Difference:</strong> Compound words create a new meaning ('breakthrough'). Collocations are natural word partnerships that must be memorised as fixed combinations.</li><li>Exam tip: 'Musk _____ a bold decision.' → MADE (not 'took' or 'did').</li></ul></div></div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="section" id="vocab">
+  <div class="section-banner"><h2>📖 Vocabulary Flashcards</h2><p>Compound Words · Collocations · Academic Vocabulary</p></div>
+  <div class="card-group-label">Compound Words</div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">breakthrough</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">A sudden, important discovery or development</div><div class="vc-eg">Tesla's battery breakthrough made electric cars affordable for millions.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">spacecraft</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">A vehicle designed to travel in outer space</div><div class="vc-eg">The spacecraft docked with the International Space Station on schedule.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">benchmark</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">A standard or reference point used for comparison</div><div class="vc-eg">Musk set a new benchmark for private space exploration with Falcon Heavy.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">self-taught</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">Having learnt a skill by oneself without formal instruction</div><div class="vc-eg">The self-taught programmer wrote his first video game at the age of twelve.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">state-of-the-art</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">Incorporating the most recent and advanced features</div><div class="vc-eg">The Gigafactory employs state-of-the-art automation to manufacture batteries.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">groundbreaking</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">Innovative and pioneering; introducing new ideas or methods</div><div class="vc-eg">The reusable rocket was a groundbreaking achievement in aerospace history.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">startup</div></div><div class="vc-badge compound">Compound</div><div class="vc-def">A newly established business, especially in technology</div><div class="vc-eg">Every major Musk company began as a startup with a bold, seemingly impossible mission.</div></div>
+
+  <div class="card-group-label">Collocations</div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">make a decision</div></div><div class="vc-badge colloc">Collocation</div><div class="vc-def">To decide after consideration</div><div class="vc-eg">Musk made the bold decision to invest his last $30 million into SpaceX.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">take a risk</div></div><div class="vc-badge colloc">Collocation</div><div class="vc-def">To do something that might have a negative outcome</div><div class="vc-eg">Successful entrepreneurs must be willing to take calculated risks.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">achieve a goal</div></div><div class="vc-badge colloc">Collocation</div><div class="vc-def">To succeed in reaching an objective</div><div class="vc-eg">SpaceX achieved its goal of landing an orbital rocket booster in 2015.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">face a challenge</div></div><div class="vc-badge colloc">Collocation</div><div class="vc-def">To confront and deal with a difficulty</div><div class="vc-eg">Musk faced the challenge of near-bankruptcy at both Tesla and SpaceX simultaneously.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">raise funds</div></div><div class="vc-badge colloc">Collocation</div><div class="vc-def">To collect money for a specific purpose</div><div class="vc-eg">Musk raised funds by selling his PayPal shares to finance SpaceX's first launches.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">overcome obstacles</div></div><div class="vc-badge colloc">Collocation</div><div class="vc-def">To successfully deal with difficulties that stand in one's way</div><div class="vc-eg">His biography teaches students how to overcome obstacles with resilience and creativity.</div></div>
+
+  <div class="card-group-label">Academic & Thematic Vocabulary</div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">perseverance</div></div><div class="vc-badge academic">Academic</div><div class="vc-def">Continued effort despite difficulty or delay in achieving success</div><div class="vc-eg">Musk's perseverance through SpaceX's three early launch failures is legendary.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">entrepreneurship</div></div><div class="vc-badge academic">Academic</div><div class="vc-def">The activity of setting up businesses, taking financial risks to make a profit</div><div class="vc-eg">Unit III uses Musk's life as a model of modern entrepreneurship.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">unprecedented</div></div><div class="vc-badge academic">Academic</div><div class="vc-def">Never done or known before; without precedent</div><div class="vc-eg">A successful Mars landing would be an unprecedented achievement in human history.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">resilience</div></div><div class="vc-badge academic">Academic</div><div class="vc-def">The capacity to recover quickly from difficulties; mental toughness</div><div class="vc-eg">Resilience is the defining characteristic of every successful entrepreneur in Musk's mould.</div></div>
+  <div class="vocab-card"><div class="vc-main"><div class="term">innovation</div></div><div class="vc-badge academic">Academic</div><div class="vc-def">The introduction of new ideas, products, or methods; a new creation</div><div class="vc-eg">Continuous innovation is the cornerstone of every company in the Musk ecosystem.</div></div>
+</div>
+
+<!-- GLOSSARY -->
+<div class="section" id="glossary">
+  <div class="section-banner"><h2>📘 Glossary</h2><p>Key Terms from Biography, Skills & Grammar</p></div>
+  <div class="glossary-row"><div class="gl-term">Autobiography</div><div class="gl-def">A book or account written by a person about their own life. Differs from biography (written by another person).</div></div>
+  <div class="glossary-row"><div class="gl-term">Biography</div><div class="gl-def">A detailed written account of a person's life, written by another author using research, interviews, and records.</div></div>
+  <div class="glossary-row"><div class="gl-term">Chronological order</div><div class="gl-def">Arranging events in the sequence in which they occurred in time; the standard structure for biographies.</div></div>
+  <div class="glossary-row"><div class="gl-term">Collocation</div><div class="gl-def">A pair or group of words that habitually appear together in natural language (e.g., 'make a decision', 'heavy rain').</div></div>
+  <div class="glossary-row"><div class="gl-term">Compound word</div><div class="gl-def">A word formed by combining two or more existing words to create a new meaning (e.g., 'breakthrough', 'spacecraft').</div></div>
+  <div class="glossary-row"><div class="gl-term">Context clue</div><div class="gl-def">Words or phrases surrounding an unknown word that provide hints about its meaning.</div></div>
+  <div class="glossary-row"><div class="gl-term">Global comprehension</div><div class="gl-def">Understanding the overall meaning and main idea of a text or speech, rather than focusing on specific details.</div></div>
+  <div class="glossary-row"><div class="gl-term">Inference</div><div class="gl-def">A conclusion reached by reasoning from evidence in the text; an implied meaning not directly stated by the author.</div></div>
+  <div class="glossary-row"><div class="gl-term">Innovation</div><div class="gl-def">The process of introducing new ideas, devices, or methods; the act of creating something new or improved.</div></div>
+  <div class="glossary-row"><div class="gl-term">Note-making</div><div class="gl-def">Recording key information from a text or speech using abbreviated, organised, point-form notes.</div></div>
+  <div class="glossary-row"><div class="gl-term">Paraphrase</div><div class="gl-def">Restating a text in different words while preserving the original meaning, roughly the same length.</div></div>
+  <div class="glossary-row"><div class="gl-term">Perseverance</div><div class="gl-def">Continued effort and determination in doing something despite difficulty, failure, or opposition.</div></div>
+  <div class="glossary-row"><div class="gl-term">Resilience</div><div class="gl-def">The ability to recover quickly from setbacks, adapt positively to adversity, and continue forward.</div></div>
+  <div class="glossary-row"><div class="gl-term">Signal word</div><div class="gl-def">A word or phrase that indicates how ideas are connected (e.g., 'however' = contrast; 'therefore' = result).</div></div>
+  <div class="glossary-row"><div class="gl-term">Simple Past Tense</div><div class="gl-def">A verb tense used to describe actions completed at a specific time in the past. Structure: Subject + V2.</div></div>
+  <div class="glossary-row"><div class="gl-term">Skimming</div><div class="gl-def">Reading quickly through a text to get its general idea, focusing on headings and topic sentences.</div></div>
+  <div class="glossary-row"><div class="gl-term">Scanning</div><div class="gl-def">Reading to locate a specific piece of information quickly without reading the entire text.</div></div>
+  <div class="glossary-row"><div class="gl-term">Subject-Verb Agreement</div><div class="gl-def">The grammatical rule that a verb must agree in number (singular/plural) and person with its subject.</div></div>
+  <div class="glossary-row"><div class="gl-term">Summary</div><div class="gl-def">A brief statement of the main points of a text, written in one's own words, approximately 1/3 of the original length.</div></div>
+  <div class="glossary-row"><div class="gl-term">Tense</div><div class="gl-def">A form of a verb that indicates the time at which an action or state occurs (past, present, or future).</div></div>
+  <div class="glossary-row"><div class="gl-term">Entrepreneurship</div><div class="gl-def">The activity of setting up and running a business, particularly under conditions of financial risk.</div></div>
+  <div class="glossary-row"><div class="gl-term">Visionary</div><div class="gl-def">A person with clear, distinctive, and positive ideas about how things could or should be in the future.</div></div>
+  <div class="glossary-row"><div class="gl-term">First-principles thinking</div><div class="gl-def">A problem-solving approach that breaks down complex systems to their most basic truths and rebuilds solutions from there, ignoring conventional assumptions.</div></div>
+  <div class="glossary-row"><div class="gl-term">Active recall</div><div class="gl-def">A study technique in which the learner actively retrieves information from memory rather than passively re-reading material.</div></div>
+  <div class="glossary-row"><div class="gl-term">Spaced repetition</div><div class="gl-def">A learning technique involving reviewing material at increasing time intervals to improve long-term retention.</div></div>
+</div>
+
+</main>
+<script>
+function show(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function flip(card){
+  const back=card.querySelector('.fc-back');
+  back.classList.toggle('shown');
+}
+</script>
+</body>
+</html>

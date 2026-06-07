@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Unit V Flashcards</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f0f4f8; color: #1a2e5e; min-height: 100vh; }
+
+  /* Cover */
+  .cover { background: linear-gradient(135deg, #1a2e5e 0%, #0d7a7a 100%); color: #fff; padding: 3rem 2rem; text-align: center; }
+  .cover h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; }
+  .cover p { font-size: 1.1rem; color: #a8d8d8; margin-top: .5rem; }
+  .cover .gold-line { height: 3px; width: 120px; background: #c8960c; margin: 1.2rem auto; border-radius: 2px; }
+  .cover .subtitle { font-size: 1.05rem; color: #fef9ec; margin-top: .3rem; }
+  .cover .meta { font-size: .9rem; color: #9fc8c8; margin-top: 1rem; }
+  .cover .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: 1.2rem; }
+  .cover .badge { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 20px; padding: .3rem .9rem; font-size: .82rem; color: #e0f0f0; }
+
+  /* Navigation */
+  nav { background: #1a2e5e; padding: .8rem 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; position: sticky; top: 0; z-index: 100; }
+  nav button { background: transparent; border: 1px solid rgba(255,255,255,.25); color: #c8e6e6; border-radius: 20px; padding: .3rem .85rem; font-size: .8rem; cursor: pointer; transition: all .2s; }
+  nav button:hover, nav button.active { background: #0d7a7a; border-color: #0d7a7a; color: #fff; }
+  nav .search-wrap { margin-left: auto; }
+  nav input { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; padding: .3rem .9rem; color: #fff; font-size: .82rem; outline: none; width: 180px; }
+  nav input::placeholder { color: rgba(255,255,255,.45); }
+
+  /* Stats bar */
+  .stats-bar { background: #fff; border-bottom: 1px solid #e0e7ef; padding: .7rem 1.5rem; display: flex; gap: 1.5rem; font-size: .82rem; color: #555; flex-wrap: wrap; }
+  .stats-bar span b { color: #1a2e5e; }
+
+  /* Main */
+  main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+  /* Section banner */
+  .section-banner { background: #1a2e5e; color: #fff; border-radius: 10px; padding: .9rem 1.2rem; margin: 1.5rem 0 1rem; display: flex; align-items: center; gap: .7rem; }
+  .section-banner .icon { font-size: 1.2rem; }
+  .section-banner .sec-title { font-size: 1.05rem; font-weight: 700; }
+  .section-banner .sec-sub { font-size: .82rem; color: #a8d8d8; margin-top: .1rem; }
+
+  /* Sub-section */
+  .sub-section { font-size: .95rem; font-weight: 700; color: #0d7a7a; border-bottom: 2px solid #0d7a7a; padding-bottom: .3rem; margin: 1.2rem 0 .8rem; }
+
+  /* Flashcard */
+  .card { border-radius: 12px; overflow: hidden; border: 1.5px solid #9fc8c8; margin-bottom: 1rem; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13,122,122,.15); }
+  .card .front { background: #dce9fd; padding: .75rem 1rem; display: flex; align-items: flex-start; gap: .6rem; }
+  .card .front .label { font-size: .7rem; font-weight: 700; color: #0d7a7a; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; margin-top: 2px; }
+  .card .front .q { font-size: .95rem; font-weight: 700; color: #1a2e5e; line-height: 1.5; }
+  .card .back { background: #dff2e1; padding: .75rem 1rem; border-top: 1.5px solid #9fc8c8; display: none; }
+  .card.open .back { display: block; }
+  .card .back .label { font-size: .7rem; font-weight: 700; color: #2e7d32; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .4rem; }
+  .card .back .a-line { font-size: .9rem; color: #2d2d2d; line-height: 1.6; margin-bottom: .25rem; padding-left: .8rem; border-left: 3px solid #0d7a7a; margin-left: .2rem; }
+  .card .toggle-hint { font-size: .72rem; color: #888; text-align: right; padding: .3rem .8rem .2rem; background: #dce9fd; }
+
+  /* Vocab card */
+  .vocab-card { border-radius: 12px; border: 1.5px solid #9fc8c8; margin-bottom: .8rem; overflow: hidden; }
+  .vocab-card .v-head { background: #e0f2f1; padding: .6rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+  .vocab-card .v-term { font-size: 1rem; font-weight: 800; color: #1a2e5e; }
+  .vocab-card .v-num { font-size: .72rem; color: #0d7a7a; font-weight: 700; }
+  .vocab-card .v-field { font-size: .72rem; color: #0d7a7a; font-style: italic; background: #b2dfdb; border-radius: 20px; padding: .15rem .6rem; }
+  .vocab-card .v-body { background: #f9fafb; padding: .6rem 1rem; }
+  .vocab-card .v-meaning { font-size: .9rem; color: #2d2d2d; margin-bottom: .3rem; }
+  .vocab-card .v-example { font-size: .85rem; color: #666; font-style: italic; }
+
+  /* Glossary */
+  .gloss-card { display: flex; border-radius: 10px; border: 1px solid #9fc8c8; overflow: hidden; margin-bottom: .6rem; }
+  .gloss-card .g-term { background: #e0f2f1; padding: .6rem .9rem; font-size: .88rem; font-weight: 700; color: #1a2e5e; min-width: 180px; max-width: 200px; line-height: 1.4; }
+  .gloss-card .g-def { background: #f9fafb; padding: .6rem .9rem; font-size: .85rem; color: #2d2d2d; line-height: 1.5; }
+  .gloss-card .g-def em { color: #555; }
+
+  /* Tip box */
+  .tip-box { background: #fef9ec; border: 1.5px solid #c8960c; border-radius: 10px; padding: .7rem 1rem; margin: .8rem 0; font-size: .88rem; color: #5d4037; line-height: 1.5; }
+  .tip-box b { color: #c8960c; }
+
+  /* Table */
+  .plan-table { width: 100%; border-collapse: collapse; font-size: .88rem; border-radius: 10px; overflow: hidden; margin: .8rem 0; }
+  .plan-table th { background: #1a2e5e; color: #fff; padding: .55rem .8rem; text-align: left; font-weight: 600; }
+  .plan-table td { padding: .5rem .8rem; }
+  .plan-table tr:nth-child(odd) td { background: #f9fafb; }
+  .plan-table tr:nth-child(even) td { background: #e6f4f4; }
+
+  /* Footer */
+  .footer { text-align: center; font-size: .85rem; color: #888; padding: 2rem 1rem; margin-top: 1rem; border-top: 1px solid #ddd; }
+
+  /* Card number badge */
+  .card-num { background: #1a2e5e; color: #fff; border-radius: 50%; width: 22px; height: 22px; font-size: .7rem; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* Section hide */
+  .section-block { display: none; }
+  .section-block.visible { display: block; }
+
+  /* Progress dots */
+  .progress-row { display: flex; gap: .3rem; flex-wrap: wrap; margin-bottom: .5rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; cursor: pointer; transition: background .2s; }
+  .dot.done { background: #0d7a7a; }
+
+  /* Instruction layout */
+  .instr-list { list-style: none; padding: 0; }
+  .instr-list li { padding: .4rem 0 .4rem 1.2rem; position: relative; font-size: .9rem; color: #2d2d2d; line-height: 1.6; border-bottom: 1px dashed #e0e7ef; }
+  .instr-list li::before { content: '→'; position: absolute; left: 0; color: #0d7a7a; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div style="font-size:2.5rem;">📘</div>
+  <h1>ENGLISH UNIT V</h1>
+  <p>Flashcard Study Pack</p>
+  <div class="gold-line"></div>
+  <p class="subtitle">Motivation &amp; Intrapersonal Communication</p>
+  <p class="meta">B.Tech 1st Year &nbsp;·&nbsp; English Language &amp; Communication</p>
+  <div class="badges">
+    <span class="badge">📖 Literature</span>
+    <span class="badge">🎧 Listening</span>
+    <span class="badge">🗣️ Speaking</span>
+    <span class="badge">📚 Reading</span>
+    <span class="badge">✍️ Writing</span>
+    <span class="badge">📏 Grammar</span>
+    <span class="badge">🔤 Vocabulary</span>
+    <span class="badge">📘 Glossary</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <button class="active" data-sec="instructions">Instructions</button>
+  <button data-sec="literature">Literature</button>
+  <button data-sec="listening">Listening</button>
+  <button data-sec="speaking">Speaking</button>
+  <button data-sec="reading">Reading</button>
+  <button data-sec="writing">Writing</button>
+  <button data-sec="grammar">Grammar</button>
+  <button data-sec="vocabulary">Vocabulary</button>
+  <button data-sec="glossary">Glossary</button>
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="🔍 Search cards…">
+  </div>
+</nav>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <span>Total cards: <b id="total-count">0</b></span>
+  <span>Reviewed: <b id="done-count">0</b></span>
+  <span>Remaining: <b id="rem-count">0</b></span>
+  <span style="margin-left:auto;color:#0d7a7a;font-weight:600;" id="pct-label">0% complete</span>
+</div>
+
+<main>
+
+<!-- INSTRUCTIONS -->
+<div class="section-block visible" id="sec-instructions">
+  <div class="section-banner">
+    <span class="icon">📋</span>
+    <div><div class="sec-title">How to Use These Flashcards</div></div>
+  </div>
+  <p style="font-size:.93rem;color:#2d2d2d;line-height:1.7;margin-bottom:1rem;">These flashcards are designed to help B.Tech 1st Year students master English Unit V efficiently. Use the navigation tabs above to jump between sections.</p>
+  <div class="sub-section">Step-by-step study method</div>
+  <ul class="instr-list">
+    <li>Click a card to reveal the FRONT (question), then think of your answer.</li>
+    <li>Click again to reveal the BACK (answer) and compare.</li>
+    <li>Mark cards you got wrong — revisit them after every full round.</li>
+    <li>Group cards by section for focused revision using the nav tabs.</li>
+    <li>Use the Vocabulary section to build academic word power for essays.</li>
+    <li>Revise the Grammar section the day before exams for error-correction questions.</li>
+  </ul>
+  <div class="sub-section" style="margin-top:1.2rem;">Quick 3-day revision plan</div>
+  <table class="plan-table">
+    <thead><tr><th>Day</th><th>Focus Area</th><th>Time</th></tr></thead>
+    <tbody>
+      <tr><td><b>Day 1</b></td><td>Literature + Vocabulary + Glossary</td><td>2 hours</td></tr>
+      <tr><td><b>Day 2</b></td><td>Grammar + Writing + Reading</td><td>2 hours</td></tr>
+      <tr><td><b>Day 3</b></td><td>Listening + Speaking + Full Revision</td><td>1.5 hours</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><b>Tip:</b> For 2-mark questions: answer in 2–3 sentences. For 10-mark questions: use the structured essay format from the Writing section.</div>
+</div>
+
+<!-- LITERATURE -->
+<div class="section-block" id="sec-literature">
+  <div class="section-banner">
+    <span class="icon">📖</span>
+    <div><div class="sec-title">Section 1 – Literature</div><div class="sec-sub">Essay: The Power of Intrapersonal Communication</div></div>
+  </div>
+  <div class="sub-section">Essay summary &amp; central idea</div>
+</div>
+
+<!-- LISTENING -->
+<div class="section-block" id="sec-listening">
+  <div class="section-banner">
+    <span class="icon">🎧</span>
+    <div><div class="sec-title">Section 2 – Listening Skills</div></div>
+  </div>
+</div>
+
+<!-- SPEAKING -->
+<div class="section-block" id="sec-speaking">
+  <div class="section-banner">
+    <span class="icon">🗣️</span>
+    <div><div class="sec-title">Section 3 – Speaking Skills</div></div>
+  </div>
+  <div class="sub-section">Presentation structure</div>
+</div>
+
+<!-- READING -->
+<div class="section-block" id="sec-reading">
+  <div class="section-banner">
+    <span class="icon">📚</span>
+    <div><div class="sec-title">Section 4 – Reading Skills</div></div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div class="section-block" id="sec-writing">
+  <div class="section-banner">
+    <span class="icon">✍️</span>
+    <div><div class="sec-title">Section 5 – Writing Skills</div></div>
+  </div>
+  <div class="sub-section">Essay structure</div>
+</div>
+
+<!-- GRAMMAR -->
+<div class="section-block" id="sec-grammar">
+  <div class="section-banner">
+    <span class="icon">📏</span>
+    <div><div class="sec-title">Section 6 – Grammar Flashcards</div><div class="sec-sub">Articles · Prepositions · Tenses · Subject-Verb Agreement</div></div>
+  </div>
+  <div class="sub-section">Articles (a / an / the)</div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="section-block" id="sec-vocabulary">
+  <div class="section-banner">
+    <span class="icon">🔤</span>
+    <div><div class="sec-title">Section 7 – Vocabulary Flashcards</div><div class="sec-sub">Technical Jargon: Communication, Psychology &amp; Academics</div></div>
+  </div>
+  <div class="sub-section">Core vocabulary (30 terms)</div>
+</div>
+
+<!-- GLOSSARY -->
+<div class="section-block" id="sec-glossary">
+  <div class="section-banner">
+    <span class="icon">📘</span>
+    <div><div class="sec-title">Section 8 – Glossary</div><div class="sec-sub">Key Terms from the Essay – Student-Friendly Definitions</div></div>
+  </div>
+</div>
+
+<div class="footer">End of English Unit V Flashcard Pack &nbsp;·&nbsp; B.Tech 1st Year &nbsp;·&nbsp; All the best for your exams! 🎓</div>
+</main>
+
+<script>
+const cardData = {
+  literature: [
+    { q: "What is the central idea of the essay 'The Power of Intrapersonal Communication'?", a: ["The essay argues that intrapersonal communication — the inner dialogue we have with ourselves — is the most powerful form of communication. It shapes our thoughts, beliefs, emotions, and ultimately our actions and success.", "Key idea: How we talk to ourselves determines how we respond to the world."] },
+    { q: "What is Intrapersonal Communication? Give a brief definition.", a: ["Communication that occurs within an individual — talking to oneself, inner thinking, self-reflection, and self-evaluation.", "It involves: self-awareness, self-concept, and internal monologue.", "It is the foundation of all other forms of communication."] },
+    { q: "What are the three components of Intrapersonal Communication?", a: ["1. Self-Concept – one's perception of oneself (who I am).", "2. Self-Awareness – understanding one's own emotions and reactions.", "3. Self-Talk – the internal dialogue that shapes thoughts and behaviour."] },
+    { q: "How does intrapersonal communication act as a motivating force?", a: ["Positive self-talk boosts confidence and encourages action.", "When a person says 'I can do this' internally, the brain is wired to support that belief.", "Athletes, professionals, and students use positive intrapersonal dialogue to overcome challenges.", "Motivation begins within — not from external praise."] },
+    { q: "What is the difference between positive and negative self-talk?", a: ["Positive Self-Talk: Encourages, motivates, builds confidence. E.g., 'I will succeed.'", "Negative Self-Talk: Discourages, creates self-doubt, leads to failure. E.g., 'I am not good enough.'", "Replace negative inner dialogue with affirmations and constructive thinking."] },
+    { q: "Why is intrapersonal communication considered the foundation of all communication?", a: ["Before we speak to others, we first process thoughts internally.", "Our clarity of self-expression depends on the clarity of our inner thoughts.", "Better intrapersonal communication → better interpersonal, group, and public communication.", "It builds emotional intelligence, empathy, and leadership skills."] },
+    { q: "2-Mark Q: What is self-concept and how is it formed?", a: ["Self-concept is the image a person holds of themselves — their abilities, values, and identity. It is formed through personal experiences, feedback from others, and internal reflection. A positive self-concept leads to confident communication."] },
+    { q: "2-Mark Q: What is the role of self-awareness in personal development?", a: ["Self-awareness is the ability to recognise and understand one's own thoughts, emotions, and behaviour. It enables individuals to identify strengths and weaknesses, regulate emotions, and improve communication."] },
+    { q: "10-Mark Q: Discuss the importance of intrapersonal communication in academic and professional life.", a: ["Introduction: Define intrapersonal communication.", "Point 1: Enhances self-confidence — positive self-talk before exams/presentations.", "Point 2: Improves decision-making — internal reasoning helps evaluate options.", "Point 3: Emotional regulation — helps manage stress, anxiety, and frustration.", "Point 4: Goal-setting — internal dialogue helps clarify and commit to goals.", "Point 5: Leadership — self-aware leaders communicate more effectively with teams.", "Conclusion: Intrapersonal communication is the root of all personal and professional success."] },
+    { q: "Value-Based Q: What value does the essay promote regarding self-development?", a: ["The essay promotes self-responsibility and inner growth.", "True motivation comes from within, not from external sources.", "Values highlighted: Self-discipline, positivity, resilience, self-belief.", "The essay encourages students to take charge of their inner voice to lead a purposeful life."] },
+  ],
+  listening: [
+    { q: "What is the difference between 'hearing' and 'listening'?", a: ["Hearing: A passive, physiological process — sound waves reach the ears. No mental effort required.", "Listening: An active, cognitive process — involves attention, interpretation, and understanding.", "Effective listening requires focus, note-taking, and inferring meaning from context."] },
+    { q: "What are the four types of listening?", a: ["1. Appreciative Listening – listening for pleasure (music, stories).", "2. Informational Listening – listening to learn (lectures, instructions).", "3. Critical Listening – evaluating and analysing what is heard.", "4. Empathetic Listening – understanding the speaker's feelings and emotions."] },
+    { q: "What are three effective techniques for answering listening comprehension questions?", a: ["1. Listen for key words: Focus on nouns, verbs, and numbers.", "2. Predict: Use context to anticipate what the speaker might say next.", "3. Note-taking: Jot down important points using abbreviations and symbols.", "Also: Avoid over-thinking; trust your first interpretation for factual questions."] },
+    { q: "What are common barriers to effective listening?", a: ["1. External distractions (noise, poor audio quality).", "2. Internal distractions (wandering thoughts, personal bias).", "3. Emotional interference (anxiety, disagreement with content).", "4. Language barrier (unfamiliar vocabulary or accent).", "Solution: Maintain focus, ask clarifying questions, practise active listening."] },
+    { q: "What is 'active listening' and why is it important in academic contexts?", a: ["Active listening means fully concentrating on, understanding, and responding to the speaker.", "It involves: eye contact, nodding, asking questions, paraphrasing the speaker's points.", "In academics: Improves comprehension of lectures, better note-taking, and higher retention."] },
+  ],
+  speaking: [
+    { q: "What are the three main parts of a formal academic presentation?", a: ["1. Introduction: Greet the audience, introduce your topic, state the purpose/objective.", "2. Body: Present 3–5 main points with supporting evidence, examples, and explanations.", "3. Conclusion: Summarise key points, restate the central message, thank the audience, invite questions."] },
+    { q: "Give five useful phrases for the INTRODUCTION of a presentation.", a: ["1. 'Good morning/afternoon. I am [Name] and today I will be speaking about…'", "2. 'The purpose of my presentation is to discuss…'", "3. 'I will be covering three main points today…'", "4. 'By the end of this presentation, you will have understood…'", "5. 'Let me begin by defining the term…'"] },
+    { q: "Give five useful phrases for the BODY and CONCLUSION of a presentation.", a: ["Body: 'Moving on to my second point…' / 'To elaborate further…' / 'For example…'", "Transition: 'This brings me to my next point…' / 'Having discussed X, let us now look at Y…'", "Conclusion: 'In conclusion…' / 'To summarise what we have discussed today…'", "Closing: 'Thank you for your attention. I am happy to take any questions.'"] },
+    { q: "What are five tips for delivering an effective academic presentation?", a: ["1. Maintain eye contact with the audience — avoid reading from notes constantly.", "2. Speak clearly and at a moderate pace — avoid rushing.", "3. Use appropriate volume and vary your tone to maintain interest.", "4. Use pauses effectively — give the audience time to absorb information.", "5. Practise beforehand — confidence comes from preparation, not improvisation."] },
+    { q: "Give three sample mini-presentation topics related to Motivation and Communication.", a: ["1. 'How Positive Self-Talk Can Transform Academic Performance'", "2. 'The Role of Intrapersonal Communication in Leadership'", "3. 'Why Self-Awareness Is the First Step to Success'"] },
+  ],
+  reading: [
+    { q: "What is the SQ3R reading technique? Explain each step.", a: ["S – Survey: Skim the passage for headings, subheadings, and key terms.", "Q – Question: Turn headings into questions to guide reading.", "R1 – Read: Read carefully for answers to your questions.", "R2 – Recite: After each section, recall key points without looking.", "R3 – Review: Re-read to confirm understanding and check your answers."] },
+    { q: "How do you identify the MAIN IDEA of a passage?", a: ["Step 1: Read the first and last paragraphs — they usually state the main idea.", "Step 2: Ask: 'What is the author's primary message?' — not the supporting details.", "Step 3: Look for the most repeated concept throughout the passage.", "Tip: The topic sentence of each paragraph carries the main idea of that paragraph."] },
+    { q: "What is the difference between 'skimming' and 'scanning' in reading?", a: ["Skimming: Reading quickly to get the general idea/overview of a text. Used when: previewing a passage before detailed reading.", "Scanning: Moving eyes rapidly over text to find a specific word, number, or fact. Used when: answering fact-based questions from a passage."] },
+    { q: "How should you answer passage-based comprehension questions in exams?", a: ["1. Read the questions BEFORE reading the passage to know what to look for.", "2. Underline keywords in the question.", "3. Locate relevant sections in the passage using scanning.", "4. Write answers in your own words — avoid copying verbatim.", "5. Ensure your answer directly addresses the question — add evidence if required."] },
+    { q: "What are inferential questions in reading comprehension?", a: ["Inferential questions require reading between the lines — the answer is not directly stated.", "Example: 'What does the author imply by the phrase \"the silent voice\"?'", "Strategy: Use context clues, tone, and logic to deduce meaning.", "Contrast: Literal questions have answers directly in the text."] },
+  ],
+  writing: [
+    { q: "What is the standard structure of an academic essay? Explain each part.", a: ["Introduction (10–15%): Hook → Background → Thesis Statement.", "Body Paragraphs (70–75%): Each paragraph = one main idea. Topic sentence → Explanation → Example → Link back to thesis.", "Conclusion (10–15%): Restate thesis → Summarise key arguments → Thought-provoking closing statement."] },
+    { q: "What are the different types of essays? Give a one-line description of each.", a: ["1. Descriptive Essay – describes a person, place, or event in detail.", "2. Narrative Essay – tells a story from the writer's perspective.", "3. Expository Essay – explains or informs about a topic objectively.", "4. Argumentative Essay – presents a claim and supports it with evidence.", "5. Persuasive Essay – convinces the reader to adopt a specific viewpoint."] },
+    { q: "Write a sample THESIS STATEMENT for an essay on Intrapersonal Communication.", a: ["Weak: 'Intrapersonal communication is important.'", "Strong: 'Intrapersonal communication, through self-talk and self-awareness, is the foundational tool that drives motivation, emotional intelligence, and academic success in individuals.'", "Rule: A strong thesis is specific, debatable, and outlines the structure of the essay."] },
+    { q: "What are five common writing mistakes to AVOID in academic essays?", a: ["1. Run-on sentences: 'I studied I passed.' → Correct: 'I studied; therefore, I passed.'", "2. Informal language: Avoid contractions (don't → do not), slang, abbreviations.", "3. Repetition: Do not repeat the same word/phrase in consecutive sentences.", "4. Passive overuse: 'The essay was written by me.' → 'I wrote the essay.'", "5. No topic sentence: Every paragraph must begin with a clear topic sentence."] },
+    { q: "What are effective LINKING WORDS for essays? Provide examples by category.", a: ["Addition: Furthermore, Moreover, In addition, Besides", "Contrast: However, Nevertheless, On the other hand, Although", "Cause/Effect: Therefore, As a result, Consequently, Hence", "Example: For instance, For example, To illustrate, Specifically", "Conclusion: In conclusion, To summarise, Overall, In brief"] },
+  ],
+  grammar: [
+    { q: "What are the rules for using articles 'a', 'an', and 'the'?", a: ["'a' – used before words beginning with a consonant sound: a book, a university (y-sound).", "'an' – used before words beginning with a vowel sound: an apple, an hour (silent h).", "'the' – used before specific or previously mentioned nouns: the teacher, the sun.", "No article – used with plural nouns in general statements: Dogs are loyal.", "Common Error: 'He is a honest man.' → Correct: 'He is an honest man.'"] },
+    { q: "Identify and correct the article errors in these sentences.", a: ["1. 'She is a engineer.' → She is AN engineer. (vowel sound)", "2. 'The life is beautiful.' → Life is beautiful. (general concept — no article)", "3. 'He gave me an useful tip.' → He gave me A useful tip. (y-sound)", "4. 'I saw a sun rise.' → I saw THE sun rise. (unique noun)", "5. 'She plays a piano.' → She plays THE piano. (specific instrument)"] },
+    { q: "What are the rules for commonly confused prepositions: in / on / at?", a: ["IN – for enclosed spaces, months, years, long periods: in the room, in July, in 2024.", "ON – for surfaces, days, dates: on the table, on Monday, on 5th June.", "AT – for specific points/times/places: at 9 AM, at the door, at the station.", "Common Error: 'I will meet you in Monday.' → Correct: 'I will meet you ON Monday.'"] },
+    { q: "Correct the preposition errors in these sentences.", a: ["1. 'She is good in mathematics.' → She is good AT mathematics.", "2. 'He arrived to the station late.' → He arrived AT the station late.", "3. 'I am interested about psychology.' → I am interested IN psychology.", "4. 'We discussed about the project.' → We discussed the project. (no preposition)"] },
+    { q: "What is the difference between Simple Past and Present Perfect tense?", a: ["Simple Past: Action completed at a specific time in the past. Example: 'She submitted the report yesterday.'", "Present Perfect: Action completed at an unspecified time with present relevance. Example: 'She has submitted the report.'", "Rule: Use Present Perfect with: just, already, yet, ever, never, recently."] },
+    { q: "Identify and correct the tense errors in the following sentences.", a: ["1. 'He have completed the task.' → He HAS completed the task.", "2. 'She goed to college.' → She WENT to college.", "3. 'I am knowing the answer.' → I KNOW the answer. (stative verb)", "4. 'She is study every day.' → She STUDIES every day."] },
+    { q: "What are the key rules of Subject-Verb Agreement?", a: ["Rule 1: Singular subject → singular verb. 'The student studies hard.'", "Rule 2: Plural subject → plural verb. 'The students study hard.'", "Rule 3: Words like everyone, nobody, each → singular verb.", "Rule 4: 'Either/or', 'neither/nor' → verb agrees with the nearer subject.", "Rule 5: Collective nouns (team, committee) → singular verb in formal writing."] },
+    { q: "Correct the Subject-Verb Agreement errors in these sentences.", a: ["1. 'The team are ready.' → The team IS ready. (collective noun)", "2. 'Everyone have submitted the form.' → Everyone HAS submitted the form.", "3. 'Neither the teacher nor the students was present.' → ...students WERE present.", "4. 'The news are shocking.' → The news IS shocking. (uncountable noun)", "5. 'One of the students are absent.' → One of the students IS absent."] },
+  ],
+};
+
+const vocabData = [
+  { num:"V1", term:"Intrapersonal", field:"Communication / Psychology", meaning:"Communication within oneself; internal thinking and self-dialogue.", example:"Her intrapersonal communication helped her stay calm during the crisis." },
+  { num:"V2", term:"Self-Concept", field:"Psychology", meaning:"An individual's perception and belief about who they are.", example:"A positive self-concept enables students to handle academic challenges confidently." },
+  { num:"V3", term:"Self-Awareness", field:"Psychology / Leadership", meaning:"The conscious knowledge of one's own character, emotions, and motivations.", example:"Self-awareness is the first step towards meaningful personal growth." },
+  { num:"V4", term:"Self-Talk", field:"Psychology / Motivation", meaning:"The internal monologue a person has with themselves.", example:"Athletes rely on positive self-talk to maintain focus during competitions." },
+  { num:"V5", term:"Monologue", field:"Communication / Literature", meaning:"A long speech by one person; internal verbal thought.", example:"His internal monologue revealed deep-seated fears." },
+  { num:"V6", term:"Affirmation", field:"Psychology / Motivation", meaning:"A positive statement used to challenge and overcome self-sabotaging thoughts.", example:"She repeated her daily affirmations to build confidence before the interview." },
+  { num:"V7", term:"Cognition", field:"Psychology / Education", meaning:"The mental process of acquiring knowledge through thought and experience.", example:"Effective learning is rooted in strong cognitive processing skills." },
+  { num:"V8", term:"Introspection", field:"Psychology", meaning:"The examination of one's own thoughts and feelings.", example:"Regular introspection allows individuals to understand their emotional triggers." },
+  { num:"V9", term:"Motivation", field:"Psychology / Education", meaning:"A reason or drive that causes a person to act in a certain way.", example:"Intrinsic motivation is more sustainable than external rewards." },
+  { num:"V10", term:"Perception", field:"Communication / Psychology", meaning:"The way in which something is regarded, understood, or interpreted.", example:"Our perception of failure shapes how we respond to setbacks." },
+  { num:"V11", term:"Empathy", field:"Communication / Emotional Intelligence", meaning:"The ability to understand and share the feelings of another person.", example:"Empathy is essential for effective interpersonal communication." },
+  { num:"V12", term:"Articulate", field:"Communication / Academic Writing", meaning:"To express an idea or feeling clearly and effectively.", example:"The professor articulated his argument with remarkable clarity." },
+  { num:"V13", term:"Coherence", field:"Writing / Communication", meaning:"The quality of being logical and consistent; well-connected ideas.", example:"Coherence in an essay ensures that the reader follows the argument easily." },
+  { num:"V14", term:"Concise", field:"Writing / Communication", meaning:"Giving much information clearly and in few words.", example:"A concise summary captures the essence without unnecessary elaboration." },
+  { num:"V15", term:"Rhetoric", field:"Communication / Literature", meaning:"The art of effective or persuasive speaking or writing.", example:"His use of rhetoric in the speech moved the entire audience." },
+  { num:"V16", term:"Interpersonal", field:"Communication", meaning:"Relating to relationships or communication between people.", example:"Strong interpersonal skills are vital for professional collaboration." },
+  { num:"V17", term:"Infer", field:"Reading / Academic Skills", meaning:"To deduce or conclude from evidence rather than explicit statement.", example:"Students must infer the author's purpose from contextual clues." },
+  { num:"V18", term:"Synthesis", field:"Academic Writing / Research", meaning:"Combining information from multiple sources into a coherent whole.", example:"The essay required students to synthesise data from five different articles." },
+  { num:"V19", term:"Critique", field:"Academic Writing", meaning:"A detailed analysis and assessment of a piece of work.", example:"Her critique of the article identified both its strengths and limitations." },
+  { num:"V20", term:"Paraphrase", field:"Writing / Academic Skills", meaning:"Rewording a piece of text using different words while retaining the meaning.", example:"Always paraphrase when incorporating someone else's ideas into your essay." },
+  { num:"V21", term:"Abstract", field:"Academic Writing / Research", meaning:"A brief summary of a research article, thesis, or academic paper.", example:"The abstract must capture the study's purpose, method, and key findings." },
+  { num:"V22", term:"Discourse", field:"Communication / Linguistics", meaning:"Written or spoken communication or debate on a subject.", example:"Academic discourse requires formal language and structured argumentation." },
+  { num:"V23", term:"Ambiguity", field:"Communication / Writing", meaning:"Openness to more than one interpretation; inexactness.", example:"Avoid ambiguity in formal writing by using precise and clear language." },
+  { num:"V24", term:"Analogy", field:"Literature / Communication", meaning:"A comparison between two things for the purpose of explanation.", example:"The teacher used an analogy to explain the concept of intrapersonal communication." },
+  { num:"V25", term:"Credibility", field:"Communication / Academic Writing", meaning:"The quality of being trusted and believed in.", example:"Citing reliable sources enhances the credibility of your argument." },
+  { num:"V26", term:"Pragmatic", field:"Communication / Philosophy", meaning:"Dealing with things sensibly and realistically.", example:"A pragmatic communicator focuses on what works rather than on theory." },
+  { num:"V27", term:"Implicit", field:"Communication / Reading", meaning:"Suggested though not directly expressed.", example:"The author's critique of social norms is implicit throughout the essay." },
+  { num:"V28", term:"Explicit", field:"Communication / Writing", meaning:"Stated clearly and in detail, leaving no room for ambiguity.", example:"Make your thesis statement explicit so the reader knows your argument immediately." },
+  { num:"V29", term:"Nuance", field:"Communication / Writing", meaning:"A subtle difference in meaning, expression, or sound.", example:"Skilled writers use nuance to add depth and complexity to their arguments." },
+  { num:"V30", term:"Facilitate", field:"Communication / Education", meaning:"To make an action or process easier or possible.", example:"Good communication facilitates collaboration between team members." },
+];
+
+const glossaryData = [
+  { term:"Intrapersonal Communication", meaning:"Communicating with yourself", explanation:"The process of thinking, reflecting, or talking to yourself internally." },
+  { term:"Self-Concept", meaning:"Who you believe you are", explanation:"The overall image a person has of themselves — their strengths, weaknesses, values, and identity." },
+  { term:"Self-Awareness", meaning:"Knowing your own feelings and reactions", explanation:"The ability to observe your own emotions, thoughts, and behaviours and understand their impact." },
+  { term:"Self-Talk", meaning:"Your inner voice", explanation:"The continuous internal dialogue running in your mind. It can be positive or negative." },
+  { term:"Motivation", meaning:"The drive to take action", explanation:"An internal or external reason that pushes a person to work towards a goal." },
+  { term:"Affirmation", meaning:"Positive self-statements", explanation:"Short, powerful statements repeated to build confidence. E.g., 'I am capable and prepared.'" },
+  { term:"Cognition", meaning:"Mental thinking process", explanation:"All the mental processes involved in knowing, including memory, reasoning, and problem-solving." },
+  { term:"Introspection", meaning:"Looking inward at yourself", explanation:"Examining and analysing your own thoughts, feelings, and mental states carefully." },
+  { term:"Inner Monologue", meaning:"Continuous internal speech", explanation:"The constant stream of thoughts a person experiences in their mind, often without realising it." },
+  { term:"Emotional Intelligence", meaning:"Managing emotions wisely", explanation:"The ability to understand, use, and manage your own emotions and the emotions of others positively." },
+  { term:"Perception", meaning:"Your interpretation of the world", explanation:"The way you see and understand things, often shaped by personal experience and belief." },
+  { term:"Empathy", meaning:"Understanding others' feelings", explanation:"The capacity to sense and understand what another person is feeling by imagining yourself in their situation." },
+  { term:"Communication", meaning:"Exchanging information", explanation:"The process of sending and receiving messages — verbally, non-verbally, or in writing." },
+  { term:"Rhetoric", meaning:"Persuasive communication", explanation:"The use of language effectively to persuade, inform, or motivate. A core skill in academic presentations." },
+  { term:"Articulation", meaning:"Expressing yourself clearly", explanation:"The ability to put your thoughts and ideas into words fluently and precisely." },
+];
+
+// State
+const reviewed = new Set();
+
+function countAll() {
+  let n = 0;
+  Object.values(cardData).forEach(arr => n += arr.length);
+  n += vocabData.length + glossaryData.length;
+  return n;
+}
+
+function updateStats() {
+  const total = countAll();
+  const done = reviewed.size;
+  document.getElementById('total-count').textContent = total;
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('rem-count').textContent = total - done;
+  document.getElementById('pct-label').textContent = Math.round(done/total*100) + '% complete';
+}
+
+function makeCard(q, aArr, num, secKey) {
+  const id = secKey + '_' + num;
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.dataset.q = q.toLowerCase();
+  div.dataset.id = id;
+
+  const front = document.createElement('div');
+  front.className = 'front';
+  front.innerHTML = `<div class="card-num">${num}</div><div style="flex:1"><div class="label">▶ FRONT — click to reveal answer</div><div class="q">${q}</div></div>`;
+
+  const back = document.createElement('div');
+  back.className = 'back';
+  back.innerHTML = `<div class="label">✓ BACK</div>` + aArr.map(l => `<div class="a-line">${l}</div>`).join('');
+
+  div.appendChild(front);
+  div.appendChild(back);
+
+  div.addEventListener('click', () => {
+    div.classList.toggle('open');
+    if (div.classList.contains('open') && !reviewed.has(id)) {
+      reviewed.add(id);
+      updateStats();
+    }
+  });
+  return div;
+}
+
+function makeVocabCard(v) {
+  const div = document.createElement('div');
+  div.className = 'vocab-card';
+  div.dataset.q = (v.term + ' ' + v.meaning + ' ' + v.example).toLowerCase();
+  div.innerHTML = `<div class="v-head"><div><span class="v-num">${v.num}</span> <span class="v-term">${v.term}</span></div><span class="v-field">${v.field}</span></div><div class="v-body"><div class="v-meaning"><b>Meaning:</b> ${v.meaning}</div><div class="v-example"><b>Example:</b> <em>${v.example}</em></div></div>`;
+  return div;
+}
+
+function makeGlossCard(g) {
+  const div = document.createElement('div');
+  div.className = 'gloss-card';
+  div.dataset.q = (g.term + ' ' + g.meaning + ' ' + g.explanation).toLowerCase();
+  div.innerHTML = `<div class="g-term">${g.term}<br><em style="font-size:.78rem;color:#0d7a7a;font-weight:400;">${g.meaning}</em></div><div class="g-def">${g.explanation}</div>`;
+  return div;
+}
+
+// Build sections
+function buildSection(key, container) {
+  const arr = cardData[key];
+  arr.forEach((item, i) => {
+    container.appendChild(makeCard(item.q, item.a, i + 1, key));
+  });
+}
+
+buildSection('literature', document.getElementById('sec-literature'));
+buildSection('listening',  document.getElementById('sec-listening'));
+buildSection('speaking',   document.getElementById('sec-speaking'));
+buildSection('reading',    document.getElementById('sec-reading'));
+buildSection('writing',    document.getElementById('sec-writing'));
+buildSection('grammar',    document.getElementById('sec-grammar'));
+
+const vocabSec = document.getElementById('sec-vocabulary');
+vocabData.forEach(v => vocabSec.appendChild(makeVocabCard(v)));
+
+const glossSec = document.getElementById('sec-glossary');
+glossaryData.forEach(g => glossSec.appendChild(makeGlossCard(g)));
+glossSec.insertAdjacentHTML('beforeend', '<div class="tip-box" style="margin-top:1rem"><b>Tip:</b> Review the glossary daily for one week before exams. These terms frequently appear in 2-mark and fill-in-the-blank questions.</div>');
+
+updateStats();
+
+// Nav
+const sections = ['instructions','literature','listening','speaking','reading','writing','grammar','vocabulary','glossary'];
+const navBtns = document.querySelectorAll('nav button[data-sec]');
+
+function showSection(key) {
+  sections.forEach(s => {
+    document.getElementById('sec-' + s).classList.toggle('visible', s === key);
+  });
+  navBtns.forEach(b => b.classList.toggle('active', b.dataset.sec === key));
+}
+
+navBtns.forEach(b => b.addEventListener('click', () => showSection(b.dataset.sec)));
+
+// Search
+document.getElementById('search').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  if (!q) { showSection(document.querySelector('nav button.active').dataset.sec); return; }
+  sections.forEach(s => document.getElementById('sec-' + s).classList.remove('visible'));
+  // show all sections, filter cards
+  sections.forEach(s => {
+    const sec = document.getElementById('sec-' + s);
+    sec.classList.add('visible');
+    sec.querySelectorAll('[data-q]').forEach(el => {
+      el.style.display = el.dataset.q.includes(q) ? '' : 'none';
+    });
+  });
+  navBtns.forEach(b => b.classList.remove('active'));
+});
+</script>
+</body>
+</html>

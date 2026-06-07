@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit IV English Flashcards</title>
+<style>
+  :root {
+    --navy: #1A2A4A; --royal: #2C4A8C; --teal: #1E7A8C;
+    --gold: #D4A017; --light-gold: #FFF8E7; --light-blue: #EAF0FB;
+    --front-bg: #1A3A5C; --back-bg: #F0F7FF; --white: #fff;
+    --grey: #444; --green: #186A3B; --purple: #6C3483;
+    --brown: #784212; --dark-blue: #1A5276;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Helvetica, Arial, sans-serif; background: #f0f4f8; color: var(--grey); }
+
+  /* ── Cover ── */
+  #cover {
+    min-height: 100vh; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px 20px; position: relative; overflow: hidden;
+  }
+  #cover::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 8px; height: 100%; background: var(--teal);
+  }
+  #cover::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 10px; background: var(--gold);
+  }
+  .cover-bottom-bar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 8px; background: var(--gold);
+  }
+  .cover-badge {
+    background: #243B60; border-radius: 8px; padding: 8px 24px; margin-bottom: 24px;
+    color: var(--gold); font-weight: bold; font-size: 13px;
+  }
+  .cover-badge span { display: block; color: #9AB8D8; font-size: 11px; font-weight: normal; margin-top: 2px; }
+  .cover-title { font-size: clamp(48px, 10vw, 80px); font-weight: 900; line-height: 1; }
+  .cover-title .flash { color: var(--white); }
+  .cover-title .cards { color: var(--gold); }
+  .cover-sub { color: #BDD4F5; font-size: 15px; margin: 12px 0 24px; }
+  .cover-unit-box {
+    background: var(--teal); border-radius: 8px; padding: 10px 32px;
+    color: var(--white); font-weight: bold; font-size: 14px; margin-bottom: 16px;
+  }
+  .cover-lesson-box {
+    background: var(--light-gold); border-radius: 6px; padding: 8px 24px;
+    color: var(--navy); font-weight: bold; font-size: 12px; margin-bottom: 32px;
+  }
+  .cover-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 32px; }
+  .cover-tag {
+    background: #1E3A60; color: #9AB8D8; font-size: 10px;
+    padding: 4px 10px; border-radius: 4px;
+  }
+  .start-btn {
+    background: var(--gold); color: var(--navy); font-weight: bold;
+    font-size: 16px; padding: 14px 40px; border: none; border-radius: 8px;
+    cursor: pointer; transition: transform .15s, box-shadow .15s;
+  }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,160,23,.4); }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy); padding: 0 16px;
+    display: flex; align-items: center; gap: 6px; overflow-x: auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  nav::-webkit-scrollbar { height: 3px; }
+  nav::-webkit-scrollbar-thumb { background: var(--gold); }
+  .nav-btn {
+    background: none; border: none; color: #BDD4F5;
+    font-size: 11px; padding: 14px 10px; cursor: pointer;
+    white-space: nowrap; border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .nav-btn:hover, .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── Main ── */
+  main { display: none; }
+
+  /* ── Section Banner ── */
+  .section-banner {
+    display: flex; align-items: center; gap: 12px;
+    border-radius: 8px; padding: 16px 24px; margin: 24px 16px 16px;
+    position: relative; overflow: hidden;
+  }
+  .section-banner::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--gold);
+  }
+  .section-banner-icon { font-size: 22px; }
+  .section-banner h2 { color: var(--white); font-size: 16px; font-weight: bold; }
+
+  /* ── Cards Grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px; padding: 0 16px 24px;
+  }
+
+  /* ── Flashcard ── */
+  .flashcard { perspective: 1000px; height: 220px; cursor: pointer; }
+  .flashcard-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d; transition: transform .5s ease;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    display: flex; flex-direction: column;
+  }
+  .flashcard-front {
+    background: var(--front-bg);
+    align-items: center; justify-content: center; text-align: center;
+    padding: 20px;
+  }
+  .flashcard-front .card-label {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; border-radius: 10px 10px 0 0;
+  }
+  .flashcard-front h3 { color: var(--white); font-size: 13px; line-height: 1.5; }
+  .flip-hint {
+    position: absolute; bottom: 10px; right: 12px;
+    color: rgba(255,255,255,.4); font-size: 10px;
+  }
+  .flashcard-back {
+    background: var(--back-bg);
+    transform: rotateY(180deg);
+    padding: 14px 16px; overflow-y: auto;
+  }
+  .flashcard-back .card-label {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    border-radius: 10px 10px 0 0;
+  }
+  .flashcard-back .back-content { font-size: 11.5px; line-height: 1.65; color: var(--navy); }
+  .flashcard-back .back-content b { color: var(--navy); }
+
+  /* ── Section pages ── */
+  .section-page { display: none; }
+  .section-page.active { display: block; }
+
+  /* ── Checklist ── */
+  .checklist-wrap { padding: 0 16px 32px; }
+  .checklist-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .checklist-table th {
+    background: var(--navy); color: var(--white);
+    padding: 10px 12px; text-align: left;
+  }
+  .checklist-table td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+  .checklist-table tr:nth-child(even) td { background: var(--light-blue); }
+  .checklist-table input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--teal); }
+
+  .footer-card {
+    margin: 0 16px 32px;
+    background: var(--light-gold); border: 2px solid var(--gold);
+    border-radius: 10px; padding: 20px; text-align: center;
+    font-size: 13px; line-height: 1.7; color: var(--navy);
+  }
+
+  @media (max-width: 500px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .flashcard { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══════════════════════════════════════════════════════════════════ -->
+<div id="cover">
+  <div class="cover-bottom-bar"></div>
+  <div class="cover-badge">B.Tech 1st Year <span>English — Unit IV</span></div>
+  <div class="cover-title">
+    <div class="flash">FLASH</div>
+    <div class="cards">CARDS</div>
+  </div>
+  <div class="cover-sub">Complete Revision Booklet</div>
+  <div class="cover-unit-box">UNIT IV · INSPIRATION</div>
+  <div class="cover-lesson-box">"The Toys of Peace" by Saki</div>
+  <div class="cover-tags">
+    <span class="cover-tag">Prose</span><span class="cover-tag">Listening</span>
+    <span class="cover-tag">Speaking</span><span class="cover-tag">Reading</span>
+    <span class="cover-tag">Writing</span><span class="cover-tag">Grammar</span>
+    <span class="cover-tag">Vocabulary</span>
+  </div>
+  <button class="start-btn" onclick="startApp()">Start Revision →</button>
+</div>
+
+<!-- ══ APP ════════════════════════════════════════════════════════════════════ -->
+<main id="app">
+  <nav id="main-nav">
+    <button class="nav-btn active" onclick="showSection(0,this)">🎭 Prose</button>
+    <button class="nav-btn" onclick="showSection(1,this)">🎧 Listening</button>
+    <button class="nav-btn" onclick="showSection(2,this)">🗣️ Speaking</button>
+    <button class="nav-btn" onclick="showSection(3,this)">📖 Reading</button>
+    <button class="nav-btn" onclick="showSection(4,this)">✍️ Writing</button>
+    <button class="nav-btn" onclick="showSection(5,this)">🧠 Grammar</button>
+    <button class="nav-btn" onclick="showSection(6,this)">📘 Vocabulary</button>
+    <button class="nav-btn" onclick="showSection(7,this)">✅ Checklist</button>
+  </nav>
+
+  <!-- S1 PROSE -->
+  <section class="section-page active" id="sec0"></section>
+  <!-- S2 LISTENING -->
+  <section class="section-page" id="sec1"></section>
+  <!-- S3 SPEAKING -->
+  <section class="section-page" id="sec2"></section>
+  <!-- S4 READING -->
+  <section class="section-page" id="sec3"></section>
+  <!-- S5 WRITING -->
+  <section class="section-page" id="sec4"></section>
+  <!-- S6 GRAMMAR -->
+  <section class="section-page" id="sec5"></section>
+  <!-- S7 VOCABULARY -->
+  <section class="section-page" id="sec6"></section>
+  <!-- S8 CHECKLIST -->
+  <section class="section-page" id="sec7"></section>
+</main>
+
+<script>
+const SECTIONS = [
+  {
+    title: "PROSE — The Toys of Peace by Saki",
+    icon: "🎭", color: "#2C4A8C",
+    cards: [
+      ["Who is SAKI?\n(About the Author)",
+       "<b>Real Name:</b> H.H. Munro (1870–1916)<br><b>Nationality:</b> British-born; raised in Burma<br><b>Style:</b> Witty, satirical, ironic short stories<br><b>Known for:</b> Sharp social commentary disguised as humour<br><b>Died:</b> World War I (1916) — killed in action<br><b>Key works:</b> 'The Open Window', 'Gabriel-Ernest', 'Tobermory'"],
+      ["SUMMARY\nThe Toys of Peace",
+       "<b>Characters:</b> Harvey (uncle), Eric & Bertie (nephews), Eleanor (Harvey's sister)<br><b>Plot:</b> Harvey, inspired by a peace reformer, replaces war toys with 'toys of peace' — civic models like a sanitary inspector's kit.<br><b>Twist:</b> Children convert all peace-toys into war-play scenarios.<br><b>Message:</b> War is deeply ingrained in human nature."],
+      ["KEY THEME 1\nSatire on Adult Idealism",
+       "<b>Harvey's Mistake:</b> He naively believes children can be moulded into peaceful beings by changing their toys.<br><b>Saki's Satire:</b> Adults romanticise peace but fail to understand child psychology.<br><b>Irony:</b> 'Toys of peace' immediately become instruments of war.<br><b>Exam Tip:</b> Satire = ridicule of human folly through irony/wit."],
+      ["KEY THEME 2\nWar vs Peace / Human Nature",
+       "<b>Central conflict:</b> Reform vs instinct<br><b>Saki's view:</b> War is an innate human impulse, especially in children.<br><b>Evidence:</b> Children reinterpret peace toys as war toys without encouragement.<br><b>Implication:</b> Peace cannot be imposed externally; it must grow from within."],
+      ["KEY THEME 3\nChildhood Psychology",
+       "<b>Children's Imagination:</b> Eric and Bertie transform any toy into a war scenario.<br><b>Natural Aggression:</b> Play-aggression in children is a natural developmental trait.<br><b>Harvey's Failure:</b> He ignores this psychological reality.<br><b>Quote Link:</b> Children call the sanitary inspector a 'Red Indian on the warpath.'"],
+      ["CHARACTERS\n— Their Roles",
+       "<b>Harvey:</b> Well-meaning but naive uncle; represents adult idealism.<br><b>Eric & Bertie:</b> Nephews; represent natural childhood instincts — curiosity, aggression, creativity.<br><b>Eleanor:</b> Harvey's sister; sceptical of his experiment — represents practical realism.<br><b>The Peace Reformer (unnamed):</b> Symbol of misguided social engineering."],
+      ["IMPORTANT QUOTE 1\n— With Meaning",
+       "<b>Quote:</b> 'Instead of these sordid implements of warfare, I want to substitute the symbols of peaceful industry.'<br><b>Speaker:</b> Harvey<br><b>Meaning:</b> Harvey believes civilised society can be built by introducing civic objects instead of war toys.<br><b>Significance:</b> Sets up the central irony of the story."],
+      ["IMPORTANT QUOTE 2\n— With Meaning",
+       "<b>Quote:</b> 'The sanitary inspector is in the hands of the Red Indians!'<br><b>Speaker:</b> Bertie<br><b>Meaning:</b> Children have transformed a peace toy into a war game scenario.<br><b>Significance:</b> Perfectly captures Saki's satirical point."],
+      ["MORAL / MESSAGE\nof the Story",
+       "<b>Core Message:</b> Human beings, especially children, have an innate tendency towards conflict that cannot be suppressed through external means.<br><b>Secondary Message:</b> Adult idealism, however noble, often fails to account for the realities of human psychology.<br><b>Saki's Tone:</b> Humorous and satirical, not pessimistic."],
+      ["EXAM QUESTIONS\n(Short Answer)",
+       "1. Who is Saki? Why is he significant?<br>2. What is the central irony in 'Toys of Peace'?<br>3. What toys did Harvey substitute and why?<br>4. How do the children react to the 'toys of peace'?<br>5. What does Eleanor represent in the story?<br>6. What is the theme of satire in this lesson?"],
+      ["EXAM QUESTIONS\n(Long / Essay Type)",
+       "1. Discuss the theme of war vs. peace in 'The Toys of Peace' by Saki.<br>2. How does Saki use satire to comment on adult idealism? Illustrate with examples.<br>3. Analyse the characters of Harvey and the children. What does their contrast reveal?<br>4. 'The Toys of Peace is a commentary on human nature.' Do you agree? Justify with textual evidence."],
+    ]
+  },
+  {
+    title: "LISTENING SKILLS",
+    icon: "🎧", color: "#1A5276",
+    cards: [
+      ["What is\n'Making Predictions While Listening'?",
+       "<b>Definition:</b> Using prior knowledge, context clues, and key words to guess what comes next.<br><b>How to practise:</b><br>• Listen to first sentence → predict topic<br>• Identify key words → anticipate direction<br>• Use headings/visuals as guides<br><b>Exam tip:</b> Prediction = active listening; avoid passive reception."],
+      ["Listening to Conversations\n(Without Video)",
+       "<b>Focus on:</b><br>• Tone of voice (angry, polite, uncertain?)<br>• Key words and repeated phrases<br>• Sentence starters ('I think…', 'Could you…')<br><b>Strategies:</b><br>• Note WHO is speaking and TO WHOM<br>• Identify purpose: request, complaint, information?<br><b>Common traps:</b> Missing connecting words ('however', 'although')."],
+      ["Listening WITH Video\n— Techniques & Differences",
+       "<b>Extra cues available:</b> Facial expressions, gestures, body language, visuals/graphics on screen.<br><b>Strategy:</b><br>• Watch speaker's face for emotion<br>• Match visuals to spoken content<br>• Note any charts/diagrams shown<br><b>Key difference from audio-only:</b> Visual context reduces ambiguity and aids comprehension."],
+      ["Transactional Dialogues\n— What Are They?",
+       "<b>Definition:</b> Conversations where the primary goal is exchanging information to accomplish a task.<br><b>Examples:</b> Asking for directions, buying a ticket, enquiring about fees.<br><b>Key Features:</b><br>• Short, purposeful turns<br>• Polite formal language<br>• Specific factual answers<br><b>Exam tip:</b> Focus on WHO asked WHAT and WHAT was the response."],
+      ["Common Question Patterns\nin Listening Tests",
+       "<b>MCQ:</b> Choose the correct option based on what you heard.<br><b>True/False:</b> Confirm or deny a statement.<br><b>Fill in the Blank:</b> Complete a sentence using heard information.<br><b>Short Answer:</b> Answer in one/two words.<br><b>Tip:</b> Read all options before audio begins; watch for paraphrasing."],
+      ["TOP 5 TIPS\nFor Scoring in Listening",
+       "1. <b>Preview questions</b> before audio begins.<br>2. <b>Listen for signal words:</b> 'first', 'however', 'finally'.<br>3. <b>Don't panic</b> if you miss a word — context compensates.<br>4. <b>Watch for negatives:</b> 'not', 'never', 'except' — often tested.<br>5. <b>Stay focused</b> till the very end; answers often appear late."],
+    ]
+  },
+  {
+    title: "SPEAKING SKILLS",
+    icon: "🗣️", color: "#117A65",
+    cards: [
+      ["Role Play — Formal Conversation\n(Asking for Information)",
+       "<b>Sample Situation:</b> Asking a professor about assignment submission.<br><b>Student:</b> 'Excuse me, sir. Could you please clarify the submission deadline?'<br><b>Professor:</b> 'The last date is Friday, 5 PM. Submit via the portal.'<br><b>Student:</b> 'Thank you, sir. I'll do that.'<br><b>Key phrases:</b> Could you…? / May I know…? / I would like to enquire…"],
+      ["Role Play — Formal Conversation\n(Asking for Directions)",
+       "<b>Situation:</b> Finding the examination hall in a new building.<br><b>Phrases to use:</b><br>• 'Excuse me, could you please direct me to…?'<br>• 'I'm looking for the examination hall.'<br>• 'Is it on the first floor or second?'<br>• 'Thank you very much.'<br><b>Avoid:</b> 'Where is exam hall?' without a polite opener."],
+      ["Role Play — Informal Conversation\n(Peer to Peer)",
+       "<b>Situation:</b> Asking a classmate about missed notes.<br><b>A:</b> 'Hey, did you take notes in today's lecture?'<br><b>B:</b> 'Yeah, I did. Want me to share them?'<br><b>A:</b> 'That'd be great! Thanks a lot.'<br><b>Informal phrases:</b> Hey / Yeah / Sure / No worries / Catch you later<br><b>Key:</b> Relaxed tone, contractions, shorter sentences."],
+      ["Useful Sentence Structures\nFor Speaking",
+       "<b>Requesting:</b> 'Could you please…?' / 'Would you mind…?'<br><b>Enquiring:</b> 'May I know…?' / 'I was wondering if…'<br><b>Agreeing:</b> 'I completely agree.' / 'That's a valid point.'<br><b>Disagreeing politely:</b> 'I see your point, but…' / 'With respect, I think…'<br><b>Concluding:</b> 'In conclusion…' / 'To sum up…'"],
+      ["COMMON MISTAKES\nTo Avoid in Speaking",
+       "1. Double negatives: ❌ 'I don't know nothing.' ✅ 'I don't know anything.'<br>2. Mixing formal/informal: ❌ 'Yo Professor, what's the deadline?'<br>3. Monotone delivery — vary pitch and pace.<br>4. Starting with 'I means...' — incorrect filler.<br>5. Interrupting without saying 'Sorry to interrupt, but…'"],
+      ["MINI DIALOGUE\n(Academic Role Play)",
+       "<b>Context:</b> Seeking permission to leave class early.<br><b>Student:</b> 'Sir, may I be excused 10 minutes early today? I have a medical appointment.'<br><b>Teacher:</b> 'Yes, but make sure you collect today's notes from a classmate.'<br><b>Student:</b> 'Of course, sir. Thank you for understanding.'<br><b>Note:</b> State reason clearly + express gratitude."],
+    ]
+  },
+  {
+    title: "READING SKILLS — Graphic Elements",
+    icon: "📖", color: "#6C3483",
+    cards: [
+      ["What are Graphic Elements\nin Texts?",
+       "<b>Definition:</b> Non-text visual components embedded in written content to convey data or relationships.<br><b>Types:</b><br>• <b>Charts</b> (bar, pie, line)<br>• <b>Graphs</b> (scatter, histogram)<br>• <b>Tables</b> (rows + columns)<br>• <b>Diagrams</b> (flowcharts, labelled figures)<br>• <b>Infographics</b><br><b>Purpose:</b> Represent complex data clearly and concisely."],
+      ["INTERPRETING TRENDS\nIn Graphs & Charts",
+       "<b>Rising trend:</b> 'shows a steady rise', 'increased significantly'<br><b>Falling trend:</b> 'declined sharply', 'dropped gradually'<br><b>Stable/Flat:</b> 'remained constant', 'stayed level'<br><b>Fluctuating:</b> 'varied considerably', 'was inconsistent'<br><b>Tip:</b> Always link trend to the time period shown."],
+      ["INTERPRETING PATTERNS\n& Relationships",
+       "<b>Pattern:</b> A recurring feature in data (e.g., sales peak every December).<br><b>Direct relationship:</b> Both increase together (e.g., study hours & marks).<br><b>Inverse relationship:</b> One increases as other decreases (e.g., speed & time).<br><b>Key verbs:</b> 'correlates with', 'is proportional to', 'inversely related to'."],
+      ["INTERPRETING PROCESSES\n(Flowcharts / Diagrams)",
+       "<b>Key Questions:</b><br>• What is the starting point?<br>• What are the steps in sequence?<br>• Are there decision points (Yes/No)?<br>• What is the final outcome?<br><b>Language to use:</b> 'First…', 'Subsequently…', 'This leads to…', 'Finally…'<br><b>Tip:</b> Follow arrows carefully — direction indicates sequence."],
+      ["DATA INTERPRETATION\nStrategies",
+       "1. <b>Read the title first</b> — it tells you the subject.<br>2. <b>Check axis labels</b> — what do X and Y axes represent?<br>3. <b>Note the scale/unit</b> — thousands, percentages, years?<br>4. <b>Identify highest and lowest values.</b><br>5. <b>Look for anomalies</b> — sudden spikes or drops.<br>6. <b>Summarise in one sentence</b> before answering questions."],
+      ["SAMPLE MINI-QUESTIONS\nOn Graphic Elements",
+       "1. What does the graph/chart show?<br>2. In which year was the value highest/lowest?<br>3. Describe the trend shown in the graph.<br>4. What is the relationship between X and Y?<br>5. What conclusion can be drawn from the table?<br>6. Compare the data for Year A and Year B.<br><b>Tip:</b> Use precise numbers from the graphic in your answer."],
+    ]
+  },
+  {
+    title: "WRITING SKILLS — Letters & Resume",
+    icon: "✍️", color: "#784212",
+    cards: [
+      ["OFFICIAL LETTER\nFormat (Block Style)",
+       "<b>Sender's Address</b> (top left)<br><b>Date</b><br><b>Receiver's Name & Designation</b><br><b>Subject Line:</b> Re: [topic]<br><b>Salutation:</b> Dear Sir/Madam,<br><b>Body:</b> Para 1 — Purpose; Para 2 — Details; Para 3 — Request/action<br><b>Closing:</b> Yours faithfully / Yours sincerely,<br><b>Signature + Name + Designation</b>"],
+      ["OFFICIAL LETTER\nCommon Topics",
+       "• Application for leave<br>• Complaint letter (poor facilities, services)<br>• Request for information / fee concession<br>• Permission to use college facilities<br>• Letter to editor / authority<br><b>Key Rule:</b> Always state purpose in the FIRST sentence.<br><b>Tone:</b> Formal, polite, respectful — never emotional or casual."],
+      ["OFFICIAL LETTER\nDOs and DON'Ts",
+       "<b>DO:</b><br>✓ Use formal, clear language<br>✓ Be concise — one page max<br>✓ State your purpose clearly upfront<br>✓ Use proper salutation and sign-off<br><b>DON'T:</b><br>✗ Use slang or informal phrases<br>✗ Write emotionally or aggressively<br>✗ Use abbreviations like 'pls', 'asap'<br>✗ Forget the subject line"],
+      ["RESUME WRITING\nStructure — 7 Sections",
+       "1. <b>Personal Details:</b> Name, Phone, Email, Address<br>2. <b>Career Objective:</b> 2–3 lines on your goal<br>3. <b>Education:</b> Degree, Institute, Year, %<br>4. <b>Technical Skills:</b> Languages, Tools, Platforms<br>5. <b>Projects:</b> Title, Tools used, Brief description<br>6. <b>Achievements/Extra-curriculars</b><br>7. <b>Declaration + Date + Signature</b>"],
+      ["RESUME WRITING\nDOs and DON'Ts",
+       "<b>DO:</b><br>✓ Use bullet points for clarity<br>✓ Keep it to 1 page (fresher)<br>✓ Use action verbs: Developed, Designed, Led<br>✓ Tailor to the job/internship<br><b>DON'T:</b><br>✗ Add photograph unless asked<br>✗ Use personal pronouns (I, My)<br>✗ Use fancy fonts or colours<br>✗ Include irrelevant personal details"],
+      ["SAMPLE CAREER OBJECTIVE\n(Resume Template)",
+       "<b>Example 1 (Engineering):</b><br>'A highly motivated B.Tech student seeking an internship in software development to apply technical skills in Python and Java while contributing to organisational growth.'<br><br><b>Example 2 (General):</b><br>'Aspiring engineer with strong analytical skills, looking to gain practical experience in a dynamic organisation.'<br><b>Tip:</b> Mention the role + your strength + value to employer."],
+    ]
+  },
+  {
+    title: "GRAMMAR",
+    icon: "🧠", color: "#1A5276",
+    cards: [
+      ["REPORTING VERBS\n— Definition + Examples",
+       "<b>Definition:</b> Verbs used to introduce reported (indirect) speech.<br><b>Categories:</b><br>• <b>Neutral:</b> said, told, stated<br>• <b>Commanding:</b> ordered, commanded, demanded<br>• <b>Requesting:</b> asked, requested, begged<br>• <b>Suggesting:</b> suggested, proposed, recommended<br>• <b>Promising:</b> promised, assured, swore<br><b>Tip:</b> Choose reporting verb based on the TONE of the original speech."],
+      ["DIRECT SPEECH\n→ INDIRECT SPEECH (Rules)",
+       "<b>1.</b> Inverted commas removed.<br><b>2.</b> Reporting verb changes (say→tell if person named).<br><b>3. Pronoun shifts:</b> I→he/she, we→they, you→I/he<br><b>4. Tense shifts:</b> Present→Past, Past→Past Perfect<br><b>5. Time/place shifts:</b> now→then, today→that day, here→there<br><b>Example:</b> 'I am happy.' → He said that he <b>was</b> happy."],
+      ["TENSE SHIFTS\nDirect to Indirect",
+       "<b>Present Simple</b> → Past Simple<br>'I work here.' → He said he <b>worked</b> there.<br><b>Present Continuous</b> → Past Continuous<br>'I am reading.' → She said she <b>was reading</b>.<br><b>Past Simple</b> → Past Perfect<br>'I left.' → He said he <b>had left</b>.<br><b>Will</b>→Would | <b>Can</b>→Could | <b>May</b>→Might"],
+      ["INDIRECT SPEECH\nSpecial Types",
+       "<b>Yes/No Questions:</b><br>'Are you ready?' → He asked <b>if/whether</b> I was ready.<br><b>Wh- Questions:</b><br>'Where do you live?' → She asked <b>where</b> I lived.<br><b>Commands:</b><br>'Sit down!' → He told me <b>to sit down</b>.<br>'Don't run.' → She told me <b>not to run</b>."],
+      ["ACTIVE VOICE\n→ PASSIVE VOICE (Rules)",
+       "<b>Formula:</b> Object + be (correct tense) + Past Participle + (by + Subject)<br><b>Examples:</b><br>• She writes a letter. → A letter <b>is written</b> by her.<br>• They built the bridge. → The bridge <b>was built</b> by them.<br>• He is eating rice. → Rice <b>is being eaten</b> by him.<br>• She has finished the work. → The work <b>has been finished</b> by her."],
+      ["PASSIVE VOICE\nTense-Wise Forms",
+       "<b>Simple Present:</b> is/are + V3<br><b>Simple Past:</b> was/were + V3<br><b>Simple Future:</b> will be + V3<br><b>Present Continuous:</b> is/are being + V3<br><b>Past Continuous:</b> was/were being + V3<br><b>Present Perfect:</b> has/have been + V3<br><b>Past Perfect:</b> had been + V3<br><b>Tip:</b> Passive used when subject is unknown, unimportant, or obvious."],
+      ["COMMON EXAM\nTransformation Practice",
+       "1. He said, 'I will come tomorrow.' → [Indirect]<br>✅ He said he <b>would</b> come <b>the next day</b>.<br><br>2. 'Open the door,' she said. → [Command, Indirect]<br>✅ She told him <b>to open</b> the door.<br><br>3. The cat caught the mouse. → [Passive]<br>✅ The mouse <b>was caught</b> by the cat.<br><br>4. The committee will review the proposal. → [Passive]<br>✅ The proposal <b>will be reviewed</b> by the committee."],
+    ]
+  },
+  {
+    title: "VOCABULARY",
+    icon: "📘", color: "#186A3B",
+    cards: [
+      ["COMMONLY CONFUSED WORDS\nAffect vs Effect",
+       "<b>AFFECT</b> (Verb) = to influence<br>✅ 'Pollution <b>affects</b> health.'<br><br><b>EFFECT</b> (Noun) = the result/outcome<br>✅ 'The <b>effect</b> of pollution is disease.'<br><br><b>Memory Trick:</b> AFFECT = Action (verb); EFFECT = End result (noun)"],
+      ["COMMONLY CONFUSED WORDS\nAccept vs Except",
+       "<b>ACCEPT</b> (Verb) = to receive or agree to<br>✅ 'She <b>accepted</b> the job offer.'<br><br><b>EXCEPT</b> (Preposition) = excluding<br>✅ 'Everyone attended <b>except</b> Ravi.'<br><br><b>Memory Trick:</b> ACCEPT = Agree; EXCEPT = Exclude"],
+      ["COMMONLY CONFUSED WORDS\nThen vs Than",
+       "<b>THEN</b> = refers to time / sequence<br>✅ 'First study, <b>then</b> take a break.'<br><br><b>THAN</b> = used in comparisons<br>✅ 'She is taller <b>than</b> her sister.'<br><br><b>Trick:</b> THAN = comparisons; THEN = time sequence"],
+      ["COMMONLY CONFUSED WORDS\nPrincipal vs Principle",
+       "<b>PRINCIPAL</b> (Noun/Adj) = head of school / main<br>✅ 'The <b>principal</b> announced the results.'<br><br><b>PRINCIPLE</b> (Noun) = a rule or belief<br>✅ 'He stood by his <b>principles</b>.'<br><br><b>Trick:</b> PrinciPAL = your PAL (a person); PrinciplE = rulE"],
+      ["COMMONLY CONFUSED WORDS\nComplement vs Compliment",
+       "<b>COMPLEMENT</b> = something that completes<br>✅ 'The sauce <b>complements</b> the dish perfectly.'<br><br><b>COMPLIMENT</b> = a remark of praise<br>✅ 'He paid her a <b>compliment</b> on her work.'<br><br><b>Trick:</b> ComplEment = complEtes; ComplIment = I like it"],
+      ["JARGON — What is it?\n+ Academic Examples",
+       "<b>Definition:</b> Specialised vocabulary used by a particular profession, often unclear to outsiders.<br><b>Academic/Technical Jargon:</b><br>• <b>Algorithm</b> — step-by-step procedure (CS)<br>• <b>Hypothesis</b> — testable prediction (Research)<br>• <b>Syntax</b> — rules governing code/language structure<br>• <b>Paradigm</b> — model or framework<br>• <b>Empirical</b> — based on observation/experiment"],
+      ["MORE JARGON\nEngineering/Academic Context",
+       "<b>Bandwidth</b> — data transmission capacity<br><b>Iterate</b> — repeat a process to improve output<br><b>Scalable</b> — capable of growing without losing performance<br><b>Latency</b> — delay between action and response<br><b>Prototype</b> — early model/sample for testing<br><b>Optimise</b> — improve efficiency<br><b>Tip:</b> Use jargon only in relevant technical contexts."],
+      ["QUICK VOCABULARY TABLE\nCommonly Tested Pairs",
+       "<b>Advice</b> (noun) vs <b>Advise</b> (verb)<br><b>Stationary</b> (not moving) vs <b>Stationery</b> (paper/pen)<br><b>Lose</b> (misplace/fail) vs <b>Loose</b> (not tight)<br><b>Bare</b> (uncovered) vs <b>Bear</b> (animal/carry)<br><b>Cite</b> (reference) vs <b>Site</b> (location) vs <b>Sight</b> (vision)<br><b>Tip:</b> One wrong word can change entire meaning!"],
+    ]
+  }
+];
+
+const CHECKLIST = [
+  ["🎭 Prose",      "Author, Summary, 3 Themes, 2 Quotes, Moral"],
+  ["🎧 Listening",  "Prediction strategy, transactional dialogues, 5 tips"],
+  ["🗣️ Speaking",   "Formal phrases, informal tone, role-play structure"],
+  ["📖 Reading",    "Trends/patterns/processes, data interpretation, key verbs"],
+  ["✍️ Writing",    "Letter format (block style), Resume 7 sections, DOs/DON'Ts"],
+  ["🧠 Grammar",    "Reporting verbs, D→I rules, tense shifts, passive formula"],
+  ["📘 Vocabulary", "6+ confused word pairs, jargon definitions, examples"],
+];
+
+function buildSections() {
+  SECTIONS.forEach((sec, i) => {
+    const el = document.getElementById('sec' + i);
+    const banner = `<div class="section-banner" style="background:${sec.color}">
+      <span class="section-banner-icon">${sec.icon}</span>
+      <h2>${sec.title}</h2>
+    </div>`;
+    const grid = '<div class="cards-grid">' +
+      sec.cards.map((c, j) => makeCard(c[0], c[1], sec.color, i, j)).join('') +
+    '</div>';
+    el.innerHTML = banner + grid;
+  });
+
+  // Checklist
+  const cl = document.getElementById('sec7');
+  cl.innerHTML = `
+    <div class="section-banner" style="background:var(--navy)">
+      <span class="section-banner-icon">✅</span>
+      <h2>LAST-MINUTE QUICK REVISION CHECKLIST</h2>
+    </div>
+    <div class="checklist-wrap">
+      <table class="checklist-table">
+        <thead><tr><th>Section</th><th>Must-Know Points</th><th style="text-align:center">Done?</th></tr></thead>
+        <tbody>
+          ${CHECKLIST.map(r => `<tr>
+            <td><b>${r[0]}</b></td>
+            <td>${r[1]}</td>
+            <td style="text-align:center"><input type="checkbox" onchange="this.closest('tr').style.opacity=this.checked?'.5':'1'"></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="footer-card" style="margin-top:24px">
+        <b>All the Best for Your Exams! 🎓</b><br>
+        Remember: Read the question carefully, answer precisely, and manage your time well.<br>
+        <em>"Success is the sum of small efforts, repeated day in and day out."</em>
+      </div>
+    </div>`;
+}
+
+function makeCard(front, back, color, si, ci) {
+  const id = `card-${si}-${ci}`;
+  const frontLines = front.split('\n').map((l,i) => i===0 ? `<b>${l}</b>` : `<small style="color:rgba(255,255,255,.7);font-size:10px">${l}</small>`).join('<br>');
+  return `
+    <div class="flashcard" id="${id}" onclick="flip('${id}')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="card-label" style="background:${color}"></div>
+          <h3>${frontLines}</h3>
+          <span class="flip-hint">tap to flip ↩</span>
+        </div>
+        <div class="flashcard-back">
+          <div class="card-label" style="background:${color}"></div>
+          <div class="back-content" style="margin-top:8px">${back}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function flip(id) {
+  document.getElementById(id).classList.toggle('flipped');
+}
+
+function showSection(idx, btn) {
+  document.querySelectorAll('.section-page').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec' + idx).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function startApp() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  buildSections();
+}
+</script>
+</body>
+</html>

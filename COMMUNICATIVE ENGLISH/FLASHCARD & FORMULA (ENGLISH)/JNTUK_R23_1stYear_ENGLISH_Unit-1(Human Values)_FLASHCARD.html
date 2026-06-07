@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.Tech English Unit I – Flashcards</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f14;
+    --surface: #16171f;
+    --card-front: #1c1e2a;
+    --card-back: #12182b;
+    --accent: #f5c842;
+    --accent2: #5b8dee;
+    --accent3: #e05c7a;
+    --accent4: #4ecb8d;
+    --text: #edeef5;
+    --muted: #7a7d99;
+    --border: rgba(255,255,255,0.07);
+    --shadow: 0 20px 60px rgba(0,0,0,0.5);
+    --radius: 18px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(91,141,238,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 0%, #a8b5d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto 30px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 20px 50px;
+  }
+  .stat-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .stat-chip span { color: var(--accent); font-weight: 600; }
+
+  /* TABS */
+  .tabs-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+    background: var(--surface);
+    padding: 8px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+  .tab-btn.active {
+    background: var(--accent);
+    color: #000;
+    font-weight: 600;
+  }
+  .tab-icon { font-size: 15px; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .section-header p { color: var(--muted); font-size: 14px; }
+
+  /* FLASHCARD GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+
+  /* FLASHCARD */
+  .flashcard {
+    perspective: 1200px;
+    height: 260px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius);
+  }
+  .flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+  }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .card-front {
+    background: var(--card-front);
+  }
+  .card-back {
+    background: var(--card-back);
+    transform: rotateY(180deg);
+    border-color: rgba(91,141,238,0.2);
+  }
+
+  /* Card accent top stripe */
+  .card-face::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .card-front::before { background: var(--cat-color, var(--accent)); }
+  .card-back::before { background: var(--accent2); }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cat-color, var(--accent));
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .card-front .card-label::before { content: 'Q'; background: var(--cat-color, var(--accent)); color: #000; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  .card-back .card-label { color: var(--accent2); }
+  .card-back .card-label::before { content: 'A'; background: var(--accent2); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+
+  .card-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.45;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .card-answer {
+    font-size: 13px;
+    line-height: 1.7;
+    flex: 1;
+    overflow-y: auto;
+    color: #c8cce8;
+  }
+  .card-answer::-webkit-scrollbar { width: 4px; }
+  .card-answer::-webkit-scrollbar-track { background: transparent; }
+  .card-answer::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .card-answer ul { padding-left: 16px; }
+  .card-answer ul li { margin-bottom: 5px; }
+  .card-answer strong { color: var(--accent); }
+  .card-answer em { color: var(--accent2); font-style: normal; }
+  .card-answer .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px 2px 2px 0;
+    font-family: 'DM Mono', monospace;
+  }
+  .tag-syn { background: rgba(78,203,141,0.15); color: var(--accent4); }
+  .tag-ant { background: rgba(224,92,122,0.15); color: var(--accent3); }
+  .tag-root { background: rgba(245,200,66,0.12); color: var(--accent); }
+
+  .card-footer {
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .flip-hint {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    opacity: 0.5;
+  }
+
+  /* PROGRESS TRACKER */
+  .progress-bar-wrap {
+    margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .prog-label { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .prog-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    min-width: 100px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+  .prog-count { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); white-space: nowrap; }
+
+  /* RESET BUTTON */
+  .reset-btn {
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.3);
+    color: var(--accent);
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { background: rgba(245,200,66,0.2); }
+
+  /* CATEGORY COLORS */
+  .cat-literature { --cat-color: #f5c842; }
+  .cat-listening  { --cat-color: #5b8dee; }
+  .cat-speaking   { --cat-color: #e05c7a; }
+  .cat-reading    { --cat-color: #4ecb8d; }
+  .cat-writing    { --cat-color: #f07b3f; }
+  .cat-grammar    { --cat-color: #b07fff; }
+  .cat-vocabulary { --cat-color: #ff6b9d; }
+  .cat-glossary   { --cat-color: #40c8b0; }
+
+  /* TABLE */
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+  .mini-table th { background: rgba(91,141,238,0.15); color: var(--accent2); padding: 6px 8px; text-align: left; font-weight: 600; }
+  .mini-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); color: #c8cce8; }
+  .mini-table tr:last-child td { border-bottom: none; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  footer span { color: var(--accent); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a2c3a; border-radius: 4px; }
+
+  @media (max-width: 600px) {
+    .tabs { gap: 4px; }
+    .tab-btn { min-width: 80px; font-size: 11px; padding: 8px 8px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .flashcard { height: auto; min-height: 240px; }
+    .flashcard-inner { height: auto; }
+    .card-face { position: relative; }
+    .card-back { display: none; }
+    .flashcard.flipped .card-front { display: none; }
+    .flashcard.flipped .card-back { display: flex; }
+    .flashcard.flipped .flashcard-inner { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">B.Tech 1st Year · English · Unit I</div>
+  <h1>Human Values<br>Flashcard Deck</h1>
+  <p>Gift of the Magi & Language Skills — Exam-Ready Revision</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-chip"><span>80+</span> Flashcards</div>
+  <div class="stat-chip"><span>8</span> Categories</div>
+  <div class="stat-chip"><span>Click</span> to Flip</div>
+  <div class="stat-chip">Track <span>Progress</span></div>
+</div>
+
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('literature')"><span class="tab-icon">📖</span>Literature</button>
+    <button class="tab-btn" onclick="showTab('listening')"><span class="tab-icon">🎧</span>Listening</button>
+    <button class="tab-btn" onclick="showTab('speaking')"><span class="tab-icon">🗣️</span>Speaking</button>
+    <button class="tab-btn" onclick="showTab('reading')"><span class="tab-icon">📚</span>Reading</button>
+    <button class="tab-btn" onclick="showTab('writing')"><span class="tab-icon">✍️</span>Writing</button>
+    <button class="tab-btn" onclick="showTab('grammar')"><span class="tab-icon">📏</span>Grammar</button>
+    <button class="tab-btn" onclick="showTab('vocabulary')"><span class="tab-icon">🔤</span>Vocabulary</button>
+    <button class="tab-btn" onclick="showTab('glossary')"><span class="tab-icon">📘</span>Glossary</button>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       1. LITERATURE
+  ════════════════════════════════════════ -->
+  <div id="sec-literature" class="section active">
+    <div class="section-header">
+      <h2>📖 Literature — Gift of the Magi</h2>
+      <p>O. Henry's classic short story on love, sacrifice, and irony</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-literature" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-literature">0 / 12</span>
+      <button class="reset-btn" onclick="resetSection('literature')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-literature">
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">Who wrote "The Gift of the Magi" and when was it published?</div>
+            <div class="card-footer"><span>🎯 Author & Background</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Author:</strong> O. Henry (pen name of William Sydney Porter)</li>
+                <li><strong>Published:</strong> 1905 (in The New York Sunday World)</li>
+                <li><strong>Genre:</strong> Short story / Romantic fiction</li>
+                <li><strong>Setting:</strong> A furnished flat in New York City, Christmas Eve</li>
+                <li><strong>Narrative Style:</strong> Third-person with an intrusive narrator</li>
+              </ul>
+            </div>
+            <div class="card-footer">📖 Background</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">Who are the two main characters? Describe them briefly.</div>
+            <div class="card-footer"><span>🎯 Characters</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Della Young:</strong> A loving, resourceful wife; possesses beautiful long hair (her prized possession). Impulsive, emotional, caring.</li>
+                <li><strong>Jim Young (James Dillingham Young):</strong> Della's husband; responsible, hard-working. Owns a gold pocket watch (his family heirloom). Earns $20/week (reduced from $30).</li>
+                <li>Both are young, poor, but deeply in love.</li>
+              </ul>
+            </div>
+            <div class="card-footer">👥 Characters</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">Write a brief plot summary of "The Gift of the Magi."</div>
+            <div class="card-footer"><span>🎯 Plot</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>Della has only <strong>$1.87</strong> to buy Jim a Christmas gift.</li>
+                <li>She <strong>sells her hair</strong> for $20 and buys a <strong>platinum watch chain</strong> for Jim.</li>
+                <li>Jim comes home and is stunned — he had <strong>sold his watch</strong> to buy <strong>jewelled combs</strong> for Della's hair.</li>
+                <li>Both gifts are now <strong>useless</strong>, yet the story celebrates their <strong>selfless love</strong>.</li>
+                <li>The narrator compares them to the Biblical <strong>Magi</strong> (Wise Men), calling them the wisest gift-givers.</li>
+              </ul>
+            </div>
+            <div class="card-footer">📋 Plot Summary</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">What are the key themes of "The Gift of the Magi"?</div>
+            <div class="card-footer"><span>🎯 Themes</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>1. Love & Sacrifice:</strong> Both characters give up their most prized possession for each other.</li>
+                <li><strong>2. Selflessness:</strong> True giving means prioritizing others over oneself.</li>
+                <li><strong>3. Irony:</strong> The gifts become useless, yet the act of giving is priceless.</li>
+                <li><strong>4. Poverty vs. Richness of Spirit:</strong> Materially poor but emotionally rich.</li>
+                <li><strong>5. True Wisdom:</strong> Wisdom lies in loving unconditionally, not in material wealth.</li>
+              </ul>
+            </div>
+            <div class="card-footer">💡 Themes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">What type of irony is used in the story? Give an example.</div>
+            <div class="card-footer"><span>🎯 Irony</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Situational Irony:</strong> The outcome is opposite to what is expected.</li>
+                <li><strong>Example:</strong> Della sells her hair to buy a chain for Jim's watch. Jim sells his watch to buy combs for Della's hair.</li>
+                <li>Each gift is meant to complement something the other person no longer has.</li>
+                <li>This irony <strong>deepens</strong> the story's message — love, not the gift, is what matters.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🔁 Irony</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">What is the significance of the title "The Gift of the Magi"?</div>
+            <div class="card-footer"><span>🎯 Title Significance</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Magi</strong> = the Three Wise Men (Biblical) who brought gifts to Baby Jesus.</li>
+                <li>The narrator compares Della and Jim to the Magi — both gave the greatest gifts of all.</li>
+                <li>The title suggests that <strong>true wisdom</strong> is found in <strong>selfless love</strong>, not in material gifts.</li>
+                <li>Their sacrifice is the most valuable "gift," surpassing all earthly possessions.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🏷️ Title</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">Quote an important line from the story and explain its meaning.</div>
+            <div class="card-footer"><span>🎯 Important Lines</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Line:</strong> "Of all who give and receive gifts, such as they are the wisest."
+              <br><br>
+              <strong>Meaning:</strong>
+              <ul>
+                <li>The narrator praises Della and Jim as the wisest gift-givers.</li>
+                <li>Despite giving gifts that became useless, their selfless love makes them truly wise.</li>
+                <li>True wisdom = loving someone enough to sacrifice what matters most to you.</li>
+              </ul>
+            </div>
+            <div class="card-footer">💬 Key Quote</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">What is the moral of "The Gift of the Magi"?</div>
+            <div class="card-footer"><span>🎯 Moral</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Primary Moral:</strong> True love requires selfless sacrifice.</li>
+                <li>The value of a gift lies in the <strong>intent and love</strong> behind it, not its material worth.</li>
+                <li>Happiness is found in <strong>giving</strong>, not just in receiving.</li>
+                <li>Love is the greatest wealth, even in poverty.</li>
+                <li><strong>Human Values Angle:</strong> Empathy, sacrifice, and love are the highest human values.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🌟 Moral</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">What are Della's and Jim's most prized possessions? Why are they significant?</div>
+            <div class="card-footer"><span>🎯 Possessions</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Della:</strong> Her long, beautiful hair — described as falling like a cascade of brown water, reaching below her knee.</li>
+                <li><strong>Jim:</strong> His gold pocket watch — a family heirloom inherited from his grandfather and father.</li>
+                <li><strong>Significance:</strong> These are symbols of identity and pride. Sacrificing them represents the deepest form of love — giving up a part of yourself.</li>
+              </ul>
+            </div>
+            <div class="card-footer">💎 Possessions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">How does the story connect to the theme of Human Values?</div>
+            <div class="card-footer"><span>🎯 Human Values Link</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Love:</strong> Della and Jim's relationship is the central human value.</li>
+                <li><strong>Sacrifice:</strong> Both willingly give up treasured possessions.</li>
+                <li><strong>Empathy:</strong> Each acts with the other's happiness in mind.</li>
+                <li><strong>Selflessness:</strong> Neither acts for personal gain.</li>
+                <li><strong>Generosity:</strong> Giving despite financial hardship is the highest generosity.</li>
+              </ul>
+            </div>
+            <div class="card-footer">❤️ Human Values</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">Possible Exam Q: Write a short note on the character of Della.</div>
+            <div class="card-footer"><span>🎯 Exam Q (Short)</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>Della Young is the protagonist — a young, poor, devoted wife.</li>
+                <li>She is <strong>emotional yet determined</strong>: cries at her poverty but acts boldly.</li>
+                <li>Her most prized possession is her long hair.</li>
+                <li>She sells it without hesitation to buy Jim a worthy gift.</li>
+                <li>Symbolizes <strong>selfless love, sacrifice</strong>, and the true spirit of Christmas giving.</li>
+                <li>Her character represents the best of human values.</li>
+              </ul>
+            </div>
+            <div class="card-footer">✏️ Exam Answer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-literature" onclick="flip(this,'literature')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Literature</div>
+            <div class="card-question">Possible Long Exam Q: "The Gift of the Magi is a story of irony and love." Discuss.</div>
+            <div class="card-footer"><span>🎯 Exam Q (Long)</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Key Points to Cover:</strong>
+              <ul>
+                <li>Introduce the story: author, setting, characters</li>
+                <li>Explain the plot: Della sells hair → Jim sells watch</li>
+                <li>Discuss <em>situational irony</em>: gifts become useless</li>
+                <li>Discuss <em>love theme</em>: sacrifice proves depth of love</li>
+                <li>Magi comparison and the narrator's conclusion</li>
+                <li>Conclude: Love and sacrifice transcend material value</li>
+              </ul>
+            </div>
+            <div class="card-footer">✏️ Long Answer Structure</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       2. LISTENING
+  ════════════════════════════════════════ -->
+  <div id="sec-listening" class="section">
+    <div class="section-header">
+      <h2>🎧 Listening Skills</h2>
+      <p>Types of listening, techniques, and comprehension strategies</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-listening" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-listening">0 / 8</span>
+      <button class="reset-btn" onclick="resetSection('listening')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-listening">
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">What is "Listening for the Topic"? How is it different from detailed listening?</div>
+            <div class="card-footer"><span>🎯 Topic Identification</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Listening for the Topic:</strong>
+              <ul>
+                <li>Identifying the <em>main subject</em> of what is being said.</li>
+                <li>You do NOT focus on every detail — just the gist.</li>
+                <li><strong>Example:</strong> Hearing a radio program and identifying it is about "climate change" even without catching every word.</li>
+                <li><strong>Vs Detailed Listening:</strong> Detailed = every fact; Topic = broad idea only.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🎯 Topic Listening</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">Define "Listening for Context." Give a real-life example.</div>
+            <div class="card-footer"><span>🎯 Context Listening</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Definition:</strong> Understanding the <em>situation, background, or setting</em> from which a conversation or speech arises.
+              <br><br>
+              <strong>Example:</strong>
+              <ul>
+                <li>Hearing someone say "Doctor, it hurts here" — you understand the context is a medical appointment.</li>
+                <li>Context listening uses clues like <em>tone, vocabulary, and setting</em> to deduce meaning.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🔍 Context Listening</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">What is "Listening for Specific Information"? When is it used?</div>
+            <div class="card-footer"><span>🎯 Specific Info</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Definition:</strong> Listening to pick out particular details — names, dates, numbers, facts — from a longer speech.
+              <br><br>
+              <strong>When Used:</strong>
+              <ul>
+                <li>Listening to train announcements for departure time.</li>
+                <li>Listening to a weather forecast for temperature.</li>
+                <li>Listening in exams for answer cues.</li>
+              </ul>
+              <strong>Technique:</strong> Know what you're looking for before you listen.
+            </div>
+            <div class="card-footer">📌 Specific Info</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">List 5 key tips to improve listening comprehension in exams.</div>
+            <div class="card-footer"><span>🎯 Tips</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>1. <strong>Preview questions</strong> before listening — know what to look for.</li>
+                <li>2. <strong>Focus on keywords</strong> — names, numbers, places.</li>
+                <li>3. <strong>Don't panic</strong> if you miss a word — context fills gaps.</li>
+                <li>4. <strong>Take notes</strong> in shorthand during the listening.</li>
+                <li>5. <strong>Pay attention to tone</strong> — happy, sad, angry tones signal meaning.</li>
+              </ul>
+            </div>
+            <div class="card-footer">✅ Tips</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">What are the four types/levels of listening?</div>
+            <div class="card-footer"><span>🎯 Types of Listening</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>1. Casual Listening:</strong> For pleasure/relaxation (music, chatting).</li>
+                <li><strong>2. Informational Listening:</strong> To learn new information (lectures, news).</li>
+                <li><strong>3. Critical Listening:</strong> To evaluate and analyze (debates, speeches).</li>
+                <li><strong>4. Empathetic Listening:</strong> To understand feelings (counseling, conversations).</li>
+              </ul>
+            </div>
+            <div class="card-footer">📋 Types</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">Q: You hear: "The next train to Mumbai will depart from Platform 4 at 14:30." What type of listening is needed?</div>
+            <div class="card-footer"><span>🎯 Sample Q&A</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Type:</strong> Listening for Specific Information
+              <br><br>
+              <strong>Key details extracted:</strong>
+              <ul>
+                <li>Destination: <em>Mumbai</em></li>
+                <li>Platform: <em>4</em></li>
+                <li>Time: <em>14:30</em></li>
+              </ul>
+              You only need these three facts — you don't need the full meaning of every word.
+            </div>
+            <div class="card-footer">🚆 Example</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">What are barriers to effective listening?</div>
+            <div class="card-footer"><span>🎯 Barriers</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>External Barriers:</strong> Noise, poor acoustics, distractions.</li>
+                <li><strong>Internal Barriers:</strong> Prejudice, daydreaming, fatigue, emotional upset.</li>
+                <li><strong>Language Barriers:</strong> Accent, unfamiliar vocabulary.</li>
+                <li><strong>Physical Barriers:</strong> Hearing impairment, distance from speaker.</li>
+              </ul>
+              <strong>Solution:</strong> Active attention + note-taking.
+            </div>
+            <div class="card-footer">🚧 Barriers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-listening" onclick="flip(this,'listening')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Listening</div>
+            <div class="card-question">What is the difference between "hearing" and "listening"?</div>
+            <div class="card-footer"><span>🎯 Key Distinction</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <table class="mini-table">
+                <tr><th>Hearing</th><th>Listening</th></tr>
+                <tr><td>Passive, automatic</td><td>Active, intentional</td></tr>
+                <tr><td>Physical process</td><td>Mental process</td></tr>
+                <tr><td>No effort needed</td><td>Requires focus</td></tr>
+                <tr><td>Just receiving sound</td><td>Processing meaning</td></tr>
+              </table>
+            </div>
+            <div class="card-footer">🔁 Difference</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       3. SPEAKING
+  ════════════════════════════════════════ -->
+  <div id="sec-speaking" class="section">
+    <div class="section-header">
+      <h2>🗣️ Speaking Skills</h2>
+      <p>Self-introduction, daily conversations, and mini dialogues</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-speaking" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-speaking">0 / 8</span>
+      <button class="reset-btn" onclick="resetSection('speaking')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-speaking">
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">What is the format for a self-introduction in an academic or professional setting?</div>
+            <div class="card-footer"><span>🎯 Self Introduction</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Step-by-Step Format:</strong>
+              <ul>
+                <li>1. <strong>Greeting:</strong> "Good morning / Hello everyone."</li>
+                <li>2. <strong>Name:</strong> "My name is [Name]."</li>
+                <li>3. <strong>Place:</strong> "I am from [City/State]."</li>
+                <li>4. <strong>Education:</strong> "I am a 1st year B.Tech student in [branch] at [College]."</li>
+                <li>5. <strong>Family:</strong> Brief mention of family background.</li>
+                <li>6. <strong>Interests/Hobbies:</strong> "I enjoy [hobby]."</li>
+                <li>7. <strong>Goals:</strong> "My aim is to [career goal]."</li>
+                <li>8. <strong>Closing:</strong> "Thank you."</li>
+              </ul>
+            </div>
+            <div class="card-footer">👤 Self Intro</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">How do you answer: "Tell me about your family"?</div>
+            <div class="card-footer"><span>🎯 Family Q&A</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Sample Answer:</strong><br>
+              "I come from a middle-class family. We are four members — my father, mother, one elder sister, and I. My father is a [profession] and my mother is a homemaker. We live in [city]. My family has always been supportive of my education and career goals."
+              <br><br>
+              <strong>Key points:</strong> Members, professions, location, relationship with family.
+            </div>
+            <div class="card-footer">👨‍👩‍👧 Family</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">How do you talk about your studies / academic background?</div>
+            <div class="card-footer"><span>🎯 Studies Q&A</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Sample Answer:</strong><br>
+              "I completed my schooling from [school name], [city]. I scored [X]% in my 12th standard. Currently, I am pursuing B.Tech in [branch] at [college name]. I am particularly interested in [subject]. My goal is to [career plan]."
+              <br><br>
+              <strong>Useful Phrases:</strong>
+              <ul>
+                <li>"I am currently enrolled in..."</li>
+                <li>"My favourite subject is..."</li>
+                <li>"I aspire to specialize in..."</li>
+              </ul>
+            </div>
+            <div class="card-footer">📚 Studies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">How do you speak about your interests and hobbies?</div>
+            <div class="card-footer"><span>🎯 Interests Q&A</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Sample Answer:</strong><br>
+              "In my free time, I enjoy reading books, especially science fiction. I also love playing cricket with friends. I am passionate about technology — I follow the latest developments in AI and programming. These hobbies help me stay creative and sharp."
+              <br><br>
+              <strong>Structure:</strong> Hobby → Why you enjoy it → How it benefits you.
+            </div>
+            <div class="card-footer">🎯 Interests</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">Write a real-life mini dialogue: Greeting a new classmate.</div>
+            <div class="card-footer"><span>🎯 Mini Dialogue</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>A:</strong> "Hi! I don't think we've met. I'm Arjun."<br>
+              <strong>B:</strong> "Hello! I'm Priya. Are you also in the CSE branch?"<br>
+              <strong>A:</strong> "Yes! First year, right? Which section are you in?"<br>
+              <strong>B:</strong> "Section B. Are you enjoying college so far?"<br>
+              <strong>A:</strong> "Yes, it's great! Hope we can study together sometime."<br>
+              <strong>B:</strong> "Sure! Nice meeting you, Arjun."
+            </div>
+            <div class="card-footer">💬 Dialogue</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">What are common daily conversation questions you should be ready to answer?</div>
+            <div class="card-footer"><span>🎯 Daily Conversations</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>"What is your name?" / "Where are you from?"</li>
+                <li>"What are your hobbies?"</li>
+                <li>"What do you want to become in life?"</li>
+                <li>"How is your college experience?"</li>
+                <li>"What subjects do you like most?"</li>
+                <li>"Do you have any brothers or sisters?"</li>
+                <li>"What are your strengths and weaknesses?"</li>
+              </ul>
+            </div>
+            <div class="card-footer">🗨️ Common Questions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">What are key features of good spoken English?</div>
+            <div class="card-footer"><span>🎯 Good Speech</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Clarity:</strong> Speak clearly, don't mumble.</li>
+                <li><strong>Pace:</strong> Not too fast, not too slow.</li>
+                <li><strong>Pronunciation:</strong> Correct sounds for words.</li>
+                <li><strong>Fluency:</strong> Smooth flow without long pauses.</li>
+                <li><strong>Eye Contact:</strong> Maintain while speaking.</li>
+                <li><strong>Confidence:</strong> Speak without hesitation.</li>
+                <li><strong>Grammar:</strong> Use correct tenses and sentence structure.</li>
+              </ul>
+            </div>
+            <div class="card-footer">✨ Features</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-speaking" onclick="flip(this,'speaking')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Speaking</div>
+            <div class="card-question">Write a mini dialogue: Asking a professor for help after class.</div>
+            <div class="card-footer"><span>🎯 Formal Dialogue</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Student:</strong> "Excuse me, Professor. Could I speak with you for a moment?"<br>
+              <strong>Professor:</strong> "Of course. What is it?"<br>
+              <strong>Student:</strong> "I didn't quite understand the concept of skimming we discussed today. Could you explain it once more?"<br>
+              <strong>Professor:</strong> "Sure. Skimming means reading quickly for the main idea..."<br>
+              <strong>Student:</strong> "Thank you very much, Professor. That's much clearer now."
+            </div>
+            <div class="card-footer">🏫 Formal Dialogue</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       4. READING
+  ════════════════════════════════════════ -->
+  <div id="sec-reading" class="section">
+    <div class="section-header">
+      <h2>📚 Reading Skills</h2>
+      <p>Skimming, scanning, and reading comprehension techniques</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-reading" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-reading">0 / 6</span>
+      <button class="reset-btn" onclick="resetSection('reading')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-reading">
+
+      <div class="flashcard cat-reading" onclick="flip(this,'reading')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Reading</div>
+            <div class="card-question">What is skimming? When do you use it? Give an example.</div>
+            <div class="card-footer"><span>🎯 Skimming</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Skimming:</strong> Reading quickly to get the <em>general idea / main topic</em> without reading every word.
+              <br><br>
+              <strong>When to Use:</strong> When you want to decide if a text is relevant to read fully.
+              <br><br>
+              <strong>Example:</strong> Reading only the headings, first and last sentences of paragraphs in a newspaper article.
+              <br><br>
+              <strong>Key:</strong> Speed + Overview.
+            </div>
+            <div class="card-footer">⚡ Skimming</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-reading" onclick="flip(this,'reading')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Reading</div>
+            <div class="card-question">What is scanning? When do you use it? Give an example.</div>
+            <div class="card-footer"><span>🎯 Scanning</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Scanning:</strong> Moving your eyes quickly over a text to find a <em>specific piece of information</em>.
+              <br><br>
+              <strong>When to Use:</strong> When you are looking for a particular fact, name, number, or keyword.
+              <br><br>
+              <strong>Example:</strong> Looking for a phone number in a directory, or finding a date in a history text.
+              <br><br>
+              <strong>Key:</strong> Target + Locate.
+            </div>
+            <div class="card-footer">🔍 Scanning</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-reading" onclick="flip(this,'reading')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Reading</div>
+            <div class="card-question">What is the difference between skimming and scanning?</div>
+            <div class="card-footer"><span>🎯 Comparison</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <table class="mini-table">
+                <tr><th>Skimming</th><th>Scanning</th></tr>
+                <tr><td>General overview</td><td>Specific information</td></tr>
+                <tr><td>What is it about?</td><td>Where is the answer?</td></tr>
+                <tr><td>Read headings/topic sentences</td><td>Search for keywords/numbers</td></tr>
+                <tr><td>Before reading fully</td><td>During comprehension tasks</td></tr>
+                <tr><td>Broad purpose</td><td>Narrow purpose</td></tr>
+              </table>
+            </div>
+            <div class="card-footer">↔️ Difference</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-reading" onclick="flip(this,'reading')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Reading</div>
+            <div class="card-question">What type of reading would you use to study a textbook chapter in detail?</div>
+            <div class="card-footer"><span>🎯 Practice Q</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Intensive Reading</strong> (also called <em>Detailed Reading</em>).
+              <br><br>
+              <ul>
+                <li>Read every word carefully.</li>
+                <li>Understand meaning of each sentence.</li>
+                <li>Take notes, highlight key points.</li>
+                <li>Best for: exam study, research, technical manuals.</li>
+              </ul>
+              <strong>Other types:</strong> Extensive reading (reading for pleasure/fluency).
+            </div>
+            <div class="card-footer">📖 Intensive Reading</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-reading" onclick="flip(this,'reading')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Reading</div>
+            <div class="card-question">What are 5 strategies for improving reading comprehension?</div>
+            <div class="card-footer"><span>🎯 Strategies</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>1. <strong>Preview:</strong> Read title, headings, and first/last paragraphs first.</li>
+                <li>2. <strong>Predict:</strong> Guess what the passage is about.</li>
+                <li>3. <strong>Identify Main Idea:</strong> Find the topic sentence of each paragraph.</li>
+                <li>4. <strong>Vocabulary in Context:</strong> Guess unknown words from surrounding text.</li>
+                <li>5. <strong>Summarize:</strong> After reading, write 2–3 sentences about the main idea.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🧠 Strategies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-reading" onclick="flip(this,'reading')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Reading</div>
+            <div class="card-question">Practice: You need to find the publication date of an article. What reading skill do you use?</div>
+            <div class="card-footer"><span>🎯 Practice</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Answer: Scanning</strong>
+              <br><br>
+              <strong>Why?</strong>
+              <ul>
+                <li>You have a specific target: the date.</li>
+                <li>You don't need to read the whole article.</li>
+                <li>You move your eyes quickly to find the date format (numbers/months).</li>
+              </ul>
+              <strong>Exam Tip:</strong> "Find the ___ in the passage" = always <em>scanning</em>.
+            </div>
+            <div class="card-footer">✅ Answer: Scanning</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       5. WRITING
+  ════════════════════════════════════════ -->
+  <div id="sec-writing" class="section">
+    <div class="section-header">
+      <h2>✍️ Writing Skills</h2>
+      <p>Capitalization, punctuation, spelling, and sentence structure</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-writing" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-writing">0 / 8</span>
+      <button class="reset-btn" onclick="resetSection('writing')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-writing">
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">What are the 5 main rules of capitalization?</div>
+            <div class="card-footer"><span>🎯 Capitalization</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>1. <strong>First word</strong> of every sentence: <em>The cat sat.</em></li>
+                <li>2. <strong>Proper nouns:</strong> Names of people, places, months — <em>Della, New York, Monday.</em></li>
+                <li>3. <strong>Pronoun "I"</strong> is always capitalized.</li>
+                <li>4. <strong>Titles</strong> before names: <em>Dr. Smith, Professor Ray.</em></li>
+                <li>5. <strong>First word of a quote:</strong> He said, <em>"Come here."</em></li>
+              </ul>
+            </div>
+            <div class="card-footer">🔠 Capitalization</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">What are the key punctuation marks and their uses?</div>
+            <div class="card-footer"><span>🎯 Punctuation</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Period (.):</strong> End of a statement. <em>She left.</em></li>
+                <li><strong>Comma (,):</strong> Pause in a sentence or list. <em>Della, Jim, and O. Henry.</em></li>
+                <li><strong>Question Mark (?):</strong> End of a question. <em>Did she sell her hair?</em></li>
+                <li><strong>Exclamation (!):</strong> Emotion or emphasis. <em>What a gift!</em></li>
+                <li><strong>Apostrophe ('):</strong> Possession or contraction. <em>Jim's watch; didn't.</em></li>
+                <li><strong>Quotation Marks (""):</strong> Direct speech. <em>"I love you," she said.</em></li>
+              </ul>
+            </div>
+            <div class="card-footer">⁉️ Punctuation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">What are common spelling rules in English?</div>
+            <div class="card-footer"><span>🎯 Spelling Rules</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>I before E except after C:</strong> <em>believe, receive.</em></li>
+                <li><strong>Drop silent 'e' before vowel suffix:</strong> <em>love → loving.</em></li>
+                <li><strong>Double consonant before -ing/-ed</strong> (short vowel): <em>run → running.</em></li>
+                <li><strong>Change Y to I before suffix</strong> (consonant + y): <em>happy → happiness.</em></li>
+                <li><strong>Plural: -s or -es:</strong> <em>cat → cats; bush → bushes.</em></li>
+              </ul>
+            </div>
+            <div class="card-footer">✅ Spelling</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">What are the basic types of sentences by structure?</div>
+            <div class="card-footer"><span>🎯 Sentence Types</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Simple:</strong> One subject + one predicate. <em>Della sold her hair.</em></li>
+                <li><strong>Compound:</strong> Two independent clauses joined by and/but/or. <em>Jim sold his watch, and Della sold her hair.</em></li>
+                <li><strong>Complex:</strong> One independent + one dependent clause. <em>Although she was poor, she bought him a gift.</em></li>
+                <li><strong>Compound-Complex:</strong> Multiple clauses mixed. More advanced writing.</li>
+              </ul>
+            </div>
+            <div class="card-footer">📝 Structure</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">Identify and correct the errors: "della went to the shop she buyed combs."</div>
+            <div class="card-footer"><span>🎯 Error Correction</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Errors found:</strong>
+              <ul>
+                <li>"della" → <em>Della</em> (proper noun, capitalize)</li>
+                <li>"buyed" → <em>bought</em> (irregular verb)</li>
+                <li>Run-on sentence → add conjunction or period</li>
+              </ul>
+              <strong>Corrected:</strong> <em>"Della went to the shop, and she bought combs."</em>
+            </div>
+            <div class="card-footer">✏️ Correction</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">What is a topic sentence? Why is it important in a paragraph?</div>
+            <div class="card-footer"><span>🎯 Topic Sentence</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Topic Sentence:</strong> The sentence that states the <em>main idea</em> of a paragraph. Usually the first sentence.
+              <br><br>
+              <strong>Importance:</strong>
+              <ul>
+                <li>Guides the reader on what to expect.</li>
+                <li>Keeps the paragraph focused on one idea.</li>
+                <li>All other sentences must support it.</li>
+              </ul>
+              <strong>Example:</strong> <em>"Della's love for Jim is the central theme of the story."</em>
+            </div>
+            <div class="card-footer">📌 Topic Sentence</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">What is the correct paragraph structure?</div>
+            <div class="card-footer"><span>🎯 Paragraph Structure</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>1. Topic Sentence:</strong> Main idea of the paragraph.</li>
+                <li><strong>2. Supporting Sentences:</strong> Details, examples, evidence.</li>
+                <li><strong>3. Concluding Sentence:</strong> Wraps up / reinforces the main idea.</li>
+              </ul>
+              <strong>Remember:</strong> One paragraph = One idea. Never mix multiple unrelated ideas.
+            </div>
+            <div class="card-footer">📋 Paragraph</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-writing" onclick="flip(this,'writing')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Writing</div>
+            <div class="card-question">List 5 common writing mistakes students make.</div>
+            <div class="card-footer"><span>🎯 Common Mistakes</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li>1. <strong>Run-on sentences</strong> — joining clauses without punctuation.</li>
+                <li>2. <strong>Wrong verb tense</strong> — mixing past and present.</li>
+                <li>3. <strong>Spelling errors</strong> — "recieve" instead of "receive."</li>
+                <li>4. <strong>Missing capital letters</strong> — not capitalizing proper nouns.</li>
+                <li>5. <strong>Subject-verb disagreement</strong> — "She have" instead of "She has."</li>
+              </ul>
+            </div>
+            <div class="card-footer">⚠️ Mistakes</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       6. GRAMMAR
+  ════════════════════════════════════════ -->
+  <div id="sec-grammar" class="section">
+    <div class="section-header">
+      <h2>📏 Grammar</h2>
+      <p>Parts of speech, sentence types, and question formation</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-grammar" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-grammar">0 / 8</span>
+      <button class="reset-btn" onclick="resetSection('grammar')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-grammar">
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">What are the 8 Parts of Speech? Give one example each.</div>
+            <div class="card-footer"><span>🎯 Parts of Speech</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Noun:</strong> Della, watch</li>
+                <li><strong>Pronoun:</strong> she, he, it</li>
+                <li><strong>Verb:</strong> sold, gave, bought</li>
+                <li><strong>Adjective:</strong> beautiful, poor</li>
+                <li><strong>Adverb:</strong> quickly, silently</li>
+                <li><strong>Preposition:</strong> in, on, at, for</li>
+                <li><strong>Conjunction:</strong> and, but, because</li>
+                <li><strong>Interjection:</strong> Oh! Wow! Alas!</li>
+              </ul>
+            </div>
+            <div class="card-footer">🔤 Parts of Speech</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">What are the 4 types of sentences by purpose?</div>
+            <div class="card-footer"><span>🎯 Sentence Types</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Assertive (Declarative):</strong> States a fact. <em>Della sold her hair.</em></li>
+                <li><strong>Interrogative:</strong> Asks a question. <em>Did she sell her hair?</em></li>
+                <li><strong>Imperative:</strong> Gives a command/request. <em>Read the story carefully.</em></li>
+                <li><strong>Exclamatory:</strong> Expresses strong emotion. <em>What a beautiful gift!</em></li>
+              </ul>
+            </div>
+            <div class="card-footer">📋 Sentence Purposes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">How do you form a Yes/No question in English?</div>
+            <div class="card-footer"><span>🎯 Question Formation</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Rule:</strong> Auxiliary verb + Subject + Main verb + ?
+              <br><br>
+              <strong>Examples:</strong>
+              <ul>
+                <li><em>She sold her hair.</em> → <em>Did she sell her hair?</em></li>
+                <li><em>He is reading.</em> → <em>Is he reading?</em></li>
+                <li><em>They have left.</em> → <em>Have they left?</em></li>
+              </ul>
+              <strong>Auxiliaries:</strong> do/does/did, is/am/are, has/have/had, will, can, should.
+            </div>
+            <div class="card-footer">❓ Yes/No Questions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">How do you form a WH-question?</div>
+            <div class="card-footer"><span>🎯 WH Questions</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Rule:</strong> WH-word + Auxiliary + Subject + Verb + ?
+              <br><br>
+              <strong>WH words:</strong> Who, What, Where, When, Why, How, Which
+              <br><br>
+              <strong>Examples:</strong>
+              <ul>
+                <li><em>What did Della sell?</em></li>
+                <li><em>Where did she go?</em></li>
+                <li><em>Why did Jim sell his watch?</em></li>
+                <li><em>How much did she get?</em></li>
+              </ul>
+            </div>
+            <div class="card-footer">❓ WH Questions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">What is the difference between a phrase and a clause?</div>
+            <div class="card-footer"><span>🎯 Phrase vs Clause</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <table class="mini-table">
+                <tr><th>Phrase</th><th>Clause</th></tr>
+                <tr><td>No subject or verb</td><td>Has subject AND verb</td></tr>
+                <tr><td>Cannot stand alone</td><td>Independent clause can stand alone</td></tr>
+                <tr><td><em>in the morning</em></td><td><em>She left in the morning</em></td></tr>
+                <tr><td><em>a beautiful gift</em></td><td><em>The gift was beautiful</em></td></tr>
+              </table>
+            </div>
+            <div class="card-footer">↔️ Phrase vs Clause</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">Correct the error: "Jim don't have money to buy gift."</div>
+            <div class="card-footer"><span>🎯 Error Correction</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Errors:</strong>
+              <ul>
+                <li>"don't" → should be <em>doesn't</em> (3rd person singular — Jim)</li>
+                <li>"to buy gift" → <em>to buy a gift</em> (article missing)</li>
+              </ul>
+              <strong>Corrected Sentence:</strong><br>
+              <em>"Jim doesn't have money to buy a gift."</em>
+            </div>
+            <div class="card-footer">✅ Correction</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">What are the three degrees of comparison of adjectives?</div>
+            <div class="card-footer"><span>🎯 Degrees</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <table class="mini-table">
+                <tr><th>Degree</th><th>Use</th><th>Example</th></tr>
+                <tr><td>Positive</td><td>Describes quality</td><td>beautiful</td></tr>
+                <tr><td>Comparative</td><td>Compares two</td><td>more beautiful</td></tr>
+                <tr><td>Superlative</td><td>Compares all (most)</td><td>most beautiful</td></tr>
+              </table>
+              <br>
+              <em>Poor → Poorer → Poorest</em>
+            </div>
+            <div class="card-footer">📊 Degrees</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-grammar" onclick="flip(this,'grammar')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Grammar</div>
+            <div class="card-question">What are the rules for using articles (a, an, the)?</div>
+            <div class="card-footer"><span>🎯 Articles</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>A:</strong> Before consonant sounds. <em>a gift, a woman.</em></li>
+                <li><strong>An:</strong> Before vowel sounds. <em>an apple, an hour.</em></li>
+                <li><strong>The:</strong> Specific/already known nouns. <em>The watch Jim owned.</em></li>
+                <li><strong>No article:</strong> General/plural/abstract nouns. <em>Love is precious.</em></li>
+              </ul>
+              <strong>Trick:</strong> "an" depends on <em>sound</em>, not letter (an hour ✓).
+            </div>
+            <div class="card-footer">📌 Articles</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       7. VOCABULARY
+  ════════════════════════════════════════ -->
+  <div id="sec-vocabulary" class="section">
+    <div class="section-header">
+      <h2>🔤 Vocabulary — 25 Essential Words</h2>
+      <p>Word · Meaning · Synonym · Antonym · Example Sentence</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-vocabulary" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-vocabulary">0 / 25</span>
+      <button class="reset-btn" onclick="resetSection('vocabulary')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-vocabulary">
+
+      <!-- VOCAB TEMPLATE: Word / Meaning / Syn / Ant / Root / Example -->
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">SACRIFICE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun/verb)</small></div>
+            <div class="card-footer"><span>🎯 Key Story Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Giving up something valued for a higher cause or person.<br>
+              <span class="tag tag-syn">Syn: offering, surrender, renunciation</span><br>
+              <span class="tag tag-ant">Ant: gain, acquisition, selfishness</span><br>
+              <span class="tag tag-root">Root: Latin sacri (sacred) + facere (to make)</span><br>
+              <strong>Example:</strong> <em>Della's sacrifice of her hair proved her deep love for Jim.</em>
+            </div>
+            <div class="card-footer">📖 Core Vocab</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">IMPUTATION<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Attribution of a quality or fault to someone; an accusation.<br>
+              <span class="tag tag-syn">Syn: attribution, accusation, charge</span><br>
+              <span class="tag tag-ant">Ant: exoneration, acquittal</span><br>
+              <span class="tag tag-root">Root: Latin imputare (to assign)</span><br>
+              <strong>Prefix:</strong> im- (in/into)<br>
+              <strong>Example:</strong> <em>The imputation of dishonesty against him was unfair.</em>
+            </div>
+            <div class="card-footer">📖 Academic</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">CASCADE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun/verb)</small></div>
+            <div class="card-footer"><span>🎯 Story Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> A waterfall; to fall or hang in large quantities.<br>
+              <span class="tag tag-syn">Syn: waterfall, flow, pour, tumble</span><br>
+              <span class="tag tag-ant">Ant: trickle, drip</span><br>
+              <strong>In Story:</strong> Della's hair "cascaded" like a cascade of brown water.<br>
+              <strong>Example:</strong> <em>Her hair cascaded down her back like a waterfall.</em>
+            </div>
+            <div class="card-footer">💧 Descriptive</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">COVETED<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective/verb)</small></div>
+            <div class="card-footer"><span>🎯 Story Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Greatly desired or envied by others.<br>
+              <span class="tag tag-syn">Syn: desired, sought-after, prized, yearned for</span><br>
+              <span class="tag tag-ant">Ant: unwanted, rejected, spurned</span><br>
+              <span class="tag tag-root">Root: Latin cupere (to desire)</span><br>
+              <strong>Example:</strong> <em>The platinum watch chain was a coveted possession for any man.</em>
+            </div>
+            <div class="card-footer">💎 Desired</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">SELFLESS<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Human Values</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Concerned more with the needs of others than oneself.<br>
+              <span class="tag tag-syn">Syn: altruistic, generous, unselfish, devoted</span><br>
+              <span class="tag tag-ant">Ant: selfish, greedy, self-centered</span><br>
+              <strong>Suffix:</strong> -less (without self)<br>
+              <strong>Example:</strong> <em>Jim and Della's selfless love is the heart of the story.</em>
+            </div>
+            <div class="card-footer">❤️ Values Word</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">HEIRLOOM<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun)</small></div>
+            <div class="card-footer"><span>🎯 Story Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> A valuable object passed down through a family for generations.<br>
+              <span class="tag tag-syn">Syn: inheritance, legacy, relic, treasure</span><br>
+              <span class="tag tag-ant">Ant: purchase, acquisition</span><br>
+              <strong>In Story:</strong> Jim's gold watch was a family heirloom.<br>
+              <strong>Example:</strong> <em>The antique ring was an heirloom from her grandmother.</em>
+            </div>
+            <div class="card-footer">⌚ Heritage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">PRUDENT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Acting with careful thought and good judgment; wise.<br>
+              <span class="tag tag-syn">Syn: wise, sensible, cautious, judicious</span><br>
+              <span class="tag tag-ant">Ant: imprudent, reckless, foolish, careless</span><br>
+              <span class="tag tag-root">Root: Latin prudens (foreseeing)</span><br>
+              <strong>Example:</strong> <em>It is prudent to save money before making a large purchase.</em>
+            </div>
+            <div class="card-footer">🧠 Wise</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">INSTIGATE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(verb)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> To cause or bring about something, especially trouble.<br>
+              <span class="tag tag-syn">Syn: provoke, incite, initiate, trigger</span><br>
+              <span class="tag tag-ant">Ant: prevent, stop, discourage</span><br>
+              <span class="tag tag-root">Root: Latin instigare (to urge on)</span><br>
+              <strong>Example:</strong> <em>Her love for Jim instigated the bold decision to sell her hair.</em>
+            </div>
+            <div class="card-footer">⚡ Trigger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">DESTITUTE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Story Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Extremely poor; lacking basic necessities.<br>
+              <span class="tag tag-syn">Syn: impoverished, penniless, broke, indigent</span><br>
+              <span class="tag tag-ant">Ant: wealthy, prosperous, affluent</span><br>
+              <span class="tag tag-root">Root: Latin destitutus (forsaken)</span><br>
+              <strong>Example:</strong> <em>Despite being destitute, Della found a way to show her love.</em>
+            </div>
+            <div class="card-footer">💸 Poverty</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">MAGNANIMOUS<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Generous and forgiving, especially toward a rival or less powerful person.<br>
+              <span class="tag tag-syn">Syn: noble, generous, big-hearted, charitable</span><br>
+              <span class="tag tag-ant">Ant: petty, selfish, mean-spirited</span><br>
+              <span class="tag tag-root">Root: Latin magnus (great) + animus (soul)</span><br>
+              <strong>Example:</strong> <em>Jim was magnanimous in accepting Della's gift without complaint.</em>
+            </div>
+            <div class="card-footer">🌟 Generous</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">IRONY<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun)</small></div>
+            <div class="card-footer"><span>🎯 Literary Term</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> A situation where the outcome is opposite to what was expected.<br>
+              <span class="tag tag-syn">Syn: paradox, contradiction, twist, incongruity</span><br>
+              <span class="tag tag-ant">Ant: expectation, predictability</span><br>
+              <span class="tag tag-root">Root: Greek eironeia (dissembling)</span><br>
+              <strong>Example:</strong> <em>The irony is that both gifts became useless — yet love remained.</em>
+            </div>
+            <div class="card-footer">🔁 Literary Term</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">FRUGAL<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Careful with money; avoiding waste; thrifty.<br>
+              <span class="tag tag-syn">Syn: thrifty, economical, sparing, careful</span><br>
+              <span class="tag tag-ant">Ant: extravagant, wasteful, lavish</span><br>
+              <span class="tag tag-root">Root: Latin frugalis (virtuous, thrifty)</span><br>
+              <strong>Example:</strong> <em>Della was frugal with every penny she saved.</em>
+            </div>
+            <div class="card-footer">💰 Thrifty</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">ARDENT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Descriptive Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Very enthusiastic or passionate; intensely devoted.<br>
+              <span class="tag tag-syn">Syn: passionate, fervent, zealous, eager</span><br>
+              <span class="tag tag-ant">Ant: indifferent, apathetic, unenthusiastic</span><br>
+              <span class="tag tag-root">Root: Latin ardere (to burn)</span><br>
+              <strong>Example:</strong> <em>Della was an ardent lover who put Jim's happiness before her own.</em>
+            </div>
+            <div class="card-footer">🔥 Passionate</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">LAVISH<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective/verb)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Sumptuously rich; spending freely and generously.<br>
+              <span class="tag tag-syn">Syn: extravagant, luxurious, opulent, generous</span><br>
+              <span class="tag tag-ant">Ant: frugal, sparse, modest, meager</span><br>
+              <strong>Example:</strong> <em>She lavished all her time and energy on finding the perfect gift.</em>
+            </div>
+            <div class="card-footer">✨ Generous</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">SENTIMENT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun)</small></div>
+            <div class="card-footer"><span>🎯 Story Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> A feeling or emotion, especially a tender one.<br>
+              <span class="tag tag-syn">Syn: emotion, feeling, tenderness, compassion</span><br>
+              <span class="tag tag-ant">Ant: indifference, coldness, apathy</span><br>
+              <span class="tag tag-root">Root: Latin sentire (to feel)</span><br>
+              <strong>Example:</strong> <em>The story is full of deep sentiment and emotional warmth.</em>
+            </div>
+            <div class="card-footer">💙 Feeling</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">POIGNANT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Literary Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Evoking a keen sense of sadness or regret; deeply moving.<br>
+              <span class="tag tag-syn">Syn: touching, moving, heartrending, emotional</span><br>
+              <span class="tag tag-ant">Ant: unemotional, bland, dull</span><br>
+              <span class="tag tag-root">Root: Latin pungere (to prick, sting)</span><br>
+              <strong>Example:</strong> <em>The ending of the story is poignant — both sacrifices made the gifts useless.</em>
+            </div>
+            <div class="card-footer">😢 Touching</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">ASTUTE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Having an ability to accurately assess situations; clever and shrewd.<br>
+              <span class="tag tag-syn">Syn: shrewd, clever, sharp, perceptive</span><br>
+              <span class="tag tag-ant">Ant: naive, foolish, gullible, obtuse</span><br>
+              <span class="tag tag-root">Root: Latin astutus (crafty)</span><br>
+              <strong>Example:</strong> <em>An astute reader can identify the irony on the first reading.</em>
+            </div>
+            <div class="card-footer">🧠 Clever</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">DEVOUT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Deeply committed or devoted to a belief, person, or cause.<br>
+              <span class="tag tag-syn">Syn: devoted, pious, faithful, committed</span><br>
+              <span class="tag tag-ant">Ant: indifferent, disloyal, unfaithful</span><br>
+              <strong>Example:</strong> <em>Della was devout in her love and commitment to Jim.</em>
+            </div>
+            <div class="card-footer">🙏 Devoted</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">PROFOUND<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Very great or intense; having deep insight.<br>
+              <span class="tag tag-syn">Syn: deep, intense, great, insightful</span><br>
+              <span class="tag tag-ant">Ant: shallow, superficial, trivial</span><br>
+              <span class="tag tag-root">Root: Latin profundus (deep)</span><br>
+              <strong>Example:</strong> <em>The story has a profound message about the nature of true love.</em>
+            </div>
+            <div class="card-footer">🌊 Deep</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">ELOQUENT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Fluent and persuasive in speaking or writing.<br>
+              <span class="tag tag-syn">Syn: articulate, expressive, fluent, persuasive</span><br>
+              <span class="tag tag-ant">Ant: inarticulate, mumbling, tongue-tied</span><br>
+              <span class="tag tag-root">Root: Latin eloqui (to speak out)</span><br>
+              <strong>Example:</strong> <em>O. Henry's eloquent narration makes every word impactful.</em>
+            </div>
+            <div class="card-footer">🗣️ Fluent</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">BENEVOLENT<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Values Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Well-meaning and kindly; charitable.<br>
+              <span class="tag tag-syn">Syn: kind, generous, charitable, philanthropic</span><br>
+              <span class="tag tag-ant">Ant: malevolent, cruel, selfish</span><br>
+              <span class="tag tag-root">Root: Latin bene (well) + volens (wishing)</span><br>
+              <strong>Prefix:</strong> bene- = good/well<br>
+              <strong>Example:</strong> <em>A benevolent person gives not out of duty but out of genuine care.</em>
+            </div>
+            <div class="card-footer">💚 Kind</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">EMULATE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(verb)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> To try to match or surpass someone by imitating them.<br>
+              <span class="tag tag-syn">Syn: imitate, follow, match, rival</span><br>
+              <span class="tag tag-ant">Ant: differ, ignore, neglect</span><br>
+              <span class="tag tag-root">Root: Latin aemulari (to rival)</span><br>
+              <strong>Example:</strong> <em>Students should emulate the selflessness of Della and Jim in their own lives.</em>
+            </div>
+            <div class="card-footer">🏆 Follow</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">VOLATILE<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(adjective)</small></div>
+            <div class="card-footer"><span>🎯 Academic Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> Liable to change rapidly and unpredictably; easily evaporated.<br>
+              <span class="tag tag-syn">Syn: unstable, changeable, erratic, unpredictable</span><br>
+              <span class="tag tag-ant">Ant: stable, consistent, predictable, calm</span><br>
+              <span class="tag tag-root">Root: Latin volare (to fly)</span><br>
+              <strong>Example:</strong> <em>Emotions can be volatile, especially when one faces unexpected news.</em>
+            </div>
+            <div class="card-footer">⚡ Unstable</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-vocabulary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Vocabulary</div>
+            <div class="card-question">EMPATHY<br><small style="color:var(--muted);font-size:12px;font-weight:400;font-family:'DM Sans'">(noun)</small></div>
+            <div class="card-footer"><span>🎯 Human Values</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Meaning:</strong> The ability to understand and share the feelings of another person.<br>
+              <span class="tag tag-syn">Syn: compassion, understanding, sensitivity, sympathy</span><br>
+              <span class="tag tag-ant">Ant: indifference, callousness, detachment</span><br>
+              <span class="tag tag-root">Root: Greek empatheia (passion, affection)</span><br>
+              <strong>Example:</strong> <em>Jim showed empathy by not being upset about Della's short hair.</em>
+            </div>
+            <div class="card-footer">❤️ Understanding</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       8. GLOSSARY
+  ════════════════════════════════════════ -->
+  <div id="sec-glossary" class="section">
+    <div class="section-header">
+      <h2>📘 Glossary — Gift of the Magi</h2>
+      <p>Simple, student-friendly meanings for key story words</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="prog-label">Cards reviewed:</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-glossary" style="width:0%"></div></div>
+      <span class="prog-count" id="cnt-glossary">0 / 10</span>
+      <button class="reset-btn" onclick="resetSection('glossary')">Reset</button>
+    </div>
+    <div class="cards-grid" id="grid-glossary">
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What does "Magi" mean? Why are Della and Jim compared to them?</div>
+            <div class="card-footer"><span>🎯 Title Word</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Magi:</strong> The Three Wise Men (from the Bible) who brought gifts to Baby Jesus at Christmas.
+              <br><br>
+              <strong>Why Compared?</strong>
+              <ul>
+                <li>Just like the Magi gave meaningful, sacrificial gifts, Della and Jim gave the most valuable thing they owned.</li>
+                <li>The narrator calls them "the wisest" gift-givers of all.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🌟 Title Word</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What is a "platinum fob chain"? Why did Della buy it?</div>
+            <div class="card-footer"><span>🎯 Story Item</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Platinum Fob Chain:</strong> A chain made of platinum (a precious metal) used to attach and display a pocket watch.
+              <br><br>
+              <strong>Why Della bought it:</strong>
+              <ul>
+                <li>Jim's gold watch was a prized possession but had a worn-out strap.</li>
+                <li>Della wanted to give him a worthy chain to display it proudly.</li>
+                <li>She paid $21 for it — more than she earned by selling her hair.</li>
+              </ul>
+            </div>
+            <div class="card-footer">⌚ Gift</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What are "jewelled combs"? Why did Jim buy them for Della?</div>
+            <div class="card-footer"><span>🎯 Story Item</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Jewelled Combs:</strong> Decorative hair combs adorned with precious jewels — a luxury hair accessory.
+              <br><br>
+              <strong>Why Jim bought them:</strong>
+              <ul>
+                <li>Della's long, beautiful hair was her greatest treasure.</li>
+                <li>Jim had admired combs displayed in a shop window that he knew Della wanted.</li>
+                <li>He sold his watch to buy them — making the gift heartbreakingly ironic.</li>
+              </ul>
+            </div>
+            <div class="card-footer">💎 Gift</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What does "furnished flat" mean in the context of the story?</div>
+            <div class="card-footer"><span>🎯 Setting</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Furnished Flat:</strong> A rented apartment that comes with basic furniture already provided.
+              <br><br>
+              <strong>In the Story:</strong>
+              <ul>
+                <li>Della and Jim live in a small furnished flat — suggesting they are financially poor.</li>
+                <li>The flat is described as shabby, with a broken letterbox and a doorbell that doesn't ring.</li>
+                <li>The setting establishes their <em>poverty</em> as the story's backdrop.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🏠 Setting</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What does "Queen of Sheba" mean in the story?</div>
+            <div class="card-footer"><span>🎯 Allusion</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Queen of Sheba:</strong> A Biblical queen renowned for her wealth, beauty, and wisdom.
+              <br><br>
+              <strong>In Story:</strong> O. Henry says that if the Queen of Sheba lived in the building below, Della would have let her hair hang out the window just to make her <em>feel envious</em>.
+              <br><br>
+              <strong>Purpose:</strong> A literary allusion to show how extraordinarily beautiful Della's hair was.
+            </div>
+            <div class="card-footer">👑 Allusion</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What does "King Solomon" symbolize in the story?</div>
+            <div class="card-footer"><span>🎯 Allusion</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>King Solomon:</strong> The Biblical king renowned for his immense wealth and treasures.
+              <br><br>
+              <strong>In Story:</strong> O. Henry says that if King Solomon's treasure was in the basement, Jim would pull out his gold watch just to make Solomon envious.
+              <br><br>
+              <strong>Purpose:</strong> To show how Jim's watch was his most prized and cherished possession.
+            </div>
+            <div class="card-footer">👑 Allusion</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'vocabulary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What is meant by "O. Henry's trademark twist ending"?</div>
+            <div class="card-footer"><span>🎯 Literary Technique</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Twist Ending:</strong> An unexpected or surprising conclusion that changes how you understand the story.
+              <br><br>
+              <strong>O. Henry's Style:</strong>
+              <ul>
+                <li>Famous for surprise endings that seem obvious in hindsight.</li>
+                <li>In Gift of Magi: Reader doesn't know until the end that BOTH characters made their sacrifice simultaneously.</li>
+                <li>The twist makes the irony and love hit harder.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🔄 Twist</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What does "intrusive narrator" mean? How is it used in this story?</div>
+            <div class="card-footer"><span>🎯 Narrative Style</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>Intrusive Narrator:</strong> A narrator who interrupts the story to speak directly to the reader and share opinions.
+              <br><br>
+              <strong>In Story:</strong>
+              <ul>
+                <li>O. Henry's narrator directly addresses the reader: "Let me introduce you to Della..."</li>
+                <li>The narrator comments on events, adds humor, and draws conclusions.</li>
+                <li>Creates a warm, conversational tone throughout.</li>
+              </ul>
+            </div>
+            <div class="card-footer">📖 Narrator</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What does "$1.87" signify at the start of the story?</div>
+            <div class="card-footer"><span>🎯 Story Symbol</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <strong>$1.87:</strong> The total amount Della has saved to buy Jim a Christmas gift.
+              <br><br>
+              <strong>Significance:</strong>
+              <ul>
+                <li>It is heartbreakingly <em>small</em> — barely enough for anything meaningful.</li>
+                <li>Sets up the central conflict: she wants to give a worthy gift but lacks money.</li>
+                <li>Symbolizes their poverty and makes Della's eventual sacrifice more impactful.</li>
+              </ul>
+            </div>
+            <div class="card-footer">💵 Symbol</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard cat-glossary" onclick="flip(this,'glossary')">
+        <div class="flashcard-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Glossary</div>
+            <div class="card-question">What is the significance of Christmas in the story?</div>
+            <div class="card-footer"><span>🎯 Setting/Symbol</span><span class="flip-hint">tap to reveal →</span></div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-label">Answer</div>
+            <div class="card-answer">
+              <ul>
+                <li><strong>Occasion:</strong> The story is set on <em>Christmas Eve</em>.</li>
+                <li>Christmas represents the spirit of <em>giving, love, and generosity</em>.</li>
+                <li>The Biblical Magi gave gifts at Christmas — connecting the title to the setting.</li>
+                <li>The holiday amplifies the meaning of sacrifice: giving even when you have little is the truest form of love.</li>
+                <li>Christmas symbolizes <strong>hope and renewal</strong>, even in poverty.</li>
+              </ul>
+            </div>
+            <div class="card-footer">🎄 Christmas</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /tabs-wrapper -->
+
+<footer>
+  Made for <span>B.Tech 1st Year English</span> · Unit I: Human Values · Gift of the Magi<br>
+  <span style="font-size:12px;opacity:0.5;margin-top:6px;display:block">Click any card to flip · Track your revision progress above</span>
+</footer>
+
+<script>
+  // Section card counts
+  const sectionCounts = {
+    literature: 12,
+    listening: 8,
+    speaking: 8,
+    reading: 6,
+    writing: 8,
+    grammar: 8,
+    vocabulary: 25,
+    glossary: 10
+  };
+
+  // Track flipped state per section
+  const flippedSets = {};
+  Object.keys(sectionCounts).forEach(k => flippedSets[k] = new Set());
+
+  function showTab(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  function flip(card, section) {
+    card.classList.toggle('flipped');
+    const idx = Array.from(card.parentNode.children).indexOf(card);
+    if (card.classList.contains('flipped')) {
+      flippedSets[section].add(idx);
+    } else {
+      flippedSets[section].delete(idx);
+    }
+    updateProgress(section);
+  }
+
+  function updateProgress(section) {
+    const count = flippedSets[section].size;
+    const total = sectionCounts[section];
+    const pct = Math.round((count / total) * 100);
+    const fill = document.getElementById('prog-' + section);
+    const cnt = document.getElementById('cnt-' + section);
+    if (fill) fill.style.width = pct + '%';
+    if (cnt) cnt.textContent = count + ' / ' + total;
+  }
+
+  function resetSection(section) {
+    flippedSets[section] = new Set();
+    document.querySelectorAll('#grid-' + section + ' .flashcard').forEach(c => {
+      c.classList.remove('flipped');
+    });
+    updateProgress(section);
+  }
+
+  // Init all progress displays
+  Object.keys(sectionCounts).forEach(updateProgress);
+</script>
+</body>
+</html>

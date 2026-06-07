@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JNTUK Communicative English – Question Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1b1f2b;
+    --border: #252a38;
+    --accent: #f4c842;
+    --accent2: #e07b39;
+    --text: #e8eaf0;
+    --text-muted: #7a8099;
+    --easy: #2ecc71;
+    --easy-bg: rgba(46,204,113,0.12);
+    --medium: #f39c12;
+    --medium-bg: rgba(243,156,18,0.12);
+    --hard: #e74c3c;
+    --hard-bg: rgba(231,76,60,0.12);
+    --vfa: #9b59b6;
+    --vfa-bg: rgba(155,89,182,0.15);
+    --fa: #3498db;
+    --fa-bg: rgba(52,152,219,0.15);
+    --oa: #1abc9c;
+    --oa-bg: rgba(26,188,156,0.15);
+    --rare: #95a5a6;
+    --rare-bg: rgba(149,165,166,0.15);
+    --u1: #f4c842;
+    --u2: #4ecdc4;
+    --u3: #ff6b6b;
+    --u4: #a29bfe;
+    --u5: #fd79a8;
+    --radius: 14px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, #0d0f14 0%, #151926 60%, #1a1230 100%);
+    padding: 80px 40px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(244,200,66,0.08) 0%, transparent 70%);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(244,200,66,0.12);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(244,200,66,0.25);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 0;
+    min-width: max-content;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ─── MAIN ─── */
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+
+  /* ─── UNIT SECTION ─── */
+  .unit-section { margin-bottom: 64px; }
+  .unit-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding: 28px 32px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-header::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 4px 0 0 4px;
+  }
+  .unit-1 .unit-header::before { background: var(--u1); }
+  .unit-2 .unit-header::before { background: var(--u2); }
+  .unit-3 .unit-header::before { background: var(--u3); }
+  .unit-4 .unit-header::before { background: var(--u4); }
+  .unit-5 .unit-header::before { background: var(--u5); }
+  .unit-header:hover { border-color: rgba(255,255,255,0.15); }
+  .unit-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0.2;
+    flex-shrink: 0;
+  }
+  .unit-1 .unit-num { color: var(--u1); }
+  .unit-2 .unit-num { color: var(--u2); }
+  .unit-3 .unit-num { color: var(--u3); }
+  .unit-4 .unit-num { color: var(--u4); }
+  .unit-5 .unit-num { color: var(--u5); }
+  .unit-meta { flex: 1; }
+  .unit-theme {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .unit-1 .unit-theme { color: var(--u1); }
+  .unit-2 .unit-theme { color: var(--u2); }
+  .unit-3 .unit-theme { color: var(--u3); }
+  .unit-4 .unit-theme { color: var(--u4); }
+  .unit-5 .unit-theme { color: var(--u5); }
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .unit-sub { color: var(--text-muted); font-size: 14px; }
+  .unit-toggle {
+    flex-shrink: 0;
+    font-size: 22px;
+    color: var(--text-muted);
+    transition: transform .3s;
+    align-self: center;
+  }
+  .unit-header.collapsed .unit-toggle { transform: rotate(-90deg); }
+
+  .unit-body { animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: none; } }
+
+  /* ─── QUESTION TYPE HEADER ─── */
+  .qtype-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 16px;
+  }
+  .qtype-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 50px;
+  }
+  .qtype-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .qtype-mark {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 50px;
+  }
+
+  /* ─── QUESTION CARDS ─── */
+  .questions-grid {
+    display: grid;
+    gap: 14px;
+  }
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    transition: all .22s;
+    position: relative;
+  }
+  .question-card:hover {
+    border-color: rgba(255,255,255,0.12);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+  .q-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-text {
+    font-size: 15px;
+    color: var(--text);
+    flex: 1;
+    font-weight: 400;
+  }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+    letter-spacing: 0.3px;
+  }
+  .badge-easy { background: var(--easy-bg); color: var(--easy); border: 1px solid rgba(46,204,113,0.25); }
+  .badge-medium { background: var(--medium-bg); color: var(--medium); border: 1px solid rgba(243,156,18,0.25); }
+  .badge-hard { background: var(--hard-bg); color: var(--hard); border: 1px solid rgba(231,76,60,0.25); }
+  .badge-vfa { background: var(--vfa-bg); color: var(--vfa); border: 1px solid rgba(155,89,182,0.25); }
+  .badge-fa { background: var(--fa-bg); color: var(--fa); border: 1px solid rgba(52,152,219,0.25); }
+  .badge-oa { background: var(--oa-bg); color: var(--oa); border: 1px solid rgba(26,188,156,0.25); }
+  .badge-rare { background: var(--rare-bg); color: var(--rare); border: 1px solid rgba(149,165,166,0.25); }
+  .badge-diff::before { content: '● '; font-size: 8px; }
+
+  /* ─── ANSWER TOGGLE ─── */
+  .answer-toggle {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .show-answer-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .show-answer-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .answer-content {
+    display: none;
+    margin-top: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .answer-content.open { display: block; animation: fadeIn .2s ease; }
+  .answer-content strong { color: var(--text); }
+
+  /* ─── VOCAB TABLE ─── */
+  .vocab-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .vocab-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .vocab-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .vocab-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ─── GRAMMAR RULE BOX ─── */
+  .grammar-box {
+    background: rgba(244,200,66,0.05);
+    border: 1px solid rgba(244,200,66,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  /* ─── LEGEND ─── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .hero { padding: 60px 20px 40px; }
+    main { padding: 32px 16px; }
+    .unit-header { padding: 20px; gap: 12px; }
+    .unit-num { font-size: 32px; }
+    .unit-title { font-size: 18px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">JNTUK · B.Tech 1st Year · 2024–25</div>
+  <h1>Communicative English<br>Question Bank</h1>
+  <p>135 exam-oriented questions across 5 units — with difficulty levels, repetition frequency, and sample answers.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">135</div><div class="stat-label">Total Questions</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Units</div></div>
+    <div class="stat"><div class="stat-num">75</div><div class="stat-label">2-Mark</div></div>
+    <div class="stat"><div class="stat-num">60</div><div class="stat-label">5-Mark</div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn" onclick="scrollToUnit('unit1')"><span class="nav-dot" style="background:var(--u1)"></span>Unit I – Human Values</button>
+    <button class="nav-btn" onclick="scrollToUnit('unit2')"><span class="nav-dot" style="background:var(--u2)"></span>Unit II – Nature</button>
+    <button class="nav-btn" onclick="scrollToUnit('unit3')"><span class="nav-dot" style="background:var(--u3)"></span>Unit III – Biography</button>
+    <button class="nav-btn" onclick="scrollToUnit('unit4')"><span class="nav-dot" style="background:var(--u4)"></span>Unit IV – Inspiration</button>
+    <button class="nav-btn" onclick="scrollToUnit('unit5')"><span class="nav-dot" style="background:var(--u5)"></span>Unit V – Motivation</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><span class="badge badge-easy badge-diff">Easy</span></div>
+  <div class="legend-item"><span class="badge badge-medium badge-diff">Medium</span></div>
+  <div class="legend-item"><span class="badge badge-hard badge-diff">Hard</span></div>
+  <div class="legend-item"><span class="badge badge-vfa">Very Frequently Asked</span></div>
+  <div class="legend-item"><span class="badge badge-fa">Frequently Asked</span></div>
+  <div class="legend-item"><span class="badge badge-oa">Occasionally Asked</span></div>
+  <div class="legend-item"><span class="badge badge-rare">Rare</span></div>
+</div>
+
+<!-- ═══════════ UNIT I ═══════════ -->
+<section class="unit-section unit-1" id="unit1">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-num">I</div>
+    <div class="unit-meta">
+      <div class="unit-theme">Unit I · Human Values</div>
+      <div class="unit-title">The Gift of the Magi</div>
+      <div class="unit-sub">Short Story by O. Henry · Grammar: Parts of Speech, Sentence Structure · Vocabulary: Synonyms, Antonyms, Prefixes & Suffixes</div>
+    </div>
+    <div class="unit-toggle">▾</div>
+  </div>
+
+  <div class="unit-body">
+
+    <!-- 2-MARK -->
+    <div class="qtype-header">
+      <div class="qtype-pill">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Short Answer · 2 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q1</div><div class="q-text">Define 'skimming' as a reading strategy. How is it different from scanning?</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q2</div><div class="q-text">Identify the part of speech of the underlined word: "She <u>quickly</u> sold her hair."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q3</div><div class="q-text">Give synonyms for the words: (a) precious (b) sacrifice.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q4</div><div class="q-text">Give antonyms for: (a) generous (b) beautiful.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q5</div><div class="q-text">Fill in the blanks with the correct form of the verb:<br>"Jim _____ (sell) his watch yesterday."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q6</div><div class="q-text">What is the meaning of the prefix 'un-'? Give two examples.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q7</div><div class="q-text">Identify the subject and predicate in: "Della combed her beautiful long hair."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q8</div><div class="q-text">Correct the punctuation in the following sentence:<br><em>"della said i love you jim"</em></div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q9</div><div class="q-text">True or False: In "The Gift of the Magi," both Jim and Della sacrificed their most prized possessions for each other.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q10</div><div class="q-text">Frame a question using the word 'did' for the statement: "Della sold her hair."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q11</div><div class="q-text">Match the root words with their meanings:<br>(a) port → (b) bene → (c) dict →<br>[carry / good / say]</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q12</div><div class="q-text">Choose the correct option: The word "magnificent" is a ___.<br>(a) Noun (b) Verb (c) Adjective (d) Adverb</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q13</div><div class="q-text">What is a 'suffix'? Write the suffix in the word "happiness".</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q14</div><div class="q-text">Complete the dialogue:<br>A: "What did you buy for Jim?"<br>B: "I bought him ________."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·Q15</div><div class="q-text">Name the two main characters and their prized possessions in "The Gift of the Magi".</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+    </div><!-- /2-mark grid -->
+
+    <!-- 5-MARK -->
+    <div class="qtype-header">
+      <div class="qtype-pill">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Long Answer · 5 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L1</div><div class="q-text">Write a paragraph (8–10 sentences) on <strong>"The Importance of Sacrifice in Relationships"</strong> drawing references from <em>The Gift of the Magi</em>.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Sample Answer</button>
+          <div class="answer-content">
+            <strong>Sample Answer:</strong><br>
+            Sacrifice is the highest expression of love. In O. Henry's short story <em>The Gift of the Magi</em>, Jim and Della demonstrate this timeless truth through their selfless actions. Della, the young wife, possesses two treasures: her beautiful long hair and her deep love for Jim. Without hesitation, she sells her hair to buy Jim a platinum watch chain. Meanwhile, Jim sells his prized gold watch to buy Della a set of ivory combs for her hair. The tragic irony is that each gift becomes useless — the combs cannot adorn shorn hair, and the chain has no watch to hold. Yet O. Henry insists they are the wisest of givers, for their act echoes the biblical Magi. True sacrifice does not calculate gains; it flows from the heart. In relationships, sacrifice builds trust, deepens bonds, and reveals character. Jim and Della remind us that material loss is insignificant when love is the motive. Their story teaches every reader that giving without expecting anything in return is the greatest form of human connection.
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L2</div><div class="q-text">Explain the theme of <em>The Gift of the Magi</em> with specific examples from the story. What moral lesson does O. Henry convey?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Sample Answer</button>
+          <div class="answer-content">
+            <strong>Key Points to Cover:</strong><br>
+            1. <strong>Theme of Selfless Love</strong> – Both characters prioritize the happiness of the other over personal attachment.<br>
+            2. <strong>Irony of the Gifts</strong> – Each gift, though rendered useless, is perfectly symbolic of devotion.<br>
+            3. <strong>Reference to Biblical Magi</strong> – O. Henry elevates simple acts of love to the sacred.<br>
+            4. <strong>Moral</strong> – True wealth is measured in the depth of love shared, not material possessions.<br>
+            5. <strong>Setting</strong> – The poverty of Jim and Della's home emphasizes the enormity of their sacrifice.<br>
+            <em>Write 5–8 sentences expanding each point with evidence from the text.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L3</div><div class="q-text">Write a self-introduction (as if you are appearing for a B.Tech college interview). Include your name, place, family background, academic interests, and hobbies. (Minimum 10 sentences)</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Sample Answer</button>
+          <div class="answer-content">
+            <strong>Structure Checklist:</strong><br>
+            ✔ Greeting + name<br>
+            ✔ Place of origin<br>
+            ✔ Family members and their professions<br>
+            ✔ Academic background (school, board, percentage)<br>
+            ✔ Reason for choosing engineering<br>
+            ✔ Hobbies (at least 2)<br>
+            ✔ Short-term and long-term goals<br>
+            ✔ Positive closing statement<br>
+            <em>Use simple, confident, and grammatically correct sentences. Avoid memorized robotic phrases.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L4</div><div class="q-text">Identify and list <strong>all eight parts of speech</strong> with definitions and examples from the story <em>The Gift of the Magi</em>.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L5</div><div class="q-text">Read the following passage and answer the questions below using skimming and scanning techniques:<br><br><em>"Della counted her money three times. One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies… Tomorrow would be Christmas Day and she had only $1.87 with which to buy Jim a gift."</em><br><br>(a) What is the main idea? (b) What exact amount did Della have? (c) What occasion is approaching? (d) What problem does Della face?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L6</div><div class="q-text">Write a creative dialogue between Jim and Della on the evening they exchange gifts on Christmas. Use at least 10 exchanges. Include emotions and reactions.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L7</div><div class="q-text">Transform the following sentences as instructed:<br>(a) Della bought a watch chain. (Interrogative)<br>(b) Jim loved his wife. (Negative)<br>(c) She has long hair. (Exclamatory)<br>(d) They exchanged gifts. (Passive voice)<br>(e) "I sold my hair," said Della. (Indirect speech)</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L8</div><div class="q-text">Write five sentences each using words with the following prefixes and suffixes: (a) mis- (b) re- (c) -ful (d) -less (e) -tion. Provide meanings alongside.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L9</div><div class="q-text">Describe Della's character in detail. How does O. Henry portray her as an ideal wife? Support your answer with three examples from the text.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L10</div><div class="q-text">Correct the following sentences for spelling, punctuation, and capitalization errors (5 sentences):<br>(a) della and jim lives in a poor apartemnt in new york.<br>(b) she buyed combs for her hare.<br>(c) jim exclaimed oh della your hairs gone.<br>(d) the gifts was useless but priceles.<br>(e) "i love you" said jim softly</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L11</div><div class="q-text">Write a role-play scenario in which you (as a student) introduce yourself to a new professor and three classmates on the first day of college. Cover academic interests, expectations from the course, and a fun fact about yourself.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U1·L12</div><div class="q-text">Write a vocabulary table for any 10 words from "The Gift of the Magi," including: Word | Part of Speech | Synonym | Antonym | Sentence.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+    </div>
+
+  </div><!-- /unit-body -->
+</section>
+
+<!-- ═══════════ UNIT II ═══════════ -->
+<section class="unit-section unit-2" id="unit2">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-num">II</div>
+    <div class="unit-meta">
+      <div class="unit-theme">Unit II · Nature</div>
+      <div class="unit-title">The Brook by Alfred Tennyson</div>
+      <div class="unit-sub">Poem · Grammar: Articles, Prepositions, Linkers · Vocabulary: Homonyms, Homophones, Homographs</div>
+    </div>
+    <div class="unit-toggle">▾</div>
+  </div>
+
+  <div class="unit-body">
+    <div class="qtype-header">
+      <div class="qtype-pill">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Short Answer · 2 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q1</div><div class="q-text">Define 'homophone'. Give two examples from everyday English.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q2</div><div class="q-text">Fill in the blank with the correct article (a/an/the/zero article):<br>"___ brook flows through ___ hills near ___ village."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q3</div><div class="q-text">What is the refrain in <em>The Brook</em>? Write it from memory and state its literary significance.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q4</div><div class="q-text">Differentiate between 'homonym' and 'homograph' with one example each.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q5</div><div class="q-text">Fill in with correct prepositions:<br>"The brook runs ___ the forest, ___ the mountains, and ___ the valley."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q6</div><div class="q-text">Choose the correct linker to join these ideas:<br>"The brook babbles endlessly; ___ (however/therefore/moreover), men come and go."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q7</div><div class="q-text">What does the brook symbolize in Tennyson's poem? Answer in 2–3 sentences.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q8</div><div class="q-text">True or False: The central contrast in <em>The Brook</em> is between the permanence of nature and the transience of human life.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q9</div><div class="q-text">Identify whether the following words are Homonyms, Homophones, or Homographs:<br>(a) bank (riverbank / financial bank)<br>(b) write / right<br>(c) lead (to guide / a metal)</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q10</div><div class="q-text">What literary device is used in: "I chatter, chatter, as I flow"? Identify and name it.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q11</div><div class="q-text">Write a sentence using each of the following cohesion devices: <em>however, therefore, in addition, on the other hand</em>.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q12</div><div class="q-text">What is 'cohesion' in paragraph writing? Mention two techniques to achieve it.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q13</div><div class="q-text">Arrange the following ideas in a logical sequence:<br>(a) The brook reaches the sea.<br>(b) The brook originates in the hills.<br>(c) It flows past villages and fields.<br>(d) It makes sounds as it flows over pebbles.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q14</div><div class="q-text">MCQ: "For men may come and men may go, but I go on for ever." This line suggests:<br>(a) Men are strong (b) The brook is proud (c) Nature outlasts human existence (d) The brook is tired</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·Q15</div><div class="q-text">Name the poetic devices used in: "I slip, I slide, I gloom, I glance."</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-pill">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Long Answer · 5 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L1</div><div class="q-text">Write a well-structured paragraph (10–12 sentences) on <strong>"The Importance of Nature Conservation"</strong> using the poem <em>The Brook</em> as inspiration. Use at least four linkers/cohesion devices.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Sample Answer</button>
+          <div class="answer-content">
+            <strong>Paragraph Structure:</strong><br>
+            <strong>Topic Sentence:</strong> Tennyson's brook reminds us that nature is eternal, yet fragile.<br>
+            <strong>Development:</strong> Discuss industrial pollution, deforestation, and their effects on rivers. Reference the brook's journey as a metaphor for pure, undisturbed nature.<br>
+            <strong>Linkers to use:</strong> Furthermore, However, As a result, Therefore, In conclusion.<br>
+            <strong>Concluding Sentence:</strong> If we protect our rivers, we protect our future — just as the brook, flowing forever, has always sustained the land it passes through.
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L2</div><div class="q-text">Explain the central theme of Tennyson's <em>The Brook</em>. How does the poet use the brook as a metaphor for the contrast between nature and human life?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L3</div><div class="q-text">Conduct a group discussion on the topic: <strong>"Industrialization is destroying nature."</strong> Write the script with at least four speakers, each presenting different viewpoints. Include proper discourse markers.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L4</div><div class="q-text">Write a structured short talk (for 3–4 minutes) on the topic: <strong>"What nature teaches us about life"</strong>. Include an introduction, 3 main points, and a conclusion. Use connective phrases.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L5</div><div class="q-text">Write a paragraph using all the given homonyms/homophones in meaningful sentences:<br>fair/fare, sea/see, bear/bare, flower/flour, peace/piece. Explain the difference in meaning for each pair.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L6</div><div class="q-text">Fill in all the blanks with appropriate articles and prepositions, then explain your choices:<br>"___ brook flows ___ the hills ___ a gentle murmur. ___ birds sing ___ the trees ___ its banks."</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L7</div><div class="q-text">Summarize the poem <em>The Brook</em> in your own words in about 150 words. Include: origin, journey, sounds, and the central message of the poem.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L8</div><div class="q-text">Write a 5-mark grammar exercise: Rewrite the following sentences using the correct articles. Then classify each as definite, indefinite, or zero article usage (10 sentences provided by examiner).</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L9</div><div class="q-text">Describe the journey of the brook from its origin to its destination, identifying the geographical features mentioned in the poem. Draw parallels with a human life journey.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L10</div><div class="q-text">Write a paragraph on <strong>"My Favourite Season"</strong> that demonstrates: (a) a clear topic sentence, (b) supporting details, (c) cohesion through pronoun reference and linkers, (d) a concluding sentence.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U2·L11</div><div class="q-text">Write a 5-mark listening comprehension-based activity: After listening to a description of a river journey, identify the main ideas and two supporting details under each main idea. (Simulated passage for reading: "The Ganges flows from the Himalayas through the plains of India, sustaining millions...")</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-rare">Rare</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ UNIT III ═══════════ -->
+<section class="unit-section unit-3" id="unit3">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-num">III</div>
+    <div class="unit-meta">
+      <div class="unit-theme">Unit III · Biography</div>
+      <div class="unit-title">Elon Musk</div>
+      <div class="unit-sub">Biography · Grammar: Verb Tenses, Subject-Verb Agreement · Vocabulary: Collocations, Compound Words</div>
+    </div>
+    <div class="unit-toggle">▾</div>
+  </div>
+
+  <div class="unit-body">
+    <div class="qtype-header">
+      <div class="qtype-pill">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Short Answer · 2 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q1</div><div class="q-text">What is a 'collocation'? Give two examples related to business or technology.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q2</div><div class="q-text">Correct the subject-verb agreement errors:<br>(a) "Elon Musk and his team works hard."<br>(b) "The companies he founded is successful."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q3</div><div class="q-text">Fill in the blanks with the correct tense:<br>"Elon Musk _____ (born) in South Africa in 1971. He _____ (move) to Canada as a teenager."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q4</div><div class="q-text">Name three companies founded or co-founded by Elon Musk.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q5</div><div class="q-text">What is a 'compound word'? Identify compound words in: "spacecraft, daydream, breakthrough, notebook."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q6</div><div class="q-text">True/False: Elon Musk dropped out of his PhD program at Stanford University after just two days to pursue entrepreneurship.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q7</div><div class="q-text">What does 'inference making' mean in the context of reading? Give a brief example.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q8</div><div class="q-text">Use context clues to determine the meaning of the underlined word:<br><em>"Musk's <u>audacious</u> plan to colonize Mars was met with both admiration and skepticism."</em></div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q9</div><div class="q-text">Match the collocations:<br>(a) make — (b) take — (c) run — (d) launch —<br>[a business / a risk / a product / a profit]</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q10</div><div class="q-text">MCQ: Which tense is used to describe a completed action that has relevance to the present?<br>(a) Simple Past (b) Present Perfect (c) Past Continuous (d) Future Simple</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q11</div><div class="q-text">What is the difference between 'summarizing' and 'paraphrasing'?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q12</div><div class="q-text">Identify the tense used in each sentence:<br>(a) He has revolutionized the electric car industry.<br>(b) He was working on Zip2 in 1995.<br>(c) SpaceX will launch a mission to Mars.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q13</div><div class="q-text">Write one sentence each using these compound words: overachieve, breakthrough, workflow, teamwork.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q14</div><div class="q-text">What is note-making? What symbols/abbreviations are commonly used?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·Q15</div><div class="q-text">What leadership quality of Elon Musk stands out most to you? Answer in 2–3 sentences with a reason.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-pill">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Long Answer · 5 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L1</div><div class="q-text">Write a summary of Elon Musk's life and achievements in approximately 150 words. Focus on: early life, key companies, major achievements, and vision for the future.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Sample Answer</button>
+          <div class="answer-content">
+            <strong>Sample Summary:</strong><br>
+            Elon Musk, born on June 28, 1971 in Pretoria, South Africa, is one of the most influential entrepreneurs of the 21st century. He showed a keen interest in computing from childhood, teaching himself programming by age 12. After moving to Canada and later the United States, he enrolled at the University of Pennsylvania, earning degrees in economics and physics. He briefly began a PhD at Stanford but left within two days to co-found Zip2, an online city guide. He then co-founded PayPal, which was later acquired by eBay. His ventures into space exploration led to the founding of SpaceX in 2002. Tesla, which he joined in 2004, has transformed the global electric vehicle market. His ambition extends to solar energy (SolarCity), neural interfaces (Neuralink), and underground transport (The Boring Company). Musk's vision is driven by a desire to ensure the long-term survival of humanity through sustainable energy and multi-planetary living.
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L2</div><div class="q-text">Read the following passage and make structured notes using headings, sub-headings, and abbreviations:<br><br><em>"Elon Musk founded SpaceX in 2002 with the goal of reducing space transportation costs. The company developed the Falcon rockets and Dragon spacecraft. By 2020, SpaceX became the first private company to send humans to the International Space Station. Musk aims to colonize Mars by 2050. SpaceX has also developed Starlink, a satellite internet constellation."</em></div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L3</div><div class="q-text">Conduct and write a group discussion report on: <strong>"Should India invest more in space exploration like ISRO?"</strong> Include at least 4 different perspectives, a moderator's role, and a concluding summary.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L4</div><div class="q-text">Paraphrase the following passage in your own words (approximately 80 words):<br><em>"Musk's relentless pursuit of innovation is driven by an almost messianic belief that humanity must become multi-planetary to avoid extinction. He works 80–100 hours a week, and expects similar dedication from his teams. Critics argue this creates a toxic work culture, while admirers see it as visionary leadership."</em></div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L5</div><div class="q-text">Rewrite the following sentences correcting all verb tense and subject-verb agreement errors (10 sentences). Underline each correction you make.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L6</div><div class="q-text">Write a paragraph on <strong>"Failures as Stepping Stones to Success"</strong> with specific examples from Elon Musk's career (e.g., early SpaceX failures). Minimum 10 sentences.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L7</div><div class="q-text">Write a vocabulary exercise: Create 10 meaningful sentences using the given collocations: strong leadership / make a decision / conduct research / overcome challenges / achieve goals / pursue a dream / face criticism / take initiative / build a team / manage risk.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L8</div><div class="q-text">Describe the reading strategy of using <strong>context clues</strong> with five examples. For each example, provide a sentence, identify the unknown word, explain the type of context clue used, and state the inferred meaning.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L9</div><div class="q-text">Write a short biographical essay (150–200 words) on any Indian entrepreneur you admire. Follow the paragraph structure: introduction → early life → achievements → challenges → conclusion.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U3·L10</div><div class="q-text">Write a listening comprehension activity: A passage about Elon Musk's early life is read aloud. Students must: (a) identify the global theme, (b) write a 3-sentence summary, and (c) answer 3 specific questions. (Simulated transcript provided in exam).</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ UNIT IV ═══════════ -->
+<section class="unit-section unit-4" id="unit4">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-num">IV</div>
+    <div class="unit-meta">
+      <div class="unit-theme">Unit IV · Inspiration</div>
+      <div class="unit-title">The Toys of Peace by Saki</div>
+      <div class="unit-sub">Short Story · Grammar: Direct/Indirect Speech, Active/Passive Voice · Vocabulary: Confusing Words, Jargon</div>
+    </div>
+    <div class="unit-toggle">▾</div>
+  </div>
+
+  <div class="unit-body">
+    <div class="qtype-header">
+      <div class="qtype-pill">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Short Answer · 2 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q1</div><div class="q-text">Change to Indirect Speech:<br><em>"The teacher said, 'Peace is more valuable than war.'"</em></div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q2</div><div class="q-text">Change to Active Voice:<br><em>"Peaceful toys were given to the children by Harvey."</em></div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q3</div><div class="q-text">Differentiate between the confusing words: 'affect' and 'effect'. Use each in a sentence.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q4</div><div class="q-text">What is a 'reporting verb'? Give three examples and use them in sentences.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q5</div><div class="q-text">What is the central satire in Saki's <em>The Toys of Peace</em>? Answer in 2–3 sentences.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q6</div><div class="q-text">Fill in the blank with the correct word:<br>"The _____ (principal/principle) of non-violence was the _____ (principal/principle) belief of Mahatma Gandhi."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q7</div><div class="q-text">Change to Passive Voice:<br>(a) "Children play with toys."<br>(b) "Harvey bought books for his nephews."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q8</div><div class="q-text">What is 'jargon'? Give two examples of technical jargon from engineering.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q9</div><div class="q-text">Identify confusing word usage and correct it:<br>(a) "She was <u>complemented</u> on her presentation."<br>(b) "He refused to <u>accept</u> the gifts, <u>accept</u> for one."</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q10</div><div class="q-text">MCQ: In indirect speech, "He said, 'I am happy'" becomes:<br>(a) He said that I was happy.<br>(b) He said that he was happy.<br>(c) He said that he is happy.<br>(d) He told that he was happy.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q11</div><div class="q-text">What does a bar graph/pie chart typically represent? How would you interpret it for a reading comprehension question?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q12</div><div class="q-text">Differentiate: 'formal role-play' vs 'informal role-play'. Give one example scenario of each.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q13</div><div class="q-text">Write the parts of a formal letter. What is the difference between a formal and an informal letter?</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q14</div><div class="q-text">True or False: In "The Toys of Peace," the children immediately embrace the peaceful toys and abandon war toys.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·Q15</div><div class="q-text">Explain 'predictive listening' with a brief example. Why is it a useful listening strategy?</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-pill">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Long Answer · 5 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L1</div><div class="q-text">Write a formal letter to the Principal of your college requesting permission to organize a cultural fest. Follow the proper format: sender's address, date, designation, subject, salutation, body (3 paragraphs), closing.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Sample Format</button>
+          <div class="answer-content">
+            <strong>Format:</strong><br>
+            [Your Name &amp; Roll Number]<br>
+            [Department, College Name]<br>
+            [Date]<br><br>
+            To,<br>
+            The Principal,<br>
+            [College Name &amp; Address]<br><br>
+            <strong>Subject:</strong> Request for Permission to Organize Cultural Fest – [Name of Fest]<br><br>
+            Respected Sir/Madam,<br><br>
+            <em>Para 1:</em> Introduction – who you are, why you are writing.<br>
+            <em>Para 2:</em> Details of the event – date, venue, activities planned, departments involved.<br>
+            <em>Para 3:</em> Assurance of responsibility, request for permission and support.<br><br>
+            Yours faithfully,<br>
+            [Signature]<br>
+            [Name &amp; Roll Number]
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L2</div><div class="q-text">Prepare a professional resume for a fresher B.Tech student applying for a software internship. Include: Objective, Education, Skills (technical + soft), Projects, Achievements, and Declaration.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Resume Structure</button>
+          <div class="answer-content">
+            <strong>Resume Sections:</strong><br>
+            1. <strong>Personal Info:</strong> Name, email, phone, LinkedIn<br>
+            2. <strong>Career Objective:</strong> 2–3 lines tailored to the internship<br>
+            3. <strong>Education:</strong> B.Tech degree, school, board marks<br>
+            4. <strong>Technical Skills:</strong> Programming languages, tools<br>
+            5. <strong>Soft Skills:</strong> Communication, teamwork, leadership<br>
+            6. <strong>Projects:</strong> Title, tech stack, brief description<br>
+            7. <strong>Certifications / Achievements</strong><br>
+            8. <strong>Declaration:</strong> "I hereby declare that the above information is true..."
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L3</div><div class="q-text">Analyze Saki's use of irony and satire in <em>The Toys of Peace</em>. How does the story comment on the futility of imposing values on children? (Min. 150 words)</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L4</div><div class="q-text">Write a role-play dialogue: You are a student asking a senior for directions to the library, the exam hall, and the canteen on the first day of college. The senior responds helpfully. Include formal greetings and polite language.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L5</div><div class="q-text">Convert the following 10 sentences from Direct to Indirect Speech. Pay attention to tense, pronoun, and time/place reference changes.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L6</div><div class="q-text">Interpret the following bar graph (provided in exam) comparing toy preferences of children in 2024. Write a paragraph of 8–10 sentences describing trends, comparisons, and inferences.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L7</div><div class="q-text">Write an Active-Passive transformation exercise: Convert 10 given active sentences to passive and vice versa, covering all tenses (simple present, past, future, present perfect).</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L8</div><div class="q-text">Write a paragraph of 100 words using the following confusing words correctly in context: accept/except, advice/advise, affect/effect, principal/principle, than/then.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L9</div><div class="q-text">Describe the character of Harvey in <em>The Toys of Peace</em>. What does he represent in the broader social context of the story? Use textual evidence.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L10</div><div class="q-text">Write a formal letter of complaint to the Manager of a mobile service provider about poor network coverage in your area. Use formal language, provide evidence, and state a clear resolution request.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L11</div><div class="q-text">Create a jargon glossary for any one field (IT / Medical / Legal). List 10 jargon words with their plain-English explanations. Then write two sentences using each in context.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-rare">Rare</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U4·L12</div><div class="q-text">Write a role-play script for a formal job interview between an interviewer and a fresher B.Tech student. The student is applying for a data analyst position. Cover: introduction, skills, why this role, salary expectations, questions from candidate.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ UNIT V ═══════════ -->
+<section class="unit-section unit-5" id="unit5">
+  <div class="unit-header" onclick="toggleUnit(this)">
+    <div class="unit-num">V</div>
+    <div class="unit-meta">
+      <div class="unit-theme">Unit V · Motivation</div>
+      <div class="unit-title">The Power of Intrapersonal Communication</div>
+      <div class="unit-sub">Essay / Concept · Grammar: Error Correction, Articles, Prepositions, Tenses · Vocabulary: Technical Jargon</div>
+    </div>
+    <div class="unit-toggle">▾</div>
+  </div>
+
+  <div class="unit-body">
+    <div class="qtype-header">
+      <div class="qtype-pill">2-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Short Answer · 2 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q1</div><div class="q-text">Define 'intrapersonal communication'. How is it different from interpersonal communication?</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q2</div><div class="q-text">Identify and correct the errors in the following sentence:<br><em>"She have being working on this project since many years and still not completed it."</em></div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q3</div><div class="q-text">What is 'self-talk'? Give an example of positive and negative self-talk.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q4</div><div class="q-text">Fill in blanks with the correct article:<br>"___ intrapersonal communication is ___ vital skill for ___ personal growth."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q5</div><div class="q-text">Correct the preposition errors:<br>(a) "She is good in mathematics."<br>(b) "He was absent from school at Monday."</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q6</div><div class="q-text">MCQ: Which of the following is NOT a component of intrapersonal communication?<br>(a) Self-reflection (b) Inner monologue (c) Public speaking (d) Daydreaming</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q7</div><div class="q-text">What is a 'formal presentation'? Mention three key characteristics that distinguish it from an informal talk.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q8</div><div class="q-text">True or False: Intrapersonal communication can help in improving decision-making and problem-solving skills.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q9</div><div class="q-text">Write the technical jargon for the following plain-English descriptions:<br>(a) A wireless network standard (b) A type of software that runs in a browser (c) A storage location on the internet</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q10</div><div class="q-text">What is the role of 'motivation' in communication? Write 2–3 sentences.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q11</div><div class="q-text">Identify errors (tense, preposition, article, agreement) in:<br><em>"An self-awareness help a person to taking better decisions in their daily life."</em></div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q12</div><div class="q-text">What does the abbreviation 'SWOT' stand for? How is it related to intrapersonal communication?</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q13</div><div class="q-text">Match the communication type with its correct definition:<br>(a) Intrapersonal (b) Interpersonal (c) Group (d) Mass<br>[Communication with many / Communication with self / Communication between two / Communication in a small group]</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q14</div><div class="q-text">What is a 'reading comprehension passage'? List three types of questions typically asked.</div></div>
+        <div class="q-meta"><span class="badge badge-easy badge-diff">Easy</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·Q15</div><div class="q-text">Give the correct form of the verb in brackets:<br>(a) By 2030, humans _____ (land) on Mars.<br>(b) She _____ (practice) meditation every morning for two years.<br>(c) If you _____ (believe) in yourself, you _____ (succeed).</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+    </div>
+
+    <div class="qtype-header">
+      <div class="qtype-pill">5-Mark Questions</div>
+      <div class="qtype-line"></div>
+      <div class="qtype-mark">Long Answer · 5 Marks</div>
+    </div>
+
+    <div class="questions-grid">
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L1</div><div class="q-text">Write a well-structured essay (250–300 words) on <strong>"The Power of Intrapersonal Communication in Personal Development"</strong>. Your essay must include: Introduction, three body paragraphs (with arguments and examples), and a Conclusion.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Essay Outline</button>
+          <div class="answer-content">
+            <strong>Essay Outline:</strong><br>
+            <strong>Introduction:</strong> Define intrapersonal communication. Thesis: It is the foundation of all external communication and personal growth.<br><br>
+            <strong>Body Para 1 – Self-Awareness:</strong> Through inner dialogue, we become aware of our strengths, weaknesses, and biases. Example: a student who reflects on exam mistakes and adjusts study strategies.<br><br>
+            <strong>Body Para 2 – Decision Making:</strong> Internal debates help weigh pros and cons before acting. Example: Career choice, conflict resolution.<br><br>
+            <strong>Body Para 3 – Emotional Regulation:</strong> Positive self-talk reduces anxiety, builds confidence. Supported by psychological research (CBT, growth mindset).<br><br>
+            <strong>Conclusion:</strong> Intrapersonal communication is not a solitary act — it shapes how we relate to others, solve problems, and pursue goals. Cultivating it should be a daily practice for every student and professional.
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L2</div><div class="q-text">Read the following comprehension passage and answer all five questions that follow:<br><br><em>"Intrapersonal communication refers to the inner voice that each person carries. It includes thoughts, reflections, self-talk, and daydreaming. Psychologists argue that how we speak to ourselves determines how we perform in the world. Positive intrapersonal messages ('I can do this') lead to higher self-efficacy, while negative ones ('I always fail') create self-doubt. Students who practice mindful self-reflection perform better academically. Journaling, meditation, and goal-setting are practical tools that strengthen this inner voice."</em><br><br>(a) What is intrapersonal communication? (b) Name three components. (c) What effect does negative self-talk have? (d) Name three tools to strengthen intrapersonal communication. (e) Write a suitable title.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L3</div><div class="q-text">Prepare a formal presentation outline on the topic: <strong>"Effective Communication Skills for B.Tech Students"</strong>. Include: Title slide, agenda, 4 content slides (with bullet points), and a Q&amp;A closing slide. Write the script for the introduction (1 minute).</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L4</div><div class="q-text">Edit the following passage, correcting all grammatical errors (articles, prepositions, tenses, and subject-verb agreement — minimum 10 errors):<br><br><em>"Intrapersonal communication are a important tool for the success. Every person need to develop their inner voice so that they can takes better decision in life. Since many years, psychologists have been studying these process and have found that it have a direct impact on a person behavior and performance at the work."</em></div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+        <div class="answer-toggle">
+          <button class="show-answer-btn" onclick="toggleAnswer(this)">▶ Show Corrected Version</button>
+          <div class="answer-content">
+            <strong>Corrected Passage:</strong><br>
+            "Intrapersonal communication <strong>is</strong> <strong>an</strong> important tool for <strong>success</strong>. Every person <strong>needs</strong> to develop <strong>their</strong> inner voice so that they can <strong>make</strong> better <strong>decisions</strong> in <strong>their</strong> life. <strong>For</strong> many years, psychologists have been studying <strong>this</strong> process and have found that it has a direct impact on a person<strong>'s</strong> behavior and performance <strong>at</strong> work."<br><br>
+            <em>Errors corrected: are→is, a→an, decision→decisions, takes→make, Since→For, these→this, have→has, the success→success, at the work→at work, person behavior→person's behavior</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L5</div><div class="q-text">Write an essay on <strong>"Self-Motivation: The Key to Success in Engineering"</strong>. Use real examples from scientists, engineers, or leaders. Minimum 200 words. Follow the introduction → body (3 points) → conclusion structure.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L6</div><div class="q-text">Write a technical jargon glossary for <strong>Artificial Intelligence</strong>. List 10 terms (e.g., neural network, algorithm, dataset). For each: provide the term, a plain-English definition, and an example sentence.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L7</div><div class="q-text">Describe the structure of a formal essay. Then write a complete outline for an essay on <strong>"Digital Literacy in the 21st Century"</strong>, including thesis statement, topic sentences for each body paragraph, and a concluding thought.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L8</div><div class="q-text">Write a listening comprehension task: Students listen to a motivational speech by a student leader (simulated passage read by teacher). They must identify: (a) the key concept, (b) three supporting arguments, and (c) the speaker's conclusion. Prepare the answer sheet.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L9</div><div class="q-text">Write an essay on <strong>"The Role of Communication in Engineering Careers"</strong> (minimum 200 words). Discuss: why communication matters in technical fields, consequences of poor communication, and strategies to improve it.</div></div>
+        <div class="q-meta"><span class="badge badge-medium badge-diff">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-top"><div class="q-num">U5·L10</div><div class="q-text">Grammar Transformation Mega-Exercise (5 marks): For each of the 5 given sentences, perform ALL of the following transformations: (a) Negative, (b) Interrogative, (c) Passive Voice, (d) Indirect Speech, (e) Change tense as instructed. Show your work clearly.</div></div>
+        <div class="q-meta"><span class="badge badge-hard badge-diff">Hard</span><span class="badge badge-vfa">Very Frequently Asked</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p style="margin-bottom:6px">JNTUK Communicative English Question Bank · B.Tech 1st Year · 2024–25</p>
+  <p style="font-size:12px">135 Questions · 5 Units · All Difficulty Levels · JNTUK Pattern</p>
+</footer>
+
+<script>
+  function toggleUnit(header) {
+    const body = header.nextElementSibling;
+    const isCollapsed = header.classList.contains('collapsed');
+    if (isCollapsed) {
+      body.style.display = 'block';
+      header.classList.remove('collapsed');
+    } else {
+      body.style.display = 'none';
+      header.classList.add('collapsed');
+    }
+  }
+
+  function toggleAnswer(btn) {
+    const content = btn.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open');
+    btn.textContent = isOpen ? '▶ Show Sample Answer' : '▼ Hide Answer';
+    // fallback for format buttons
+    if (btn.textContent.includes('Format') || btn.textContent.includes('Structure') || btn.textContent.includes('Outline') || btn.textContent.includes('Version')) {
+      btn.textContent = isOpen ? '▶ Show Sample ' + btn.getAttribute('data-label') : '▼ Hide';
+    }
+  }
+
+  function scrollToUnit(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // update active nav
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+
+  // Fix show-answer-btn text dynamically
+  document.querySelectorAll('.show-answer-btn').forEach(btn => {
+    const label = btn.textContent.replace('▶ ', '').replace('Show ', '');
+    btn.setAttribute('data-label', label);
+  });
+
+  // Auto-fix toggle button text on second+ clicks
+  document.querySelectorAll('.show-answer-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const content = this.nextElementSibling;
+      const open = content.classList.contains('open');
+      const orig = this.getAttribute('data-label') || 'Sample Answer';
+      this.textContent = open ? `▼ Hide` : `▶ Show ${orig}`;
+    });
+  });
+</script>
+
+</body>
+</html>

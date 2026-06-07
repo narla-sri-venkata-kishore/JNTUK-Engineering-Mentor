@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Unit II – The Brook Flashcards</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:#1B2A4A;min-height:100vh}
+  
+  /* Cover */
+  .cover{background:linear-gradient(135deg,#1B2A4A 0%,#1A4A6A 100%);color:#fff;text-align:center;padding:60px 24px 40px;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(26,123,140,0.15)}
+  .cover::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(212,160,23,0.1)}
+  .cover h1{font-size:2.4rem;font-weight:800;letter-spacing:1px;margin-bottom:6px}
+  .cover h2{font-size:1.3rem;font-weight:400;color:#D4A017;margin-bottom:12px}
+  .cover p{font-size:.95rem;opacity:.8;margin-bottom:4px}
+  .badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px}
+  .badge{background:rgba(26,123,140,0.4);border:1px solid rgba(26,123,140,0.6);color:#a8e8f5;border-radius:20px;padding:5px 14px;font-size:.78rem;font-weight:600}
+
+  /* Nav */
+  nav{background:#1B2A4A;position:sticky;top:0;z-index:100;overflow-x:auto;white-space:nowrap;padding:0 16px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  .nav-btn{display:inline-block;padding:14px 16px;color:rgba(255,255,255,0.6);font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;text-decoration:none;user-select:none}
+  .nav-btn:hover,.nav-btn.active{color:#fff;border-bottom-color:#D4A017}
+
+  /* Sections */
+  .section{display:none;padding:24px 16px 40px;max-width:780px;margin:0 auto}
+  .section.active{display:block}
+  .section-banner{border-radius:12px;padding:16px 20px;margin-bottom:20px;color:#fff;font-size:1.1rem;font-weight:700}
+  .banner-lit{background:#1B2A4A}
+  .banner-listen{background:#1A7B8C}
+  .banner-speak{background:#2E7D32}
+  .banner-read{background:#5D4037}
+  .banner-write{background:#1565C0}
+  .banner-grammar{background:#6A1B9A}
+  .banner-vocab{background:#BF360C}
+  .banner-glossary{background:#1B2A4A}
+  .section-sub{font-size:.85rem;color:#666;margin-bottom:20px;font-style:italic}
+
+  /* Flashcard */
+  .card{border:1.5px solid #1A7B8C;border-radius:10px;margin-bottom:16px;overflow:hidden;cursor:pointer;transition:box-shadow .2s}
+  .card:hover{box-shadow:0 4px 16px rgba(26,123,140,.18)}
+  .card-front-label{background:#1A7B8C;color:#fff;font-size:.72rem;font-weight:700;padding:5px 12px;letter-spacing:.5px}
+  .card-front-body{background:#E8F4F8;padding:12px 14px;font-size:.97rem;font-weight:700;color:#1B2A4A;white-space:pre-line;line-height:1.5}
+  .card-back-label{background:#D4A017;color:#fff;font-size:.72rem;font-weight:700;padding:5px 12px;letter-spacing:.5px}
+  .card-back-body{background:#fff;padding:12px 14px;font-size:.92rem;color:#333;line-height:1.6;white-space:pre-line;display:none}
+  .card.flipped .card-back-body{display:block}
+  .card.flipped .card-front-body{background:#d4eef5}
+  .flip-hint{text-align:center;font-size:.78rem;color:#888;margin-bottom:8px}
+
+  /* Vocab card */
+  .vocab-card{border:1px solid #c9dde8;border-radius:10px;margin-bottom:12px;overflow:hidden}
+  .vocab-head{background:#E8F4F8;display:flex;justify-content:space-between;align-items:center;padding:9px 14px}
+  .vocab-word{font-size:1rem;font-weight:700;color:#1B2A4A}
+  .vocab-type{font-size:.75rem;color:#1A7B8C;font-weight:600;background:#c2e7f0;padding:2px 8px;border-radius:10px}
+  .vocab-meaning{background:#fff;padding:9px 14px;font-size:.9rem;color:#333}
+  .vocab-example{background:#FDF6E3;padding:8px 14px;font-size:.85rem;color:#666;font-style:italic;border-top:1px solid #e8e0c8}
+
+  /* Glossary table */
+  .gloss-table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .gloss-table th{background:#1B2A4A;color:#fff;padding:9px 12px;text-align:left;font-weight:600}
+  .gloss-table td{padding:8px 12px;border-bottom:1px solid #e2ecf2;vertical-align:top}
+  .gloss-table tr:nth-child(even) td{background:#E8F4F8}
+  .gloss-table td:first-child{font-weight:700;color:#1B2A4A;white-space:nowrap;width:36%}
+
+  /* Summary table */
+  .summary-table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:12px}
+  .summary-table th{background:#1A7B8C;color:#fff;padding:9px 12px;text-align:left}
+  .summary-table td{padding:9px 12px;border-bottom:1px solid #c9dde8;vertical-align:top}
+  .summary-table tr:nth-child(even) td{background:#E8F4F8}
+  .summary-table td:first-child{font-weight:700;color:#1B2A4A;width:36%}
+
+  /* Instructions */
+  .step-row{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+  .step-num{background:#1A7B8C;color:#fff;min-width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+  .step-body{background:#f5f5f5;border-radius:8px;padding:10px 14px;flex:1}
+  .step-title{font-weight:700;color:#1B2A4A;font-size:.92rem}
+  .step-desc{font-size:.87rem;color:#555;margin-top:3px;line-height:1.5}
+  .tip-box{background:#FDF6E3;border-left:4px solid #D4A017;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:8px;font-size:.88rem;line-height:1.5;color:#444}
+
+  /* Info box */
+  .info-box{background:#E8F4F8;border:1px solid #1A7B8C;border-radius:10px;padding:16px 18px;margin-bottom:20px}
+
+  /* Mint/peach/lavender card variants */
+  .card-front-body.mint{background:#E8F5E9}
+  .card-front-body.gold{background:#FDF6E3}
+  .card-front-body.lavender{background:#F3E8FF}
+  .card-front-body.peach{background:#FFF0E8}
+
+  @media(max-width:500px){
+    .cover h1{font-size:1.7rem}
+    .section{padding:16px 10px 32px}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>English Unit II</h1>
+  <h2>Flashcards — The Brook</h2>
+  <p>Alfred Lord Tennyson | B.Tech 1st Year</p>
+  <p style="font-size:.82rem;opacity:.65">55+ Exam-Ready Cards</p>
+  <div class="badge-row">
+    <span class="badge">Literature</span>
+    <span class="badge">Listening</span>
+    <span class="badge">Speaking</span>
+    <span class="badge">Reading</span>
+    <span class="badge">Writing</span>
+    <span class="badge">Grammar</span>
+    <span class="badge">Vocabulary</span>
+  </div>
+</div>
+
+<nav>
+  <span class="nav-btn active" onclick="showSection('instructions',this)">How to Use</span>
+  <span class="nav-btn" onclick="showSection('literature',this)">Literature</span>
+  <span class="nav-btn" onclick="showSection('listening',this)">Listening</span>
+  <span class="nav-btn" onclick="showSection('speaking',this)">Speaking</span>
+  <span class="nav-btn" onclick="showSection('reading',this)">Reading</span>
+  <span class="nav-btn" onclick="showSection('writing',this)">Writing</span>
+  <span class="nav-btn" onclick="showSection('grammar',this)">Grammar</span>
+  <span class="nav-btn" onclick="showSection('vocab',this)">Vocabulary</span>
+  <span class="nav-btn" onclick="showSection('glossary',this)">Glossary</span>
+  <span class="nav-btn" onclick="showSection('summary',this)">Summary</span>
+</nav>
+
+<!-- HOW TO USE -->
+<div id="instructions" class="section active">
+  <div class="section-banner banner-lit">How to use these flashcards</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-title">Read the front</div><div class="step-desc">Read the question carefully. Cover the back with your hand.</div></div></div>
+  <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-title">Think first</div><div class="step-desc">Try to recall the answer. Say it aloud — this boosts retention by ~40%.</div></div></div>
+  <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-title">Tap to flip</div><div class="step-desc">Tap the card to check the answer. Mark ✓ if correct, ✗ if not.</div></div></div>
+  <div class="step-row"><div class="step-num">4</div><div class="step-body"><div class="step-title">Spaced repetition</div><div class="step-desc">Review ✗ cards first in your next session. Repeat till all are ✓.</div></div></div>
+  <div class="step-row"><div class="step-num">5</div><div class="step-body"><div class="step-title">Write answers</div><div class="step-desc">For 10-mark questions, practise writing full answers within 10–12 minutes.</div></div></div>
+
+  <div style="margin:24px 0 12px;font-size:1rem;font-weight:700;color:#1B2A4A">Quick revision tips</div>
+  <div class="tip-box">Revise at least 3 days before the exam — don't cram the night before.</div>
+  <div class="tip-box">Highlight literary devices — they carry marks in 10-mark answers.</div>
+  <div class="tip-box">Read 'The Brook' aloud at least twice to feel the rhythm.</div>
+  <div class="tip-box">Group cards by section: Literature → Grammar → Vocabulary.</div>
+  <div class="tip-box">Practise writing one paragraph every day using the Writing section cards.</div>
+</div>
+
+<!-- LITERATURE -->
+<div id="literature" class="section">
+  <div class="section-banner banner-lit">Literature — The Brook</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">FC 01 | About the Author
+Who was Alfred Lord Tennyson?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Alfred Lord Tennyson (1809–1892) was a celebrated Victorian poet and Poet Laureate of Great Britain. Known for musical verse and deep emotion, he wrote 'The Brook' as part of 'The Brook: An Idyl' (1855). Notable works include 'In Memoriam,' 'Ulysses,' and 'The Charge of the Light Brigade.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">FC 02 | Summary
+Give a short summary of 'The Brook.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">The Brook is a dramatic monologue where a brook speaks about its journey from the hills to a river. It describes landscapes, plants, animals, and human settlements it passes through. The key contrast: men come and go, but the brook flows on forever. The poem celebrates the eternal flow of nature versus the temporary nature of human life.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">FC 03 | Central Theme
+What are the main themes of 'The Brook'?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Continuity of Nature: The brook symbolises nature's eternal journey.
+2. Transience of Human Life: Humans are mortal; nature is not.
+3. Joy and Energy of Nature: The brook is lively, noisy, joyful.
+4. Progress and Movement: Life is a journey — never stagnant.
+
+Key Line: "For men may come and men may go, But I go on for ever."</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">FC 04 | Central Idea
+What is the central idea of 'The Brook'?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">The central idea is that Nature is immortal and eternal while human life is short-lived and temporary. The brook personifies nature — energetic, free, and everlasting. Tennyson uses the brook as a metaphor for life's continuous flow, conveying that despite all changes, the forces of nature persist forever.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body peach">FC 05 | Important Lines
+Explain: "For men may come and men may go, But I go on for ever."</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Meaning: The brook states that while humans are born and die (temporary), the brook (nature) flows eternally without end.
+
+Literary Device: Antithesis (contrast between 'men' and 'I'), Repetition (refrain used 4 times).
+
+Significance: Summarises the poem's central theme of nature's immortality vs human mortality.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body peach">FC 06 | Important Lines
+Explain: "I chatter over stony ways, In little sharps and trebles"</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Meaning: The brook describes the sound it makes flowing over rocks. 'Sharps and trebles' are musical terms — the bubbling noise is compared to high-pitched musical notes.
+
+Literary Device: Personification (brook 'chatters'), Musical Imagery, Onomatopoeia ('chatter').
+
+Significance: Shows the joyful, musical quality of the brook as it navigates obstacles.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body peach">FC 07 | Important Lines
+Explain: "I steal by lawns and grassy plots, I slide by hazel covers"</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Meaning: The brook silently and gracefully moves past green lawns and hazel shrubs.
+
+Literary Device: Personification ('I steal,' 'I slide'), Imagery (visual picture of nature).
+
+Significance: Shows the brook's gentle, quiet side — contrasting with its earlier noisy, energetic flow over stones.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">FC 08 | Literary Devices – Set A
+Identify and explain THREE major literary devices in 'The Brook.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Personification: The brook is given human qualities — it speaks, chatters, bickers, murmurs, lingers.
+
+2. Alliteration: Repetition of consonant sounds. "By thirty hills I hurry down." ('h' repeated)
+
+3. Imagery: Vivid pictures of nature. 'Braid of bubbly sand,' 'netted sunbeam' — visual, auditory and tactile images.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">FC 09 | Literary Devices – Set B
+Identify THREE more literary devices in 'The Brook.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">4. Repetition/Refrain: "For men may come and men may go, But I go on for ever" — repeated 4 times for emphasis.
+
+5. Onomatopoeia: Words that imitate sounds — 'chatter,' 'murmur,' 'babble,' 'bicker.'
+
+6. Metaphor: The brook is a metaphor for life's journey — beginning, various stages, and eventual end.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">FC 10 | Journey of the Brook
+Describe the journey from source to destination.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Origin: Springs from a mountain haunted by coot and hern, near a lonely farmhouse.
+Flow through Hills: Hurries past 30 hills, 20 thorpes, Philip's farm and a mill.
+Movement: Chatters over stones, slides past lawns and hazel bushes.
+Destination: Merges into 'the brimming river.'
+Throughout: Passes farms, bridges, flowers (forget-me-nots, mallows, kingcups), fish, and human settlements.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">FC 11 | 2-Mark Q
+What does the brook symbolise in the poem?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">The brook symbolises Nature — its eternal, unceasing energy and movement. It is a symbol of immortality, continuous progress, and the joy of living. It also symbolises the journey of life: moving through difficulties, peaceful phases, and ultimately merging with something greater.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">FC 12 | 2-Mark Q
+Name four poetic devices used in 'The Brook.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Personification – The brook speaks and acts like a human ('I chatter,' 'I linger').
+2. Alliteration – 'By thirty hills I hurry down' ('h' repeated).
+3. Onomatopoeia – 'Chatter,' 'murmur,' 'babble' — words that sound like flowing water.
+4. Repetition/Refrain – 'For men may come and men may go, But I go on for ever' (4 times).</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">FC 13 | 10-Mark Q
+Write a critical appreciation of 'The Brook.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Introduction: 'The Brook' (1855) is a lyrical monologue where Tennyson's brook narrates its own journey.
+Theme: Nature's immortality vs. human mortality. The refrain 'men may come, men may go' emphasises this.
+Structure: 9 stanzas; alternating narrative and brook monologue.
+Literary Devices: Personification, alliteration, onomatopoeia, imagery, repetition/refrain.
+Mood: Joyful, energetic, and philosophical.
+Conclusion: The poem beautifully captures the eternal nature of a stream. Individuals perish, but nature and its forces continue forever.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">FC 14 | 10-Mark Q
+Analyse the use of nature imagery in 'The Brook.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Visual: 'netted sunbeam,' 'braid of bubbly sand,' 'forget-me-nots,' 'golden gravel,' 'silver'd silences.'
+Auditory: 'chatter,' 'babble,' 'murmur' — sounds of the brook.
+Tactile: 'shallow' water, 'stony ways.'
+Kinesthetic: Movement through 'twenty thorpes, a little town, half a hundred bridges.'
+
+Images serve two purposes: (1) vividly paint the English countryside; (2) mirror the brook's moods — noisy when excited, quiet when calm.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">FC 15 | 2-Mark Q
+What does "I go on for ever" convey?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">The phrase conveys the brook's (and Nature's) immortality and endless continuity. Unlike humans who are born and die, the brook's flow never stops. It reflects the poem's philosophical message: nature is eternal while human life is brief. Repetition as a refrain reinforces the idea of never-ending movement.</div>
+  </div>
+</div>
+
+<!-- LISTENING -->
+<div id="listening" class="section">
+  <div class="section-banner banner-listen">Listening Skills</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">LS 01 | Definition
+What is the 'Main Idea' in a listening passage?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">The Main Idea is the central thought or primary message of the entire passage. It answers: 'What is this passage MOSTLY about?'
+• It is general (not specific).
+• It covers the overall point.
+• Usually stated at the beginning or end.
+
+Example: 'This passage is mainly about the importance of clean water for health.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">LS 02 | Definition
+What is a 'Supporting Idea' in a listening passage?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">A Supporting Idea provides details, examples, or evidence that explains the main idea. It answers: 'What details support the main point?'
+• It is specific.
+• It cannot stand alone as the passage's meaning.
+• Multiple supporting ideas back up one main idea.
+
+Example: 'Only 3% of Earth's water is freshwater.' (supports water conservation.)</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">LS 03 | Technique
+How do you identify the Main Idea while listening?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Listen to the FIRST and LAST sentences carefully.
+2. Look for REPEATED words or ideas.
+3. Ask: 'What is the whole passage trying to tell me?'
+4. Eliminate very specific details (dates, names, numbers).
+5. Predict from the title or introduction of the passage.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">LS 04 | Technique
+What strategies help in answering listening-based questions?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Preview: Read questions before listening if allowed.
+2. Note-taking: Jot down keywords, not full sentences.
+3. Listen for signal words: 'The main point is…,' 'Most importantly…,' 'In conclusion…'
+4. Don't panic if you miss a word — context fills gaps.
+5. Eliminate wrong options first in MCQs.
+6. After listening, review notes and match with questions.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">LS 05 | Practice
+'Trees absorb CO₂, provide oxygen, prevent soil erosion, and support wildlife.' What is the main idea?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Main Idea: Trees are essential for the environment.
+
+Supporting Ideas:
+• They absorb carbon dioxide.
+• They release oxygen.
+• They prevent soil erosion.
+• They provide habitat for wildlife.
+
+Note: The main idea covers ALL the details generally; each supporting idea covers only ONE specific benefit.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">LS 06 | Signal Words
+Name six signal words used to introduce the main idea or supporting details.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Main Idea Signals:
+• 'The main point is…' | 'Most importantly…'
+• 'In summary…' | 'The purpose of…'
+
+Supporting Detail Signals:
+• 'For example…' | 'In addition…'
+• 'Furthermore…' | 'According to…'
+• 'Firstly / Secondly / Finally'
+• 'This is because…'</div>
+  </div>
+</div>
+
+<!-- SPEAKING -->
+<div id="speaking" class="section">
+  <div class="section-banner banner-speak">Speaking Skills</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">SP 01 | Group Discussion
+What is a Group Discussion (GD) and how should you participate?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">A Group Discussion is a structured conversation where participants exchange ideas and reach conclusions.
+
+Do's: Speak clearly; build on others' points; use facts and examples; take turns; conclude with a balanced statement.
+
+Don'ts: Don't interrupt rudely; don't dominate or stay silent; don't go off-topic.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">SP 02 | Structured Talk
+What is the format for a short structured talk (2–3 minutes)?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Introduction (20 sec): Greet, state your topic. 'Good morning. I'd like to speak about…'
+2. Main Body (90–100 sec): 2–3 key points with brief examples. Use linkers: 'Firstly… Secondly… Moreover…'
+3. Conclusion (20–30 sec): Summarise. 'In conclusion, I believe that…'
+
+Tips: Maintain eye contact. Avoid filler words ('um,' 'uh'). Speak with confidence and pauses.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">SP 03 | Sample Topic
+How would you open a GD on 'Is technology a boon or a bane?'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Sample Opening: 'Good morning, everyone. Technology is undeniably one of the greatest achievements of human civilisation. It has transformed healthcare, education, and communication. However, it has also led to addiction, cybercrime, and job displacement. I believe technology is a boon when used wisely, and a bane when misused. I invite the group to explore both sides.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">SP 04 | Expressing Opinion
+What phrases help you express your opinion clearly?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">To Express Opinion:
+• 'In my opinion…' | 'I strongly believe that…'
+• 'From my perspective…' | 'My view is that…'
+
+To Agree:
+• 'I completely agree with…' | 'That's an excellent point…'
+
+To Disagree Politely:
+• 'I see your point, but…'
+• 'With due respect, I think…'
+• 'I partially agree, however…'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">SP 05 | GD Topics
+List 5 common GD topics for B.Tech English exam preparation.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. 'Social media is doing more harm than good.'
+2. 'Online education vs. classroom education.'
+3. 'Should plastic be completely banned?'
+4. 'Environment vs. development — which is a priority?'
+5. 'The role of youth in nation-building.'
+
+Prepare for each: (a) definition, (b) 2 points for, (c) 2 points against, (d) balanced conclusion.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body mint">SP 06 | Common Mistakes
+What are common speaking mistakes and how to correct them?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Speaking too fast → Slow down; pause between ideas.
+Saying 'um/uh' → Replace with a brief pause or 'Let me think…'
+Looking at feet → Maintain eye contact.
+No structure → Always use Introduction–Body–Conclusion.
+Repeating the same point → Move forward with new ideas or examples.</div>
+  </div>
+</div>
+
+<!-- READING -->
+<div id="reading" class="section">
+  <div class="section-banner banner-read">Reading Skills</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">RS 01 | Sequence of Ideas
+What is 'sequence of ideas' in a paragraph?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Sequence of Ideas is the logical order in which thoughts or arguments are arranged in a passage.
+
+Types:
+• Chronological: Events in time order (first… then… finally).
+• Logical: Cause → Effect; Problem → Solution.
+• Spatial: Describing locations (above, below, beside).
+• Order of Importance: Most important idea first or last.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">RS 02 | Logical Flow
+What is logical flow in reading comprehension?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Logical Flow means ideas move smoothly from one point to the next in a meaningful order.
+
+How to identify:
+1. Each sentence must connect to the previous one.
+2. Transitional words guide the reader ('however,' 'therefore,' 'in contrast').
+3. Topic sentence introduces; supporting sentences develop; concluding sentence closes.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">RS 03 | Verbal Linking
+What are verbal linking techniques? Give examples.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Verbal Linking (cohesive devices) connects ideas smoothly:
+
+1. Addition: And, Also, Moreover, Furthermore, Besides
+2. Contrast: But, However, Although, Nevertheless
+3. Cause/Effect: Because, Therefore, Thus, Hence
+4. Sequence: First, Then, Next, After that, Finally
+5. Example: For instance, For example, Such as
+6. Summary: In conclusion, To sum up, In brief</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">RS 04 | Practice
+Arrange in logical order: (A) She heated water. (B) She made tea. (C) She added tea leaves. (D) She felt thirsty.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Correct Order: D → A → C → B
+
+Explanation:
+• D: First, she felt thirsty (cause).
+• A: Then she heated water (first action).
+• C: Next, she added tea leaves (second action).
+• B: Finally, she made tea (result).
+
+This is Chronological Sequence — events in the order they happened.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">RS 05 | Skimming vs Scanning
+What is the difference between skimming and scanning?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">SKIMMING:
+• Purpose: Get a general overview/main idea quickly.
+• How: Read only headings, first lines, last lines.
+• When: 'What is this about?'
+
+SCANNING:
+• Purpose: Find a specific piece of information.
+• How: Move eyes quickly looking for keywords.
+• When: Searching for a date, name, number, or specific fact.
+
+Tip: Skim first, then scan to answer specific questions.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">RS 06 | Topic Sentence
+What is a topic sentence? How do you identify it?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">A Topic Sentence states the main idea of a paragraph (usually the first sentence).
+
+How to identify:
+• It is general (not a detail).
+• The rest of the paragraph supports it.
+• It answers: 'What is this paragraph about?'
+
+Example:
+'Pollution is one of the most serious threats to human health.' ← Topic Sentence
+'It causes respiratory diseases, water contamination…' ← Supporting details</div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div id="writing" class="section">
+  <div class="section-banner banner-write">Writing Skills</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">WS 01 | Paragraph Structure
+What are the three parts of a well-written paragraph?</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Topic Sentence (Opening): Introduces the main idea.
+   'Regular exercise improves both physical and mental health.'
+
+2. Supporting Details (Body): Facts, examples, reasons, explanations.
+   'It strengthens muscles, boosts immunity, and releases endorphins.'
+
+3. Concluding Sentence (Closing): Summarises or restates the main idea.
+   'Therefore, making exercise a daily habit leads to a healthier life.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">WS 02 | Sample Paragraph
+Write a paragraph on 'The Importance of Reading.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Reading is one of the most valuable habits a person can develop. It expands vocabulary, sharpens the mind, and exposes readers to new ideas, cultures, and perspectives. Studies show that regular readers have stronger critical thinking skills and better memory. Moreover, reading reduces stress and improves focus — both essential for academic success. In conclusion, cultivating a reading habit from an early age is an investment that pays lifelong dividends.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">WS 03 | Common Mistakes
+List 5 common paragraph-writing mistakes and their corrections.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. No topic sentence → Always start with a clear main idea.
+2. Only one sentence → Add at least 3–4 supporting details.
+3. Going off-topic → Every sentence must relate to the topic sentence.
+4. No conclusion → End with a summarising thought.
+5. Run-on sentences → Use full stops and varied sentence lengths.
+
+Bonus: Starting every sentence with 'I' → Vary beginnings with 'Moreover,' 'However,' 'This shows that…'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">WS 04 | Linkers
+How do linkers improve paragraph writing? Give examples.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Linkers connect ideas logically and make writing coherent:
+
+Addition: 'Furthermore, exercise also helps with sleep quality.'
+Contrast: 'However, not all students have access to sports facilities.'
+Cause-Effect: 'As a result, regular readers perform better academically.'
+Example: 'For instance, Tennyson used personification to bring nature alive.'
+Conclusion: 'In conclusion, balanced nutrition is essential for good health.'
+
+Rule: Never start a paragraph with 'Also' or 'And.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body">WS 05 | Types of Paragraphs
+Name and briefly explain four types of paragraphs.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">1. Descriptive: Describes a person, place, or thing using sensory details.
+   Topic: 'Describe a monsoon evening.'
+
+2. Narrative: Tells a story or sequence of events.
+   Topic: 'A day I will never forget.'
+
+3. Expository: Explains or informs about a topic.
+   Topic: 'Explain how photosynthesis works.'
+
+4. Argumentative/Persuasive: Presents a point of view with evidence.
+   Topic: 'Social media should be restricted for teenagers.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body gold">WS 06 | 10-Mark Practice
+Write a paragraph on 'Nature as a Teacher.'</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Nature is humanity's oldest and most patient teacher. The seasons teach us about change — spring brings hope, summer brings energy, autumn reminds us to let go, winter teaches patience. The brook, as Tennyson describes, teaches resilience: it chatters over stones, slides past obstacles, but never stops. Trees model selflessness by providing shade, oxygen, and fruit without asking anything in return. Ultimately, the greatest lesson nature teaches is humility — that humans are not masters of the earth, but its caretakers.</div>
+  </div>
+</div>
+
+<!-- GRAMMAR -->
+<div id="grammar" class="section">
+  <div class="section-banner banner-grammar">Grammar Flashcards</div>
+  <p class="flip-hint">Tap any card to reveal the answer.</p>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 01 | Cohesive Devices
+What are cohesive devices? List them with examples.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">Cohesive devices link sentences and paragraphs logically:
+
+• Addition: Moreover, Furthermore, In addition, Besides
+• Contrast: However, Nevertheless, On the other hand, Although
+• Cause/Effect: Therefore, Thus, Hence, As a result
+• Time/Sequence: First, Then, Subsequently, Finally
+• Example: For example, For instance, Such as
+• Summary: In conclusion, To summarise, In brief
+
+Practice: 'She studied hard. _______, she failed.' → However / Nevertheless</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 02 | Articles
+Explain the rules for using A, An, The, and Zero Article.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">A (Indefinite): Before consonant sounds. 'a book,' 'a university' (u = 'yoo' sound).
+An (Indefinite): Before vowel sounds. 'an apple,' 'an hour' (h is silent).
+The (Definite): Specific/known nouns; superlatives; unique things.
+  'The sun,' 'the tallest building,' 'the book you mentioned.'
+Zero Article:
+  • Plural general nouns: 'Dogs are loyal.'
+  • Abstract nouns: 'Honesty is the best policy.'
+  • Languages, sports, meals: 'I play cricket. I had breakfast.'</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 03 | Article Errors
+Correct these errors:
+(a) She is honest girl.  (b) I saw a lion at zoo.  (c) He is best student of an university.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">(a) She is an honest girl. ✓
+   ('honest' begins with vowel sound 'o.')
+
+(b) I saw a lion at the zoo. ✓
+   ('zoo' is a specific/known place → use 'the.')
+
+(c) He is the best student of a university. ✓
+   ('university' begins with 'yoo' (consonant sound) → 'a,' not 'an.')</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 04 | Prepositions
+Explain the difference between 'in,' 'on,' and 'at' with examples.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">IN (larger spaces / enclosed areas):
+• Time: in the morning, in 2024, in January
+• Place: in a room, in Mumbai, in India
+
+ON (surfaces / specific days):
+• Time: on Monday, on 15th August, on a rainy day
+• Place: on the table, on the wall, on the road
+
+AT (precise points / specific times):
+• Time: at 5 PM, at noon, at midnight
+• Place: at the bus stop, at home, at the corner
+
+Tip: AT (pin-point) → ON (surface) → IN (enclosed space)</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 05 | Preposition Errors
+Correct: (a) She arrived at Monday. (b) I live in Park Street. (c) Meeting is on 3 PM.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">(a) She arrived on Monday. ✓
+   (Days of the week use 'on.')
+
+(b) I live on Park Street. ✓
+   ('On' for streets; 'at' for specific addresses.)
+
+(c) The meeting is at 3 PM. ✓
+   ('At' for specific clock times.)
+
+Remember: IN the morning / ON Monday morning / AT 9 AM on Monday morning.</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 06 | Error Correction
+Correct: (a) He go to school everyday. (b) She have many books. (c) I am knowing the answer.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">(a) He goes to school every day. ✓
+   (he/she/it + 'goes'; 'every day' = adverb phrase, not 'everyday'.)
+
+(b) She has many books. ✓
+   (Third person singular: has, not have.)
+
+(c) I know the answer. ✓
+   (Stative verbs like 'know,' 'believe,' 'understand' are NOT used in continuous tense.)</div>
+  </div>
+
+  <div class="card" onclick="flip(this)">
+    <div class="card-front-label">● FRONT — QUESTION</div>
+    <div class="card-front-body lavender">GR 07 | Tense Errors
+Correct: (a) Yesterday I have eaten rice. (b) She is working here since 2020. (c) By tomorrow I will finished the report.</div>
+    <div class="card-back-label">● BACK — ANSWER</div>
+    <div class="card-back-body">(a) Yesterday, I ate rice. ✓
+   ('Yesterday' = definite past → Simple Past, not Present Perfect.)
+
+(b) She has been working here since 2020. ✓
+   ('Since' with ongoing action → Present Perfect Continuous.)
+
+(c) By tomorrow, I will have finished the report. ✓
+   ('By + future time' → Future Perfect tense.)</div>
+  </div>
+</div>
+
+<!-- VOCABULARY -->
+<div id="vocab" class="section">
+  <div class="section-banner banner-vocab">Vocabulary Flashcards</div>
+  <p class="section-sub">Word | Meaning | Type (Homonym / Homophone / Homograph) | Example</p>
+
+  <div id="vocab-list"></div>
+</div>
+
+<!-- GLOSSARY -->
+<div id="glossary" class="section">
+  <div class="section-banner banner-glossary">Glossary — The Brook</div>
+  <p class="section-sub">Important words from the poem with simple meanings.</p>
+  <table class="gloss-table">
+    <thead><tr><th>Word / Term</th><th>Simple Meaning</th></tr></thead>
+    <tbody id="gloss-body"></tbody>
+  </table>
+</div>
+
+<!-- SUMMARY -->
+<div id="summary" class="section">
+  <div class="section-banner banner-listen">Quick Revision Summary — The Brook</div>
+  <table class="summary-table">
+    <thead><tr><th>Aspect</th><th>Key Information</th></tr></thead>
+    <tbody id="summary-body"></tbody>
+  </table>
+  <div style="background:#FDF6E3;border:1px solid #D4A017;border-radius:10px;padding:16px 18px;margin-top:24px;font-size:.92rem;line-height:1.7;color:#333">
+    This booklet contains <strong>55+ exam-ready flashcards</strong> covering all areas of English Unit II. Revise consistently, practise writing full answers, and refer to the Glossary before your exam. <strong>Best of luck!</strong>
+  </div>
+</div>
+
+<script>
+function flip(el){el.classList.toggle('flipped')}
+
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const vocabData=[
+  ["1","Brook","A small stream; also means 'to tolerate'","Homonym","The brook flowed gently. / She could not brook any rudeness."],
+  ["2","Bicker","To argue about petty matters","Homonym","The brook bickered between its banks over stones."],
+  ["3","Murmur","A low, continuous sound; also a quiet complaint","Homonym","The brook murmured softly through the meadow."],
+  ["4","Haunt","To visit often (spirit); also a favourite place","Homonym","I come from haunts of coot and hern."],
+  ["5","Fair / Fare","Fair = just or beautiful; Fare = price of travel or food","Homophone","She has fair skin. / What is the bus fare to town?"],
+  ["6","Hear / Here","Hear = to perceive sound; Here = in this place","Homophone","Can you hear the brook? / Come here and listen."],
+  ["7","Flower / Flour","Flower = a bloom; Flour = powdered grain","Homophone","The forget-me-not is a flower. / Use whole wheat flour."],
+  ["8","Linger","To remain somewhere longer than expected","Regular","The brook lingers in little pools by the wayside."],
+  ["9","Thorpe","A small village or hamlet","Archaic","The brook passes by twenty thorpes on its way."],
+  ["10","Bound","To jump; also means tied or obligated","Homonym","The brook bounds from ridge to ridge. / He is bound by promise."],
+  ["11","Still","Not moving; also means even now or however","Homonym","The still pools reflect the sky. / She is still waiting."],
+  ["12","Slip","To slide; also a small paper or mistake","Homonym","The brook slips between mossy stones. / A slip of the tongue."],
+  ["13","Plain / Plane","Plain = simple or flat land; Plane = aircraft","Homophone","She spoke in plain English. / The plane landed safely."],
+  ["14","Current","Flow of water; also means happening now","Homonym","The current was swift. / What are the current trends?"],
+  ["15","Bank","Side of a river; also a financial institution","Homonym","The brook carved its bank deep. / I deposited money in the bank."],
+  ["16","Lead / Led","Lead = a metal or to guide; Led = past tense of lead","Homograph","He will lead the team. / She led the group yesterday."],
+  ["17","Wind / Wind","Wind (noun) = moving air; Wind (verb) = to coil","Homograph","A cool wind blew. / Wind the rope around the post."],
+  ["18","Tear / Tear","Tear (noun) = drop from eye; Tear (verb) = to rip","Homograph","A tear rolled down her cheek. / Don't tear the page."],
+  ["19","Row / Row","Row = a line; Row (paddle); Row (quarrel)","Homograph","They sat in a row. / Row the boat. / They had a big row."],
+  ["20","Stately","Impressive and dignified in appearance","Regular","The brook flows past stately elms near the mill."],
+  ["21","Silver'd","Made silver or reflecting like silver","Archaic","Tennyson writes of 'silver'd silences' in the brook."],
+  ["22","Netted","Caught in a net; web-like reflection pattern","Regular","The netted sunbeam danced on the brook's surface."],
+  ["23","Brimming","Filled to the very top, about to overflow","Regular","The brook finally joins the brimming river."],
+  ["24","Idle","Not active; lazy","Regular","She spent an idle afternoon by the brook."],
+  ["25","Foamy","Covered with or producing foam","Regular","The brook churned foamy white over rocks."],
+  ["26","Refrain","Repeated part of a poem; also to stop oneself","Homonym","The refrain 'I go on for ever' appears four times."],
+  ["27","Verse","A line or stanza in a poem","Regular","Tennyson's verse captures the beauty of English countryside."],
+  ["28","Maunder","To move slowly and aimlessly","Regular","The brook maunders past wildflowers in the meadow."],
+  ["29","Glossy","Shiny and smooth on the surface","Regular","Kingfishers with glossy wings darted over the stream."],
+  ["30","Garrulous","Excessively talkative","Regular","The brook is garrulous — it chatters constantly."],
+];
+
+const vList=document.getElementById('vocab-list');
+vocabData.forEach(([num,word,meaning,type,ex])=>{
+  vList.innerHTML+=`<div class="vocab-card">
+    <div class="vocab-head">
+      <span class="vocab-word">${num}. ${word}</span>
+      <span class="vocab-type">${type}</span>
+    </div>
+    <div class="vocab-meaning"><strong>Meaning:</strong> ${meaning}</div>
+    <div class="vocab-example"><em>Example:</em> ${ex}</div>
+  </div>`;
+});
+
+const glossData=[
+  ["Brook","A small natural stream of water flowing over land"],
+  ["Coot","A water bird; mentioned at the poem's start"],
+  ["Hern","Archaic word for heron (a large wading bird)"],
+  ["Thorpe","A small village or hamlet in the countryside"],
+  ["Bicker","To quarrel; here = the brook's noisy flow over pebbles"],
+  ["Chatter","Rapid, continuous sounds — brook over stones"],
+  ["Babble","Continuous murmuring sounds — lighter than chatter"],
+  ["Murmur","A low, soft, continuous sound"],
+  ["Alliteration","Repetition of the same consonant sound at the start of nearby words"],
+  ["Refrain","A line or group of lines repeated at intervals in a poem"],
+  ["Personification","Giving human qualities to non-human things"],
+  ["Imagery","Language that creates vivid mental pictures using senses"],
+  ["Onomatopoeia","Words that imitate sounds (chatter, murmur, babble, bicker)"],
+  ["Simile","Comparison using 'like' or 'as'"],
+  ["Metaphor","A direct comparison without using 'like' or 'as'"],
+  ["Haunt","A place frequented by a person or animal; also to disturb"],
+  ["Netted sunbeam","Sunlight caught in a mesh-like pattern on water surface"],
+  ["Brimming","Full to the top / overflowing"],
+  ["Kingcup","A yellow wildflower (buttercup) found near water"],
+  ["Forget-me-not","A small blue wildflower, symbol of remembrance"],
+  ["Mallow","A flowering plant found near water"],
+  ["Stately","Dignified, grand, and impressive"],
+  ["Silver'd","Made to look silver; reflected in silver-coloured light"],
+  ["Idle","Inactive, not working; lazy"],
+  ["Garrulous","Excessively talkative"],
+];
+
+const gb=document.getElementById('gloss-body');
+glossData.forEach(([t,m])=>{
+  gb.innerHTML+=`<tr><td>${t}</td><td>${m}</td></tr>`;
+});
+
+const summaryData=[
+  ["Poet","Alfred Lord Tennyson (1809–1892), Victorian Poet Laureate"],
+  ["Publication","1855, as part of 'The Brook: An Idyl'"],
+  ["Type of Poem","Dramatic Monologue / Lyric Poem"],
+  ["Speaker","The Brook itself (personified)"],
+  ["Central Theme","Immortality of Nature vs. Mortality of Humans"],
+  ["Key Refrain","'For men may come and men may go, But I go on for ever.'"],
+  ["No. of Stanzas","9 Stanzas (alternating brook & human narrative)"],
+  ["Main Devices","Personification, Alliteration, Onomatopoeia, Refrain, Imagery"],
+  ["Key Flowers","Forget-me-nots, Mallows, Kingcups"],
+  ["Key Birds","Coot, Hern (Heron)"],
+  ["Destination","Brook merges into 'the brimming river'"],
+  ["Moral / Message","Nature is eternal and ever-moving; human life is transient"],
+];
+
+const sb=document.getElementById('summary-body');
+summaryData.forEach(([a,b])=>{
+  sb.innerHTML+=`<tr><td>${a}</td><td>${b}</td></tr>`;
+});
+</script>
+</body>
+</html>
