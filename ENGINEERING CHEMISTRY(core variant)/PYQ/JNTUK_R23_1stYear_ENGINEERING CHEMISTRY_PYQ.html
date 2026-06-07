@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Chemistry – B.Tech Question Bank | JNTUK</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #f0883e;
+    --easy: #3fb950;
+    --easy-bg: rgba(63,185,80,0.12);
+    --medium: #f0883e;
+    --medium-bg: rgba(240,136,62,0.12);
+    --hard: #f85149;
+    --hard-bg: rgba(248,81,73,0.12);
+    --vfa: #e040fb;
+    --fa: #58a6ff;
+    --oa: #79c0ff;
+    --rare: #8b949e;
+    --u1: #58a6ff;
+    --u2: #f0883e;
+    --u3: #3fb950;
+    --u4: #e040fb;
+    --u5: #ffa657;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 54px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .nav-link:hover, .nav-link.active { color: var(--text); border-color: var(--accent); background: rgba(88,166,255,0.08); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 4rem 1.5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88,166,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(88,166,255,0.1);
+    border: 1px solid rgba(88,166,255,0.3);
+    color: var(--accent);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #e6edf3 30%, #58a6ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 540px;
+    margin: 0 auto 1.5rem;
+  }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 1rem 1.5rem 2rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SECTIONS */
+  .unit-section {
+    max-width: 980px;
+    margin: 0 auto 4rem;
+    padding: 0 1.5rem;
+  }
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background: var(--unit-color, var(--accent));
+  }
+  .unit-icon { font-size: 2rem; flex-shrink: 0; }
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--unit-color, var(--accent));
+  }
+  .unit-subtitle { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
+  .unit-num {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .q-type-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1.5rem 0 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-type-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .q-type-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .q-count { color: var(--text-muted); font-size: 0.8rem; margin-left: auto; }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    position: relative;
+    cursor: pointer;
+  }
+  .question-card:hover {
+    border-color: rgba(88,166,255,0.35);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transform: translateY(-1px);
+  }
+  .question-card.hard { border-left: 3px solid var(--hard); }
+  .question-card.medium { border-left: 3px solid var(--medium); }
+  .question-card.easy { border-left: 3px solid var(--easy); }
+
+  .q-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border-radius: 5px;
+    padding: 2px 7px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .q-text {
+    font-size: 0.92rem;
+    font-weight: 400;
+    line-height: 1.6;
+    flex: 1;
+  }
+  .q-text strong { color: var(--accent); font-weight: 600; }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.65rem;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .badge-easy { background: var(--easy-bg); color: var(--easy); border: 1px solid rgba(63,185,80,0.3); }
+  .badge-medium { background: var(--medium-bg); color: var(--medium); border: 1px solid rgba(240,136,62,0.3); }
+  .badge-hard { background: var(--hard-bg); color: var(--hard); border: 1px solid rgba(248,81,73,0.3); }
+  .badge-vfa { background: rgba(224,64,251,0.12); color: var(--vfa); border: 1px solid rgba(224,64,251,0.3); }
+  .badge-fa { background: rgba(88,166,255,0.1); color: var(--fa); border: 1px solid rgba(88,166,255,0.3); }
+  .badge-oa { background: rgba(121,192,255,0.1); color: var(--oa); border: 1px solid rgba(121,192,255,0.3); }
+  .badge-rare { background: rgba(139,148,158,0.1); color: var(--rare); border: 1px solid rgba(139,148,158,0.3); }
+
+  /* ANSWER TOGGLE */
+  .toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 0.65rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.2s;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .answer-box {
+    display: none;
+    margin-top: 0.8rem;
+    padding: 0.9rem 1rem;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .answer-box.show { display: block; }
+  .answer-box strong { color: var(--text); }
+
+  /* FORMULA */
+  .formula {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(88,166,255,0.06);
+    border: 1px solid rgba(88,166,255,0.15);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.82rem;
+    color: var(--accent);
+    display: inline-block;
+    margin: 2px 0;
+  }
+
+  /* SCROLLTOP */
+  .scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    background: var(--accent);
+    color: #0d1117;
+    border: none;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    box-shadow: 0 4px 16px rgba(88,166,255,0.4);
+    transition: transform 0.2s;
+  }
+  .scroll-top:hover { transform: scale(1.1); }
+  .scroll-top.visible { display: flex; }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 600px) {
+    .q-meta { gap: 0.35rem; }
+    .badge { font-size: 0.62rem; padding: 2px 7px; }
+    .hero h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">⚗️ EnggChem QB</span>
+  <a class="nav-link" href="#unit1">💧 Unit I</a>
+  <a class="nav-link" href="#unit2">⚡ Unit II</a>
+  <a class="nav-link" href="#unit3">🧪 Unit III</a>
+  <a class="nav-link" href="#unit4">🏗️ Unit IV</a>
+  <a class="nav-link" href="#unit5">🔬 Unit V</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">JNTUK · B.Tech 1st Year · 2024–25</div>
+  <h1>Engineering Chemistry<br>Question Bank</h1>
+  <p>Comprehensive exam-oriented question bank covering all 5 units with difficulty ratings and repetition frequency.</p>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">130+</span><span class="stat-label">Questions</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Units</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Difficulty Levels</span></div>
+    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Mark Types</span></div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--easy)"></span> Easy</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--medium)"></span> Medium</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--hard)"></span> Hard</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--vfa)"></span> Very Frequently Asked</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--fa)"></span> Frequently Asked</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--oa)"></span> Occasionally Asked</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--rare)"></span> Rare</div>
+</div>
+
+<!-- ============================================================ UNIT I ============================================================ -->
+<section class="unit-section" id="unit1">
+  <div class="unit-header" style="--unit-color: var(--u1);">
+    <div class="unit-icon">💧</div>
+    <div>
+      <div class="unit-title">Unit I – Water Technology</div>
+      <div class="unit-subtitle">Hardness · EDTA · Boiler Troubles · Ion Exchange · RO · Desalination</div>
+    </div>
+    <div class="unit-num">UNIT 01</div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">2 Mark</span>
+    <span class="q-type-title">Two-Mark Questions</span>
+    <span class="q-count">15 Questions</span>
+  </div>
+
+  <!-- 2M Q1 -->
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·01</span><span class="q-text">Define hardness of water. What causes it?</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·02</span><span class="q-text">Differentiate between <strong>temporary hardness</strong> and <strong>permanent hardness</strong> of water.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·03</span><span class="q-text">Define the unit of hardness. Express hardness in ppm and mg/L.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·2M·04</span><span class="q-text">Calculate the hardness of water if 1 L of water contains 20 mg of Ca²⁺ ions. <span class="formula">Hardness (ppm) = (mass of CaCO₃ equivalent / volume in L)</span></span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·05</span><span class="q-text">What is an <strong>EDTA method</strong>? State the indicator used in the estimation of total hardness.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·06</span><span class="q-text">Define <strong>priming</strong> and <strong>foaming</strong> in boilers. Which chemicals cause them?</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·07</span><span class="q-text">Differentiate between <strong>scale</strong> and <strong>sludge</strong> formation in boilers.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·2M·08</span><span class="q-text">What is <strong>caustic embrittlement</strong>? How does it affect boiler safety?</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·09</span><span class="q-text">State the BIS drinking water standard for pH and total dissolved solids (TDS).</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·2M·10</span><span class="q-text">What is <strong>dissolved oxygen</strong> (DO)? What is its significance in water quality analysis?</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-oa">Occasionally Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·11</span><span class="q-text">Define <strong>ion-exchange process</strong>. Name the resins used for softening of water.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·2M·12</span><span class="q-text">What is <strong>reverse osmosis</strong>? How does it differ from normal osmosis?</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·2M·13</span><span class="q-text">Differentiate between <strong>electrodialysis</strong> and reverse osmosis as desalination methods.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-oa">Occasionally Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U1·2M·14</span><span class="q-text">What is <strong>soft water</strong>? Give two examples of industrial uses of soft water.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-easy">Easy</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U1·2M·15</span><span class="q-text">A sample of water on analysis gave: Ca²⁺ = 40 ppm, Mg²⁺ = 24 ppm, NaHCO₃ = 84 ppm. Calculate the total hardness in terms of CaCO₃ equivalents.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-hard">Hard</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+  </div>
+
+  <!-- 5M -->
+  <div class="q-type-header">
+    <span class="q-type-badge">5 Mark</span>
+    <span class="q-type-title">Five-Mark Questions</span>
+    <span class="q-count">12 Questions</span>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·01</span><span class="q-text">Explain the <strong>EDTA method</strong> for estimation of total hardness of water. Give the stepwise procedure, reactions, and formula used for calculation.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Key Points:</strong><br>
+      1. Principle: EDTA (Na₂H₂Y) forms stable 1:1 complexes with Ca²⁺ and Mg²⁺ ions.<br>
+      2. Indicator: Eriochrome Black T (EBT) — wine red in presence of metal ions, turns blue at endpoint.<br>
+      3. Buffer: NH₃/NH₄Cl buffer at pH = 10.<br>
+      4. Reactions: Ca²⁺ + EBT → Ca-EBT (red); Ca-EBT + EDTA → Ca-EDTA + EBT (blue endpoint).<br>
+      5. Formula: Hardness (ppm) = (Vol. of EDTA × Molarity × M.W. of CaCO₃ × 1000) / Vol. of sample (mL).<br>
+      <strong>Diagram:</strong> Burette setup with conical flask containing water sample.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U1·5M·02</span><span class="q-text"><strong>Numerical:</strong> 100 mL of water sample required 15 mL of 0.01 M EDTA for titration using EBT indicator. Calculate the total hardness of water in ppm (as CaCO₃).</span></div>
+    <div class="q-meta">
+      <span class="badge badge-hard">Hard</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Solution</button>
+    <div class="answer-box">
+      <strong>Solution:</strong><br>
+      Hardness = (V<sub>EDTA</sub> × M<sub>EDTA</sub> × 100000) / V<sub>sample</sub><br>
+      = (15 × 0.01 × 100000) / 100<br>
+      = <strong>150 ppm</strong> (as CaCO₃)
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·03</span><span class="q-text">Describe the boiler troubles caused by <strong>scale and sludge</strong>. Explain their causes, effects, and prevention methods.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Scale:</strong> Hard deposits of CaCO₃, CaSO₄, Mg(OH)₂ on inner boiler walls.<br>
+      <strong>Effects of Scale:</strong> Overheating → boiler explosion; poor heat transfer → fuel wastage; corrosion under scale.<br>
+      <strong>Prevention:</strong> Lime-soda softening, ion exchange, blow-down, anti-scaling chemicals.<br>
+      <strong>Sludge:</strong> Soft, loose deposits of MgCO₃, CaCO₃ at cooler regions of boiler.<br>
+      <strong>Prevention:</strong> Blow-down (draining), use of coagulants.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·04</span><span class="q-text">Explain <strong>caustic embrittlement</strong> of boilers — its mechanism, causes, and methods of prevention. (Diagram required)</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Mechanism:</strong> Concentrated NaOH solution seeps into hair-line cracks in boiler → reacts with iron: Fe + 2NaOH → Na₂FeO₂ + H₂ → embrittlement.<br>
+      <strong>Cause:</strong> High concentration of dissolved NaOH at stressed areas of boiler.<br>
+      <strong>Prevention:</strong> Add sodium phosphate or tannin to boiler water; use riveted boilers carefully.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·05</span><span class="q-text">Explain the principle and working of the <strong>ion-exchange process</strong> for water softening. Write the reactions for cation and anion exchange.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Principle:</strong> Ion-exchange resins exchange undesirable ions with H⁺ or OH⁻.<br>
+      <strong>Cation exchange (R-H):</strong> 2R-H + Ca²⁺ → R₂Ca + 2H⁺<br>
+      <strong>Anion exchange (R-OH):</strong> R-OH + Cl⁻ → R-Cl + OH⁻<br>
+      H⁺ + OH⁻ → H₂O (demineralized water)<br>
+      <strong>Regeneration:</strong> Cation resin with dil. HCl; Anion resin with dil. NaOH.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U1·5M·06</span><span class="q-text">Describe the working of a <strong>Reverse Osmosis (RO) plant</strong> for desalination with a neat diagram. List its advantages and limitations.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-hard">Hard</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Principle:</strong> Pressure greater than osmotic pressure forces water molecules through semi-permeable membrane, rejecting dissolved salts.<br>
+      <strong>Membrane:</strong> Cellulose acetate or polyamide (TFC).<br>
+      <strong>Diagram:</strong> Feed water → High pressure pump → RO membrane → Permeate (pure water) + Brine (reject).<br>
+      <strong>Advantages:</strong> Removes 90–99% of dissolved salts, bacteria, viruses. Energy efficient.<br>
+      <strong>Limitations:</strong> Membrane fouling, pre-treatment needed, brine disposal problem.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·07</span><span class="q-text">Explain <strong>electrodialysis</strong> as a desalination method. Draw the cell diagram and describe ion migration.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-oa">Occasionally Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Principle:</strong> Ionic migration under electric potential through alternating cation and anion exchange membranes.<br>
+      <strong>Working:</strong> Salt water in diluting compartments; DC applied → cations move toward cathode through CEM; anions toward anode through AEM → desalted water obtained.<br>
+      <strong>Applications:</strong> Brackish water desalination, table salt production.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·08</span><span class="q-text">What are the WHO and BIS standards for drinking water? List the permissible limits for pH, TDS, hardness, fluoride, and nitrate.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>BIS Standards (IS 10500:2012):</strong><br>
+      pH: 6.5–8.5 | TDS: 500 mg/L (max 2000) | Total Hardness: 200 mg/L (max 600) | Fluoride: 1.0 mg/L (max 1.5) | Nitrate: 45 mg/L | Turbidity: 1 NTU (max 5)<br>
+      <strong>WHO Guidelines:</strong> pH 6.5–9.5 | TDS: 1000 mg/L | Hardness: 500 mg/L
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U1·5M·09</span><span class="q-text"><strong>Numerical:</strong> A water sample contains: Ca(HCO₃)₂ = 16.2 ppm, Mg(HCO₃)₂ = 7.3 ppm, CaSO₄ = 13.6 ppm, MgSO₄ = 6 ppm. Calculate temporary, permanent, and total hardness in terms of CaCO₃.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-hard">Hard</span>
+      <span class="badge badge-vfa">⭐ Very Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Solution</button>
+    <div class="answer-box">
+      <strong>Molecular Weights:</strong> Ca(HCO₃)₂=162, Mg(HCO₃)₂=146, CaSO₄=136, MgSO₄=120, CaCO₃=100<br>
+      <strong>Temporary Hardness:</strong><br>
+      Ca(HCO₃)₂: (16.2/162)×100 = 10 ppm<br>
+      Mg(HCO₃)₂: (7.3/146)×100 = 5 ppm → Temp = 15 ppm<br>
+      <strong>Permanent Hardness:</strong><br>
+      CaSO₄: (13.6/136)×100 = 10 ppm<br>
+      MgSO₄: (6/120)×100 = 5 ppm → Perm = 15 ppm<br>
+      <strong>Total Hardness = 30 ppm (as CaCO₃)</strong>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·10</span><span class="q-text">Explain the estimation of <strong>dissolved oxygen</strong> (DO) in water by Winkler's method. Give the reactions involved.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-oa">Occasionally Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Step 1:</strong> MnSO₄ + 2NaOH → Mn(OH)₂ + Na₂SO₄<br>
+      <strong>Step 2:</strong> 2Mn(OH)₂ + O₂ → 2MnO(OH)₂ (brown precipitate)<br>
+      <strong>Step 3:</strong> MnO(OH)₂ + H₂SO₄ → MnSO₄ + 2H₂O (with KI → liberates I₂)<br>
+      <strong>Step 4:</strong> Titrate liberated I₂ with Na₂S₂O₃ (starch as indicator).<br>
+      DO (mg/L) = (Vol. Na₂S₂O₃ × Molarity × 8 × 1000) / Vol. sample
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U1·5M·11</span><span class="q-text">Explain the treatment of <strong>boiler feed water</strong>: include internal conditioning (phosphate, calgon, colloidal conditioning) and external treatment methods.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-hard">Hard</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Internal Treatment:</strong><br>
+      Phosphate conditioning: 3Ca²⁺ + 2PO₄³⁻ → Ca₃(PO₄)₂↓ (non-adherent)<br>
+      Calgon treatment: Na₂[Na₄(PO₃)₆] complexes Ca²⁺ and Mg²⁺ → prevents scale<br>
+      Colloidal conditioning: Tannic acid, agar prevents scale adhesion<br>
+      <strong>External Treatment:</strong> Lime-soda process, Zeolite process, Ion exchange, Demineralization.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U1·5M·12</span><span class="q-text">Describe the <strong>lime-soda process</strong> for softening of water. Write the chemical reactions for removal of temporary and permanent hardness.</span></div>
+    <div class="q-meta">
+      <span class="badge badge-medium">Medium</span>
+      <span class="badge badge-fa">Frequently Asked</span>
+    </div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Temporary Hardness Removal:</strong><br>
+      Ca(HCO₃)₂ + Ca(OH)₂ → 2CaCO₃↓ + 2H₂O<br>
+      Mg(HCO₃)₂ + 2Ca(OH)₂ → 2CaCO₃↓ + Mg(OH)₂↓ + 2H₂O<br>
+      <strong>Permanent Hardness Removal:</strong><br>
+      CaSO₄ + Na₂CO₃ → CaCO₃↓ + Na₂SO₄<br>
+      MgSO₄ + Ca(OH)₂ → Mg(OH)₂↓ + CaSO₄<br>
+      CaSO₄ + Na₂CO₃ → CaCO₃↓ + Na₂SO₄
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ UNIT II ============================================================ -->
+<section class="unit-section" id="unit2">
+  <div class="unit-header" style="--unit-color: var(--u2);">
+    <div class="unit-icon">⚡</div>
+    <div>
+      <div class="unit-title">Unit II – Electrochemistry and Applications</div>
+      <div class="unit-subtitle">Nernst Equation · Batteries · Fuel Cells · Corrosion · Electroplating</div>
+    </div>
+    <div class="unit-num">UNIT 02</div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">2 Mark</span>
+    <span class="q-type-title">Two-Mark Questions</span>
+    <span class="q-count">15 Questions</span>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·01</span><span class="q-text">State the <strong>Nernst equation</strong> for a cell. Define each term in the equation.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·2M·02</span><span class="q-text">Calculate the EMF of the cell: Zn | Zn²⁺ (0.1M) || Cu²⁺ (1M) | Cu, given E°cell = 1.10 V, T = 298 K.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·03</span><span class="q-text">Define <strong>standard electrode potential</strong>. How is it measured?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·04</span><span class="q-text">Differentiate between <strong>primary</strong> and <strong>secondary</strong> cells with one example each.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·05</span><span class="q-text">What is a <strong>fuel cell</strong>? How does it differ from a conventional battery?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·06</span><span class="q-text">Define <strong>corrosion</strong>. State the electrochemical theory of corrosion.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·2M·07</span><span class="q-text">What is <strong>galvanic corrosion</strong>? Give one practical example from engineering.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·2M·08</span><span class="q-text">Explain <strong>differential aeration corrosion</strong> with a short example.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·2M·09</span><span class="q-text">Define <strong>Pilling-Bedworth ratio</strong>. What does a value > 1 indicate?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·10</span><span class="q-text">What is <strong>cathodic protection</strong>? Name two types of cathodic protection methods.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·11</span><span class="q-text">Differentiate between <strong>electroplating</strong> and <strong>electroless plating</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U2·2M·12</span><span class="q-text">Write the half-cell reactions occurring at anode and cathode in a <strong>hydrogen-oxygen fuel cell</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·2M·13</span><span class="q-text">State the advantages and limitations of a <strong>lithium-ion battery</strong> over a nickel-cadmium battery.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·2M·14</span><span class="q-text">Define <strong>dry corrosion</strong>. What type of oxide layer provides protection against further corrosion?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·2M·15</span><span class="q-text">Calculate the equilibrium constant K for a cell with E°cell = 0.46 V at 298 K using: <span class="formula">ΔG° = −nFE° = −RT ln K</span></span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">5 Mark</span>
+    <span class="q-type-title">Five-Mark Questions</span>
+    <span class="q-count">12 Questions</span>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·5M·01</span><span class="q-text">Derive the <strong>Nernst equation</strong> for a cell. Apply it to calculate the EMF of the cell: Zn | Zn²⁺(0.01M) || H⁺(1M) | H₂, given E°(Zn²⁺/Zn) = −0.76 V.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Nernst Equation:</strong> E = E° − (RT/nF) ln Q = E° − (0.0592/n) log Q at 298 K<br>
+      E°cell = E°cathode − E°anode = 0 − (−0.76) = +0.76 V<br>
+      Cell reaction: Zn → Zn²⁺ + 2e⁻; Q = [Zn²⁺]/[H⁺]² = 0.01/1 = 0.01<br>
+      E = 0.76 − (0.0592/2) log(0.01) = 0.76 + 0.0592 = <strong>0.819 V</strong>
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·5M·02</span><span class="q-text">Explain the working of a <strong>hydrogen-oxygen fuel cell</strong> with reactions at each electrode. Mention its advantages over conventional sources.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Electrolyte:</strong> KOH (alkaline)<br>
+      <strong>Anode:</strong> H₂ + 2OH⁻ → 2H₂O + 2e⁻<br>
+      <strong>Cathode:</strong> ½O₂ + H₂O + 2e⁻ → 2OH⁻<br>
+      <strong>Overall:</strong> H₂ + ½O₂ → H₂O (E = 1.23 V theoretical)<br>
+      <strong>Advantages:</strong> High efficiency (>60%), zero emissions, no moving parts, continuous operation, used in NASA spacecraft.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·5M·03</span><span class="q-text">Explain the <strong>electrochemical theory of corrosion</strong> using iron corrosion as an example. Write anodic and cathodic reactions.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Anodic area (oxidation):</strong> Fe → Fe²⁺ + 2e⁻<br>
+      <strong>Cathodic area (reduction):</strong> O₂ + 2H₂O + 4e⁻ → 4OH⁻<br>
+      <strong>Ionic reaction:</strong> Fe²⁺ + 2OH⁻ → Fe(OH)₂<br>
+      4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃ → Fe₂O₃·xH₂O (rust)<br>
+      Diagram: Anodic and cathodic regions on iron surface with electron flow and ion migration shown.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·5M·04</span><span class="q-text">Explain <strong>differential aeration corrosion</strong> with a diagram. Why does a water-line attack occur on a partially submerged iron pipe?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Principle:</strong> Different oxygen concentration on metal surface creates a concentration cell.<br>
+      <strong>Cathodic region:</strong> O₂-rich area (top of waterline) — acts as cathode.<br>
+      <strong>Anodic region:</strong> O₂-deficient area (submerged part) — corrodes rapidly.<br>
+      Diagram: Iron pipe in water showing oxygen gradient, anodic corrosion below waterline, cathodic protection above.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·5M·05</span><span class="q-text">Explain <strong>cathodic protection</strong> and <strong>anodic protection</strong> methods for prevention of corrosion. Give industrial applications.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Cathodic Protection:</strong><br>
+      (a) Sacrificial anode method: Zn or Mg anode attached — corrodes preferentially, protecting iron.<br>
+      (b) Impressed current method: External DC makes metal cathodic; graphite as insoluble anode.<br>
+      <strong>Anodic Protection:</strong> Passivating metal by applying anodic current — forms stable oxide layer.<br>
+      Applications: Underground pipelines, ship hulls, storage tanks.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·5M·06</span><span class="q-text">Explain the process of <strong>electroplating of copper</strong> on a metal surface. What is the composition of the electrolyte bath? Write the electrode reactions.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Electrolyte bath:</strong> CuSO₄ (copper sulfate), H₂SO₄ (acidic), small additions of brighteners/leveling agents.<br>
+      <strong>Anode:</strong> Pure copper; Cu → Cu²⁺ + 2e⁻<br>
+      <strong>Cathode:</strong> Metal object to be plated; Cu²⁺ + 2e⁻ → Cu<br>
+      <strong>Key factors:</strong> Current density (10–40 mA/cm²), temperature, pH, agitation.<br>
+      <strong>Pre-treatment:</strong> Cleaning, degreasing, acid activation of cathode surface.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·5M·07</span><span class="q-text">Describe the working principle of a <strong>nickel-cadmium (Ni-Cd) secondary cell</strong>. Write the electrode reactions during charging and discharging.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Discharging:</strong><br>
+      Anode: Cd + 2OH⁻ → Cd(OH)₂ + 2e⁻<br>
+      Cathode: NiO(OH) + H₂O + e⁻ → Ni(OH)₂ + OH⁻<br>
+      <strong>Charging (reverse):</strong> Reactions reversed.<br>
+      EMF ≈ 1.2 V; used in power tools, emergency lighting. Disadvantage: Cd is toxic (memory effect).
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·5M·08</span><span class="q-text">Explain the <strong>Pilling-Bedworth ratio</strong>. Classify metals as protective and non-protective based on P-B ratio values. Give examples of each type.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      P-B Ratio = Volume of metal oxide / Volume of metal consumed<br>
+      <strong>P-B &lt; 1:</strong> Porous, non-protective film (e.g., Mg, K, Na)<br>
+      <strong>P-B = 1 to 2:</strong> Compact, protective film (e.g., Al, Cr, Fe) — passivation<br>
+      <strong>P-B > 2:</strong> Flaking, spalling, non-protective (e.g., Mo)<br>
+      Formula: P-B = (M_oxide × ρ_metal) / (n × M_metal × ρ_oxide)
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·5M·09</span><span class="q-text">Explain <strong>electroless plating of nickel</strong>. How does it differ from electroplating? What are its industrial applications?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Principle:</strong> Chemical reduction of Ni²⁺ ions on surface without external current. Reducing agent: sodium hypophosphite (NaH₂PO₂).<br>
+      <strong>Reaction:</strong> Ni²⁺ + 2H₂PO₂⁻ + 2H₂O → Ni + 2H₂PO₃⁻ + H₂ + 2H⁺<br>
+      <strong>Advantages over electroplating:</strong> Uniform coating on complex shapes, non-conductive substrates, no external power.<br>
+      <strong>Applications:</strong> Aerospace, automotive, electronics, corrosion-resistant coatings.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U2·5M·10</span><span class="q-text">Explain the working of a <strong>zinc-air primary battery</strong>. Write electrode reactions and state its applications.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Anode:</strong> Zn + 2OH⁻ → Zn(OH)₂ + 2e⁻ → ZnO + H₂O<br>
+      <strong>Cathode:</strong> O₂ (air) + 2H₂O + 4e⁻ → 4OH⁻<br>
+      <strong>Overall:</strong> 2Zn + O₂ → 2ZnO<br>
+      EMF ≈ 1.65 V; High energy density.<br>
+      <strong>Applications:</strong> Hearing aids, pacemakers, GPS devices.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·5M·11</span><span class="q-text">Explain the working of a <strong>lithium-ion battery</strong> with electrode reactions. Why is it preferred over Ni-Cd batteries?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Anode:</strong> Graphite (LiC₆); during charging: Li → Li⁺ + e⁻ (intercalation)<br>
+      <strong>Cathode:</strong> LiCoO₂; during discharging: Li⁺ + CoO₂ + e⁻ → LiCoO₂<br>
+      EMF ≈ 3.6 V; High energy density (150–200 Wh/kg)<br>
+      <strong>Advantages over Ni-Cd:</strong> Higher voltage, no memory effect, lighter, higher capacity.<br>
+      <strong>Applications:</strong> Smartphones, EVs, laptops.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U2·5M·12</span><span class="q-text">Explain <strong>dry corrosion (high temperature oxidation)</strong>. Describe the mechanism of oxide film formation on metals with the Pilling-Bedworth criterion.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Mechanism:</strong> At high temperature, metal reacts directly with O₂ (no electrolyte needed).<br>
+      M + ½O₂ → MO<br>
+      Oxide film grows by outward diffusion of metal ions or inward diffusion of O²⁻.<br>
+      <strong>Protective film:</strong> Non-porous, adherent, stable → passivation (e.g., Al₂O₃, Cr₂O₃).<br>
+      <strong>Non-protective:</strong> Porous, spalling oxide (e.g., FeO, MgO).
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ UNIT III ============================================================ -->
+<section class="unit-section" id="unit3">
+  <div class="unit-header" style="--unit-color: var(--u3);">
+    <div class="unit-icon">🧪</div>
+    <div>
+      <div class="unit-title">Unit III – Polymers and Fuel Chemistry</div>
+      <div class="unit-subtitle">Polymerization · Thermoplastics · Elastomers · Fuels · Coal · Petroleum</div>
+    </div>
+    <div class="unit-num">UNIT 03</div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">2 Mark</span>
+    <span class="q-type-title">Two-Mark Questions</span>
+    <span class="q-count">15 Questions</span>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·01</span><span class="q-text">Define <strong>polymer</strong> and <strong>monomer</strong>. What is the degree of polymerization?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·02</span><span class="q-text">Differentiate between <strong>addition polymerization</strong> and <strong>condensation polymerization</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·03</span><span class="q-text">Distinguish between <strong>thermoplastics</strong> and <strong>thermosetting plastics</strong>. Give one example each.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·04</span><span class="q-text">Define <strong>calorific value</strong> of a fuel. State the difference between HCV and LCV.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·05</span><span class="q-text">What is <strong>octane number</strong>? How does it relate to knocking in petrol engines?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·06</span><span class="q-text">Define <strong>cetane number</strong>. Why is a high cetane number desirable in diesel engines?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·07</span><span class="q-text">What is meant by <strong>proximate analysis</strong> of coal? Name the four parameters determined.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·2M·08</span><span class="q-text">What is <strong>ultimate analysis</strong> of coal? What elements are determined and how is it useful?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·2M·09</span><span class="q-text">Differentiate between <strong>Buna-S</strong> and <strong>Buna-N</strong> synthetic rubbers regarding composition and oil resistance.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·10</span><span class="q-text">Write the monomers and polymerization reaction for <strong>Nylon 6,6</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·2M·11</span><span class="q-text">What is <strong>functionality</strong> of a monomer? Give an example of a bifunctional and trifunctional monomer.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·2M·12</span><span class="q-text">What is <strong>biodiesel</strong>? State its advantages over conventional diesel.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U3·2M·13</span><span class="q-text">State the types of fuels based on physical state. Give one example of each type.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·2M·14</span><span class="q-text">What is <strong>Thiokol</strong> (polysulphide rubber)? State its key property and application.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U3·2M·15</span><span class="q-text">The HCV of a fuel is 12,500 kcal/kg. It contains 8% hydrogen by weight. Calculate the LCV. <span class="formula">LCV = HCV − 9H × 587</span></span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">5 Mark</span>
+    <span class="q-type-title">Five-Mark Questions</span>
+    <span class="q-count">12 Questions</span>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·01</span><span class="q-text">Explain the mechanism of <strong>free-radical chain-growth polymerization</strong> with initiation, propagation, and termination steps. Give example of polystyrene.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Initiation:</strong> R–R → 2R• (peroxide initiator); R• + CH₂=CH(C₆H₅) → R–CH₂–ĊH(C₆H₅)<br>
+      <strong>Propagation:</strong> Chain radical + monomer → extended chain radical (repeated).<br>
+      <strong>Termination:</strong> (a) Combination: 2R• → R–R (b) Disproportionation.<br>
+      <strong>Polystyrene:</strong> nCH₂=CH(Ph) → [–CH₂–CH(Ph)–]n; used in packaging, insulation.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·02</span><span class="q-text">Explain the preparation, properties, and applications of <strong>Bakelite</strong> (phenol-formaldehyde resin). Include the chemical reactions.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Preparation:</strong> Condensation polymerization of phenol + formaldehyde (acidic or basic catalyst).<br>
+      Stage 1 (novolac): Linear polymer (acid catalyst).<br>
+      Stage 2 (resole): 3D cross-linked network (basic catalyst + heat → Bakelite).<br>
+      <strong>Properties:</strong> Hard, brittle, excellent electrical insulator, heat resistant, non-melting (thermoset).<br>
+      <strong>Applications:</strong> Electrical switches, switches, laminates, billiard balls.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U3·5M·03</span><span class="q-text"><strong>Numerical:</strong> The proximate analysis of coal gives: Moisture=2%, Ash=8%, VM=28%, FC=62%. Using Dulong's formula calculate the HCV if the ultimate analysis gives: C=78%, H=4%, O=5%, N=1%, S=2%. [HCV = 33,800C + 144,400(H−O/8) + 9,400S kJ/kg]</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Solution</button>
+    <div class="answer-box">
+      HCV = 33800×0.78 + 144400×(0.04 − 0.05/8) + 9400×0.02<br>
+      = 26,364 + 144400×(0.04 − 0.00625) + 188<br>
+      = 26,364 + 144400×0.03375 + 188<br>
+      = 26,364 + 4,873.5 + 188<br>
+      = <strong>31,425.5 kJ/kg ≈ 31,426 kJ/kg</strong>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·04</span><span class="q-text">Explain <strong>proximate analysis</strong> of coal. What information is obtained? Write the step-by-step procedure.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Parameters determined:</strong> Moisture, Volatile Matter (VM), Ash, Fixed Carbon (FC).<br>
+      Moisture: Heat coal at 105–110°C for 1hr; % M = (W₁-W₂)/W₁ × 100<br>
+      VM: Heat residue at 950°C for 7 min without air; % VM = loss - moisture<br>
+      Ash: Ignite at 700°C completely; % Ash = (ash residue/original weight) × 100<br>
+      FC = 100 − (M + VM + Ash)<br>
+      <strong>Significance:</strong> Determines rank and commercial value of coal.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·05</span><span class="q-text">Explain the preparation, properties, and applications of <strong>PVC (polyvinyl chloride)</strong> and <strong>polystyrene</strong>. Compare the two polymers.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>PVC:</strong> nCH₂=CHCl → [–CH₂–CHCl–]n (free radical polymerization)<br>
+      Properties: Rigid or flexible (with plasticizers), chemical resistant, fire retardant.<br>
+      Applications: Pipes, cable insulation, flooring, bottles.<br>
+      <strong>Polystyrene:</strong> nCH₂=CH(C₆H₅) → [–CH₂–CH(C₆H₅)–]n<br>
+      Properties: Rigid, transparent, poor chemical resistance; expanded form = thermocol.<br>
+      Applications: Packaging, disposables, insulation.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U3·5M·06</span><span class="q-text">Explain <strong>petroleum refining</strong> by fractional distillation. Name the fractions obtained with their boiling ranges and applications.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Fractions (bottom to top of distillation column):</strong><br>
+      Residue (>350°C): Bitumen, lubricating oils<br>
+      Gas oil (250–350°C): Diesel, furnace oil<br>
+      Kerosene (170–250°C): Aviation fuel, domestic use<br>
+      Naphtha (90–175°C): Solvents, dry cleaning<br>
+      Gasoline (40–90°C): Petrol, automobile fuel<br>
+      Gases (&lt;40°C): LPG (propane, butane) — household fuel<br>
+      <strong>Diagram:</strong> Fractionating column with temperature gradient and fraction outlet points.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·07</span><span class="q-text">Explain the preparation, structure, and applications of <strong>Buna-S</strong> and <strong>Buna-N</strong> synthetic rubbers.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Buna-S (SBR):</strong> Copolymer of butadiene + styrene (75:25) by emulsion polymerization.<br>
+      Properties: Good abrasion resistance, moderate oil resistance.<br>
+      Applications: Tyres (most widely used), gaskets, shoe soles.<br>
+      <strong>Buna-N (NBR):</strong> Copolymer of butadiene + acrylonitrile.<br>
+      Properties: Excellent oil and fuel resistance, poor ozone resistance.<br>
+      Applications: Fuel hoses, gaskets, seals in oil industry.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U3·5M·08</span><span class="q-text">A fuel has the following composition (by mass): C = 85%, H = 10%, O = 3%, S = 2%. Calculate the (a) HCV and (b) LCV using Dulong's formula.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Solution</button>
+    <div class="answer-box">
+      HCV = 33800×0.85 + 144400×(0.10 − 0.03/8) + 9400×0.02<br>
+      = 28,730 + 144400×0.09625 + 188<br>
+      = 28,730 + 13,898.5 + 188 = <strong>42,816.5 kJ/kg</strong><br>
+      LCV = HCV − 9×0.10×2442 = 42,816.5 − 2,197.8 = <strong>40,618.7 kJ/kg</strong>
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·09</span><span class="q-text">What are alternative fuels? Explain the advantages and disadvantages of <strong>methanol</strong> and <strong>ethanol</strong> as alternative fuels.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Methanol (CH₃OH):</strong><br>
+      + High octane number (107), burns cleanly, low CO emission, renewable (from biomass/CO₂)<br>
+      − Toxic, low energy density (half of petrol), corrosive to metals/rubber<br>
+      <strong>Ethanol (C₂H₅OH):</strong><br>
+      + Renewable (from sugarcane), mixes well with petrol, reduces CO & HC emissions<br>
+      − Low energy density, water absorption, engine modifications needed for high blends (E85)
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·10</span><span class="q-text">Explain the preparation, properties, and industrial applications of <strong>Nylon 6,6</strong>. Write the condensation polymerization reaction.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Monomers:</strong> Hexamethylene diamine [H₂N(CH₂)₆NH₂] + Adipic acid [HOOC(CH₂)₄COOH]<br>
+      <strong>Reaction:</strong> nH₂N(CH₂)₆NH₂ + nHOOC(CH₂)₄COOH → [–NH(CH₂)₆NH–CO(CH₂)₄CO–]n + nH₂O<br>
+      <strong>Properties:</strong> High tensile strength, abrasion resistant, high melting point (265°C), tough.<br>
+      <strong>Applications:</strong> Ropes, parachutes, textiles, bearings, gears.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U3·5M·11</span><span class="q-text">What is <strong>knocking</strong> in IC engines? How are octane and cetane numbers determined? What additives improve them?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Knocking:</strong> Premature ignition of fuel-air mixture before spark plug fires → metallic knock sound → reduced efficiency.<br>
+      <strong>Octane number:</strong> Compares fuel anti-knock quality with iso-octane (ON=100) and n-heptane (ON=0). Determined in CFR engine.<br>
+      <strong>Cetane number:</strong> Ignition quality of diesel; cetane (CN=100), α-methyl naphthalene (CN=0).<br>
+      <strong>Anti-knock additives:</strong> TEL (tetraethyl lead), MMT, MTBE, ethanol blending, iso-octane.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U3·5M·12</span><span class="q-text">Explain <strong>step-growth polymerization</strong> with example of polyester (PET). How does it differ from chain-growth polymerization?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Step-growth (condensation):</strong> Any two monomers react; small molecule (H₂O, HCl) released; molecular weight increases gradually; bifunctional monomers required.<br>
+      <strong>PET:</strong> Ethylene glycol + Terephthalic acid → PET + nH₂O<br>
+      <strong>Differences from chain-growth:</strong> No initiation step; all species react at similar rate; no free radicals; conversion needed to get high MW.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ UNIT IV ============================================================ -->
+<section class="unit-section" id="unit4">
+  <div class="unit-header" style="--unit-color: var(--u4);">
+    <div class="unit-icon">🏗️</div>
+    <div>
+      <div class="unit-title">Unit IV – Modern Engineering Materials</div>
+      <div class="unit-subtitle">Composites · Refractories · Lubricants · Portland Cement</div>
+    </div>
+    <div class="unit-num">UNIT 04</div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">2 Mark</span>
+    <span class="q-type-title">Two-Mark Questions</span>
+    <span class="q-count">14 Questions</span>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·01</span><span class="q-text">Define <strong>composite material</strong>. Name its two main components.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·02</span><span class="q-text">Classify composites based on the type of matrix. Give one example of each.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·03</span><span class="q-text">Define <strong>refractory material</strong>. What is the minimum refractoriness required for a material to be called a refractory?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·2M·04</span><span class="q-text">Differentiate between <strong>acidic, basic, and neutral refractories</strong>. Give one example of each.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·05</span><span class="q-text">What is a <strong>lubricant</strong>? State two main functions of a lubricant.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·06</span><span class="q-text">Define <strong>viscosity index (VI)</strong> of a lubricant. What does a high VI indicate?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·07</span><span class="q-text">Define <strong>flash point</strong> and <strong>fire point</strong> of a lubricating oil. What is their significance?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·08</span><span class="q-text">Define <strong>cloud point</strong> and <strong>pour point</strong> of a lubricating oil.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·2M·09</span><span class="q-text">What is <strong>saponification value</strong> of a lubricant? What does a high saponification value indicate?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U4·2M·10</span><span class="q-text">Write the composition of <strong>Portland cement</strong>. Name the major compounds present.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·2M·11</span><span class="q-text">What is the role of <strong>gypsum</strong> in Portland cement? What happens if it is not added?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·2M·12</span><span class="q-text">Distinguish between <strong>setting</strong> and <strong>hardening</strong> of cement.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·2M·13</span><span class="q-text">What are <strong>fiber-reinforced composites</strong>? Give two examples with applications.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U4·2M·14</span><span class="q-text">What is meant by <strong>hydrodynamic lubrication</strong> and <strong>boundary lubrication</strong>? When does each occur?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">5 Mark</span>
+    <span class="q-type-title">Five-Mark Questions</span>
+    <span class="q-count">11 Questions</span>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·01</span><span class="q-text">Explain the <strong>setting and hardening of Portland cement</strong> with chemical reactions. Why is a controlled water-to-cement ratio important?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Initial Setting (1–2 hours):</strong> 3CaO·Al₂O₃ (C₃A) + gypsum → ettringite (delays flash set).<br>
+      3CaO·SiO₂ (C₃S) + H₂O → CSH gel + Ca(OH)₂ → initial hardening.<br>
+      <strong>Final Hardening (days–months):</strong> 2CaO·SiO₂ (C₂S) + H₂O → CSH gel (slow, long-term strength).<br>
+      <strong>w/c ratio:</strong> 0.45–0.60 optimal; too high → weak porous cement; too low → poor workability, incomplete hydration.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U4·5M·02</span><span class="q-text">Define composites. Classify them based on (a) matrix type and (b) reinforcement type. Explain the properties and applications of <strong>carbon fiber reinforced polymer (CFRP)</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Matrix types:</strong> Polymer matrix (PMC), Metal matrix (MMC), Ceramic matrix (CMC).<br>
+      <strong>Reinforcement:</strong> Fiber (continuous/chopped), Particle, Structural (sandwich, laminate).<br>
+      <strong>CFRP:</strong> Carbon fibers in epoxy resin matrix.<br>
+      Properties: Very high strength-to-weight ratio, stiffness, fatigue resistance, corrosion resistant.<br>
+      Applications: Aircraft body, racing cars, sports equipment, wind turbine blades.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·03</span><span class="q-text">Explain the properties and applications of <strong>refractories</strong>. What factors determine the selection of a refractory material?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Properties required:</strong> High refractoriness (>1500°C), RUL (Refractoriness Under Load), low thermal conductivity, low thermal expansion, porosity, chemical inertness.<br>
+      <strong>Acidic:</strong> Silica (SiO₂) bricks — glass furnaces, coke ovens.<br>
+      <strong>Basic:</strong> Magnesia (MgO), dolomite — steel furnaces, cement kilns.<br>
+      <strong>Neutral:</strong> Alumina, chromite — transition zones.<br>
+      <strong>Selection factors:</strong> Operating temperature, type of slag, mechanical load, atmosphere.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·04</span><span class="q-text">Explain the various <strong>mechanisms of lubrication</strong>: fluid film, boundary, and extreme pressure lubrication. Describe with appropriate diagrams.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Hydrodynamic (thick film):</strong> Oil wedge completely separates surfaces; no metal contact; lowest friction.<br>
+      <strong>Boundary lubrication:</strong> Oil film too thin; monomolecular layer adsorbed on surface; metal-to-metal contact possible; fatty acids in oil act as boundary lubricants.<br>
+      <strong>Extreme pressure (EP) lubrication:</strong> High loads → EP additives (chlorine, S, P compounds) react with metal → form low-shear-strength protective layer.<br>
+      Diagram: Surface gap comparison for each mechanism.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U4·5M·05</span><span class="q-text">Explain the following properties of lubricants with their significance: (i) Viscosity (ii) Flash point (iii) Cloud point (iv) Pour point (v) Saponification value.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Viscosity:</strong> Resistance to flow; most important property; too high → energy waste; too low → poor film.<br>
+      <strong>Flash Point:</strong> Temperature at which oil gives sufficient vapor to flash with flame; safety indicator; good oil has high FP (>200°C).<br>
+      <strong>Cloud Point:</strong> Temperature at which wax crystals appear → oil becomes hazy; used for cold-weather applications.<br>
+      <strong>Pour Point:</strong> Lowest temperature at which oil flows under gravity; important for cold climates.<br>
+      <strong>Saponification Value:</strong> mg KOH needed to saponify 1g oil; high SV → more ester content → better for high-temperature applications.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·06</span><span class="q-text">Describe the manufacture of <strong>Portland cement</strong> by dry process. Draw the flow diagram and explain each stage.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Raw materials:</strong> Limestone (CaCO₃) ~75%, Clay (Al₂O₃·SiO₂) ~25%<br>
+      <strong>Stages:</strong><br>
+      1. Crushing and drying of raw materials<br>
+      2. Grinding and blending in dry state (raw meal)<br>
+      3. Preheating in cyclone tower (600°C) → calcination: CaCO₃ → CaO + CO₂<br>
+      4. Rotary kiln (1500°C) → clinker formation: C₃S, C₂S, C₃A, C₄AF<br>
+      5. Cooling + addition of 2–3% gypsum<br>
+      6. Grinding to fine powder → Portland cement<br>
+      <strong>Advantage over wet process:</strong> Less energy, lower cost.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U4·5M·07</span><span class="q-text">Classify and explain the different types of composites based on the nature of reinforcement. Give industrial examples of <strong>glass fiber reinforced plastics (GFRP)</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Types based on reinforcement:</strong><br>
+      1. Fiber composites: continuous/short fibers — highest strength<br>
+      2. Particle composites: large particles (concrete) or small (dispersion strengthened)<br>
+      3. Structural composites: laminates, sandwich panels<br>
+      <strong>GFRP:</strong> Glass fibers + polyester/epoxy resin.<br>
+      Properties: Good strength-to-weight, corrosion resistant, electrical insulator, low cost.<br>
+      Applications: Boat hulls, storage tanks, car body panels, helmets, pipes.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·08</span><span class="q-text">Explain the <strong>chemistry of setting of Portland cement</strong> using Bogue's compounds. Which compound is responsible for early strength and which for long-term strength?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Bogue's compounds:</strong><br>
+      C₃S (Alite, ~50%): Rapid hardening, early strength (1–28 days)<br>
+      C₂S (Belite, ~25%): Slow hardening, long-term strength (months-years)<br>
+      C₃A (~10%): Flash set (controlled by gypsum), heat of hydration<br>
+      C₄AF (~8%): Contributes to color (grey), moderate strength<br>
+      C₃S + H₂O → C-S-H gel (main binder) + Ca(OH)₂
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·09</span><span class="q-text">What are <strong>solid lubricants</strong>? Explain the lubrication mechanism of graphite and MoS₂. When are they preferred over liquid lubricants?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Graphite:</strong> Layered hexagonal structure; weak van der Waals forces between layers → easy shear; requires moisture/air for lubrication; used in high-temperature applications.<br>
+      <strong>MoS₂:</strong> Layered dichalcogenide structure; works in vacuum (space applications); superior to graphite in vacuum and low-humidity conditions.<br>
+      <strong>Preferred when:</strong> Very high temperature, vacuum, extreme pressures, where liquid oils contaminate product (food, pharmaceutical industry).
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U4·5M·10</span><span class="q-text">Explain the <strong>important properties of refractories</strong>: refractoriness, RUL, thermal spalling resistance, porosity, and thermal conductivity. How do these determine their industrial use?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Refractoriness:</strong> Temperature at which PCE (pyrometric cone equivalent) softens; measured in Seger cones.<br>
+      <strong>RUL:</strong> Temperature at which refractory deforms under a fixed load; critical for furnace roofs.<br>
+      <strong>Spalling resistance:</strong> Resistance to cracking due to rapid temperature changes; high thermal shock resistance needed.<br>
+      <strong>Porosity:</strong> Low porosity → high density, strength, less chemical attack. Controlled by firing.<br>
+      <strong>Thermal conductivity:</strong> Low needed for insulating (kiln linings); high for heating elements.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U4·5M·11</span><span class="q-text">Explain the applications of <strong>composite materials</strong> in aerospace, automotive, and civil engineering sectors. What makes them superior to conventional materials?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Aerospace:</strong> CFRP/GFRP in aircraft fuselage, wings (50% weight reduction vs aluminum).<br>
+      <strong>Automotive:</strong> FRP bumpers, body panels, drive shafts (lighter = better fuel efficiency).<br>
+      <strong>Civil:</strong> FRP reinforcing bars in bridges and marine structures (corrosion-free); FRP pipes.<br>
+      <strong>Why superior?</strong> Tailorable properties, high specific strength/stiffness, corrosion resistance, design flexibility, long fatigue life.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ UNIT V ============================================================ -->
+<section class="unit-section" id="unit5">
+  <div class="unit-header" style="--unit-color: var(--u5);">
+    <div class="unit-icon">🔬</div>
+    <div>
+      <div class="unit-title">Unit V – Surface Chemistry and Nanomaterials</div>
+      <div class="unit-subtitle">Colloids · Adsorption Isotherms · Nanomaterials · BET · Bragg's Law</div>
+    </div>
+    <div class="unit-num">UNIT 05</div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">2 Mark</span>
+    <span class="q-type-title">Two-Mark Questions</span>
+    <span class="q-count">14 Questions</span>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·01</span><span class="q-text">Define <strong>adsorption</strong>. Distinguish between physisorption and chemisorption.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·02</span><span class="q-text">State the <strong>Freundlich adsorption isotherm</strong> equation. What are the constants n and K?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·2M·03</span><span class="q-text">State the <strong>Langmuir adsorption isotherm</strong> equation and its assumptions.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·04</span><span class="q-text">Define a <strong>colloid</strong>. What is the range of particle size in a colloidal system?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·05</span><span class="q-text">What is a <strong>micelle</strong>? How does it form? Name the process of micelle formation.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·06</span><span class="q-text">Define <strong>nanomaterials</strong>. What is the nanosize range? Why do nanomaterials have unique properties?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·2M·07</span><span class="q-text">State <strong>Bragg's law</strong> for X-ray diffraction. Define each term and state its application in determining crystal structure.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·08</span><span class="q-text">State the <strong>BET equation</strong> (no derivation). What quantity is determined using BET analysis?</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·2M·09</span><span class="q-text">What is the <strong>Tyndall effect</strong>? How does it help distinguish a colloid from a true solution?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·2M·10</span><span class="q-text">What is <strong>Brownian motion</strong> in colloidal systems? What causes it?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·11</span><span class="q-text">Name two methods for preparation of nanomaterials by <strong>chemical methods</strong>.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·2M·12</span><span class="q-text">What are <strong>quantum dots</strong>? State their applications in medicine and technology.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+  </div>
+
+  <div class="question-card easy">
+    <div class="q-top"><span class="q-num">U5·2M·13</span><span class="q-text">Distinguish between <strong>lyophilic</strong> and <strong>lyophobic</strong> colloids. Give one example of each.</span></div>
+    <div class="q-meta"><span class="badge badge-easy">Easy</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U5·2M·14</span><span class="q-text">X-rays of wavelength 1.54 Å are diffracted by a crystal at θ = 15°. Calculate the inter-planar spacing d using Bragg's law (n=1). <span class="formula">2d sinθ = nλ</span></span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+  </div>
+
+  <div class="q-type-header">
+    <span class="q-type-badge">5 Mark</span>
+    <span class="q-type-title">Five-Mark Questions</span>
+    <span class="q-count">11 Questions</span>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·5M·01</span><span class="q-text">Explain the <strong>Freundlich adsorption isotherm</strong>. Derive its linearized form and show how to verify it graphically. What are its limitations?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Equation:</strong> x/m = Kp^(1/n) (for gases); x/m = Kc^(1/n) (for solutions)<br>
+      <strong>Log form:</strong> log(x/m) = log K + (1/n) log c<br>
+      <strong>Graph:</strong> log(x/m) vs log c → straight line; slope = 1/n; intercept = log K<br>
+      <strong>Conditions:</strong> n > 1 for favorable; x/m = amount adsorbed per gram adsorbent<br>
+      <strong>Limitations:</strong> Empirical (not based on mechanism); fails at high pressures/concentrations; doesn't predict saturation.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U5·5M·02</span><span class="q-text">Explain the <strong>Langmuir adsorption isotherm</strong>. State its assumptions and derive the equation for monolayer adsorption. How does it overcome Freundlich's limitations?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Assumptions:</strong> Monolayer adsorption; uniform surface; no lateral interaction; dynamic equilibrium.<br>
+      <strong>Rate of adsorption:</strong> r_ads = k_a·p(1−θ); Rate of desorption: r_des = k_d·θ<br>
+      At equilibrium: θ = bp/(1+bp) where b = k_a/k_d<br>
+      <strong>Linear form:</strong> p/x = 1/(x_m·b) + p/x_m → Plot p/x vs p → slope = 1/x_m; intercept = 1/(x_m·b)<br>
+      <strong>Advantage:</strong> Predicts saturation (θ→1 at high p); has physical basis.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·5M·03</span><span class="q-text">Describe the preparation of <strong>nanomaterials by chemical methods</strong>: (a) Chemical reduction (b) Sol-gel process (c) Chemical vapour deposition.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>(a) Chemical reduction:</strong> Metal salt + reducing agent → metal nanoparticles. E.g., HAuCl₄ + sodium citrate → Au nanoparticles (Turkevich method). Citrate acts as capping agent.<br>
+      <strong>(b) Sol-gel:</strong> Metal alkoxide precursor + water → hydrolysis → gel → controlled drying → nanoporous oxide. Used for SiO₂, TiO₂ nanoparticles.<br>
+      <strong>(c) CVD:</strong> Volatile precursor gases decompose at high temp on substrate → thin film/nanostructure deposition. Used for CNTs, ZnO nanowires.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U5·5M·04</span><span class="q-text">Explain <strong>Bragg's method</strong> for determination of crystal structure by X-ray diffraction. State Bragg's law and explain the experimental setup.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-vfa">⭐ Very Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Bragg's Law:</strong> 2d sinθ = nλ (where d = inter-planar spacing, θ = glancing angle, n = order, λ = X-ray wavelength)<br>
+      <strong>Experimental setup:</strong> X-ray source → crystal → ionization detector (or photographic plate)<br>
+      Crystal rotated → different planes reflect at specific θ → peaks recorded.<br>
+      <strong>Application:</strong> Determine d-spacings → crystal structure; identify materials; determine lattice parameters.<br>
+      Diagram: X-ray beam reflecting off crystal planes with path difference (2d sinθ = nλ shown).
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·5M·05</span><span class="q-text">Explain the preparation and properties of colloidal systems. Describe the methods of <strong>stabilization of colloids</strong> (electrostatic and steric).</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Preparation:</strong> (a) Dispersion: mechanical grinding, peptization; (b) Condensation: chemical reduction, double decomposition.<br>
+      <strong>Electrostatic stabilization:</strong> Double electric layer (Stern layer + diffuse layer) around particle → zeta potential → repulsion between particles.<br>
+      <strong>Steric stabilization:</strong> Polymer chains adsorbed on surface create steric barrier against aggregation.<br>
+      <strong>Coagulation/Precipitation:</strong> Adding electrolyte collapses double layer → Hardy-Schulze rule: higher valence ion → lower concentration needed.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·5M·06</span><span class="q-text">Explain the <strong>BET equation</strong> for surface area determination (no derivation). How is it applied experimentally? State its significance over Langmuir isotherm.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>BET Equation (Brunauer-Emmett-Teller):</strong><br>
+      p/[v(p₀−p)] = 1/(v_m·c) + [(c−1)/(v_m·c)] × (p/p₀)<br>
+      v = volume adsorbed; v_m = monolayer capacity; p₀ = saturation pressure; c = BET constant.<br>
+      <strong>Graph:</strong> p/[v(p₀−p)] vs p/p₀ → straight line → slope and intercept give v_m.<br>
+      Surface area = v_m × N_A × σ (N₂ cross section = 16.2 Å²)<br>
+      <strong>Advantage over Langmuir:</strong> Accounts for multilayer adsorption; more accurate for porous materials.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U5·5M·07</span><span class="q-text">Explain the applications of <strong>nanomaterials in catalysis, medicine, and sensors</strong>. What makes nano-sized materials more catalytically active than bulk?</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Why more active?</strong> High surface area-to-volume ratio → more active sites; quantum effects → altered electronic structure.<br>
+      <strong>Catalysis:</strong> Au, Pt nanoparticles for CO oxidation; TiO₂ NPs for photocatalytic degradation; ZnO in sunscreen.<br>
+      <strong>Medicine:</strong> Gold NPs for drug delivery, cancer photothermal therapy; Fe₃O₄ for MRI contrast agents; Ag NPs as antimicrobial agents; liposomal drug nanocarriers.<br>
+      <strong>Sensors:</strong> ZnO nanowires as gas sensors; graphene for biosensors; QDs in fluorescent bio-labels.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·5M·08</span><span class="q-text">Explain the preparation of <strong>nanomaterials by biological methods</strong>. What are the advantages of green synthesis? Give two examples.</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>Green synthesis using:</strong> Plant extracts (leaf, bark), fungi, bacteria, algae as reducing and capping agents.<br>
+      Example 1: AgNO₃ + Neem leaf extract → Ag nanoparticles (biomolecules act as reductant + stabilizer).<br>
+      Example 2: HAuCl₄ + Aloe vera extract → Au NPs.<br>
+      <strong>Advantages:</strong> Eco-friendly, no toxic chemicals, cost-effective, biocompatible NPs, scalable, one-step synthesis.<br>
+      <strong>Applications:</strong> Antimicrobial coatings, drug delivery, agriculture.
+    </div>
+  </div>
+
+  <div class="question-card medium">
+    <div class="q-top"><span class="q-num">U5·5M·09</span><span class="q-text">Explain the preparation and properties of <strong>metal oxide nanomaterials</strong> (TiO₂, ZnO). How are they used in photocatalysis?</span></div>
+    <div class="q-meta"><span class="badge badge-medium">Medium</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>TiO₂ NPs:</strong> Prepared by sol-gel (titanium isopropoxide + water + acid catalyst).<br>
+      Properties: Bandgap ~3.2 eV (anatase), photostable, non-toxic.<br>
+      <strong>Photocatalysis:</strong> UV light → e⁻ excited to CB → reacts with O₂ → superoxide radical; h⁺ + H₂O → OH• radical → degrades organic pollutants (dyes, bacteria).<br>
+      <strong>ZnO NPs:</strong> Bandgap 3.37 eV; prepared by precipitation, hydrothermal methods; used in UV sensors, sunscreens, photocatalysis.
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U5·5M·10</span><span class="q-text"><strong>Numerical:</strong> The Freundlich constants for adsorption of a dye on activated carbon are K = 2.5, n = 2. Calculate the amount of dye adsorbed per gram (x/m) when the equilibrium concentration is 0.04 mol/L.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-fa">Frequently Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Solution</button>
+    <div class="answer-box">
+      <strong>Freundlich isotherm:</strong> x/m = Kc^(1/n) = 2.5 × (0.04)^(1/2)<br>
+      = 2.5 × √0.04<br>
+      = 2.5 × 0.2<br>
+      = <strong>0.5 mol/g</strong>
+    </div>
+  </div>
+
+  <div class="question-card hard">
+    <div class="q-top"><span class="q-num">U5·5M·11</span><span class="q-text">Explain the role of <strong>surface chemistry</strong> in industrial applications: (a) Adsorption in chromatography (b) Catalysis (c) Ore flotation (d) Detergent action.</span></div>
+    <div class="q-meta"><span class="badge badge-hard">Hard</span><span class="badge badge-oa">Occasionally Asked</span></div>
+    <button class="toggle-btn" onclick="toggleAnswer(this)">▶ Show Key Points</button>
+    <div class="answer-box">
+      <strong>(a) Chromatography:</strong> Differential adsorption on stationary phase separates components; basis of TLC, HPLC, gas chromatography.<br>
+      <strong>(b) Catalysis:</strong> Reactants adsorb on catalyst surface → lower activation energy → faster reaction; Haber process (Fe catalyst), Ostwald process (Pt catalyst).<br>
+      <strong>(c) Ore flotation:</strong> Pine oil adsorbs on ore surface → froth makes ore hydrophobic → floats on water; gangue sinks.<br>
+      <strong>(d) Detergent action:</strong> Micelles encapsulate grease (hydrophobic tail inside; hydrophilic head outside) → removed with water.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Engineering Chemistry Question Bank · JNTUK B.Tech 1st Year · 130+ Questions across 5 Units</p>
+  <p style="margin-top:6px; color:#444">Prepared for exam preparation purposes · Difficulty & frequency tags are indicative based on past paper analysis</p>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Scroll to top button
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+
+  // Answer toggle
+  function toggleAnswer(btn) {
+    const box = btn.nextElementSibling;
+    const isOpen = box.classList.contains('show');
+    box.classList.toggle('show');
+    btn.textContent = isOpen ? '▶ Show Key Points' : '▼ Hide Key Points';
+    if (btn.textContent === '▶ Show Key Points' && btn.textContent.includes('Solution')) {
+      btn.textContent = '▶ Show Solution';
+    }
+  }
+
+  // Fix toggle button labels
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    const box = btn.nextElementSibling;
+    btn.addEventListener('click', function() {
+      const isOpen = box.classList.contains('show');
+      box.classList.toggle('show');
+      const label = btn.dataset.label || btn.textContent.replace('▶ ', '').replace('▼ ', '');
+      btn.textContent = isOpen ? `▶ ${label}` : `▼ ${label}`;
+      if (!btn.dataset.label) btn.dataset.label = label;
+    });
+  });
+</script>
+</body>
+</html>
